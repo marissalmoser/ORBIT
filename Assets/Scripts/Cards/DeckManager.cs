@@ -5,10 +5,12 @@
 // @Description - A script with universal functions for a Generic deck
 // +-----------------------------------------------------------------+
 using System.Collections.Generic;
-using UnityEngine;
+using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 //Generic Class
-public class DeckManager<T> : MonoBehaviour
+// ** IMPORTANT ** - Does not inherit from MonoBehavior
+public class DeckManager<T>
 {
     //Making Singleton Class
     #region Singleton
@@ -18,7 +20,7 @@ public class DeckManager<T> : MonoBehaviour
         get
         {
             if (instance == null)
-                instance = FindObjectOfType(typeof(DeckManager<T>)) as DeckManager<T>;
+                instance = new DeckManager<T>();
             return instance;
         }
         set
@@ -307,7 +309,7 @@ public class DeckManager<T> : MonoBehaviour
         //Does nothing if cut index is out of bounds
         if (cutIndex < 0 && cutIndex < deck.Count)
         {
-            print("CUT INDEX OUT OF BOUNDS");
+            Debug.Log("CUT INDEX OUT OF BOUNDS");
             return deck;
         }
 
@@ -344,7 +346,7 @@ public class DeckManager<T> : MonoBehaviour
     {
         //Checks if the deck is null or has nothing in it
         if (deck == null || deck.Count < 1)
-            print("CANNOT DEAL CARD!");
+            Debug.Log("CANNOT DEAL CARD!");
         else
             deck.RemoveAt(0);
         return deck;
@@ -402,7 +404,7 @@ public class DeckManager<T> : MonoBehaviour
         int deckSize = deck.Count;
         for (int i = 0; i < deckSize; i++)
         {
-            print(deck[i]);
+            Debug.Log(deck[i]);
         }
     }
 

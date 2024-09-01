@@ -289,7 +289,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91d1c13598e1ce247a35ded15ca5010d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cards: []
+  cards:
+  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
+  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
+  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
+  - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
+  - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
+  - {fileID: 11400000, guid: 1d5bf802da7e41b4980953489bfb2940, type: 2}
 --- !u!1 &1970233055
 GameObject:
   m_ObjectHideFlags: 0
