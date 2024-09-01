@@ -10,7 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5c99312d572c2f4faa3a6be9bde9a2c, type: 3}
-  m_Name: TurnCard
+  m_Name: JumpCard
   m_EditorClassIdentifier: 
-  cardName: 1
-  cardSprite: {fileID: 0}
+  name: 2
+  cardSprite: {fileID: 21300000, guid: 98ee576125c3ca545a9f759c51e87fa3, type: 3}
+  clicked: 0

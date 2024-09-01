@@ -7,17 +7,14 @@
 
 using System;
 using UnityEngine;
-using UnityEngine.UI;
 
-[CreateAssetMenu(fileName = "Card")]
+[CreateAssetMenu(fileName = "Card", menuName = "Card")]
+
 public class Card : ScriptableObject
 {
-    [Tooltip("The name of the card")]
-    [SerializeField] private CardName cardName;
-
-    [SerializeField] private Image cardSprite;
-
-    [NonSerialized] public bool clicked;
+    public new CardName name;
+    public Sprite cardSprite;
+    public bool clicked;
 
     public enum CardName
     {
@@ -25,18 +22,21 @@ public class Card : ScriptableObject
         Turn,
         Jump,
         Clear,
-        Switch
+        Switch,
+        BackToIt
     }
 
-    /**
-     * Overrides the ToString method
-     * When object is printed, prints text instead
-     * @return string - the string to print into the console
-     */
+    /// <summary>
+    /// Overrides the ToString method
+    /// When object is printed, prints text instead
+    /// </summary>
+    /// <returns>
+    /// @return string - the string to print into the console
+    /// </returns>
     public override string ToString()
     {
         string text = "";
-        text += cardName.ToString() + " | " + "Clicked = " + clicked;
+        text += name.ToString() + " | " + "Clicked = " + clicked;
 
         return text;
     }

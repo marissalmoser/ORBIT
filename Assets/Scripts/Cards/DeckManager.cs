@@ -31,11 +31,12 @@ public class DeckManager<T>
     #endregion
 
     #region Shuffle
-    /**
-     * Shuffles the deck
-     * @param List<T> deck - the deck to be shuffled
-     * @return List<T> - the shuffled deck
-     */
+
+    /// <summary>
+    /// Shuffles the deck
+    /// </summary>
+    /// <param name="deck">the deck to be shuffled</param>
+    /// <returns>the shuffled deck</returns>
     public List<T> Shuffle(List<T> deck)
     {
         //Checks if the deck is valid
@@ -69,11 +70,12 @@ public class DeckManager<T>
     }
 
     #region Riffle Shuffle
-    /**
-     * Performs a riffle shuffle onto a deck
-     * @param deck - The deck to perform a riffle shuffle on
-     * @return List<T> - the shuffled deck
-     */
+
+    /// <summary>
+    /// Performs a riffle shuffle onto a deck
+    /// </summary>
+    /// <param name="deck">The deck to perform a riffle shuffle on</param>
+    /// <returns>List<T> - the shuffled deck</returns>
     public List<T> RiffleShuffle(List<T> deck)
     {
         //Checks if the deck is valid
@@ -122,11 +124,12 @@ public class DeckManager<T>
     #endregion
 
     #region Overhand Shuffle
-    /**
-     * Performs checks on the deck and decides if the overhand shuffle is needed
-     * @param deck - The deck to perform an over hand shuffle on
-     * @return List<T> - the shuffled deck
-     */
+
+    /// <summary>
+    /// Performs checks on the deck and decides if the overhand shuffle is needed
+    /// </summary>
+    /// <param name="deck">The deck to perform an over hand shuffle on</param>
+    /// <returns>List<T> - the shuffled deck</returns>
     public List<T> OverHandShuffle(List<T> deck)
     {
         //Checks if the deck is valid
@@ -176,11 +179,9 @@ public class DeckManager<T>
         return deck;
     }
 
-    /**
-     * Performs the over hand shuffle
-     * @param List<T> deck - the deck to perform the over hand shuffle on
-     * @return List<T> - the shuffled deck
-     */
+    /// <summary>Performs the over hand shuffle</summary>
+    /// <param name="deck">the deck to perform the over hand shuffle on</param>
+    /// <returns>the shuffled deck</returns>
     private List<T> doOverHandShuffle(List<T> deck)
     {
         //Checks if deck is valid
@@ -268,11 +269,10 @@ public class DeckManager<T>
     #endregion
 
     #region Cut Shuffle
-    /**
-     * Performs a cut on the deck at a random location
-     * @param deck - The deck to perform a cut on
-     * @return List<T> - the cutted deck
-     */
+
+    /// <summary>Performs a cut on the deck at a random location</summary>
+    /// <param name="deck">The deck to perform a cut on</param>
+    /// <re >List<T> - the cutted deck</re>
     public List<T> CutDeck(List<T> deck)
     {
         //Checks if deck is valid
@@ -297,13 +297,12 @@ public class DeckManager<T>
         return deck;
     }
 
-
-    /**
-     * Performs a cut onto a deck at the specified location
-     * @param deck - The deck to perform a cut on
-     * @param cutIndex - the index to cut the deck at
-     * @return List<T> - the cutted deck
-     */
+    /// <summary>
+    /// Performs a cut onto a deck at the specified location
+    /// </summary>
+    /// <param name="deck">The deck to perform a cut on</param>
+    /// <param name="cutIndex">the index to cut the deck at</param>
+    /// <returns>List<T> - the cutted deck</returns>
     public List<T> CutDeck(List<T> deck, int cutIndex)
     {
         //Does nothing if cut index is out of bounds
@@ -337,11 +336,11 @@ public class DeckManager<T>
 
     #region Utility
 
-    /**
-     * Deals a card from the top of the deck by removing the top card of the deck
-     * @param List<T> deck - the deck to be dealt from
-     * @return List<T> - the deck with the dealt card
-     */
+    /// <summary>
+    /// Deals a card from the top of the deck by removing the top card of the deck
+    /// </summary>
+    /// <param name="deck"> The deck to be dealt from </param>  
+    /// <returns> List<T> - the deck with the dealt card </returns>
     public List<T> DealCard(List<T> deck)
     {
         //Checks if the deck is null or has nothing in it
@@ -352,12 +351,13 @@ public class DeckManager<T>
         return deck;
     }
 
-    /**
-     * Swaps two objects in the deck
-     * @param target1Index - The index of the first object to be swapped
-     * @param target2Index - the index of the second object to be swapped
-     * @return List<T> - The deck with the two objects swapped
-     */
+    /// <summary>
+    /// Swaps two objects in the deck
+    /// </summary>
+    /// <param name="deck" ></param>
+    /// <param name="target1Index">The index of the first object to be swapped</param>
+    /// <param name="target2Index">the index of the second object to be swapped</param>
+    /// <returns>List<T> - The deck with the two objects swapped</returns>
     public List<T> Swap(List<T> deck, int target1Index, int target2Index)
     {
         if (deck == null || deck.Count < 1)
@@ -377,11 +377,11 @@ public class DeckManager<T>
         return deck;
     }
 
-    /**
-     * Clears the deck
-     * @param deck - the deck to be cleared
-     * @return List<T> - an empty generic list
-     */
+    /// <summary>
+    /// Clears the deck
+    /// </summary>
+    /// <param name="deck">the deck to be cleared</param>
+    /// <returns>List<T> - an empty generic list</returns>
     public List<T> ClearDeck(List<T> deck)
     {
         if (deck == null || deck.Count < 1)
@@ -391,11 +391,11 @@ public class DeckManager<T>
         return deck;
     }
 
-    /**
-     * Prints the deck
-     * A ToString() method is highly encouraged
-     * @param deck - the deck to be printed into the console
-     */
+    /// <summary>
+    /// Prints the deck
+    /// A ToString() method is highly encouraged
+    /// </summary>
+    /// <param name="deck">the deck to be printed into the console</param>
     public void PrintDeck(List<T> deck)
     {
         if (deck == null || deck.Count < 1)
