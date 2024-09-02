@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
         newImage.transform.SetParent(canvas.transform, false);
         newImage.rectTransform.anchoredPosition = Vector3.zero;
 
-        //createImage.transform.SetParent(canvas.transform, false);
-        //Instantiate(card1, new Vector3(0, 0, 0), Quaternion.identity, canvas);
+        CardDisplay card = newImage.GetComponentInChildren<CardDisplay>();
+        card.UpdateCard(moveCard);
     }
 }

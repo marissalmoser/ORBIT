@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     DeckManager<Card> deckManager;
+    CardManager cardManager;
     UIManager uiManager;
 
     public STATE gameState;
@@ -44,8 +45,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         deckManager = DeckManager<Card>.Instance;
+        cardManager = CardManager.Instance;
         uiManager = UIManager.Instance;
+        levelDeck = FindObjectOfType<LevelDeck>();
         lastBackToItIndex = -1;
+
+        ChangeGameState(STATE.LoadGame);
     }
 
     /// <summary>
@@ -84,6 +89,10 @@ public class GameManager : MonoBehaviour
             case STATE.SwitchCards:
                 gameState = STATE.SwitchCards;
                 break;
+            case STATE.Failure:
+                Failure();
+                gameState = STATE.Failure;
+                break;
             case STATE.End:
                 gameState = STATE.End;
                 //Add method here if needed
@@ -100,6 +109,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void StartGame()
     {
+        cardManager.Init();
         uiManager.Init();
         levelDeck.Init();
 
@@ -254,6 +264,14 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// When the player fails, this method is called
+    /// </summary>
+    private void Failure()
+    {
+
+    }
+
+    /// <summary>
     /// Functionality of the Back To It Card
     /// </summary>
     private void BackToItAction()
@@ -335,6 +353,7 @@ public class GameManager : MonoBehaviour
         RunActionOrder,
         ChooseClear,
         SwitchCards,
+        Failure,
         End
     }
 }

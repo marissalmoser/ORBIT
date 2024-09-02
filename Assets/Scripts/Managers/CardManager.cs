@@ -1,42 +1,92 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class CardManager : MonoBehaviour
 {
-    [SerializeField] private PlayerInput playerInput;
 
-    private InputAction clickAction;
-
-    private Vector2 mousePosition;
-    private bool isMousePressedDown;
-    void Start()
+    //Makes Class a Singleton Class
+    #region Singleton
+    private static CardManager instance;
+    public static CardManager Instance
     {
-        clickAction = playerInput.currentActionMap.FindAction("Click");
+        get
+        {
+            if (instance == null)
+                instance = FindAnyObjectByType(typeof(CardManager)) as CardManager;
+            return instance;
+        }
+        set
+        {
+            instance = value;
+        }
+    }
+    #endregion
 
-        clickAction.started += Click_Started;
-        clickAction.canceled += Click_Canceled;
+    //Declares Variables
+    [SerializeField] BoxCollider2D playArea;
 
+    GameManager gameManager;
+    Vector3 mousePosition;
+    Vector3 imageStartingPosition;
+    Collider2D imageCollider;
+
+    //Inits variables for CardManager. Called by GameManager
+    public void Init()
+    {
+        print(playArea);
+        gameManager = GameManager.Instance;
+        mousePosition = Vector3.zero;
+        imageStartingPosition = Vector3.zero;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    /**
+     * Called when the mouse is pressed on a dealt card
+     */
+    public void MousePressedCard(Image cardImage)
     {
-        //If the click has been pressed down but not released
-        if (isMousePressedDown)
+        //Checks if the left mouse button was pressed down
+        if (Input.GetMouseButtonDown(0))
         {
-            mousePosition = Mouse.current.position.ReadValue();
-            print(mousePosition);
+            //Sets where the image originally was
+            imageStartingPosition = cardImage.transform.position;
+
+            //Sets the mouse position
+            mousePosition = Input.mousePosition;
         }
     }
 
-    private void Click_Started(InputAction.CallbackContext obj)
+    /**
+     * Called when the mouse is released on a dealt card
+     */
+    public void MouseReleasedCard(Image cardImage)
     {
-        //Mouse is pressed down
-        isMousePressedDown = true;
+        //Checks if the left mouse button was released
+        if (Input.GetMouseButtonUp(0))
+        {
+            imageCollider = cardImage.GetComponent<Collider2D>();
+            //Checks if the image is overlapping with the play area
+            print("IMAGE: " + imageCollider);
+            print("AREA: " + playArea);
+            if (imageCollider.IsTouching(playArea))
+            {
+                //TODO Play
+                //gameManager.PlayCard();
+            }
+            //Reset card position
+            cardImage.transform.position = imageStartingPosition;
+
+
+        }
     }
-    private void Click_Canceled(InputAction.CallbackContext obj)
+
+    //Called when the mouse is pressed down and is moved on a dealt card
+    public void OnDragCard(Image cardImage)
     {
-        //Mouse has been released
-        isMousePressedDown = false;
+        //Checks if the left mouse button is being held
+        if (Input.GetMouseButton(0))
+        {
+            cardImage.transform.position = cardImage.transform.position - (mousePosition - Input.mousePosition);
+            mousePosition = Input.mousePosition;
+        }
     }
 }
