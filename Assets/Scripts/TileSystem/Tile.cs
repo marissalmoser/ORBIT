@@ -12,7 +12,13 @@ using static UnityEngine.GraphicsBuffer;
 
 public class Tile : MonoBehaviour
 {
+    public enum TileType
+    {
+        Tile, Hole
+    }
+
     [SerializeField] private Vector2 _coordinates;
+    [SerializeField] private TileType _tileType;
 
     [SerializeField] private GameObject _obstacleRef;
     private Obstacle _obstacleBehavior;
@@ -43,6 +49,19 @@ public class Tile : MonoBehaviour
     public void SetCoordinates(Vector2 coordinates)
     {
         this._coordinates = coordinates;
+    }
+
+    /// <summary>
+    /// Checks if the tile is a hole, returns true if it is.
+    /// </summary>
+    /// <returns></returns>
+    public bool IsHole()
+    {
+        if (_tileType == TileType.Hole)
+        {
+            return true;
+        }
+        return false;
     }
 
     /// <summary>
@@ -101,6 +120,7 @@ public class Tile : MonoBehaviour
     {
         TryMoveObstacle();
         TryMoveCollectable();
+        SetTileType(_tileType);
     }
 
     /// <summary>
@@ -144,6 +164,23 @@ public class Tile : MonoBehaviour
             //get and move collectable ref to the anchor point
             GetCollectableAnchor();
             _collectableRef.transform.position = _collectableAnchor.transform.position;
+        }
+    }
+
+    /// <summary>
+    /// Sets the tile to visible based on parameter tile type.
+    /// </summary>
+    public void SetTileType(TileType type)
+    {
+        if(type == TileType.Hole)
+        {
+            GetComponent<Collider>().enabled = false;
+            GetComponent<MeshRenderer>().enabled = false;
+        }
+        else
+        {
+            GetComponent<Collider>().enabled = true;
+            GetComponent<MeshRenderer>().enabled = true;
         }
     }
 
