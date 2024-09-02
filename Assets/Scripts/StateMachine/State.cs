@@ -5,6 +5,8 @@
 *    Description: 
 *******************************************************************/
 
+using UnityEngine;
+
 /// <summary>
 /// Base class all classes inherit from
 /// </summary>
@@ -27,6 +29,20 @@ public class EvaluateFacingSquare : State
 {
     public override State Execute(StateMachine context)
     {
-        throw new System.NotImplementedException();
+        Tile tile = new Tile();
+        return new EvaluateLocalTile(tile);
+    }
+}
+
+public class EvaluateLocalTile : State
+{
+    private Tile tile;
+    public EvaluateLocalTile(Tile thisTile)
+    {
+        tile = thisTile; 
+    }
+    public override State Execute(StateMachine context)
+    {
+        return new EvaluateFacingSquare();
     }
 }
