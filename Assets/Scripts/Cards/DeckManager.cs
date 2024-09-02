@@ -341,13 +341,49 @@ public class DeckManager<T>
     /// </summary>
     /// <param name="deck"> The deck to be dealt from </param>  
     /// <returns> List<T> - the deck with the dealt card </returns>
-    public List<T> DealCard(List<T> deck)
+    public List<T> RemoveFirst(List<T> deck)
     {
         //Checks if the deck is null or has nothing in it
         if (deck == null || deck.Count < 1)
             Debug.Log("CANNOT DEAL CARD!");
         else
             deck.RemoveAt(0);
+        return deck;
+    }
+
+    /// <summary>
+    /// Removes an object at the specified location
+    /// </summary>
+    /// <param name="deck">The deck to be modified</param>
+    /// <param name="index">the index of the card to remove</param>
+    /// <returns>The deck with the removed card</returns>
+    public List<T> RemoveAt(List<T> deck, int index)
+    {
+        //Checks if the deck is null or has nothing in it
+        if (deck == null || deck.Count < 1)
+            Debug.Log("CANNOT REMOVE CARD!");
+        else
+        {
+            if (index >= 0 && index < deck.Count)
+                deck.RemoveAt(index);
+            else
+                Debug.Log("INVALID INDEX TO REMOVE AT");
+        }
+        return deck;
+    }
+
+    /// <summary>
+    /// Removes the last object in the deck
+    /// </summary>
+    /// <param name="deck">The deck to be modified</param>
+    /// <returns>The deck with the removed card</returns>
+    public List<T> RemoveLast(List<T> deck)
+    {
+        //Checks if the deck is null or has nothing in it
+        if (deck == null || deck.Count < 1)
+            Debug.Log("CANNOT REMOVE CARD!");
+        else
+            deck.RemoveAt(deck.Count - 1);
         return deck;
     }
 

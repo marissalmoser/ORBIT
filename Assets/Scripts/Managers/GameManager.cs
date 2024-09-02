@@ -134,8 +134,17 @@ public class GameManager : MonoBehaviour
         {
             //TODO - Keep Cards in same place, replace played card's index with new card
             dealtCards.Add(deck[0]);
-            deck = deckManager.DealCard(deck);
+            deck = deckManager.RemoveFirst(deck);
         }
+    }
+
+    public void PlayCard(int cardIndex)
+    {
+        Card playedCard = dealtCards[cardIndex];
+        dealtCards = deckManager.RemoveAt(dealtCards, cardIndex);
+
+        playedCards.Add(playedCard);
+        ChangeGameState(STATE.RunActionOrder);
     }
 
     /// <summary>
@@ -159,14 +168,33 @@ public class GameManager : MonoBehaviour
         //If Clear Card was Played
         if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Clear)
         {
-            //TODO
+            playedCards = deckManager.RemoveLast(playedCards); //Removes clear card from played carsds
+            if (playedCards.Count > 0)
+            {
+                ClearAction(); //Performs Clear if there is at least 1 card in the deck
+            } else
+            {
+                ChangeGameState(STATE.RunActionOrder); //Does nothing
+            }
+            return;
         }
 
         //If Switch Card was played
         if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Switch)
         {
-            //TODO
+            playedCards = deckManager.RemoveLast(playedCards); //Removes switch card from played carsds
+            if (playedCards.Count > 1) //Performs switch if there are at least two cards in the deck
+            {
+                SwitchAction();
+            }
+            else
+            {
+                ChangeGameState(STATE.RunActionOrder); //Does nothing
+            }
+            return;
         }
+
+        PlaySequence(); //Plays the next card
     }
 
     /// <summary>

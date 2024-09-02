@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,11 +21,14 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField] Image card1;
+    [SerializeField] GameObject canvas;
 
-    [SerializeField] CardDisplay card1;
-    [SerializeField] CardDisplay card2;
-    [SerializeField] CardDisplay card3;
-    [SerializeField] CardDisplay card4;
+    [SerializeField] Sprite moveSprite;
+    [SerializeField] Sprite jumpSprite;
+    [SerializeField] Sprite turnSprite;
+    [SerializeField] Sprite switchSprite;
+    [SerializeField] Sprite clearSprite;
 
     [SerializeField] Card moveCard;
     [SerializeField] Card jumpCard;
@@ -36,9 +38,11 @@ public class UIManager : MonoBehaviour
 
     public void Init()
     {
-        card1.UpdateCard(clearCard);
-        card2.UpdateCard(clearCard);
-        card3.UpdateCard(clearCard);
-        card4.UpdateCard(clearCard);
+        Image newImage = Instantiate(card1, Vector3.zero, Quaternion.identity);
+        newImage.transform.SetParent(canvas.transform, false);
+        newImage.rectTransform.anchoredPosition = Vector3.zero;
+
+        //createImage.transform.SetParent(canvas.transform, false);
+        //Instantiate(card1, new Vector3(0, 0, 0), Quaternion.identity, canvas);
     }
 }

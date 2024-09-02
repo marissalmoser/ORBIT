@@ -26,6 +26,17 @@ public class Card : ScriptableObject
         BackToIt
     }
 
+    public static Card CreateInstance(CardName name, Sprite sprite, bool clicked)
+    {
+        Card data = ScriptableObject.CreateInstance<Card>();
+
+        data.name = name;
+        data.cardSprite = sprite;
+        data.clicked = clicked;
+
+        return data;
+    }
+
     /// <summary>
     /// Overrides the ToString method
     /// When object is printed, prints text instead
