@@ -44,6 +44,7 @@ public class CardManager : MonoBehaviour
      */
     public void MousePressedCard(Image cardImage)
     {
+        print("HERE");
         //Checks if the left mouse button was pressed down
         if (Input.GetMouseButtonDown(0))
         {
