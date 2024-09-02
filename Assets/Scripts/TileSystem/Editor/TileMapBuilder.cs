@@ -2,7 +2,7 @@
 *    Author: Marissa Moser
 *    Contributors: 
 *    Date Created: August 31, 2024
-*    Description: 
+*    Description: A custom editor window to build a map of tiles.
 *******************************************************************/
 using System.Collections.Generic;
 using UnityEditor;
@@ -12,6 +12,7 @@ public class TileMapBuilder : EditorWindow
 {
     Vector2Int _mapSize = new Vector2Int(3,3);
     GameObject _defaultTilePrefab;
+    GameObject _tileParentObj;
 
     private List<GameObject> _currentMap = new List<GameObject> { };
 
@@ -30,11 +31,16 @@ public class TileMapBuilder : EditorWindow
     /// </summary>
     private void OnGUI()
     {
+        //serialized fields
         _mapSize = EditorGUILayout.Vector2IntField("Map Size", _mapSize);
 
         _defaultTilePrefab = EditorGUILayout.ObjectField("Default Tile Prefab",
             _defaultTilePrefab, typeof(GameObject), false) as GameObject;
 
+        _tileParentObj = EditorGUILayout.ObjectField("Tile Parent",
+            _tileParentObj, typeof(GameObject), true) as GameObject;
+
+        //buttons
         EditorGUILayout.Space();
         if (GUILayout.Button("Create New Map"))
         {
@@ -60,10 +66,11 @@ public class TileMapBuilder : EditorWindow
             for (int j = 0; j < _mapSize.y; j++)
             {
                 //Create and set up tiles for map
-                GameObject go = Instantiate(_defaultTilePrefab, new Vector3(i, 0, j), Quaternion.identity);
+                GameObject go = Instantiate(_defaultTilePrefab, new Vector3(i, 0, j), Quaternion.identity, _tileParentObj.transform);
                 _currentMap.Add(go);
 
-                //TODO: set tiles fields to current position or smth
+                //Set up tile's fields
+                go.GetComponent<Tile>().SetCoordinates(new Vector2(i,j));
             }
         }
     }
