@@ -7,13 +7,32 @@
 *******************************************************************/
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
+    #region Singleton
+    public static TileManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject);
+        }
+    }
+    #endregion
     [SerializeField] private List<Tile> allTilesInScene = new List<Tile>();
 
+    public enum TileDirection
+    {
+        Northwest, North, Northeast, West, None, East, SouthWest, South, SouthEast,
+    }
     #region Getters
 
     /// <summary>
@@ -33,10 +52,33 @@ public class TileManager : MonoBehaviour
     {
         return allTilesInScene;
     }
+    public Tile GetTileAtLocation(Tile startTile, int direction, int distance)
+    {
+        Vector2[] directionOffsets = new Vector2[]
+        {
+        new Vector2(-1, 1),  // 0: Northwest
+        new Vector2(0, 1),   // 1: North
+        new Vector2(1, 1),   // 2: Northeast
+        new Vector2(-1, 0),  // 3: West
+        new Vector2(0, 0),   // 4: None (stay at the same tile)
+        new Vector2(1, 0),   // 5: East
+        new Vector2(-1, -1), // 6: Southwest
+        new Vector2(0, -1),  // 7: South
+        new Vector2(1, -1),  // 8: Southeast
+        };
+
+        Vector2 startCoords = startTile.GetCoordinates(); 
+        Vector2 offset = directionOffsets[direction] * distance;
+        Vector2 targetCoords = startCoords + offset;
+
+        Tile targetTile = GetAllTilesInScene().FirstOrDefault(tile => tile.GetCoordinates() == targetCoords);
+
+        return targetTile;
+    }
     public Tile GetTileByCoordinates(Vector2 coordinates)
     {
         Tile tile = allTilesInScene.FirstOrDefault(t => t.GetCoordinates() == coordinates);
-        if(tile != null)
+        if (tile != null)
         {
             return tile;
         }
@@ -46,9 +88,5 @@ public class TileManager : MonoBehaviour
     #endregion
 
     #region Setters
-    #endregion
-    //public void Start()
-    //{
-    //    LoadTileList();
-    //}
+    #endregion    
 }
