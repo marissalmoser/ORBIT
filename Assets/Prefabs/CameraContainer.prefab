@@ -108,9 +108,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7716a033d97f0f44283d588fa9d1c288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerInput: {fileID: 2409389655652410456}
-  virtualCamera: {fileID: 7548964786283510077}
-  cameraSpeedMult: 1
+  _playerInput: {fileID: 2409389655652410456}
+  _virtualCamera: {fileID: 7548964786283510077}
+  _cameraSpeedMult: 1
 --- !u!114 &2409389655652410456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -168,8 +168,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1432760671423499578}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.058237422, y: 0.12772393, z: -0.007512917, w: 0.99007}
-  m_LocalPosition: {x: -4.4423313, y: 4.604553, z: -11.761741}
+  m_LocalRotation: {x: 0.23090622, y: -0.4410624, z: 0.1185441, w: 0.85912377}
+  m_LocalPosition: {x: 4.66527, y: 4.604553, z: -8.806302}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
