@@ -6,8 +6,10 @@
 *    assign obstacles and collectables to a tile and moves the objects to it's anchor.
 *******************************************************************/
 using System.Collections.Generic;
+using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using static Tile;
 using static UnityEngine.GraphicsBuffer;
 
 public class Tile : MonoBehaviour
@@ -16,9 +18,10 @@ public class Tile : MonoBehaviour
     {
         Tile, Hole
     }
-
+    [Tooltip("Do not edit this field, it is just serialized for reference")]
     [SerializeField] private Vector2 _coordinates;
     [SerializeField] private TileType _tileType;
+    private TileType _lastTileType;
 
     [SerializeField] private GameObject _obstacleRef;
     private Obstacle _obstacleBehavior;
@@ -29,7 +32,6 @@ public class Tile : MonoBehaviour
     private GameObject _collectableAnchor;
 
     private GameObject _playerSnapTo;
-
 
     #region GettersAndSetters
     /// <summary>
@@ -120,7 +122,12 @@ public class Tile : MonoBehaviour
     {
         TryMoveObstacle();
         TryMoveCollectable();
-        SetTileType(_tileType);
+
+        if (_tileType != _lastTileType)
+        {
+            SetTileType(_tileType);
+            _lastTileType = _tileType;
+        }
     }
 
     /// <summary>
@@ -172,15 +179,17 @@ public class Tile : MonoBehaviour
     /// </summary>
     public void SetTileType(TileType type)
     {
-        if(type == TileType.Hole)
+        if(type == TileType.Tile)
         {
-            GetComponent<Collider>().enabled = false;
-            GetComponent<MeshRenderer>().enabled = false;
+            _tileType = TileType.Tile;
+            GetComponent<Collider>().enabled = true;
+            GetComponent<MeshRenderer>().enabled = true;
         }
         else
         {
-            GetComponent<Collider>().enabled = true;
-            GetComponent<MeshRenderer>().enabled = true;
+            _tileType = TileType.Hole;
+            GetComponent<Collider>().enabled = false;
+            GetComponent<MeshRenderer>().enabled = false;
         }
     }
 
