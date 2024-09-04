@@ -17,6 +17,7 @@ public class StateMachine
     private State currentState;
     private List<CardAction> actions;
     private static UnityAction StateMachineComplete;
+    public static UnityAction ActionComplete;
     public StateMachine(List<CardAction> incomingActions)
     {
         actions.Clear();
@@ -38,19 +39,25 @@ public class StateMachine
     }
     public void Run()
     {
-        while (currentState != null)
+        if (currentState != null)
         {
             currentState.Execute(this);
         }
-        if (currentState is ExitStateMachine)
-        {
-            currentState = GetNextAction();
-        }
         Debug.LogWarning("Statemachine should be in a state right now");
     }
-    public State GetNextAction()
+    public CardAction GetNextAction()
     {
-        return new ExitStateMachine();
+        if (actions.Count > 1)
+        {
+            actions.RemoveAt(0); //remove first action in order
+            
+            return actions[0];
+        }
+        else
+        {
+            EndStateMachine();
+            return null;
+        }
     }
     public void EndStateMachine()
     {

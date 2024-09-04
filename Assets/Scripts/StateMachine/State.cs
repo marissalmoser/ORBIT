@@ -29,6 +29,22 @@ public class PlayActionAnimation : State
         throw new System.NotImplementedException();
     }
 }
+public class EvaluateAction : State
+{
+    private CardAction action;
+    public EvaluateAction(CardAction incomingAction)
+    {
+        action = incomingAction;
+    }
+    public override State Execute(StateMachine context)
+    {
+        switch (action)
+        {
+
+        }
+    }
+}
+
 public class EvaluateTargetTile : State
 {
     private Tile currentTile;
@@ -69,7 +85,7 @@ public class ExitStateMachine : State
 {
     public override State Execute(StateMachine context)
     {
-        context.EndStateMachine();
+        context.GetNextAction();
         return null;
     }
 }
