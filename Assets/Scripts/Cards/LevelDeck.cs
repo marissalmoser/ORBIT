@@ -28,7 +28,7 @@ public class LevelDeck : MonoBehaviour
     #endregion
 
 
-    [HideInInspector] public List<Card> deck;
+    public List<Card> deck;
     private DeckManager<Card> _deckManager;
 
     /// <summary>
