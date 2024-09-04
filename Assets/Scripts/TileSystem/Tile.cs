@@ -8,7 +8,6 @@ public class Tile : MonoBehaviour
     [SerializeField] private List<Obstacle> obstaclesInTile = new List<Obstacle>();
     [SerializeField] private Transform playerSnapTo;
     [SerializeField] private Mesh obstacleMesh;
-    [SerializeField] private Tile _destinationTile;
     
 
     public bool IsHole()
