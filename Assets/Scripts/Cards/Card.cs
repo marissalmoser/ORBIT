@@ -15,14 +15,15 @@ public class Card : ScriptableObject
 {
     public new CardName name;
     public Sprite cardSprite;
+    [SerializeField] Tile _desinationTile;
     public int ID {  get; private set; }
 
     public enum CardName
     {
         Move,
         Turn,
-        TurnLeft,
-        TurnRight,
+        TurnLeft, 
+        TurnRight, 
         Jump,
         Clear,
         Switch,
