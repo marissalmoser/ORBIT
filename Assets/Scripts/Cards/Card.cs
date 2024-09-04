@@ -15,6 +15,7 @@ public class Card : ScriptableObject
     public new CardName name;
     public Sprite cardSprite;
     public bool clicked;
+    public int ID {  get; private set; }
 
     public enum CardName
     {
@@ -26,15 +27,13 @@ public class Card : ScriptableObject
         BackToIt
     }
 
-    public static Card CreateInstance(CardName name, Sprite sprite, bool clicked)
+    /// <summary>
+    /// Changes the ID of the card
+    /// </summary>
+    /// <param name="id">The ID of the card</param>
+    public void SetID(int id)
     {
-        Card data = ScriptableObject.CreateInstance<Card>();
-
-        data.name = name;
-        data.cardSprite = sprite;
-        data.clicked = clicked;
-
-        return data;
+        ID = id;
     }
 
     /// <summary>
@@ -47,7 +46,7 @@ public class Card : ScriptableObject
     public override string ToString()
     {
         string text = "";
-        text += name.ToString() + " | " + "Clicked = " + clicked;
+        text += name.ToString() + " | Clicked = " + clicked + " | ID: " + ID;
 
         return text;
     }

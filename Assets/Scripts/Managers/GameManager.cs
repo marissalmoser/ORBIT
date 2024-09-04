@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,23 +30,26 @@ public class GameManager : MonoBehaviour
     #endregion
 
     DeckManager<Card> deckManager;
-    CardManager cardManager;
+    DealtCardManager dealtCardManager;
+    PlayedCardManager playedCardManager;
     UIManager uiManager;
 
     public STATE gameState;
 
     private LevelDeck levelDeck;
     private List<Card> deck;
-    private List<Card> dealtCards;
-    private List<Card> playedCards;
+    [SerializeField] private List<Card> dealtCards;
+    [SerializeField] private List<Card> playedCards;
     private List<Card> tempPlayedCards;
     private List<Card> tempBeforeBackToItCards, tempAfterBackToItCards;
+    private (Card, int) lastCardPlayed;
     private int lastBackToItIndex;
 
     private void Start()
     {
         deckManager = DeckManager<Card>.Instance;
-        cardManager = CardManager.Instance;
+        dealtCardManager = DealtCardManager.Instance;
+        playedCardManager = PlayedCardManager.Instance;
         uiManager = UIManager.Instance;
         levelDeck = FindObjectOfType<LevelDeck>();
         lastBackToItIndex = -1;
@@ -84,14 +88,18 @@ public class GameManager : MonoBehaviour
                 RunPlaySequence();
                 break;
             case STATE.ChooseClear:
-                gameState = STATE.ChooseClear;
+                // Waiting STATE. Game locks in this state until user input
                 break;
             case STATE.SwitchCards:
-                gameState = STATE.SwitchCards;
+                // Waiting STATE. Game locks in this state until user input
                 break;
             case STATE.Failure:
-                Failure();
                 gameState = STATE.Failure;
+                Failure();
+                break;
+            case STATE.OutOfCards:
+                gameState = STATE.OutOfCards;
+                OutOfCards();
                 break;
             case STATE.End:
                 gameState = STATE.End;
@@ -109,7 +117,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void StartGame()
     {
-        cardManager.Init();
+        dealtCardManager.Init();
+        playedCardManager.Init();
         uiManager.Init();
         levelDeck.Init();
 
@@ -119,6 +128,8 @@ public class GameManager : MonoBehaviour
         tempPlayedCards = new();
         tempBeforeBackToItCards = new();
         tempAfterBackToItCards = new();
+
+        ChangeGameState(STATE.StartLevel);
     }
 
     /// <summary>
@@ -128,6 +139,7 @@ public class GameManager : MonoBehaviour
     private void SetUpLevel()
     {
         deck = levelDeck.deck;
+        ChangeGameState(STATE.ChooseCards);
     }
 
     /// <summary>
@@ -136,24 +148,49 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DealCards()
     {
-        int dealtCardsCount = dealtCards.Count;
-        int deckSize = deck.Count;
-
         //Draws until the player has 4 cards or until the deck runs out
-        while (dealtCardsCount < 4 && deckSize > 0)
+        while (dealtCards.Count < 4 && deck.Count > 0)
         {
             //TODO - Keep Cards in same place, replace played card's index with new card
-            dealtCards.Add(deck[0]);
+            if (lastCardPlayed.Item1 != null)
+            {
+                dealtCards.Insert(lastCardPlayed.Item2, deck[0]);
+            }
+            else
+            {
+                dealtCards.Add(deck[0]);
+            }
             deck = deckManager.RemoveFirst(deck);
         }
+
+        //If out of cards, go to corresponding game state
+        if (dealtCards.Count == 0 && deck.Count == 0)
+        {
+            ChangeGameState(STATE.OutOfCards);
+        }
+        uiManager.UpdateDealtCards();
     }
 
-    public void PlayCard(int cardIndex)
+    public void PlayCard(int cardID)
     {
-        Card playedCard = dealtCards[cardIndex];
-        dealtCards = deckManager.RemoveAt(dealtCards, cardIndex);
+        List<Image> instantiatedImages = uiManager.GetInstantiatedDealtCardImages();
 
-        playedCards.Add(playedCard);
+        int instantiatedImagesCount = instantiatedImages.Count;
+        for (int i = 0; i < instantiatedImagesCount; i++)
+        {
+            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == cardID)
+            {
+                Card playedCard = dealtCards[i];
+                lastCardPlayed = (playedCard, i);
+                dealtCards = deckManager.RemoveAt(dealtCards, i);
+
+                playedCards.Add(playedCard);
+
+                break;
+            }
+        }
+
+        uiManager.UpdatePlayedCards();
         ChangeGameState(STATE.RunActionOrder);
     }
 
@@ -176,35 +213,26 @@ public class GameManager : MonoBehaviour
         }
 
         //If Clear Card was Played
-        if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Clear)
+        if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Clear) //Error check and checks if last card played was a Clear
         {
             playedCards = deckManager.RemoveLast(playedCards); //Removes clear card from played carsds
-            if (playedCards.Count > 0)
+            if (playedCards.Count > 0) //If there is a card to clear, call ClearAction
             {
                 ClearAction(); //Performs Clear if there is at least 1 card in the deck
-            } else
-            {
-                ChangeGameState(STATE.RunActionOrder); //Does nothing
             }
-            return;
         }
 
         //If Switch Card was played
-        if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Switch)
+        if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Switch) //Error check and checks if last card played was a Switch
         {
             playedCards = deckManager.RemoveLast(playedCards); //Removes switch card from played carsds
             if (playedCards.Count > 1) //Performs switch if there are at least two cards in the deck
             {
                 SwitchAction();
             }
-            else
-            {
-                ChangeGameState(STATE.RunActionOrder); //Does nothing
-            }
-            return;
         }
 
-        PlaySequence(); //Plays the next card
+        PlaySequence(); //Plays the action order
     }
 
     /// <summary>
@@ -213,6 +241,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlaySequence()
     {
+        /**
         //If there is nothing in the played deck, play sequence is over and allow the player to pick another card
         if (tempPlayedCards.Count < 1)
         {
@@ -245,6 +274,11 @@ public class GameManager : MonoBehaviour
         }
         //Removes the first card in the action order.
         tempPlayedCards.RemoveAt(0);
+        **/
+
+        //TODO - Get Eli's State Machine and send in action order
+
+        ChangeGameState(STATE.ChooseCards);
     }
 
     /// <summary>
@@ -252,7 +286,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void ClearAction()
     {
-
+        ChangeGameState(STATE.ChooseClear);
     }
 
     /// <summary>
@@ -260,13 +294,21 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SwitchAction()
     {
-
+        ChangeGameState(STATE.SwitchCards);
     }
 
     /// <summary>
     /// When the player fails, this method is called
     /// </summary>
     private void Failure()
+    {
+
+    }
+
+    /// <summary>
+    /// When the player runs out of cards, this method is called
+    /// </summary>
+    private void OutOfCards()
     {
 
     }
@@ -344,6 +386,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets the current dealt cards
+    /// </summary>
+    /// <returns>A List<Card> dealtCards</returns>
+    public List<Card> GetDealtCards() { return dealtCards; }
+
+
+    /// <summary>
+    /// Gets the current played cards
+    /// </summary>
+    /// <returns>A List<Card> playedCards</returns>
+    public List<Card> GetPlayedCards() { return playedCards; }
+
     public enum STATE
     {
         LoadGame,
@@ -354,6 +409,7 @@ public class GameManager : MonoBehaviour
         ChooseClear,
         SwitchCards,
         Failure,
+        OutOfCards,
         End
     }
 }

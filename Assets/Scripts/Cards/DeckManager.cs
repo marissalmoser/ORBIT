@@ -334,7 +334,7 @@ public class DeckManager<T>
     #endregion
     #endregion
 
-    #region Utility
+    #region Generic Utility
 
     /// <summary>
     /// Deals a card from the top of the deck by removing the top card of the deck

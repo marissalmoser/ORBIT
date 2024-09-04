@@ -113,8 +113,8 @@ GameObject:
   - component: {fileID: 1807556142743764660}
   - component: {fileID: 8502508399912860161}
   - component: {fileID: 6368139857778875475}
-  - component: {fileID: 8378081360464123040}
-  - component: {fileID: 7249544058227498285}
+  - component: {fileID: 3486485052370382671}
+  - component: {fileID: 5754929301003648887}
   m_Layer: 5
   m_Name: Play Area
   m_TagString: Untagged
@@ -179,7 +179,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!61 &8378081360464123040
+--- !u!61 &3486485052370382671
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,7 +224,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!50 &7249544058227498285
+--- !u!50 &5754929301003648887
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
