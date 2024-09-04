@@ -1,7 +1,7 @@
 // +-----------------------------------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last Modified - September 1st 2024
+// @Last Modified - September 4st 2024
 // @Description - The engine of the game which controls and initializes everything else
 // +-----------------------------------------------------------------------------------+
 
@@ -28,8 +28,11 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+    [SerializeField] private List<Card> dealtCards;
+    [SerializeField] private List<Card> playedCards;
 
-    DeckManager<Card> deckManager;
+    DeckManager<Card> deckManagerCard;
+    DeckManager<int> deckManagerInt;
     DealtCardManager dealtCardManager;
     PlayedCardManager playedCardManager;
     UIManager uiManager;
@@ -38,16 +41,17 @@ public class GameManager : MonoBehaviour
 
     private LevelDeck levelDeck;
     private List<Card> deck;
-    [SerializeField] private List<Card> dealtCards;
-    [SerializeField] private List<Card> playedCards;
+
     private List<Card> tempPlayedCards;
     private List<Card> tempBeforeBackToItCards, tempAfterBackToItCards;
+    private List<int> collectedSwitchIDs;
     private (Card, int) lastCardPlayed;
     private int lastBackToItIndex;
 
     private void Start()
     {
-        deckManager = DeckManager<Card>.Instance;
+        deckManagerCard = DeckManager<Card>.Instance;
+        deckManagerInt = DeckManager<int>.Instance;
         dealtCardManager = DealtCardManager.Instance;
         playedCardManager = PlayedCardManager.Instance;
         uiManager = UIManager.Instance;
@@ -89,9 +93,11 @@ public class GameManager : MonoBehaviour
                 break;
             case STATE.ChooseClear:
                 // Waiting STATE. Game locks in this state until user input
+                gameState = STATE.ChooseClear;
                 break;
             case STATE.SwitchCards:
                 // Waiting STATE. Game locks in this state until user input
+                gameState = STATE.SwitchCards;
                 break;
             case STATE.Failure:
                 gameState = STATE.Failure;
@@ -106,6 +112,7 @@ public class GameManager : MonoBehaviour
                 //Add method here if needed
                 break;
             default:
+                //Error check
                 print("ERROR: FAILED TO SWITCH GAME STATE.");
                 break;
         }
@@ -117,17 +124,21 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void StartGame()
     {
+        //Initialzes other managers. Order may matter
         dealtCardManager.Init();
         playedCardManager.Init();
         uiManager.Init();
         levelDeck.Init();
 
+        //Initializes lists.
         deck = new();
         dealtCards = new();
         playedCards = new();
         tempPlayedCards = new();
         tempBeforeBackToItCards = new();
         tempAfterBackToItCards = new();
+
+        collectedSwitchIDs = new();
 
         ChangeGameState(STATE.StartLevel);
     }
@@ -160,7 +171,7 @@ public class GameManager : MonoBehaviour
             {
                 dealtCards.Add(deck[0]);
             }
-            deck = deckManager.RemoveFirst(deck);
+            deck = deckManagerCard.RemoveFirst(deck);
         }
 
         //If out of cards, go to corresponding game state
@@ -168,23 +179,27 @@ public class GameManager : MonoBehaviour
         {
             ChangeGameState(STATE.OutOfCards);
         }
-        uiManager.UpdateDealtCards();
+        uiManager.UpdateDealtCards(); //Updates Cards
     }
 
-    public void PlayCard(int cardID)
+    /// <summary>
+    /// Removes a card from the dealt deck, and adds it to the played deck
+    /// </summary>
+    /// <param name="targetID">The ID of the card to play</param>
+    public void PlayCard(int targetID)
     {
-        List<Image> instantiatedImages = uiManager.GetInstantiatedDealtCardImages();
+        List<Image> instantiatedImages = uiManager.GetInstantiatedDealtCardImages(); //Gets instantiated dealt card images
 
         int instantiatedImagesCount = instantiatedImages.Count;
         for (int i = 0; i < instantiatedImagesCount; i++)
         {
-            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == cardID)
+            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
             {
-                Card playedCard = dealtCards[i];
-                lastCardPlayed = (playedCard, i);
-                dealtCards = deckManager.RemoveAt(dealtCards, i);
+                Card playedCard = dealtCards[i]; //Gets the same ID card
+                lastCardPlayed = (playedCard, i); //Stores card and the index
+                dealtCards = deckManagerCard.RemoveAt(dealtCards, i); //Removes card from the dealt deck
 
-                playedCards.Add(playedCard);
+                playedCards.Add(playedCard); //Adds card to the played deck
 
                 break;
             }
@@ -202,7 +217,7 @@ public class GameManager : MonoBehaviour
     {
         lastBackToItIndex = -1;
 
-        tempPlayedCards.Clear();
+        tempPlayedCards.Clear(); //Clears temporary action order
 
         int playedCardsCount = playedCards.Count;
 
@@ -215,24 +230,27 @@ public class GameManager : MonoBehaviour
         //If Clear Card was Played
         if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Clear) //Error check and checks if last card played was a Clear
         {
-            playedCards = deckManager.RemoveLast(playedCards); //Removes clear card from played carsds
+            playedCards = deckManagerCard.RemoveLast(playedCards); //Removes clear card from played carsds
+            uiManager.UpdatePlayedCards(); //Updates played cards so clear card does not appear
             if (playedCards.Count > 0) //If there is a card to clear, call ClearAction
             {
-                ClearAction(); //Performs Clear if there is at least 1 card in the deck
+                ChangeGameState(STATE.ChooseClear); //Waits for User Input to Clear a Card
             }
         }
 
         //If Switch Card was played
         if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Switch) //Error check and checks if last card played was a Switch
         {
-            playedCards = deckManager.RemoveLast(playedCards); //Removes switch card from played carsds
+            playedCards = deckManagerCard.RemoveLast(playedCards); //Removes switch card from played cards
+            uiManager.UpdatePlayedCards(); //Updates played cards so switch card does not appear
             if (playedCards.Count > 1) //Performs switch if there are at least two cards in the deck
             {
-                SwitchAction();
+                ChangeGameState(STATE.SwitchCards); //Waits for User Input to Switch two cards
             }
         }
 
-        PlaySequence(); //Plays the action order
+        if (gameState == STATE.RunActionOrder)
+            PlaySequence(); //Plays the action order
     }
 
     /// <summary>
@@ -284,17 +302,107 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Functionality of the Clear Card
     /// </summary>
-    private void ClearAction()
+    public void ClearAction(int targetID)
     {
-        ChangeGameState(STATE.ChooseClear);
+        List<Image> instantiatedImages = uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
+
+        int instantiatedImagesCount = instantiatedImages.Count;
+        for (int i = 0; i < instantiatedImagesCount; i++)
+        {
+            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
+            {
+                playedCards = deckManagerCard.RemoveAt(playedCards, i); //When IDs match, remove the card from the list
+                break;
+            }
+        }
+        
+        uiManager.UpdatePlayedCards();
+        ChangeGameState(STATE.RunActionOrder);
     }
 
     /// <summary>
     /// Functionality of the Switch Card
     /// </summary>
-    private void SwitchAction()
+    /// <param name="firstTargetID">The first card ID to switch</param>
+    /// <param name="secondTargetID">The second card ID to switch</param>
+    private void SwitchAction(int firstTargetID, int secondTargetID)
     {
-        ChangeGameState(STATE.SwitchCards);
+        List<Image> instantiatedImages = uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
+
+        int instantiatedImagesCount = instantiatedImages.Count;
+
+        //Initializes variables
+        int target1Index = -1;
+        int target2Index = -1;
+
+        //Finds the first target ID
+        for (int i = 0; i < instantiatedImagesCount; i++)
+        {
+            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == firstTargetID) //Compares instantiated images' unique ID to the target ID
+            {
+                target1Index = i;
+
+                break;
+            }
+        }
+
+        //Finds the second target ID
+        for (int i = 0; i < instantiatedImagesCount; i++)
+        {
+            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == secondTargetID) //Compares instantiated images' unique ID to the target ID
+            {
+                target2Index = i;
+
+                break;
+            }
+        }
+        if (target1Index != -1 && target2Index != -1) //Error check. Does not continue if both cards are not found
+        {
+            playedCards = deckManagerCard.Swap(playedCards, target1Index, target2Index); //Swaps the two cards
+        }
+        
+        uiManager.UpdatePlayedCards();
+
+        ChangeGameState(STATE.RunActionOrder);
+    }
+
+    //Switch List Variable Initialization
+
+
+    /// <summary>
+    /// Receives user input and does checks until conditions are met to continue
+    /// </summary>
+    /// <param name="targetID">The ID of one of the cards to switch</param>
+    public void SwitchActionHelper(int targetID)
+    {
+        List<Image> instantiatedImages = uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
+
+        int instantiatedImagesCount = instantiatedImages.Count;
+        for (int i = 0; i < instantiatedImagesCount; i++)
+        {
+            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
+            {
+                int collectedIdsListCount = collectedSwitchIDs.Count;
+
+                //If the list contains the target ID already
+                if (collectedSwitchIDs.Contains(targetID))
+                {
+                    //There can only be two Cards in the list. If there is a duplicate ID, it must be the first card
+                    collectedSwitchIDs = deckManagerInt.RemoveFirst(collectedSwitchIDs); 
+                }
+                //If the list does not contain the target ID
+                else
+                {
+                    collectedSwitchIDs.Add(targetID);
+                }
+                
+                break;
+            }
+        }
+
+        //If two cards have been selected, perform switch action
+        if (collectedSwitchIDs.Count == 2)
+            SwitchAction(collectedSwitchIDs[0], collectedSwitchIDs[1]);
     }
 
     /// <summary>
@@ -302,7 +410,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Failure()
     {
-
+        print("Rip Bozo."); //TODO - Replace this with actual functionality
     }
 
     /// <summary>
@@ -310,7 +418,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void OutOfCards()
     {
-
+        print("Skill Issue."); //TODO - Replace this with actual functionality
     }
 
     /// <summary>
@@ -389,15 +497,21 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Gets the current dealt cards
     /// </summary>
-    /// <returns>A List<Card> dealtCards</returns>
+    /// <returns>A List<Card> Cards that have been dealt</returns>
     public List<Card> GetDealtCards() { return dealtCards; }
 
 
     /// <summary>
     /// Gets the current played cards
     /// </summary>
-    /// <returns>A List<Card> playedCards</returns>
+    /// <returns>A List<Card> Cards that have been played</returns>
     public List<Card> GetPlayedCards() { return playedCards; }
+
+    /// <summary>
+    /// Gets the current collected switch IDs
+    /// </summary>
+    /// <returns>List<int> list of IDs from played cards being selected to be swapped</returns>
+    public List<int> GetCollectedSwitchIDs() { return collectedSwitchIDs; }
 
     public enum STATE
     {

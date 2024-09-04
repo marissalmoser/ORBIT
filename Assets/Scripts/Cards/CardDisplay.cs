@@ -1,4 +1,11 @@
-using System.Collections.Generic;
+// +--------------------------------------------------------------+
+// @author - Ryan Herwig
+// @Contributers - 
+// @Last modified - September 4 2024
+// @Description - Displays the card onto an instantiated image.
+//                Also holds helper methods for an Event Trigger
+// +--------------------------------------------------------------+
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,20 +20,22 @@ public class CardDisplay : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         sprite.sprite = card.cardSprite;
-        //TODO - Check which deck the card is in (playedCards or dealtCards). Give ID, set other ID to -1
-        //Sets the Card ID
+        
     }
 
+    /// <summary>
+    /// Updates the specified card's image
+    /// </summary>
+    /// <param name="card">The card to be updared</param>
     public void UpdateCard(Card card)
     {
         this.card = card;
 
         gameManager = GameManager.Instance;
-        ID = card.ID;
     }
 
     /// <summary>
-    /// Helper method for Event Trigger Pointer Down
+    /// Helper method for Event Trigger Pointer Down for DealtCards
     /// </summary>
     /// <param name="Card">Image object for the card</param>
     public void MousePressedDealtCard(Image Card)
@@ -35,7 +44,7 @@ public class CardDisplay : MonoBehaviour
     }
 
     /// <summary>
-    /// Helper method for Event Trigger Pointer Up
+    /// Helper method for Event Trigger Pointer Up for Dealt Cards
     /// </summary>
     /// <param name="Card">Image object for the card</param>
     public void MouseReleasedDealtCard(Image Card)
@@ -44,7 +53,7 @@ public class CardDisplay : MonoBehaviour
     }
 
     /// <summary>
-    /// Helper method for Event Trigger Drag
+    /// Helper method for Event Trigger Drag for Dealt Cards
     /// </summary>
     /// <param name="Card">Image object for the card</param>
     public void OnDragDealtCard(Image Card)
@@ -52,8 +61,30 @@ public class CardDisplay : MonoBehaviour
         DealtCardManager.Instance.OnDragCard(Card);
     }
 
-    public void MousePressedPlayedCard(Image card)
+    /// <summary>
+    /// Helper method for Event Trigger Mouse Down for Played Cards
+    /// </summary>
+    /// <param name="Card">Image object for the card</param>
+    public void MousePressedPlayedCard(Image Card)
     {
-        PlayedCardManager.Instance.MousePressedCard(card);
+        PlayedCardManager.Instance.MousePressedCard(Card, ID);
+    }
+
+    /// <summary>
+    /// Helper method for Event Trigger Mouse Up for Played Cards
+    /// </summary>
+    /// <param name="Card">Image object for the card</param>
+    public void MouseReleasedPlayedCard(Image Card)
+    {
+        PlayedCardManager.Instance.MouseReleasedCard(Card);
+    }
+
+    /// <summary>
+    /// Helper method for Event Trigger Pointer Enter for Played Cards
+    /// </summary>
+    /// <param name="card">Image object for the card</param>
+    public void OnMouseEnterPlayedCard(Image card)
+    {
+        PlayedCardManager.Instance.MouseEnterCard(card);
     }
 }

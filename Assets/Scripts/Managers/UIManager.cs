@@ -1,3 +1,10 @@
+// +-------------------------------------------------------+
+// @author - Ryan Herwig
+// @Contributers - 
+// @Last modified - September 4 2024
+// @Description - Manages the UI for the game
+// +-------------------------------------------------------+
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -37,6 +44,10 @@ public class UIManager : MonoBehaviour
 
     List<Image> dealtCardImages;
     List<Image> playedCardImages;
+
+    /// <summary>
+    /// Initializes variables for UIManager. Called by GameManager
+    /// </summary>
     public void Init()
     {
         gameManager = gameManager = GameManager.Instance;
@@ -50,27 +61,32 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void UpdateDealtCards()
     {
+        //Destroys all previous instances of dealt card images
         for (int i = 0; i < dealtCardImages.Count; i++)
         {
-            Destroy(dealtCardImages[i].gameObject);
+            if (dealtCardImages[i] != null)
+                Destroy(dealtCardImages[i].gameObject);
         }
+        //Resets list
         dealtCardImages = new();
 
+        //Gets all dealt cards
         List<Card> dealtCards = gameManager.GetDealtCards();
         int numOfDealtCards = dealtCards.Count;
 
-        float cardWidth = dealtCardImage.rectTransform.rect.width;
+        float cardWidth = dealtCardImage.rectTransform.rect.width; //Gets width of a card
         for (int i = 0; i < numOfDealtCards; i++)
         {
-            Image newImage = Instantiate(dealtCardImage, Vector3.zero, Quaternion.identity);
-            newImage.transform.SetParent(canvas.transform, false);
-            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + cardWidthSpacing ) * i + widthPadding, 0, 0);
-            newImage.GetComponentInChildren<CardDisplay>().ID = i;
+            Image newImage = Instantiate(dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
+            newImage.transform.SetParent(canvas.transform, false); //Sets canvas as its parent
+            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + cardWidthSpacing ) * i + widthPadding, 0, 0); //Sets position
+            newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
+            newImage.enabled = false; //Sets highlight to off
+            dealtCardImages.Add(newImage); //Adds instantiated image to list
 
-            dealtCardImages.Add(newImage);
+            CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
 
-            CardDisplay card = newImage.GetComponentInChildren<CardDisplay>();
-
+            //Finds the name and sets the image to the found data
             switch (dealtCards[i].name)
             {
                 case Card.CardName.Move:
@@ -103,26 +119,30 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void UpdatePlayedCards()
     {
+        //Destroys all previous instantiations of played cards
         for (int i = 0; i < playedCardImages.Count; i++)
         {
-            Destroy(playedCardImages[i].gameObject);
+            if (playedCardImages[i] != null)
+                Destroy(playedCardImages[i].gameObject);
         }
+        //Resets list
         playedCardImages = new();
 
+        //Gets all played cards
         List<Card> playedCards = gameManager.GetPlayedCards();
         int numOfPlayedCards = playedCards.Count;
 
         for (int i = 0; i < numOfPlayedCards; i++)
         {
-            Image newImage = Instantiate(playedCardImage, Vector3.zero, Quaternion.identity);
-            newImage.transform.SetParent(canvas.transform, false);
-            newImage.rectTransform.anchoredPosition = new Vector3(-widthPadding, -cardHeightSpacing * i - heightPadding, 0);
-            newImage.GetComponentInChildren<CardDisplay>().ID = i;
+            Image newImage = Instantiate(playedCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
+            newImage.transform.SetParent(canvas.transform, false); //Sets canvas as the parent
+            newImage.rectTransform.anchoredPosition = new Vector3(-widthPadding, -cardHeightSpacing * i - heightPadding, 0); //Sets position
+            newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
+            newImage.enabled = false; //Turns off highlight
+            playedCardImages.Add(newImage); //Adds image to list
 
-            playedCardImages.Add(newImage);
-            print(newImage.GetComponentInChildren<CardDisplay>().ID);
-
-            CardDisplay card = newImage.GetComponentInChildren<CardDisplay>();
+            CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
+            //Uses grabbed data to compare with possible types and convert image to found type
             switch (playedCards[i].name)
             {
                 case Card.CardName.Move:

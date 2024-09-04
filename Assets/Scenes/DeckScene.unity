@@ -262,9 +262,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e09aba69777f7fd41b7674b556b63c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameState: 0
   dealtCards: []
   playedCards: []
+  gameState: 0
 --- !u!61 &694418660 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 3486485052370382671, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
@@ -517,15 +517,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deck:
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
+  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
+  - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
+  - {fileID: 11400000, guid: 1d5bf802da7e41b4980953489bfb2940, type: 2}
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
   - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
-  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
-  - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
-  - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
-  - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
-  - {fileID: 11400000, guid: 1d5bf802da7e41b4980953489bfb2940, type: 2}
   - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
+  - {fileID: 11400000, guid: 1d5bf802da7e41b4980953489bfb2940, type: 2}
 --- !u!1 &1570498462
 GameObject:
   m_ObjectHideFlags: 0
@@ -884,8 +884,16 @@ PrefabInstance:
       value: Canvas
       objectReference: {fileID: 0}
     - target: {fileID: 5986970473879921346, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 901011068}
+    - target: {fileID: 5986970473879921346, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5986970473879921346, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6368139857778875475, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
       propertyPath: m_Enabled

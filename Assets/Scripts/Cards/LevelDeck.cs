@@ -1,7 +1,7 @@
 // +-------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last modified - September 1st 2024
+// @Last modified - September 4 2024
 // @Description - The controller of the deck for each level
 // +-------------------------------------------------------+
 
@@ -17,7 +17,7 @@ public class LevelDeck : MonoBehaviour
         get
         {
             if (instance == null)
-                instance = FindAnyObjectByType(typeof(LevelDeck )) as LevelDeck;
+                instance = FindAnyObjectByType(typeof(LevelDeck)) as LevelDeck;
             return instance;
         }
         set
@@ -31,6 +31,9 @@ public class LevelDeck : MonoBehaviour
     public List<Card> deck;
     private DeckManager<Card> deckManager;
 
+    /// <summary>
+    /// Initializes variables for LevelDeck. Called by GameManager
+    /// </summary>
     public void Init()
     {
         deckManager = DeckManager<Card>.Instance;
@@ -41,10 +44,11 @@ public class LevelDeck : MonoBehaviour
 
             //Removes all cards from cards after the 4th card
             //TODO - Change int i = 0   to   int i = 4
-            for (int i = 4; i < deck.Count; i++)
+            int deckCount = deck.Count;
+            for (int i = 4; i < deckCount; i++)
             {
-                tempList.Add(deck[i]);
-                deck.RemoveAt(i);
+                tempList.Add(deck[4]);
+                deck.RemoveAt(4);
             }
 
             //Shuffles second packet

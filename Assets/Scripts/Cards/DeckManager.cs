@@ -1,7 +1,7 @@
 // +-----------------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last Modifieed - August 31 2024
+// @Last Modifieed - September 4 2024
 // @Description - A script with universal functions for a Generic deck
 // +-----------------------------------------------------------------+
 using System.Collections.Generic;

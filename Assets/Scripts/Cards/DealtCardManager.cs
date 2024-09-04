@@ -1,3 +1,10 @@
+// +-------------------------------------------------------+
+// @author - Ryan Herwig
+// @Contributers - 
+// @Last modified - September 4 2024
+// @Description - Manages the dealt cards
+// +-------------------------------------------------------+
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -33,7 +40,9 @@ public class DealtCardManager : MonoBehaviour
 
     [SerializeField] PlayerInput playerInput;
 
-    //Initializes variables for CardManager. Called by GameManager
+    /// <summary>
+    /// Initializes variables for DealtCardManager. Called by GameManager
+    /// </summary>
     public void Init()
     {
         gameManager = GameManager.Instance;
@@ -41,37 +50,59 @@ public class DealtCardManager : MonoBehaviour
         imageStartingPosition = Vector3.zero;
     }
 
-    /**
-     * Called when the mouse is pressed on a dealt card
-     */
+    /// <summary>
+    /// Called when the mouse is pressed on a dealt card
+    /// </summary>
+    /// <param name="cardImage">The image of the card</param>
     public void MousePressedCard(Image cardImage)
     {
-        //Sets where the image originally was
-        imageStartingPosition = cardImage.rectTransform.position;
-        //Sets the mouse position
-        mousePosition = Input.mousePosition;
+        //If Game is ready for you to choose another card, allow card movement
+        if (gameManager.gameState == GameManager.STATE.ChooseCards)
+        {
+            //Sets where the image originally was
+            imageStartingPosition = cardImage.rectTransform.position;
+            //Sets the mouse position
+            mousePosition = Input.mousePosition;
+
+            cardImage.enabled = true;
+        }
     }
 
-    /**
-     * Called when the mouse is released on a dealt card
-     */
+    /// <summary>
+    /// Called when the mouse is released on a dealt card
+    /// </summary>
+    /// <param name="cardImage">The image of the card</param>
+    /// <param name="ID">The ID of the card</param>
     public void MouseReleasedCard(Image cardImage, int ID)
     {
-        imageCollider = cardImage.GetComponent<BoxCollider2D>();
-        //Checks if the image is overlapping with the play area
-        if (imageCollider.IsTouching(playArea))
+        //If Game is ready for you to choose another card, allow card movement
+        if (gameManager.gameState == GameManager.STATE.ChooseCards)
         {
-            Destroy(cardImage.gameObject);
-            gameManager.PlayCard(ID);
+            imageCollider = cardImage.GetComponent<BoxCollider2D>();
+            //Checks if the image is overlapping with the play area
+            if (imageCollider.IsTouching(playArea))
+            {
+                Destroy(cardImage.gameObject);
+                gameManager.PlayCard(ID);
+            }
+            //Reset card position
+            cardImage.rectTransform.position = imageStartingPosition;
+            cardImage.enabled = false;
         }
-        //Reset card position
-        cardImage.rectTransform.position = imageStartingPosition;
     }
 
-    //Called when the mouse is pressed down and is moved on a dealt card
+    /// <summary>
+    /// Called when the mouse is pressed down and then moved on a dealt card
+    /// </summary>
+    /// <param name="cardImage">The image of the card</param>
     public void OnDragCard(Image cardImage)
     {
-        cardImage.transform.position = cardImage.transform.position - (mousePosition - Input.mousePosition);
-        mousePosition = Input.mousePosition;
+        //If Game is ready for you to choose another card, allow card movement
+        if (gameManager.gameState == GameManager.STATE.ChooseCards)
+        {
+            //Moves card image relative to mouse movements
+            cardImage.transform.position = cardImage.transform.position - (mousePosition - Input.mousePosition);
+            mousePosition = Input.mousePosition;
+        }
     }
 }
