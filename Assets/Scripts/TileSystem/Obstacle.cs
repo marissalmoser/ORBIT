@@ -1,11 +1,26 @@
+/******************************************************************
+*    Author: Marissa Moser
+*    Contributors: 
+*    Date Created: September 2, 2024
+*    Description: This is the base class for Obstacles.
+*******************************************************************/
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Obstacle", menuName = "Obstacle")]
-public class Obstacle : ScriptableObject
+[SelectionBase]
+public class Obstacle : MonoBehaviour
 {
-    public enum ObstacleType
+    //Is this useful?
+    //public enum ObstacleType
+    //{
+    //    None, Arch, Ramp, Spring, Spike
+    //}
+    //[SerializeField] private ObstacleType obstacleType;
+
+    /// <summary>
+    /// Called in between each turn and when the player lands on it
+    /// </summary>
+    public virtual void PerformObstacleAnim()
     {
-        None, Arch, Ramp, Spring, Spike
+
     }
-    [SerializeField] private ObstacleType obstacleType;
 }
