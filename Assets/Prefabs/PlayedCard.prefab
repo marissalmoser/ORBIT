@@ -89,8 +89,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8469ce33d91dc734b8d0318ee6cd9b05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  card: {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
-  sprite: {fileID: 2555694965594408971}
+  _card: {fileID: 0}
+  _sprite: {fileID: 2555694965594408971}
   ID: -1
 --- !u!114 &2466873516601326507
 MonoBehaviour:
