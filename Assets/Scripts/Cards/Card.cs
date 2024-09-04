@@ -21,6 +21,8 @@ public class Card : ScriptableObject
     {
         Move,
         Turn,
+        TurnLeft,
+        TurnRight,
         Jump,
         Clear,
         Switch,
