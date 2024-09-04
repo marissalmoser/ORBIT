@@ -6,6 +6,7 @@
 *******************************************************************/
 using System.Collections.Generic;
 using System.Drawing.Printing;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,6 +15,7 @@ public class TileMapBuilder : EditorWindow
     Vector2Int _mapSize = new Vector2Int(3,3);
     int _emptyBorderSize = 3;
     GameObject _defaultTilePrefab;
+
     GameObject _tileParentObj;
 
     /// <summary>
@@ -39,8 +41,7 @@ public class TileMapBuilder : EditorWindow
         _defaultTilePrefab = EditorGUILayout.ObjectField("Default Tile Prefab",
             _defaultTilePrefab, typeof(GameObject), false) as GameObject;
 
-        _tileParentObj = EditorGUILayout.ObjectField("Tile Parent",
-            _tileParentObj, typeof(GameObject), true) as GameObject;
+        _tileParentObj = EditorGUILayout.ObjectField("Tile Parent", _tileParentObj, typeof(GameObject), true) as GameObject;
 
         //buttons
         EditorGUILayout.Space();
@@ -64,6 +65,14 @@ public class TileMapBuilder : EditorWindow
     {
         ClearTileMap();
 
+        //make empty parent
+        _tileParentObj = new GameObject("Tile Parent");
+        _tileParentObj.transform.position = Vector3.zero;
+
+        GameObject emptyParent = Instantiate(_tileParentObj, Vector3.zero,
+            Quaternion.identity, _tileParentObj.transform);
+        emptyParent.name = "Empty Tile's Parent";
+
         for (int i = -_emptyBorderSize; i < _mapSize.x + _emptyBorderSize; i++)
         {
             for (int j = -_emptyBorderSize; j < _mapSize.y + _emptyBorderSize; j++)
@@ -76,10 +85,11 @@ public class TileMapBuilder : EditorWindow
                 Tile tile = go.GetComponent<Tile>();
                 tile.SetCoordinates(new Vector2(i, j));
 
-                //makes hole tiles around the map
+                //makes hole tiles around the map and move to different parent.
                 if (i < 0 || i >= _mapSize.x || j < 0 || j >= _mapSize.y)
                 {
                     tile.SetTileType(Tile.TileType.Hole);
+                    tile.transform.parent = emptyParent.transform;
                 }
             }
         }
@@ -90,22 +100,24 @@ public class TileMapBuilder : EditorWindow
     /// </summary>
     private void ClearTileMap()
     {
+        DestroyImmediate(_tileParentObj);
+
         //ensures the tile parent is not null
-        if(_tileParentObj == null)
-        {
-            Debug.LogError("Tile Parent field is null; Drag a game object into the inspector");
-            return;
-        }
+        //if(_tileParentObj == null)
+        //{
+        //    Debug.LogError("Tile Parent field is null; Drag a game object into the inspector");
+        //    return;
+        //}
 
-        Transform[] tiles = _tileParentObj.GetComponent<Transform>()
-            .GetComponentsInChildren<Transform>(true);
+        //Transform[] tiles = _tileParentObj.GetComponent<Transform>()
+        //    .GetComponentsInChildren<Transform>(true);
 
-        for(int i = tiles.Length - 1; i > 0; i--)
-        {
-            if(tiles[i].gameObject != _tileParentObj)
-            {
-                DestroyImmediate(tiles[i].gameObject);
-            }
-        }
+        //for(int i = tiles.Length - 1; i > 0; i--)
+        //{
+        //    if(tiles[i].gameObject != _tileParentObj)
+        //    {
+        //        DestroyImmediate(tiles[i].gameObject);
+        //    }
+        //}
     }
 }

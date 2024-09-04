@@ -18,6 +18,7 @@ public class Tile : MonoBehaviour
     {
         Tile, Hole
     }
+
     [Tooltip("Do not edit this field, it is just serialized for reference")]
     [SerializeField] private Vector2 _coordinates;
     [SerializeField] private TileType _tileType;
@@ -70,45 +71,107 @@ public class Tile : MonoBehaviour
     /// Gets the tile's obstacle anchor from the transform's list of children.
     /// </summary>
     /// <returns></returns>
-    public GameObject GetObsticleAnchor()
+    public GameObject GetObstacleAnchor()
     {
-        if(transform.GetChild(0).gameObject != null)
+        if (_obstacleAnchor != null)
+        {
+            return _obstacleAnchor;
+        }
+        if (transform.GetChild(0).gameObject != null)
         {
             _obstacleAnchor = transform.GetChild(0).gameObject;
             _obstacleBehavior = _obstacleRef.GetComponent<Obstacle>();
             return _obstacleAnchor;
         }
+
         Debug.LogError("Obstical Anchor is null");
         return null;
     }
+
+    /// <summary>
+    /// returns the reference to the tile's obstacle class
+    /// </summary>
+    /// <returns></returns>
+    public Obstacle GetObstacleClass()
+    {
+        if(_obstacleBehavior != null)
+        {
+            return _obstacleBehavior;
+        }
+
+        Debug.LogError("obstacle behvaior is null");
+        return null;
+    }
+
     /// <summary>
     /// Gets the tile's collectable anchor from the transform's list of children.
     /// </summary>
     /// <returns></returns>
     public GameObject GetCollectableAnchor()
     {
+        if(_collectableAnchor != null)
+        {
+            return _collectableAnchor;
+        }
         if(transform.GetChild(1).gameObject != null)
         {
             _collectableAnchor = transform.GetChild(1).gameObject;
             _collectableBehavior = _collectableRef.GetComponent<Collectable>();
             return _collectableAnchor;
         }
+
         Debug.LogError("Collectable Anchor is null");
         return null;
     }
+
+    /// <summary>
+    /// returns the reference to the tile's collectable class
+    /// </summary>
+    /// <returns></returns>
+    public Collectable GetCollectableClass()
+    {
+        if (_collectableBehavior != null)
+        {
+            return _collectableBehavior;
+        }
+
+        Debug.LogError("collectable behvaior is null");
+        return null;
+    }
+
     /// <summary>
     /// Gets the tile's player snap anchor from the transform's list of children.
     /// </summary>
     /// <returns></returns>
-    public GameObject GetPlayerSnap()
+    public GameObject GetPlayerSnapAnchor()
     {
+        if(_playerSnapTo != null)
+        {
+            return _playerSnapTo;
+        }
         if (transform.GetChild(2).gameObject != null)
         {
             _playerSnapTo = transform.GetChild(2).gameObject;
             return _playerSnapTo;
         }
+
         Debug.LogError("Player snap is null");
         return null;
+    }
+
+    /// <summary>
+    /// Returns the Vector 3 position of the tile's player snap to anchor.
+    /// </summary>
+    /// <returns></returns>
+    public Vector3 GetPlayerSnapPosition()
+    {
+        if(_playerSnapTo != null)
+        {
+            return _playerSnapTo.transform.position;
+        }
+
+        Debug.LogError("Player Snap To anchor is null");
+        return new Vector3(0,0,0);
     }
 
     #endregion
@@ -123,6 +186,7 @@ public class Tile : MonoBehaviour
         TryMoveObstacle();
         TryMoveCollectable();
 
+        //sets tile type
         if (_tileType != _lastTileType)
         {
             SetTileType(_tileType);
@@ -147,8 +211,7 @@ public class Tile : MonoBehaviour
             }
 
             //get and move obstacle ref to the anchor point
-            GetObsticleAnchor();
-            _obstacleRef.transform.position = _obstacleAnchor.transform.position;
+            GetObstacleAnchor().transform.position = _obstacleAnchor.transform.position;
         }
     }
 
@@ -169,8 +232,7 @@ public class Tile : MonoBehaviour
             }
 
             //get and move collectable ref to the anchor point
-            GetCollectableAnchor();
-            _collectableRef.transform.position = _collectableAnchor.transform.position;
+            GetCollectableAnchor().transform.position = _collectableAnchor.transform.position;
         }
     }
 
