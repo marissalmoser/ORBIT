@@ -11,15 +11,15 @@ using UnityEngine.UI;
 
 public class CardDisplay : MonoBehaviour
 {
-    [SerializeField] private Card card;
-    [SerializeField] private Image sprite;
+    [SerializeField] private Card _card;
+    [SerializeField] private Image _sprite;
     public int ID;
 
-    GameManager gameManager;
+    private GameManager _gameManager;
     void Start()
     {
-        gameManager = GameManager.Instance;
-        sprite.sprite = card.cardSprite;
+        _gameManager = GameManager.Instance;
+        _sprite.sprite = _card.cardSprite;
         
     }
 
@@ -29,9 +29,9 @@ public class CardDisplay : MonoBehaviour
     /// <param name="card">The card to be updared</param>
     public void UpdateCard(Card card)
     {
-        this.card = card;
+        this._card = card;
 
-        gameManager = GameManager.Instance;
+        _gameManager = GameManager.Instance;
     }
 
     /// <summary>

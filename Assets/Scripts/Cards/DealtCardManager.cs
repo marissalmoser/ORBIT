@@ -31,23 +31,23 @@ public class DealtCardManager : MonoBehaviour
     #endregion
 
     //Declares Variables
-    [SerializeField] BoxCollider2D playArea;
+    [SerializeField] private BoxCollider2D _playArea;
 
-    GameManager gameManager;
-    Vector3 mousePosition;
-    Vector3 imageStartingPosition;
-    BoxCollider2D imageCollider;
+    private GameManager _gameManager;
+    private Vector3 _mousePosition;
+    private Vector3 _imageStartingPosition;
+    private BoxCollider2D _imageCollider;
 
-    [SerializeField] PlayerInput playerInput;
+    [SerializeField] private PlayerInput _playerInput;
 
     /// <summary>
     /// Initializes variables for DealtCardManager. Called by GameManager
     /// </summary>
     public void Init()
     {
-        gameManager = GameManager.Instance;
-        mousePosition = Vector3.zero;
-        imageStartingPosition = Vector3.zero;
+        _gameManager = GameManager.Instance;
+        _mousePosition = Vector3.zero;
+        _imageStartingPosition = Vector3.zero;
     }
 
     /// <summary>
@@ -57,12 +57,12 @@ public class DealtCardManager : MonoBehaviour
     public void MousePressedCard(Image cardImage)
     {
         //If Game is ready for you to choose another card, allow card movement
-        if (gameManager.gameState == GameManager.STATE.ChooseCards)
+        if (_gameManager.gameState == GameManager.STATE.ChooseCards)
         {
             //Sets where the image originally was
-            imageStartingPosition = cardImage.rectTransform.position;
+            _imageStartingPosition = cardImage.rectTransform.position;
             //Sets the mouse position
-            mousePosition = Input.mousePosition;
+            _mousePosition = Input.mousePosition;
 
             cardImage.enabled = true;
         }
@@ -76,17 +76,17 @@ public class DealtCardManager : MonoBehaviour
     public void MouseReleasedCard(Image cardImage, int ID)
     {
         //If Game is ready for you to choose another card, allow card movement
-        if (gameManager.gameState == GameManager.STATE.ChooseCards)
+        if (_gameManager.gameState == GameManager.STATE.ChooseCards)
         {
-            imageCollider = cardImage.GetComponent<BoxCollider2D>();
+            _imageCollider = cardImage.GetComponent<BoxCollider2D>();
             //Checks if the image is overlapping with the play area
-            if (imageCollider.IsTouching(playArea))
+            if (_imageCollider.IsTouching(_playArea))
             {
                 Destroy(cardImage.gameObject);
-                gameManager.PlayCard(ID);
+                _gameManager.PlayCard(ID);
             }
             //Reset card position
-            cardImage.rectTransform.position = imageStartingPosition;
+            cardImage.rectTransform.position = _imageStartingPosition;
             cardImage.enabled = false;
         }
     }
@@ -98,11 +98,11 @@ public class DealtCardManager : MonoBehaviour
     public void OnDragCard(Image cardImage)
     {
         //If Game is ready for you to choose another card, allow card movement
-        if (gameManager.gameState == GameManager.STATE.ChooseCards)
+        if (_gameManager.gameState == GameManager.STATE.ChooseCards)
         {
             //Moves card image relative to mouse movements
-            cardImage.transform.position = cardImage.transform.position - (mousePosition - Input.mousePosition);
-            mousePosition = Input.mousePosition;
+            cardImage.transform.position = cardImage.transform.position - (_mousePosition - Input.mousePosition);
+            _mousePosition = Input.mousePosition;
         }
     }
 }

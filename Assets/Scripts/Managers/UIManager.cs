@@ -28,32 +28,32 @@ public class UIManager : MonoBehaviour
         }
     }
     #endregion
-    [SerializeField] Image dealtCardImage, playedCardImage;
-    [SerializeField] private int widthPadding, heightPadding;
-    [SerializeField] private int cardWidthSpacing, cardHeightSpacing;
-    [SerializeField] GameObject canvas;
+    [SerializeField] private Image _dealtCardImage, _playedCardImage;
+    [SerializeField] private int _widthPadding, _heightPadding;
+    [SerializeField] private int _cardWidthSpacing, _cardHeightSpacing;
+    [SerializeField] private GameObject _canvas;
 
-    [SerializeField] Card moveCard;
-    [SerializeField] Card jumpCard;
-    [SerializeField] Card turnCard;
-    [SerializeField] Card switchCard;
-    [SerializeField] Card clearCard;
-    [SerializeField] Card backToItCard;
+    [SerializeField] private Card _moveCard;
+    [SerializeField] private Card _jumpCard;
+    [SerializeField] private Card _turnCard;
+    [SerializeField] private Card _switchCard;
+    [SerializeField] private Card _clearCard;
+    [SerializeField] private Card _backToItCard;
 
-    private GameManager gameManager;
+    private GameManager _gameManager;
 
-    List<Image> dealtCardImages;
-    List<Image> playedCardImages;
+    private List<Image> _dealtCardImages;
+    private List<Image> _playedCardImages;
 
     /// <summary>
     /// Initializes variables for UIManager. Called by GameManager
     /// </summary>
     public void Init()
     {
-        gameManager = gameManager = GameManager.Instance;
+        _gameManager = _gameManager = GameManager.Instance;
 
-        dealtCardImages = new();
-        playedCardImages = new();
+        _dealtCardImages = new();
+        _playedCardImages = new();
     }
 
     /// <summary>
@@ -62,27 +62,27 @@ public class UIManager : MonoBehaviour
     public void UpdateDealtCards()
     {
         //Destroys all previous instances of dealt card images
-        for (int i = 0; i < dealtCardImages.Count; i++)
+        for (int i = 0; i < _dealtCardImages.Count; i++)
         {
-            if (dealtCardImages[i] != null)
-                Destroy(dealtCardImages[i].gameObject);
+            if (_dealtCardImages[i] != null)
+                Destroy(_dealtCardImages[i].gameObject);
         }
         //Resets list
-        dealtCardImages = new();
+        _dealtCardImages = new();
 
         //Gets all dealt cards
-        List<Card> dealtCards = gameManager.GetDealtCards();
+        List<Card> dealtCards = _gameManager.GetDealtCards();
         int numOfDealtCards = dealtCards.Count;
 
-        float cardWidth = dealtCardImage.rectTransform.rect.width; //Gets width of a card
+        float cardWidth = _dealtCardImage.rectTransform.rect.width; //Gets width of a card
         for (int i = 0; i < numOfDealtCards; i++)
         {
-            Image newImage = Instantiate(dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
-            newImage.transform.SetParent(canvas.transform, false); //Sets canvas as its parent
-            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + cardWidthSpacing ) * i + widthPadding, 0, 0); //Sets position
+            Image newImage = Instantiate(_dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
+            newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
+            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _cardWidthSpacing ) * i + _widthPadding, 0, 0); //Sets position
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Sets highlight to off
-            dealtCardImages.Add(newImage); //Adds instantiated image to list
+            _dealtCardImages.Add(newImage); //Adds instantiated image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
 
@@ -90,22 +90,22 @@ public class UIManager : MonoBehaviour
             switch (dealtCards[i].name)
             {
                 case Card.CardName.Move:
-                    card.UpdateCard(moveCard);
+                    card.UpdateCard(_moveCard);
                     break;
                 case Card.CardName.Jump:
-                    card.UpdateCard(jumpCard);
+                    card.UpdateCard(_jumpCard);
                     break;
                 case Card.CardName.Turn:
-                    card.UpdateCard(turnCard);
+                    card.UpdateCard(_turnCard);
                     break;
                 case Card.CardName.Clear:
-                    card.UpdateCard(clearCard);
+                    card.UpdateCard(_clearCard);
                     break;
                 case Card.CardName.Switch:
-                    card.UpdateCard(switchCard);
+                    card.UpdateCard(_switchCard);
                     break;
                 case Card.CardName.BackToIt:
-                    card.UpdateCard(backToItCard);
+                    card.UpdateCard(_backToItCard);
                     break;
                 default:
                     print("ERROR: COULD NOT UPDATE CARD IN UI");
@@ -120,48 +120,48 @@ public class UIManager : MonoBehaviour
     public void UpdatePlayedCards()
     {
         //Destroys all previous instantiations of played cards
-        for (int i = 0; i < playedCardImages.Count; i++)
+        for (int i = 0; i < _playedCardImages.Count; i++)
         {
-            if (playedCardImages[i] != null)
-                Destroy(playedCardImages[i].gameObject);
+            if (_playedCardImages[i] != null)
+                Destroy(_playedCardImages[i].gameObject);
         }
         //Resets list
-        playedCardImages = new();
+        _playedCardImages = new();
 
         //Gets all played cards
-        List<Card> playedCards = gameManager.GetPlayedCards();
+        List<Card> playedCards = _gameManager.GetPlayedCards();
         int numOfPlayedCards = playedCards.Count;
 
         for (int i = 0; i < numOfPlayedCards; i++)
         {
-            Image newImage = Instantiate(playedCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
-            newImage.transform.SetParent(canvas.transform, false); //Sets canvas as the parent
-            newImage.rectTransform.anchoredPosition = new Vector3(-widthPadding, -cardHeightSpacing * i - heightPadding, 0); //Sets position
+            Image newImage = Instantiate(_playedCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
+            newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
+            newImage.rectTransform.anchoredPosition = new Vector3(-_widthPadding, -_cardHeightSpacing * i - _heightPadding, 0); //Sets position
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Turns off highlight
-            playedCardImages.Add(newImage); //Adds image to list
+            _playedCardImages.Add(newImage); //Adds image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
             //Uses grabbed data to compare with possible types and convert image to found type
             switch (playedCards[i].name)
             {
                 case Card.CardName.Move:
-                    card.UpdateCard(moveCard);
+                    card.UpdateCard(_moveCard);
                     break;
                 case Card.CardName.Jump:
-                    card.UpdateCard(jumpCard);
+                    card.UpdateCard(_jumpCard);
                     break;
                 case Card.CardName.Turn:
-                    card.UpdateCard(turnCard);
+                    card.UpdateCard(_turnCard);
                     break;
                 case Card.CardName.Clear:
-                    card.UpdateCard(clearCard);
+                    card.UpdateCard(_clearCard);
                     break;
                 case Card.CardName.Switch:
-                    card.UpdateCard(switchCard);
+                    card.UpdateCard(_switchCard);
                     break;
                 case Card.CardName.BackToIt:
-                    card.UpdateCard(backToItCard);
+                    card.UpdateCard(_backToItCard);
                     break;
                 default:
                     print("ERROR: COULD NOT UPDATE CARD IN UI");
@@ -174,7 +174,7 @@ public class UIManager : MonoBehaviour
     /// Returns the instantiated dealt card images
     /// </summary>
     /// <returns>List<Image> a list of images containing the instantiated dealt cards</returns>
-    public List<Image> GetInstantiatedDealtCardImages() { return dealtCardImages; }
+    public List<Image> GetInstantiatedDealtCardImages() { return _dealtCardImages; }
 
-    public List<Image> GetInstantiatedPlayedCardImages() {  return playedCardImages; }
+    public List<Image> GetInstantiatedPlayedCardImages() {  return _playedCardImages; }
 }

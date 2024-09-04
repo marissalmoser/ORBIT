@@ -31,16 +31,16 @@ public class PlayedCardManager : MonoBehaviour
     }
     #endregion
 
-    GameManager gameManager;
+    private GameManager _gameManager;
 
-    [SerializeField] PlayerInput playerInput;
+    [SerializeField] private PlayerInput _playerInput;
 
     /// <summary>
     /// Initializes variables for PlayedCardManager. Called by GameManager
     /// </summary>
     public void Init()
     {
-        gameManager = GameManager.Instance;
+        _gameManager = GameManager.Instance;
     }
 
     /// <summary>
@@ -52,18 +52,18 @@ public class PlayedCardManager : MonoBehaviour
     {
         cardImage.enabled = true;
         //If Cards are being cleared
-        if (gameManager.gameState == GameManager.STATE.ChooseClear)
+        if (_gameManager.gameState == GameManager.STATE.ChooseClear)
         {
-            gameManager.ClearAction(ID); //Calls method to take the card off of action order
+            _gameManager.ClearAction(ID); //Calls method to take the card off of action order
 
             //Destroys game object
             Destroy(cardImage.gameObject);
         }
 
         //If Cards are being switched
-        else if (gameManager.gameState == GameManager.STATE.SwitchCards)
+        else if (_gameManager.gameState == GameManager.STATE.SwitchCards)
         {
-            gameManager.SwitchActionHelper(ID); //Calls the method helper to swap two cards' order
+            _gameManager.SwitchActionHelper(ID); //Calls the method helper to swap two cards' order
         }
     }
 
@@ -73,13 +73,13 @@ public class PlayedCardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void MouseReleasedCard(Image cardImage)
     {
-        if (gameManager.gameState != GameManager.STATE.SwitchCards) //If the player is not switching cards, remove highlight immediately
+        if (_gameManager.gameState != GameManager.STATE.SwitchCards) //If the player is not switching cards, remove highlight immediately
         {
             cardImage.enabled = false;
         }
         else
         {
-            List<int> switchIDs = gameManager.GetCollectedSwitchIDs(); //If card has not been selected to be switched
+            List<int> switchIDs = _gameManager.GetCollectedSwitchIDs(); //If card has not been selected to be switched
 
             if (!switchIDs.Contains(cardImage.GetComponentInChildren<CardDisplay>().ID))
                 cardImage.enabled = false;

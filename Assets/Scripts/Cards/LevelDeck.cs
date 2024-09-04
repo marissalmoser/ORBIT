@@ -29,14 +29,14 @@ public class LevelDeck : MonoBehaviour
 
 
     [HideInInspector] public List<Card> deck;
-    private DeckManager<Card> deckManager;
+    private DeckManager<Card> _deckManager;
 
     /// <summary>
     /// Initializes variables for LevelDeck. Called by GameManager
     /// </summary>
     public void Init()
     {
-        deckManager = DeckManager<Card>.Instance;
+        _deckManager = DeckManager<Card>.Instance;
         //TODO - Split up deck into two packets. Shuffle the second packet
         if (deck.Count > 4)
         {
@@ -52,7 +52,7 @@ public class LevelDeck : MonoBehaviour
             }
 
             //Shuffles second packet
-            deckManager.Shuffle(tempList);
+            _deckManager.Shuffle(tempList);
 
             //Adds second packet back into the deck
             int tempListSize = tempList.Count;

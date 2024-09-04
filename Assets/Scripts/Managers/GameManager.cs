@@ -28,36 +28,36 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
-    [SerializeField] private List<Card> dealtCards;
-    [SerializeField] private List<Card> playedCards;
+    [SerializeField] private List<Card> _dealtCards;
+    [SerializeField] private List<Card> _playedCards;
 
-    DeckManager<Card> deckManagerCard;
-    DeckManager<int> deckManagerInt;
-    DealtCardManager dealtCardManager;
-    PlayedCardManager playedCardManager;
-    UIManager uiManager;
+    private DeckManager<Card> _deckManagerCard;
+    private DeckManager<int> _deckManagerInt;
+    private DealtCardManager _dealtCardManager;
+    private PlayedCardManager _playedCardManager;
+    private UIManager _uiManager;
 
     public STATE gameState;
 
-    private LevelDeck levelDeck;
-    private List<Card> deck;
+    private LevelDeck _levelDeck;
+    private List<Card> _deck;
 
-    private List<Card> tempPlayedCards;
-    private List<Card> tempBeforeBackToItCards, tempAfterBackToItCards;
-    private List<int> collectedSwitchIDs;
-    private (Card, int) lastCardPlayed;
-    private int lastBackToItIndex;
+    private List<Card> _tempPlayedCards;
+    private List<Card> _tempBeforeBackToItCards, _tempAfterBackToItCards;
+    private List<int> _collectedSwitchIDs;
+    private (Card, int) _lastCardPlayed;
+    private int _lastBackToItIndex;
 
     private void Start()
     {
         //Carefully change order if needed. Some managers must be initialzed before others
-        deckManagerCard = DeckManager<Card>.Instance;
-        deckManagerInt = DeckManager<int>.Instance;
-        dealtCardManager = DealtCardManager.Instance;
-        playedCardManager = PlayedCardManager.Instance;
-        uiManager = UIManager.Instance;
-        levelDeck = FindObjectOfType<LevelDeck>();
-        lastBackToItIndex = -1;
+        _deckManagerCard = DeckManager<Card>.Instance;
+        _deckManagerInt = DeckManager<int>.Instance;
+        _dealtCardManager = DealtCardManager.Instance;
+        _playedCardManager = PlayedCardManager.Instance;
+        _uiManager = UIManager.Instance;
+        _levelDeck = FindObjectOfType<LevelDeck>();
+        _lastBackToItIndex = -1;
 
         ChangeGameState(STATE.LoadGame);
     }
@@ -128,20 +128,20 @@ public class GameManager : MonoBehaviour
     private void StartGame()
     {
         //Initialzes other managers. Order may matter
-        dealtCardManager.Init();
-        playedCardManager.Init();
-        uiManager.Init();
-        levelDeck.Init();
+        _dealtCardManager.Init();
+        _playedCardManager.Init();
+        _uiManager.Init();
+        _levelDeck.Init();
 
         //Initializes lists.
-        deck = new();
-        dealtCards = new();
-        playedCards = new();
-        tempPlayedCards = new();
-        tempBeforeBackToItCards = new();
-        tempAfterBackToItCards = new();
+        _deck = new();
+        _dealtCards = new();
+        _playedCards = new();
+        _tempPlayedCards = new();
+        _tempBeforeBackToItCards = new();
+        _tempAfterBackToItCards = new();
 
-        collectedSwitchIDs = new();
+        _collectedSwitchIDs = new();
 
         ChangeGameState(STATE.StartLevel);
     }
@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SetUpLevel()
     {
-        deck = levelDeck.deck;
+        _deck = _levelDeck.deck;
 
         //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
 
@@ -166,28 +166,28 @@ public class GameManager : MonoBehaviour
     private void DealCards()
     {
         //Draws until the player has 4 cards or until the deck runs out
-        while (dealtCards.Count < 4 && deck.Count > 0)
+        while (_dealtCards.Count < 4 && _deck.Count > 0)
         {
-            if (lastCardPlayed.Item1 != null)
+            if (_lastCardPlayed.Item1 != null)
             {
                 //Replaces the last played card with a new card in the same index
                 //Keeps the other dealt cards in the same location
-                dealtCards.Insert(lastCardPlayed.Item2, deck[0]);
+                _dealtCards.Insert(_lastCardPlayed.Item2, _deck[0]);
             }
             else
             {
                 //Adds the top card from the deck onto the dealtCards
-                dealtCards.Add(deck[0]);
+                _dealtCards.Add(_deck[0]);
             }
-            deck = deckManagerCard.RemoveFirst(deck); //Removes the now dealt card from the deck
+            _deck = _deckManagerCard.RemoveFirst(_deck); //Removes the now dealt card from the deck
         }
 
         //If out of cards, go to corresponding game state
-        if (dealtCards.Count == 0 && deck.Count == 0)
+        if (_dealtCards.Count == 0 && _deck.Count == 0)
         {
             ChangeGameState(STATE.OutOfCards);
         }
-        uiManager.UpdateDealtCards(); //Updates Cards
+        _uiManager.UpdateDealtCards(); //Updates Cards
     }
 
     /// <summary>
@@ -199,24 +199,24 @@ public class GameManager : MonoBehaviour
         //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
         //So I gave the images unique IDs and used those. Weird way, but it works
 
-        List<Image> instantiatedImages = uiManager.GetInstantiatedDealtCardImages(); //Gets instantiated dealt card images
+        List<Image> instantiatedImages = _uiManager.GetInstantiatedDealtCardImages(); //Gets instantiated dealt card images
 
         int instantiatedImagesCount = instantiatedImages.Count;
         for (int i = 0; i < instantiatedImagesCount; i++)
         {
             if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
             {
-                Card playedCard = dealtCards[i]; //Gets the same ID card
-                lastCardPlayed = (playedCard, i); //Stores card and the index
-                dealtCards = deckManagerCard.RemoveAt(dealtCards, i); //Removes card from the dealt deck
+                Card playedCard = _dealtCards[i]; //Gets the same ID card
+                _lastCardPlayed = (playedCard, i); //Stores card and the index
+                _dealtCards = _deckManagerCard.RemoveAt(_dealtCards, i); //Removes card from the dealt deck
 
-                playedCards.Add(playedCard); //Adds card to the played deck
+                _playedCards.Add(playedCard); //Adds card to the played deck
 
                 break;
             }
         }
 
-        uiManager.UpdatePlayedCards();
+        _uiManager.UpdatePlayedCards();
         ChangeGameState(STATE.RunActionOrder);
     }
 
@@ -226,35 +226,35 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void RunPlaySequence()
     {
-        lastBackToItIndex = -1;
+        _lastBackToItIndex = -1;
 
-        tempPlayedCards.Clear(); //Clears temporary action order
+        _tempPlayedCards.Clear(); //Clears temporary action order
 
-        int playedCardsCount = playedCards.Count;
+        int playedCardsCount = _playedCards.Count;
 
         //Adds copies of the cards into a temporary list
         for (int i = 0; i < playedCardsCount; i++)
         {
-            tempPlayedCards.Add(playedCards[i]);
+            _tempPlayedCards.Add(_playedCards[i]);
         }
 
         //If Clear Card was Played
-        if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Clear) //Error check and checks if last card played was a Clear
+        if (_playedCards.Count > 0 && _playedCards[_playedCards.Count - 1].name == Card.CardName.Clear) //Error check and checks if last card played was a Clear
         {
-            playedCards = deckManagerCard.RemoveLast(playedCards); //Removes clear card from played carsds
-            uiManager.UpdatePlayedCards(); //Updates played cards so clear card does not appear
-            if (playedCards.Count > 0) //If there is a card to clear, call ClearAction
+            _playedCards = _deckManagerCard.RemoveLast(_playedCards); //Removes clear card from played carsds
+            _uiManager.UpdatePlayedCards(); //Updates played cards so clear card does not appear
+            if (_playedCards.Count > 0) //If there is a card to clear, call ClearAction
             {
                 ChangeGameState(STATE.ChooseClear); //Waits for User Input to Clear a Card
             }
         }
 
         //If Switch Card was played
-        if (playedCards.Count > 0 && playedCards[playedCards.Count - 1].name == Card.CardName.Switch) //Error check and checks if last card played was a Switch
+        if (_playedCards.Count > 0 && _playedCards[_playedCards.Count - 1].name == Card.CardName.Switch) //Error check and checks if last card played was a Switch
         {
-            playedCards = deckManagerCard.RemoveLast(playedCards); //Removes switch card from played cards
-            uiManager.UpdatePlayedCards(); //Updates played cards so switch card does not appear
-            if (playedCards.Count > 1) //Performs switch if there are at least two cards in the deck
+            _playedCards = _deckManagerCard.RemoveLast(_playedCards); //Removes switch card from played cards
+            _uiManager.UpdatePlayedCards(); //Updates played cards so switch card does not appear
+            if (_playedCards.Count > 1) //Performs switch if there are at least two cards in the deck
             {
                 ChangeGameState(STATE.SwitchCards); //Waits for User Input to Switch two cards
             }
@@ -318,19 +318,19 @@ public class GameManager : MonoBehaviour
         //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
         //So I gave the images unique IDs and used those. Weird way, but it works
 
-        List<Image> instantiatedImages = uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
+        List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
         int instantiatedImagesCount = instantiatedImages.Count;
         for (int i = 0; i < instantiatedImagesCount; i++)
         {
             if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
             {
-                playedCards = deckManagerCard.RemoveAt(playedCards, i); //When IDs match, remove the card from the list
+                _playedCards = _deckManagerCard.RemoveAt(_playedCards, i); //When IDs match, remove the card from the list
                 break;
             }
         }
         
-        uiManager.UpdatePlayedCards();
+        _uiManager.UpdatePlayedCards();
         ChangeGameState(STATE.RunActionOrder);
     }
 
@@ -344,7 +344,7 @@ public class GameManager : MonoBehaviour
         //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
         //So I gave the images unique IDs and used those. Weird way, but it works
 
-        List<Image> instantiatedImages = uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
+        List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
         int instantiatedImagesCount = instantiatedImages.Count;
 
@@ -375,10 +375,10 @@ public class GameManager : MonoBehaviour
         }
         if (target1Index != -1 && target2Index != -1) //Error check. Does not continue if both cards are not found
         {
-            playedCards = deckManagerCard.Swap(playedCards, target1Index, target2Index); //Swaps the two cards
+            _playedCards = _deckManagerCard.Swap(_playedCards, target1Index, target2Index); //Swaps the two cards
         }
         
-        uiManager.UpdatePlayedCards();
+        _uiManager.UpdatePlayedCards();
 
         ChangeGameState(STATE.RunActionOrder);
     }
@@ -392,25 +392,25 @@ public class GameManager : MonoBehaviour
     /// <param name="targetID">The ID of one of the cards to switch</param>
     public void SwitchActionHelper(int targetID)
     {
-        List<Image> instantiatedImages = uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
+        List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
         int instantiatedImagesCount = instantiatedImages.Count;
         for (int i = 0; i < instantiatedImagesCount; i++)
         {
             if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
             {
-                int collectedIdsListCount = collectedSwitchIDs.Count;
+                int collectedIdsListCount = _collectedSwitchIDs.Count;
 
                 //If the list contains the target ID already
-                if (collectedSwitchIDs.Contains(targetID))
+                if (_collectedSwitchIDs.Contains(targetID))
                 {
                     //There can only be two Cards in the list. If there is a duplicate ID, it must be the first card
-                    collectedSwitchIDs = deckManagerInt.RemoveFirst(collectedSwitchIDs); 
+                    _collectedSwitchIDs = _deckManagerInt.RemoveFirst(_collectedSwitchIDs); 
                 }
                 //If the list does not contain the target ID
                 else
                 {
-                    collectedSwitchIDs.Add(targetID);
+                    _collectedSwitchIDs.Add(targetID);
                 }
                 
                 break;
@@ -418,8 +418,8 @@ public class GameManager : MonoBehaviour
         }
 
         //If two cards have been selected, perform switch action
-        if (collectedSwitchIDs.Count == 2)
-            SwitchAction(collectedSwitchIDs[0], collectedSwitchIDs[1]);
+        if (_collectedSwitchIDs.Count == 2)
+            SwitchAction(_collectedSwitchIDs[0], _collectedSwitchIDs[1]);
     }
 
     /// <summary>
@@ -443,20 +443,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void BackToItAction()
     {
-        tempBeforeBackToItCards.Clear();
-        tempAfterBackToItCards.Clear();
+        _tempBeforeBackToItCards.Clear();
+        _tempAfterBackToItCards.Clear();
         //Gets index of BackToIt card
-        int playedCardsSize = playedCards.Count;
+        int playedCardsSize = _playedCards.Count;
 
         //If this is first instance of BackToIt in playedCards
-        if (lastBackToItIndex == -1)
+        if (_lastBackToItIndex == -1)
         {
             //Gets the first instance of BackToIt's index in playedCards
             for (int i = 0; i < playedCardsSize; i++)
             {
-                if (playedCards[i].name == Card.CardName.BackToIt)
+                if (_playedCards[i].name == Card.CardName.BackToIt)
                 {
-                    lastBackToItIndex = i;
+                    _lastBackToItIndex = i;
                     break;
                 }
             }
@@ -465,49 +465,49 @@ public class GameManager : MonoBehaviour
         else
         {
             //Gets the next instance of BackToIt's index in playedCards
-            for (int i = lastBackToItIndex + 1; i < playedCardsSize; i++)
+            for (int i = _lastBackToItIndex + 1; i < playedCardsSize; i++)
             {
-                if (playedCards[i].name == Card.CardName.BackToIt)
+                if (_playedCards[i].name == Card.CardName.BackToIt)
                 {
-                    lastBackToItIndex = i;
+                    _lastBackToItIndex = i;
                     break;
                 }
             }
         }
 
         //Copies all cards before BackToIt Card
-        for (int i = 0; i < lastBackToItIndex; i++)
+        for (int i = 0; i < _lastBackToItIndex; i++)
         {
             //Ignores previous Back To It Cards
-            if (playedCards[i].name != Card.CardName.BackToIt)
+            if (_playedCards[i].name != Card.CardName.BackToIt)
             {
-                tempBeforeBackToItCards.Add(playedCards[i]);
+                _tempBeforeBackToItCards.Add(_playedCards[i]);
             }
         }
         //Copies all cards after BackToIt Card
-        for (int i = lastBackToItIndex + 1; i < playedCardsSize; i++)
+        for (int i = _lastBackToItIndex + 1; i < playedCardsSize; i++)
         {
-            tempAfterBackToItCards.Add(playedCards[i]);
+            _tempAfterBackToItCards.Add(_playedCards[i]);
         }
 
         //Clears the tempPlayedCardsList
-        tempPlayedCards.Clear();
+        _tempPlayedCards.Clear();
 
         //Adds card to be removed at front of list ( due to RemoveAt(0) at the end of PlaySequence() )
-        tempPlayedCards.Add(playedCards[lastBackToItIndex]);
+        _tempPlayedCards.Add(_playedCards[_lastBackToItIndex]);
 
         //Adds all cards before Back To It into the list
-        int beforeBackToItSize = tempBeforeBackToItCards.Count;
+        int beforeBackToItSize = _tempBeforeBackToItCards.Count;
         for (int i = 0; i < beforeBackToItSize; i++)
         {
-            tempPlayedCards.Add(tempBeforeBackToItCards[i]);
+            _tempPlayedCards.Add(_tempBeforeBackToItCards[i]);
         }
 
         //Adds all cards after Back To It into the list
-        int afterBackToItSize = tempAfterBackToItCards.Count;
+        int afterBackToItSize = _tempAfterBackToItCards.Count;
         for (int i = 0; i < afterBackToItSize; i++)
         {
-            tempPlayedCards.Add(tempAfterBackToItCards[i]);
+            _tempPlayedCards.Add(_tempAfterBackToItCards[i]);
         }
     }
 
@@ -515,20 +515,20 @@ public class GameManager : MonoBehaviour
     /// Gets the current dealt cards
     /// </summary>
     /// <returns>A List<Card> Cards that have been dealt</returns>
-    public List<Card> GetDealtCards() { return dealtCards; }
+    public List<Card> GetDealtCards() { return _dealtCards; }
 
 
     /// <summary>
     /// Gets the current played cards
     /// </summary>
     /// <returns>A List<Card> Cards that have been played</returns>
-    public List<Card> GetPlayedCards() { return playedCards; }
+    public List<Card> GetPlayedCards() { return _playedCards; }
 
     /// <summary>
     /// Gets the current collected switch IDs
     /// </summary>
     /// <returns>List<int> list of IDs from played cards being selected to be swapped</returns>
-    public List<int> GetCollectedSwitchIDs() { return collectedSwitchIDs; }
+    public List<int> GetCollectedSwitchIDs() { return _collectedSwitchIDs; }
 
     public enum STATE
     {
