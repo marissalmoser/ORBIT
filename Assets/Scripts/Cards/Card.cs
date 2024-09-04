@@ -15,7 +15,6 @@ public class Card : ScriptableObject
 {
     public new CardName name;
     public Sprite cardSprite;
-    public bool clicked;
     public int ID {  get; private set; }
 
     public enum CardName
@@ -47,7 +46,7 @@ public class Card : ScriptableObject
     public override string ToString()
     {
         string text = "";
-        text += name.ToString() + " | Clicked = " + clicked + " | ID: " + ID;
+        text += name.ToString() + " | ID: " + ID;
 
         return text;
     }

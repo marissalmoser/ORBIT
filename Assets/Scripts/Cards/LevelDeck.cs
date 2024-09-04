@@ -28,7 +28,7 @@ public class LevelDeck : MonoBehaviour
     #endregion
 
 
-    public List<Card> deck;
+    [HideInInspector] public List<Card> deck;
     private DeckManager<Card> deckManager;
 
     /// <summary>
@@ -61,5 +61,6 @@ public class LevelDeck : MonoBehaviour
                 deck.Add(tempList[i]);
             }
         }
+        //Use deckManager.PrintDeck(deck); here to see the shuffled deck
     }
 }

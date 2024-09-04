@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        //Carefully change order if needed. Some managers must be initialzed before others
         deckManagerCard = DeckManager<Card>.Instance;
         deckManagerInt = DeckManager<int>.Instance;
         dealtCardManager = DealtCardManager.Instance;
@@ -63,6 +64,8 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// Controls the current game state.
+    /// 
+    /// Always use gameState = STATE.[State] for every branch or game will break
     /// </summary>
     public void ChangeGameState(STATE state)
     {
@@ -150,6 +153,9 @@ public class GameManager : MonoBehaviour
     private void SetUpLevel()
     {
         deck = levelDeck.deck;
+
+        //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
+
         ChangeGameState(STATE.ChooseCards);
     }
 
@@ -162,16 +168,18 @@ public class GameManager : MonoBehaviour
         //Draws until the player has 4 cards or until the deck runs out
         while (dealtCards.Count < 4 && deck.Count > 0)
         {
-            //TODO - Keep Cards in same place, replace played card's index with new card
             if (lastCardPlayed.Item1 != null)
             {
+                //Replaces the last played card with a new card in the same index
+                //Keeps the other dealt cards in the same location
                 dealtCards.Insert(lastCardPlayed.Item2, deck[0]);
             }
             else
             {
+                //Adds the top card from the deck onto the dealtCards
                 dealtCards.Add(deck[0]);
             }
-            deck = deckManagerCard.RemoveFirst(deck);
+            deck = deckManagerCard.RemoveFirst(deck); //Removes the now dealt card from the deck
         }
 
         //If out of cards, go to corresponding game state
@@ -188,6 +196,9 @@ public class GameManager : MonoBehaviour
     /// <param name="targetID">The ID of the card to play</param>
     public void PlayCard(int targetID)
     {
+        //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
+        //So I gave the images unique IDs and used those. Weird way, but it works
+
         List<Image> instantiatedImages = uiManager.GetInstantiatedDealtCardImages(); //Gets instantiated dealt card images
 
         int instantiatedImagesCount = instantiatedImages.Count;
@@ -304,6 +315,9 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ClearAction(int targetID)
     {
+        //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
+        //So I gave the images unique IDs and used those. Weird way, but it works
+
         List<Image> instantiatedImages = uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
         int instantiatedImagesCount = instantiatedImages.Count;
@@ -327,6 +341,9 @@ public class GameManager : MonoBehaviour
     /// <param name="secondTargetID">The second card ID to switch</param>
     private void SwitchAction(int firstTargetID, int secondTargetID)
     {
+        //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
+        //So I gave the images unique IDs and used those. Weird way, but it works
+
         List<Image> instantiatedImages = uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
         int instantiatedImagesCount = instantiatedImages.Count;
