@@ -7,21 +7,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-
-public class CardAction : ScriptableObject
-{
-    //placeholder until i get ryans SOs
-}
-public class StateMachine
+public class StateMachineOld
 {
     private State currentState;
-    private List<CardAction> actions;
-    private static UnityAction StateMachineComplete;
+    private List<Card> actions;
     public static UnityAction ActionComplete;
-    public StateMachine(List<CardAction> incomingActions)
+    private GameObject player;
+    private PlayerController pC;
+    public StateMachineOld(List<Card> incomingActions, GameObject playerGO)
     {
         actions.Clear();
         actions = incomingActions;
+        player = playerGO;
+        pC = player.GetComponent<PlayerController>();
     }
 
     public State GetCurrentState()
@@ -31,6 +29,25 @@ public class StateMachine
             return currentState;
         }
         Debug.LogError("There is no current state");
+        return null;
+    }
+
+    public PlayerController GetPlayerController()
+    {
+        if (pC != null)
+        {
+            return pC;
+        }
+        Debug.LogError("Missing a reference to the player script");
+        return null;
+    }
+    public GameObject GetPlayer()
+    {
+        if(player != null)
+        {
+            return player;
+        }
+        Debug.LogError("Missing a reference to the player");
         return null;
     }
     public void SetState(State state)
@@ -45,7 +62,12 @@ public class StateMachine
         }
         Debug.LogWarning("Statemachine should be in a state right now");
     }
-    public CardAction GetNextAction()
+
+    public Card GetCurrentAction()
+    {
+        return actions[0];
+    }
+    public Card GetNextAction()
     {
         if (actions.Count > 1)
         {
@@ -61,6 +83,6 @@ public class StateMachine
     }
     public void EndStateMachine()
     {
-        StateMachineComplete.Invoke();
+        //Alert GameManager here
     }
 }

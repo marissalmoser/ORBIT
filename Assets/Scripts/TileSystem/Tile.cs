@@ -5,12 +5,7 @@
 *    Description: This script will be on all tiles. It contains the functionality to
 *    assign obstacles and collectables to a tile and moves the objects to it's anchor.
 *******************************************************************/
-using System.Collections.Generic;
-using Unity.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using static Tile;
-using static UnityEngine.GraphicsBuffer;
 
 public class Tile : MonoBehaviour
 {
@@ -35,6 +30,11 @@ public class Tile : MonoBehaviour
     private GameObject _playerSnapTo;
 
     #region GettersAndSetters
+
+    public void Start()
+    {
+        _playerSnapTo = GetPlayerSnapAnchor();
+    }
     /// <summary>
     /// Returns a tile's 2D coordinates on the map
     /// </summary>
@@ -169,9 +169,7 @@ public class Tile : MonoBehaviour
         {
             return _playerSnapTo.transform.position;
         }
-
-        Debug.LogError("Player Snap To anchor is null");
-        return new Vector3(0,0,0);
+        return GetPlayerSnapAnchor().transform.position;
     }
 
     #endregion

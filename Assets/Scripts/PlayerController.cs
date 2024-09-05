@@ -1,16 +1,29 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Tile currentTile;
+    [SerializeField] private int currentFacingDirection;
+    [SerializeField] private Transform raycastPoint;
+    public static UnityAction OnObstacleInterrupt;
     public Tile tile1;
     public Tile tile2;
-    public AnimationCurve moveEaseCurve;
+    [SerializeField] private AnimationCurve moveEaseCurve;
+    [SerializeField] private AnimationCurve jumpEaseCurve;
+    [SerializeField] private AnimationCurve fallEaseCurve;
     public float fallTime = 1f;
     public float checkMoveInterval;
     public float jumpArcHeight;
 
+    private Tile previousTile;
+    private Coroutine currentCoroutine;
+
+    public void Start()
+    {
+
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
@@ -19,13 +32,15 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            StartCoroutine(MoveAlongArc(tile1, tile2));
+            StartCoroutine(JumpPlayer(tile1, tile2));
         }
     }
-    IEnumerator MovePlayer(Tile originTile, Tile targetTile)
+
+
+    private IEnumerator MovePlayer(Tile originTile, Tile targetTile)
     {
-        Vector3 origin = originTile.GetPlayerSnap().position;
-        Vector3 target = targetTile.GetPlayerSnap().position;
+        Vector3 origin = originTile.GetPlayerSnapPosition();
+        Vector3 target = targetTile.GetPlayerSnapPosition();
         float timeElapsed = 0f;
         float checkTimeElapsed = 0f;
 
@@ -40,28 +55,27 @@ public class PlayerController : MonoBehaviour
             timeElapsed += Time.deltaTime;
             checkTimeElapsed += Time.deltaTime;
 
-            if (checkTimeElapsed >= checkMoveInterval)
-            {
-                //GetTileWithRaycast(); //Update whatever tile 
+            //if (checkTimeElapsed >= checkMoveInterval)
+            //{
+            //    ScanTile(GetTileWithPlayerRaycast());
 
-                // Reset the check timer
-                checkTimeElapsed = 0f;
-            }
-            print(timeElapsed);
+            //    // Reset the check timer
+            //    checkTimeElapsed = 0f;
+            //}
             yield return null;
         }
-        transform.position = target;
-        if (targetTile.IsHole())
-        {
-            StartCoroutine(Fall(targetTile));
-        }
+        //transform.position = target;
+        //if (targetTile.IsHole())
+        //{
+        //    StartCoroutine(Fall(targetTile));
+        //}
     }
-    IEnumerator Fall(Tile originTile)
+    private IEnumerator FallPlayer(Tile originTile)
     {
         float timeElapsed = 0f;
-        float totalTime = moveEaseCurve.keys[moveEaseCurve.length - 1].time;
+        float totalTime = fallEaseCurve.keys[moveEaseCurve.length - 1].time;
 
-        Vector3 origin = originTile.GetPlayerSnap().position;
+        Vector3 origin = originTile.GetPlayerSnapPosition();
         Vector3 target = new Vector3(origin.x, origin.y - 10f, origin.z);
 
         while (timeElapsed < totalTime)
@@ -72,16 +86,16 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
     }
-    IEnumerator MoveAlongArc(Tile originTile, Tile targetTile)
+    private IEnumerator JumpPlayer(Tile originTile, Tile targetTile)
     {
         float timeElapsed = 0f;
         float checkTimeElapsed = 0f;
-        Vector3 origin = originTile.GetPlayerSnap().position;
-        Vector3 target = targetTile.GetPlayerSnap().position;
+        Vector3 origin = originTile.GetPlayerSnapPosition();
+        Vector3 target = targetTile.GetPlayerSnapPosition();
 
         //calculate the midpoint by using both A and B and getting halfway at the archeight
         Vector3 controlPoint = (origin + target) / 2 + Vector3.up * jumpArcHeight;
-        float totalDuration = moveEaseCurve.keys[moveEaseCurve.length - 1].time;
+        float totalDuration = jumpEaseCurve.keys[moveEaseCurve.length - 1].time;
 
         while (timeElapsed < totalDuration)
         {
@@ -94,14 +108,21 @@ public class PlayerController : MonoBehaviour
             timeElapsed += Time.deltaTime;
             checkTimeElapsed += Time.deltaTime;
 
-            print(timeElapsed);
+            //if (checkTimeElapsed >= checkMoveInterval)
+            //{
+            //    ScanTile(GetTileWithPlayerRaycast());
+
+            //    // Reset the check timer
+            //    checkTimeElapsed = 0f;
+            //}
+
             yield return null;
         }
-        transform.position = target; //double check final position
-        if (targetTile.IsHole())
-        {
-            StartCoroutine(Fall(targetTile));
-        }
+        //transform.position = target; //double check final position
+        //if (targetTile.IsHole())
+        //{
+        //    StartCoroutine(Fall(targetTile));
+        //}
     }
     /// <summary>
     /// Calculations for BezierCurve
@@ -124,10 +145,38 @@ public class PlayerController : MonoBehaviour
 
         return p;
     }
-    public Tile GetTileWithRaycast()
+    public void TurnPlayer(bool turningLeft)
+    {
+        if (turningLeft)
+        {
+            currentFacingDirection--;
+            if (currentFacingDirection == 4)   // if we pass 0, wrap around to 8 (skip 4)
+            {
+                currentFacingDirection = 3;
+            }
+            else if (currentFacingDirection < 0)
+            {
+                currentFacingDirection = 8;  // wrap to 8 (southwest)
+            }
+        }
+        else
+        {
+
+            currentFacingDirection++;
+            if (currentFacingDirection == 4)    // if we pass 8, wrap to 0 (skip 4)
+            {
+                currentFacingDirection = 5;
+            }
+            else if (currentFacingDirection > 8)
+            {
+                currentFacingDirection = 0;  // wrap to 0 (northwest)
+            }
+        }
+    }
+    public Tile GetTileWithPlayerRaycast()
     {
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit, 1f))
+        if (Physics.Raycast(raycastPoint.position, -Vector3.up, out hit, 1f))
         {
             if (hit.collider.GetComponent<Tile>() != null)
             {
@@ -135,5 +184,59 @@ public class PlayerController : MonoBehaviour
             }
         }
         return null;
+    }
+    public Tile GetCurrentTile()
+    {
+        if (currentTile != null)
+        {
+            return currentTile;
+        }
+        Debug.LogError("Player controller's reference to the tile it is on is null");
+        return null;
+    }
+    public int GetCurrentFacingDirection()
+    {
+        return currentFacingDirection;
+    }
+    public void SetFacingDirection(int direction)
+    {
+        currentFacingDirection = direction;
+    }
+    public void ScanTile(Tile target)
+    {
+        Tile currentTile = target;
+        if (previousTile == null || currentTile != previousTile)
+        {
+            previousTile = currentTile;
+            if (previousTile.GetObstacleClass() != null)
+            {
+                //there is an obstacle, 
+                OnObstacleInterrupt?.Invoke();
+            }
+        }
+    }
+    public void StartMoveCoroutine(Tile origin, Tile target)
+    {
+        StartCoroutine(MovePlayer(origin, target));
+    }
+    public void StopMoveCoroutine()
+    {
+        StopCoroutine(MovePlayer(currentTile, currentTile));
+    }
+    public void StartJumpCoroutine(Tile origin, Tile target)
+    {
+        StartCoroutine(JumpPlayer(origin, target));
+    }
+    public void StopJumpCoroutine()
+    {
+        StopCoroutine(JumpPlayer(currentTile, currentTile));
+    }
+    public void StartFallCoroutine(Tile origin)
+    {
+        StartCoroutine(FallPlayer(origin));
+    }
+    public void StopFallCoroutine()
+    {
+        StopCoroutine(FallPlayer(currentTile));
     }
 }

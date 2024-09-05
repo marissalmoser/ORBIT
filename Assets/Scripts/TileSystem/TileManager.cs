@@ -28,6 +28,8 @@ public class TileManager : MonoBehaviour
     }
     #endregion
     [SerializeField] private List<Tile> allTilesInScene = new List<Tile>();
+    [SerializeField] private Dictionary<Obstacle, Vector2> allObstacles = new Dictionary<Obstacle, Vector2>();
+    // [SerializeField] private Dictionary<Collectable, Vector2> allCollectables = new Dictionary<Collectable, Vector2>();
 
     public enum TileDirection
     {
@@ -45,6 +47,26 @@ public class TileManager : MonoBehaviour
         allTilesInScene = FindObjectsByType<Tile>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID).ToList();
     }
     /// <summary>
+    /// This method searches the scene for ALL tile objects as a setup method. 
+    /// DO NOT USE THIS TO GET THE OBSTACLELIST
+    /// </summary>
+    public void LoadObstacleList()
+    {
+        allObstacles.Clear();
+        // allObstacles = GetAllTilesInScene().Where(tile => tile.GetObstacleClass() != null);
+    }
+    /// <summary>
+    /// This method searches the scene for ALL tile objects as a setup method. 
+    /// DO NOT USE THIS TO GET THE COLLECTIBLELIST
+    /// </summary>
+    public void LoadCollectibleList()
+    {
+        // allCollectables.Clear();
+        // allCollectables = GetAllTilesInScene().Where(tile => tile.GetCollectableClass() != null);
+    }
+
+
+    /// <summary>
     /// Gets all loaded tiles in this scene
     /// </summary>
     /// <returns></returns>
@@ -52,6 +74,26 @@ public class TileManager : MonoBehaviour
     {
         return allTilesInScene;
     }
+    public List<Obstacle> GetAllObstacles()
+    {
+        return allObstacles.Keys.ToList();
+    }
+    //public List<Collectable> GetCollectables()
+    //{
+    //    return allCollectables.Keys.ToList();
+    //}
+    public Tile GetTileWithCoordinates(Vector2 coordinates)
+    {
+        return allTilesInScene.FirstOrDefault(tile => tile.GetCoordinates() == coordinates);
+    }
+    public Obstacle GetObstacleWithTileCoordinates(Vector2 coordinates)
+    {
+        return allObstacles.FirstOrDefault(obstacle => obstacle.Value == coordinates).Key;
+    }
+    //public Collectable GetCollectableWithTileCoordinates(Vector2 coordinates)
+    //{
+    //    return allCollectables.FirstOrDefault(collectable => collectable.Value == coordinates).Key;
+    //}
     public Tile GetTileAtLocation(Tile startTile, int direction, int distance)
     {
         Vector2[] directionOffsets = new Vector2[]
@@ -67,7 +109,7 @@ public class TileManager : MonoBehaviour
         new Vector2(1, -1),  // 8: Southeast
         };
 
-        Vector2 startCoords = startTile.GetCoordinates(); 
+        Vector2 startCoords = startTile.GetCoordinates();
         Vector2 offset = directionOffsets[direction] * distance;
         Vector2 targetCoords = startCoords + offset;
 
