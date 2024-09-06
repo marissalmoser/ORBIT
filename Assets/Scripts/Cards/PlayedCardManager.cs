@@ -32,6 +32,7 @@ public class PlayedCardManager : MonoBehaviour
     #endregion
 
     private GameManager _gameManager;
+    private UIManager _uiManager;
 
     [SerializeField] private PlayerInput _playerInput;
 
@@ -41,6 +42,7 @@ public class PlayedCardManager : MonoBehaviour
     public void Init()
     {
         _gameManager = GameManager.Instance;
+        _uiManager = UIManager.Instance;
     }
 
     /// <summary>
@@ -93,5 +95,21 @@ public class PlayedCardManager : MonoBehaviour
     public void MouseEnterCard(Image cardImage)
     {
         //TODO
+    }
+
+    /// <summary>
+    /// Called when the player inputs to turn left
+    /// </summary>
+    public void TurnChooseLeft()
+    {
+        _uiManager.DestroyTurnCards(true);
+    }
+
+    /// <summary>
+    /// Called when the player inputs to turn right
+    /// </summary>
+    public void TurnChooseRight()
+    {
+        _uiManager.DestroyTurnCards(false);
     }
 }
