@@ -5,29 +5,32 @@ using UnityEngine;
 public class ObstacleStateMachine : MonoBehaviour
 {
     [SerializeField] private State currentState;
+    private Coroutine currentCoroutine;
+    private Card currentAction;
 
     private List<Card> actions = new List<Card>();
     private Tile targetTile;
     private GameObject player;
     private PlayerController pC;
 
+
     public Card cardReference;
 
     public void Start()
     {
-        PlayerController.OnObstacleInterrupt += HandleObstacleInterruption;
+        PlayerController.ReachedDestination += HandleObstacleInterruption;
         TileManager.Instance.LoadTileList();
-        PlayAction(cardReference);
+        FindPlayer();
     }
     public enum State
     {
         WaitingForActions,
-        InitializeStateMachine,
+        Initialize,
         FindTileUponAction,
         DetermineActionResult,
         PlayResult,
+        PrepareNextAction,
         LeaveStateMachine,
-        GetNextAction,
     }
 
     public void FSM(State stateTo)
@@ -35,50 +38,41 @@ public class ObstacleStateMachine : MonoBehaviour
         switch (stateTo)
         {
             case State.WaitingForActions:
-                StartCoroutine(Wait());
+                StopCoroutine(currentCoroutine);
+                currentCoroutine = StartCoroutine(WaitingForActions());
                 break;
-            case State.InitializeStateMachine:
-                StartCoroutine(Initialize());
-                break;
-            case State.FindTileUponAction:
-                break;
+
+            //case State.Initialize:
+            //    StopCoroutine(currentCoroutine);
+            //    currentCoroutine = StartCoroutine(Initialize());
+            //    break;
+
             case State.DetermineActionResult:
+                StopCoroutine(currentCoroutine);
+                currentCoroutine = StartCoroutine(DetermineActionResult());
                 break;
+
             case State.PlayResult:
-
+                StopCoroutine(currentCoroutine);
+                currentCoroutine = StartCoroutine(PlayResult());
                 break;
-            case State.GetNextAction:
-                if (GetNextAction() != null)
-                {
 
-                }
-                else
-                {
-
-                }
+            case State.PrepareNextAction:
+                StopCoroutine(currentCoroutine);
+                currentCoroutine = StartCoroutine(PrepareNextAction());
                 break;
         }
     }
 
-    public void PlayAction(Card action)
+    public void FindPlayer()
     {
-        switch (action.name)
+        if(player == null)
         {
-            case Card.CardName.TurnLeft:
-                pC.TurnPlayer(true);
-                //TODO: animation here
-                break;
-            case Card.CardName.TurnRight:
-                pC.TurnPlayer(false);
-                //TODO: animation here
-                break;
-            case Card.CardName.Jump:
-                var currentTile = pC.GetCurrentTile();
-                var targetTile = TileManager.Instance.GetTileAtLocation(pC.GetCurrentTile(), pC.GetCurrentFacingDirection(), action.GetDistance());
-                pC.StartJumpCoroutine(currentTile, targetTile);
-                break;
-            case Card.CardName.Move:
-                break;
+            player = GameObject.FindGameObjectWithTag("Player");
+            if(player == null)
+            {
+                Debug.Log("No gameobject in scene tagged with player");
+            }
         }
     }
     public Card GetNextAction()
@@ -101,8 +95,7 @@ public class ObstacleStateMachine : MonoBehaviour
         {
             return pC;
         }
-        Debug.LogError("Missing a reference to the player script");
-        return null;
+        return GetPlayer().GetComponent<PlayerController>();
     }
     public GameObject GetPlayer()
     {
@@ -110,29 +103,113 @@ public class ObstacleStateMachine : MonoBehaviour
         {
             return player;
         }
-        Debug.LogError("Missing a reference to the player");
-        return null;
+        {
+            FindPlayer();
+            return player;
+        }
     }
-
     public void HandleObstacleInterruption()
     {
         pC.StopFallCoroutine(); //We dont need to stop all these coroutines, but Unity doesnt care
         pC.StopJumpCoroutine(); // and I couldnt figure out how to stop a specific coroutine from
-        pC.StopMoveCoroutine(); // another script
+        pC.StopMoveCoroutine(); // another script without making methods
     }
     public void SetCardList(List<Card> incomingActions)
     {
         actions.Clear();
         actions = incomingActions;
     }
-    private IEnumerator Initialize()
+
+
+    /// <summary>
+    /// The method used to start a new action order from outside scripts
+    /// </summary>
+    /// <param name="incomingActions"></param>
+    public void StartCardActions(List<Card> incomingActions)
     {
-        while (currentState == State.InitializeStateMachine)
+        SetCardList(incomingActions);
+        FSM(State.PrepareNextAction);
+    }
+
+
+
+    //private IEnumerator Initialize()
+    //{
+    //    while (currentState == State.Initialize)
+    //    {
+
+    //        yield return null;
+    //    }
+    //}
+
+    private IEnumerator PrepareNextAction()
+    {
+        while (currentState == State.PrepareNextAction)
+        {
+            currentAction = GetNextAction();
+            FSM(State.FindTileUponAction);
+            yield return null;
+        }
+    }
+
+    private IEnumerator FindTileUponAction()
+    {
+        while (currentState == State.FindTileUponAction)
+        {
+            var currentTile = pC.GetCurrentTile();
+
+            int distance = currentAction.GetDistance();
+            int additionalDistance = currentTile.GetElevation() - targetTile.GetElevation();
+            targetTile = TileManager.Instance.GetTileAtLocation
+                (pC.GetCurrentTile(), pC.GetCurrentFacingDirection(), currentAction.GetDistance());
+
+            FSM(State.DetermineActionResult);
+            yield return null;
+        }
+    }
+
+    private IEnumerator DetermineActionResult()
+    {
+        while (currentState == State.DetermineActionResult)
+        {
+            switch (currentAction.name)
+            {
+                case Card.CardName.TurnLeft:
+                    pC.TurnPlayer(true);
+                    //TODO: animation here
+                    break;
+                case Card.CardName.TurnRight:
+                    pC.TurnPlayer(false);
+                    //TODO: animation here
+                    break;
+                case Card.CardName.Jump:
+                    //TODO: start animation here
+                    var obstacle = targetTile.GetObstacleClass();
+                    if(obstacle == null) //no obstacle
+                    {
+
+                    }
+                    else
+                    {
+                        
+                    }
+                    break;
+                case Card.CardName.Move:
+                    break;
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator PlayResult()
+    {
+        while(currentState == State.PlayResult)
         {
             yield return null;
         }
     }
-    private IEnumerator Wait()
+
+    private IEnumerator WaitingForActions()
     {
         while (currentState == State.WaitingForActions)
         {

@@ -7,9 +7,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Tile currentTile;
     [SerializeField] private int currentFacingDirection;
     [SerializeField] private Transform raycastPoint;
-    public static UnityAction OnObstacleInterrupt;
+    public static UnityAction ReachedDestination;
     public Tile tile1;
     public Tile tile2;
+    public Tile tile3;
     [SerializeField] private AnimationCurve moveEaseCurve;
     [SerializeField] private AnimationCurve jumpEaseCurve;
     [SerializeField] private AnimationCurve fallEaseCurve;
@@ -28,11 +29,19 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            StartCoroutine(MovePlayer(tile1, tile2));
+            StartCoroutine(JumpPlayer(tile1, tile2));
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            TurnPlayer(true);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            TurnPlayer(false);
         }
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            StartCoroutine(JumpPlayer(tile1, tile2));
+            StartCoroutine(JumpPlayer(tile2, tile3));
         }
     }
 
@@ -149,29 +158,26 @@ public class PlayerController : MonoBehaviour
     {
         if (turningLeft)
         {
-            currentFacingDirection--;
-            if (currentFacingDirection == 4)   // if we pass 0, wrap around to 8 (skip 4)
+            switch (currentFacingDirection)
             {
-                currentFacingDirection = 3;
-            }
-            else if (currentFacingDirection < 0)
-            {
-                currentFacingDirection = 8;  // wrap to 8 (southwest)
+                case 1: currentFacingDirection = 3; break;
+                case 3: currentFacingDirection = 7; break;
+                case 7: currentFacingDirection = 5; break;
+                case 5: currentFacingDirection = 1; break;
             }
         }
         else
         {
-
-            currentFacingDirection++;
-            if (currentFacingDirection == 4)    // if we pass 8, wrap to 0 (skip 4)
+            switch (currentFacingDirection)
             {
-                currentFacingDirection = 5;
-            }
-            else if (currentFacingDirection > 8)
-            {
-                currentFacingDirection = 0;  // wrap to 0 (northwest)
+                case 1: currentFacingDirection = 5; break;
+                case 5: currentFacingDirection = 7; break;
+                case 7: currentFacingDirection = 3; break;
+                case 3: currentFacingDirection = 1; break;
             }
         }
+
+        SetFacingDirection(currentFacingDirection); //updating rotation
     }
     public Tile GetTileWithPlayerRaycast()
     {
@@ -201,6 +207,20 @@ public class PlayerController : MonoBehaviour
     public void SetFacingDirection(int direction)
     {
         currentFacingDirection = direction;
+
+        float newYRotation = 0f;  // Default rotation for North
+        switch (currentFacingDirection)
+        {
+            case 0: newYRotation = 315f; break;  // Northwest
+            case 1: newYRotation = 0f; break;    // North
+            case 2: newYRotation = 45f; break;   // Northeast
+            case 3: newYRotation = 270f; break;  // West
+            case 5: newYRotation = 90f; break;   // East
+            case 6: newYRotation = 225f; break;  // Southwest
+            case 7: newYRotation = 180f; break;  // South
+            case 8: newYRotation = 135f; break;  // Southeast
+        }
+        transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
     }
     public void ScanTile(Tile target)
     {
@@ -211,7 +231,7 @@ public class PlayerController : MonoBehaviour
             if (previousTile.GetObstacleClass() != null)
             {
                 //there is an obstacle, 
-                OnObstacleInterrupt?.Invoke();
+                ReachedDestination?.Invoke();
             }
         }
     }
