@@ -17,6 +17,7 @@ public class Tile : MonoBehaviour
     [Tooltip("Do not edit this field, it is just serialized for reference")]
     [SerializeField] private Vector2 _coordinates;
     [SerializeField] private TileType _tileType;
+    [SerializeField] private int _elevation;
     private TileType _lastTileType;
 
     [SerializeField] private GameObject _obstacleRef;
@@ -88,6 +89,10 @@ public class Tile : MonoBehaviour
         return null;
     }
 
+    public int GetElevation()
+    {
+        return _elevation;
+    }
     /// <summary>
     /// returns the reference to the tile's obstacle class
     /// </summary>
@@ -251,6 +256,10 @@ public class Tile : MonoBehaviour
             GetComponent<Collider>().enabled = false;
             GetComponent<MeshRenderer>().enabled = false;
         }
+    }
+    public void SetElevation(int height)
+    {
+        _elevation = height;
     }
 
     #endregion
