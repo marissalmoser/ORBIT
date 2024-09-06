@@ -65,7 +65,7 @@ public class TileMapBuilder : EditorWindow
     {
         ClearTileMap();
 
-        //make empty parent
+        //make empty parents
         _tileParentObj = new GameObject("Tile Parent");
         _tileParentObj.transform.position = Vector3.zero;
 
@@ -73,6 +73,7 @@ public class TileMapBuilder : EditorWindow
             Quaternion.identity, _tileParentObj.transform);
         emptyParent.name = "Empty Tile's Parent";
 
+        //generate tiles
         for (int i = -_emptyBorderSize; i < _mapSize.x + _emptyBorderSize; i++)
         {
             for (int j = -_emptyBorderSize; j < _mapSize.y + _emptyBorderSize; j++)
@@ -82,6 +83,7 @@ public class TileMapBuilder : EditorWindow
                     Quaternion.identity, _tileParentObj.transform);
 
                 //Set up tile's fields
+                go.name = i + "," + j + " " + go.name;
                 Tile tile = go.GetComponent<Tile>();
                 tile.SetCoordinates(new Vector2(i, j));
 
