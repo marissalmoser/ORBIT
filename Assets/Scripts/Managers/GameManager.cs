@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     private List<Card> _tempPlayedCards;
     private List<Card> _tempBeforeBackToItCards, _tempAfterBackToItCards;
     private List<int> _collectedSwitchIDs;
+    private List<Collectable> collectablesCollected;
     private (Card, int) _lastCardPlayed;
     private int _lastBackToItIndex;
 
@@ -528,6 +529,15 @@ public class GameManager : MonoBehaviour
             _tempPlayedCards.Add(_tempAfterBackToItCards[i]);
         }
     }
+
+
+    public void AddCollectable(Collectable collectable)
+    {
+        collectablesCollected.Add(collectable);
+        _uiManager.UpdateCollectables();
+    }
+
+    public int GetCollectableCount() { return collectablesCollected.Count; }
 
     /// <summary>
     /// Gets the current dealt cards

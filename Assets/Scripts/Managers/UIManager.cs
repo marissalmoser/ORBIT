@@ -6,7 +6,7 @@
 // +-------------------------------------------------------+
 
 using System.Collections.Generic;
-using UnityEditor.PackageManager;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,11 +29,18 @@ public class UIManager : MonoBehaviour
         }
     }
     #endregion
-    [SerializeField] private Image _dealtCardImage, _playedCardImage, _turnLeftImage, _turnRightImage;
+
+    [Header("Cards")]
+    [SerializeField] private Image _dealtCardImage;
+    [SerializeField] private Image _playedCardImage, _turnLeftImage, _turnRightImage;
     [SerializeField] private int _widthPadding, _heightPadding;
     [SerializeField] private int _cardWidthSpacing, _cardHeightSpacing;
-    [SerializeField] private GameObject _canvas;
 
+    [Header("Canvas")]
+    [SerializeField] private GameObject _canvas;
+    [SerializeField] private TextMeshProUGUI _collectablesCount;
+
+    [Header("Scriptable Objects")]
     [SerializeField] private Card _moveCard;
     [SerializeField] private Card _jumpCard;
     [SerializeField] private Card _turnCard;
@@ -183,6 +190,12 @@ public class UIManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void UpdateCollectables()
+    {
+        int numOfCollectables = _gameManager.GetCollectableCount();
+        _collectablesCount.text = numOfCollectables.ToString();
     }
 
     //Initialzes helper variable
