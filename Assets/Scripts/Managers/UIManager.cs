@@ -6,6 +6,7 @@
 // +-------------------------------------------------------+
 
 using System.Collections.Generic;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,7 +29,7 @@ public class UIManager : MonoBehaviour
         }
     }
     #endregion
-    [SerializeField] private Image _dealtCardImage, _playedCardImage;
+    [SerializeField] private Image _dealtCardImage, _playedCardImage, _turnLeftImage, _turnRightImage;
     [SerializeField] private int _widthPadding, _heightPadding;
     [SerializeField] private int _cardWidthSpacing, _cardHeightSpacing;
     [SerializeField] private GameObject _canvas;
@@ -36,6 +37,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Card _moveCard;
     [SerializeField] private Card _jumpCard;
     [SerializeField] private Card _turnCard;
+    [SerializeField] private Card _turnLeftCard;
+    [SerializeField] private Card _turnRightCard;
     [SerializeField] private Card _switchCard;
     [SerializeField] private Card _clearCard;
     [SerializeField] private Card _backToItCard;
@@ -98,6 +101,12 @@ public class UIManager : MonoBehaviour
                 case Card.CardName.Turn:
                     card.UpdateCard(_turnCard);
                     break;
+                case Card.CardName.TurnLeft: //Error Case. Should not be used, but it can be used if needed
+                    card.UpdateCard(_turnLeftCard);
+                    break;
+                case Card.CardName.TurnRight: //Error Case. Should not be used, but it can be used if needed
+                    card.UpdateCard(_turnRightCard);
+                    break;
                 case Card.CardName.Clear:
                     card.UpdateCard(_clearCard);
                     break;
@@ -151,13 +160,19 @@ public class UIManager : MonoBehaviour
                 case Card.CardName.Jump:
                     card.UpdateCard(_jumpCard);
                     break;
-                case Card.CardName.Turn:
+                case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
                     card.UpdateCard(_turnCard);
                     break;
-                case Card.CardName.Clear:
+                case Card.CardName.TurnLeft:
+                    card.UpdateCard(_turnLeftCard);
+                    break;
+                case Card.CardName.TurnRight:
+                    card.UpdateCard(_turnRightCard);
+                    break;
+                case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
                     card.UpdateCard(_clearCard);
                     break;
-                case Card.CardName.Switch:
+                case Card.CardName.Switch: //Error Case. Should not be used, but it can be used if needed
                     card.UpdateCard(_switchCard);
                     break;
                 case Card.CardName.BackToIt:
@@ -167,6 +182,61 @@ public class UIManager : MonoBehaviour
                     print("ERROR: COULD NOT UPDATE CARD IN UI");
                     break;
             }
+        }
+    }
+
+    //Initialzes helper variable
+    private Image leftTurnCard, rightTurnCard;
+    private Image _leftImage, _rightImage;
+    /// <summary>
+    /// Creates interactable Turn Cards to select which direction the player will turn
+    /// </summary>
+    public void CreateTurnCards()
+    {
+            float cardWidth = _turnLeftImage.rectTransform.rect.width; //Gets width of a card
+            float cardHeight = _turnLeftImage.rectTransform.rect.height;
+
+            _leftImage = Instantiate(_turnLeftImage, Vector3.zero, Quaternion.identity); //Instantiates new card
+            _leftImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
+            _leftImage.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
+
+            _rightImage = Instantiate(_turnRightImage, Vector3.zero, Quaternion.identity); //Instantiates new card
+            _rightImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
+            _rightImage.rectTransform.anchoredPosition = new Vector3(_widthPadding + cardWidth + _cardWidthSpacing, cardHeight + 20, 0); //Sets position
+
+            CardDisplay leftCard = _leftImage.GetComponent<CardDisplay>(); //Grabs data from image
+
+            //Uses grabbed data to compare with possible types and convert image to found type
+            leftCard.UpdateCard(_turnLeftCard);
+            
+
+            CardDisplay rightCard = _rightImage.GetComponent<CardDisplay>(); //Grabs data from image
+
+            //Uses grabbed data to compare with possible types and convert image to found type
+            rightCard.UpdateCard(_turnRightCard);
+    }
+
+    /// <summary>
+    /// Destroys the turn cards after one is selected
+    /// </summary>
+    /// <param name="wasTurnLeftChosen">If the left turn card was selected or not</param>
+    public void DestroyTurnCards(bool wasTurnLeftChosen)
+    {
+        //Destroys game objects
+        if (_leftImage != null)
+            Destroy(_leftImage.gameObject);
+        if (_rightImage != null)
+            Destroy(_rightImage.gameObject);
+
+        //Player is turning left
+        if (wasTurnLeftChosen)
+        {
+            _gameManager.AddToPlayedCards(_turnLeftCard);
+        }
+        //Player is turning right
+        else
+        {
+            _gameManager.AddToPlayedCards(_turnRightCard);
         }
     }
 
