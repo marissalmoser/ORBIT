@@ -723,6 +723,18 @@ PrefabInstance:
       propertyPath: _canvas
       value: 
       objectReference: {fileID: 99421111}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _turnLeftImage
+      value: 
+      objectReference: {fileID: 2630411302793006820, guid: 2bbbabf94a7d05044a503f9dd98dc445, type: 3}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _turnRightImage
+      value: 
+      objectReference: {fileID: 467321719107628408, guid: 847185c60c41a58408e04bd519147210, type: 3}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _cardHeightSpacing
+      value: 70
+      objectReference: {fileID: 0}
     - target: {fileID: 7511067672945292195, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: m_Name
       value: Managers

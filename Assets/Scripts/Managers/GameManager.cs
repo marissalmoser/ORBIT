@@ -53,9 +53,9 @@ public class GameManager : MonoBehaviour
         //Carefully change order if needed. Some managers must be initialzed before others
         _deckManagerCard = DeckManager<Card>.Instance;
         _deckManagerInt = DeckManager<int>.Instance;
+        _uiManager = UIManager.Instance;
         _dealtCardManager = DealtCardManager.Instance;
         _playedCardManager = PlayedCardManager.Instance;
-        _uiManager = UIManager.Instance;
         _levelDeck = FindObjectOfType<LevelDeck>();
         _lastBackToItIndex = -1;
 
@@ -102,6 +102,10 @@ public class GameManager : MonoBehaviour
                 // Waiting STATE. Game locks in this state until user input
                 gameState = STATE.SwitchCards;
                 break;
+            case STATE.ChooseTurn:
+                // Waiting STATE. Game locks in this state until user input
+                gameState = STATE.ChooseTurn;
+                break;
             case STATE.Failure:
                 gameState = STATE.Failure;
                 Failure();
@@ -128,9 +132,9 @@ public class GameManager : MonoBehaviour
     private void StartGame()
     {
         //Initialzes other managers. Order may matter
+        _uiManager.Init();
         _dealtCardManager.Init();
         _playedCardManager.Init();
-        _uiManager.Init();
         _levelDeck.Init();
 
         //Initializes lists.
@@ -260,7 +264,16 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (gameState == STATE.RunActionOrder)
+        //If Turn Card was played
+        if (_playedCards.Count > 0 && _playedCards[_playedCards.Count - 1].name == Card.CardName.Turn) //Error check and checks if last card played was a Switch
+        {
+            _playedCards = _deckManagerCard.RemoveLast(_playedCards); //Removes switch card from played cards
+            _uiManager.UpdatePlayedCards(); //Updates played cards so switch card does not appear
+            ChangeGameState(STATE.ChooseTurn); //Waits for User Input to Switch two cards
+            _uiManager.CreateTurnCards();
+        }
+
+            if (gameState == STATE.RunActionOrder)
             PlaySequence(); //Plays the action order
     }
 
@@ -270,44 +283,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlaySequence()
     {
-        /**
-        //If there is nothing in the played deck, play sequence is over and allow the player to pick another card
-        if (tempPlayedCards.Count < 1)
-        {
-            ChangeGameState(STATE.ChooseCards);
-            return;
-        }
-
-        //Checks the first card in the played cards List and gets its data
-        switch (tempPlayedCards[0].name)
-        {
-            case Card.CardName.Move:
-                //TODO - MOVE
-                //print("MOVED");
-                break;
-            case Card.CardName.Jump:
-                //TODO - JUMP
-                //print("JUMPED");
-                break;
-            case Card.CardName.Turn:
-                //print("TURNED RIGHT");
-                //TODO - TURN
-                break;
-            case Card.CardName.BackToIt:
-                //print("BACKED TO IT);
-                BackToItAction();
-                break;
-            default:
-                print("ERROR: ATTEMPTED TO DO INVALID ACTION FROM INVALID CARD NAME");
-                break;
-        }
-        //Removes the first card in the action order.
-        tempPlayedCards.RemoveAt(0);
-        **/
-
         //TODO - Get Eli's State Machine and send in action order
 
         ChangeGameState(STATE.ChooseCards);
+    }
+
+    /// <summary>
+    /// Adds a card at the bottom of the action order
+    /// </summary>
+    /// <param name="card">The Card to add</param>
+    public void AddToPlayedCards(Card card)
+    {
+        _playedCards.Add(card);
+        _uiManager.UpdatePlayedCards();
+        ChangeGameState(STATE.RunActionOrder);
     }
 
     /// <summary>
@@ -420,6 +409,22 @@ public class GameManager : MonoBehaviour
         //If two cards have been selected, perform switch action
         if (_collectedSwitchIDs.Count == 2)
             SwitchAction(_collectedSwitchIDs[0], _collectedSwitchIDs[1]);
+    }
+
+    /// <summary>
+    /// Starts a new turn
+    /// </summary>
+    public void NewTurn()
+    {
+        ChangeGameState(STATE.ChooseCards);
+    }
+
+    /// <summary>
+    /// Toggles traps on and off
+    /// </summary>
+    public void ToggleTraps()
+    {
+        //TODO - Communicate with Eli
     }
 
     /// <summary>
@@ -539,6 +544,8 @@ public class GameManager : MonoBehaviour
         RunActionOrder,
         ChooseClear,
         SwitchCards,
+        Trap,
+        ChooseTurn,
         Failure,
         OutOfCards,
         End
