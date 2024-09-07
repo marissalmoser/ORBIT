@@ -25,6 +25,8 @@ public abstract class Obstacle : MonoBehaviour
     private void Start()
     {
         _anim = GetComponent<Animator>();
+
+        SetToDefaultState();
     }
 
     public bool getIsActive()
