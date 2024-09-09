@@ -29,6 +29,7 @@ public class LevelDeck : MonoBehaviour
 
 
     public List<Card> deck;
+    [SerializeField] private List<Card> originalDeck;
     private DeckManager<Card> _deckManager;
 
     /// <summary>
@@ -37,6 +38,9 @@ public class LevelDeck : MonoBehaviour
     public void Init()
     {
         _deckManager = DeckManager<Card>.Instance;
+
+        int deckCount = deck.Count;
+
         //TODO - Split up deck into two packets. Shuffle the second packet
         if (deck.Count > 4)
         {
@@ -44,7 +48,6 @@ public class LevelDeck : MonoBehaviour
 
             //Removes all cards from cards after the 4th card
             //TODO - Change int i = 0   to   int i = 4
-            int deckCount = deck.Count;
             for (int i = 4; i < deckCount; i++)
             {
                 tempList.Add(deck[4]);
@@ -61,6 +64,21 @@ public class LevelDeck : MonoBehaviour
                 deck.Add(tempList[i]);
             }
         }
+        for (int i = 0; i < deckCount; i++)
+        {
+            originalDeck.Add(deck[i]);
+        }
+
         //Use deckManager.PrintDeck(deck); here to see the shuffled deck
+    }
+
+    public void ResetDeck()
+    {
+        int originalDeckCount = originalDeck.Count;
+        deck.Clear();
+        for (int i = 0; i < originalDeckCount; i++)
+        {
+            deck.Add(originalDeck[i]);
+        }
     }
 }

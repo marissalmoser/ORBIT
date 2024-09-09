@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
                 gameState = STATE.Menu;
                 break;
             case STATE.StartLevel:
-                gameState =STATE.StartLevel;
+                gameState = STATE.StartLevel;
                 SetUpLevel();
                 break;
             case STATE.ChooseCards:
@@ -106,8 +106,8 @@ public class GameManager : MonoBehaviour
                 // Waiting STATE. Game locks in this state until user input
                 gameState = STATE.ChooseTurn;
                 break;
-            case STATE.Failure:
-                gameState = STATE.Failure;
+            case STATE.Death:
+                gameState = STATE.Death;
                 Failure();
                 break;
             case STATE.OutOfCards:
@@ -424,7 +424,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ToggleTraps()
     {
-        //TODO - Communicate with Eli
+        //TODO - Communicate with Marissa and Eli
     }
 
     /// <summary>
@@ -432,7 +432,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Failure()
     {
-        print("Rip Bozo."); //TODO - Replace this with actual functionality
+        print("Rip Bozo.");
+
+        _levelDeck.ResetDeck();
+
+        _deck = _levelDeck.deck;
+        _dealtCards = new();
+        _playedCards = new();
+        _tempPlayedCards = new();
+        _tempBeforeBackToItCards = new();
+        _tempAfterBackToItCards = new();
+
+        _collectedSwitchIDs = new();
+
+        ChangeGameState(STATE.StartLevel);
     }
 
     /// <summary>
@@ -546,7 +559,7 @@ public class GameManager : MonoBehaviour
         SwitchCards,
         Trap,
         ChooseTurn,
-        Failure,
+        Death,
         OutOfCards,
         End
     }
