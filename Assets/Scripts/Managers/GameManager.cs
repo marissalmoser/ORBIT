@@ -5,6 +5,7 @@
 // @Description - The engine of the game which controls and initializes everything else
 // +-----------------------------------------------------------------------------------+
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -47,6 +48,8 @@ public class GameManager : MonoBehaviour
     private List<int> _collectedSwitchIDs;
     private (Card, int) _lastCardPlayed;
     private int _lastBackToItIndex;
+
+    public static Action<List<Card>> PlayActionOrder;
 
     private void Start()
     {
@@ -283,8 +286,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlaySequence()
     {
-        //TODO - Get Eli's State Machine and send in action order
-
+        PlayActionOrder?.Invoke(_playedCards);
         ChangeGameState(STATE.ChooseCards);
     }
 
