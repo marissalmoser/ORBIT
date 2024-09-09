@@ -1,7 +1,7 @@
 // +--------------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last modified - September 4 2024
+// @Last modified - September 9 2024
 // @Description - Displays the card onto an instantiated image.
 //                Also holds helper methods for an Event Trigger
 // +--------------------------------------------------------------+
@@ -34,13 +34,14 @@ public class CardDisplay : MonoBehaviour
         _gameManager = GameManager.Instance;
     }
 
+    #region Dealt Card Methods
     /// <summary>
     /// Helper method for Event Trigger Pointer Down for DealtCards
     /// </summary>
     /// <param name="Card">Image object for the card</param>
     public void MousePressedDealtCard(Image Card)
     {
-        DealtCardManager.Instance.MousePressedCard(Card);
+        CardManager.Instance.DealtMousePressedCard(Card);
     }
 
     /// <summary>
@@ -49,7 +50,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MouseReleasedDealtCard(Image Card)
     {
-        DealtCardManager.Instance.MouseReleasedCard(Card, ID);
+        CardManager.Instance.DealtMouseReleasedCard(Card, ID);
     }
 
     /// <summary>
@@ -58,16 +59,34 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void OnDragDealtCard(Image Card)
     {
-        DealtCardManager.Instance.OnDragCard(Card);
+        CardManager.Instance.DealtOnDragCard(Card);
     }
 
+    /// <summary>
+    /// Helper method for choosing to turn left
+    /// </summary>
+    public void TurnLeftChosen()
+    {
+        CardManager.Instance.PlayedTurnChooseLeft();
+    }
+
+    /// <summary>
+    /// Helper method for choosing to turn right
+    /// </summary>
+    public void TurnRightChosen()
+    {
+        CardManager.Instance.PlayedTurnChooseRight();
+    }
+    #endregion
+
+    #region Played Card Methods
     /// <summary>
     /// Helper method for Event Trigger Mouse Down for Played Cards
     /// </summary>
     /// <param name="Card">Image object for the card</param>
     public void MousePressedPlayedCard(Image Card)
     {
-        PlayedCardManager.Instance.MousePressedCard(Card, ID);
+        CardManager.Instance.PlayedMousePressedCard(Card, ID);
     }
 
     /// <summary>
@@ -76,7 +95,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MouseReleasedPlayedCard(Image Card)
     {
-        PlayedCardManager.Instance.MouseReleasedCard(Card);
+        CardManager.Instance.PlayedMouseReleasedCard(Card);
     }
 
     /// <summary>
@@ -85,22 +104,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="card">Image object for the card</param>
     public void OnMouseEnterPlayedCard(Image card)
     {
-        PlayedCardManager.Instance.MouseEnterCard(card);
+        CardManager.Instance.PlayedMouseEnterCard(card);
     }
-
-    /// <summary>
-    /// Helper method for choosing to turn left
-    /// </summary>
-    public void TurnLeftChosen()
-    {
-        PlayedCardManager.Instance.TurnChooseLeft();
-    }
-
-    /// <summary>
-    /// Helper method for choosing to turn right
-    /// </summary>
-    public void TurnRightChosen()
-    {
-        PlayedCardManager.Instance.TurnChooseRight();
-    }
+    #endregion
 }

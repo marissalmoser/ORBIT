@@ -1,26 +1,24 @@
 // +-------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last modified - September 4 2024
+// @Last modified - September 9 2024
 // @Description - Manages the dealt cards
 // +-------------------------------------------------------+
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-
-public class DealtCardManager : MonoBehaviour
+public class CardManager : MonoBehaviour
 {
-
-    //Makes Class a Singleton Class
     #region Singleton
-    private static DealtCardManager instance;
-    public static DealtCardManager Instance
+    private static CardManager instance;
+    public static CardManager Instance
     {
         get
         {
             if (instance == null)
-                instance = FindAnyObjectByType(typeof(DealtCardManager)) as DealtCardManager;
+                instance = FindAnyObjectByType(typeof(CardManager)) as CardManager;
             return instance;
         }
         set
@@ -34,6 +32,7 @@ public class DealtCardManager : MonoBehaviour
     [SerializeField] private BoxCollider2D _playArea;
 
     private GameManager _gameManager;
+    private UIManager _uiManager;
     private Vector3 _mousePosition;
     private Vector3 _imageStartingPosition;
     private BoxCollider2D _imageCollider;
@@ -46,15 +45,17 @@ public class DealtCardManager : MonoBehaviour
     public void Init()
     {
         _gameManager = GameManager.Instance;
+        _uiManager = UIManager.Instance;
         _mousePosition = Vector3.zero;
         _imageStartingPosition = Vector3.zero;
     }
 
+    #region Dealt Card Methods
     /// <summary>
     /// Called when the mouse is pressed on a dealt card
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
-    public void MousePressedCard(Image cardImage)
+    public void DealtMousePressedCard(Image cardImage)
     {
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards)
@@ -73,7 +74,7 @@ public class DealtCardManager : MonoBehaviour
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
     /// <param name="ID">The ID of the card</param>
-    public void MouseReleasedCard(Image cardImage, int ID)
+    public void DealtMouseReleasedCard(Image cardImage, int ID)
     {
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards)
@@ -95,7 +96,7 @@ public class DealtCardManager : MonoBehaviour
     /// Called when the mouse is pressed down and then moved on a dealt card
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
-    public void OnDragCard(Image cardImage)
+    public void DealtOnDragCard(Image cardImage)
     {
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards)
@@ -105,4 +106,75 @@ public class DealtCardManager : MonoBehaviour
             _mousePosition = Input.mousePosition;
         }
     }
+    #endregion
+
+    #region Played Card Methods
+    /// <summary>
+    /// Called when the mouse is pressed on a played card
+    /// </summary>
+    /// <param name="cardImage">The image of the card</param>
+    /// <param name="ID">The ID of the card</param>
+    public void PlayedMousePressedCard(Image cardImage, int ID)
+    {
+        cardImage.enabled = true;
+        //If Cards are being cleared
+        if (_gameManager.gameState == GameManager.STATE.ChooseClear)
+        {
+            _gameManager.ClearAction(ID); //Calls method to take the card off of action order
+
+            //Destroys game object
+            Destroy(cardImage.gameObject);
+        }
+
+        //If Cards are being switched
+        else if (_gameManager.gameState == GameManager.STATE.SwitchCards)
+        {
+            _gameManager.SwitchActionHelper(ID); //Calls the method helper to swap two cards' order
+        }
+    }
+
+    /// <summary>
+    /// Called when the mouse is released on a played card
+    /// </summary>
+    /// <param name="cardImage">The image of the card</param>
+    public void PlayedMouseReleasedCard(Image cardImage)
+    {
+        if (_gameManager.gameState != GameManager.STATE.SwitchCards) //If the player is not switching cards, remove highlight immediately
+        {
+            cardImage.enabled = false;
+        }
+        else
+        {
+            List<int> switchIDs = _gameManager.GetCollectedSwitchIDs(); //If card has not been selected to be switched
+
+            if (!switchIDs.Contains(cardImage.GetComponentInChildren<CardDisplay>().ID))
+                cardImage.enabled = false;
+        }
+    }
+
+    /// <summary>
+    /// Called when the mouse enters the card's bounds
+    /// </summary>
+    /// <param name="cardImage">The image of the card</param>
+    public void PlayedMouseEnterCard(Image cardImage)
+    {
+        //TODO
+    }
+
+    /// <summary>
+    /// Called when the player inputs to turn left
+    /// </summary>
+    public void PlayedTurnChooseLeft()
+    {
+        _uiManager.DestroyTurnCards(true);
+    }
+
+    /// <summary>
+    /// Called when the player inputs to turn right
+    /// </summary>
+    public void PlayedTurnChooseRight()
+    {
+        _uiManager.DestroyTurnCards(false);
+    }
+    #endregion
 }

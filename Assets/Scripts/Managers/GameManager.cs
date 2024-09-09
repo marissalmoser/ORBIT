@@ -5,6 +5,7 @@
 // @Description - The engine of the game which controls and initializes everything else
 // +-----------------------------------------------------------------------------------+
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,13 +29,13 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+    #region Variables
     [SerializeField] private List<Card> _dealtCards;
     [SerializeField] private List<Card> _playedCards;
 
     private DeckManager<Card> _deckManagerCard;
     private DeckManager<int> _deckManagerInt;
-    private DealtCardManager _dealtCardManager;
-    private PlayedCardManager _playedCardManager;
+    private CardManager _cardManager;
     private UIManager _uiManager;
 
     public STATE gameState;
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
     private List<Collectable> collectablesCollected;
     private (Card, int) _lastCardPlayed;
     private int _lastBackToItIndex;
+    #endregion
 
     private void Start()
     {
@@ -55,8 +57,7 @@ public class GameManager : MonoBehaviour
         _deckManagerCard = DeckManager<Card>.Instance;
         _deckManagerInt = DeckManager<int>.Instance;
         _uiManager = UIManager.Instance;
-        _dealtCardManager = DealtCardManager.Instance;
-        _playedCardManager = PlayedCardManager.Instance;
+        _cardManager = CardManager.Instance;
         _levelDeck = FindObjectOfType<LevelDeck>();
         _lastBackToItIndex = -1;
 
@@ -126,6 +127,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #region State Machine Methods
     /// <summary>
     /// Initializes everything needed for the game
     /// Called at the start of the game
@@ -134,8 +136,7 @@ public class GameManager : MonoBehaviour
     {
         //Initialzes other managers. Order may matter
         _uiManager.Init();
-        _dealtCardManager.Init();
-        _playedCardManager.Init();
+        _cardManager.Init();
         _levelDeck.Init();
 
         //Initializes lists.
@@ -196,36 +197,6 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Removes a card from the dealt deck, and adds it to the played deck
-    /// </summary>
-    /// <param name="targetID">The ID of the card to play</param>
-    public void PlayCard(int targetID)
-    {
-        //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
-        //So I gave the images unique IDs and used those. Weird way, but it works
-
-        List<Image> instantiatedImages = _uiManager.GetInstantiatedDealtCardImages(); //Gets instantiated dealt card images
-
-        int instantiatedImagesCount = instantiatedImages.Count;
-        for (int i = 0; i < instantiatedImagesCount; i++)
-        {
-            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
-            {
-                Card playedCard = _dealtCards[i]; //Gets the same ID card
-                _lastCardPlayed = (playedCard, i); //Stores card and the index
-                _dealtCards = _deckManagerCard.RemoveAt(_dealtCards, i); //Removes card from the dealt deck
-
-                _playedCards.Add(playedCard); //Adds card to the played deck
-
-                break;
-            }
-        }
-
-        _uiManager.UpdatePlayedCards();
-        ChangeGameState(STATE.RunActionOrder);
-    }
-
-    /// <summary>
     /// Runs the current action order
     /// Called after a card has been played
     /// </summary>
@@ -279,13 +250,81 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Toggles traps on and off
+    /// </summary>
+    public void ToggleTraps()
+    {
+        //TODO - Communicate with Marissa and Eli
+    }
+
+    /// <summary>
+    /// When the player fails, this method is called
+    /// </summary>
+    private void Failure()
+    {
+        print("Rip Bozo.");
+
+        _levelDeck.ResetDeck();
+
+        _deck = _levelDeck.deck;
+        _dealtCards = new();
+        _playedCards = new();
+        _tempPlayedCards = new();
+        _tempBeforeBackToItCards = new();
+        _tempAfterBackToItCards = new();
+
+        _collectedSwitchIDs = new();
+
+        ChangeGameState(STATE.StartLevel);
+    }
+
+    /// <summary>
+    /// When the player runs out of cards, this method is called
+    /// </summary>
+    private void OutOfCards()
+    {
+        print("Skill Issue."); //TODO - Replace this with actual functionality
+    }
+
+    #endregion
+
+    /// <summary>
+    /// Removes a card from the dealt deck, and adds it to the played deck
+    /// </summary>
+    /// <param name="targetID">The ID of the card to play</param>
+    public void PlayCard(int targetID)
+    {
+        //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
+        //So I gave the images unique IDs and used those. Weird way, but it works
+
+        List<Image> instantiatedImages = _uiManager.GetInstantiatedDealtCardImages(); //Gets instantiated dealt card images
+
+        int instantiatedImagesCount = instantiatedImages.Count;
+        for (int i = 0; i < instantiatedImagesCount; i++)
+        {
+            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
+            {
+                Card playedCard = _dealtCards[i]; //Gets the same ID card
+                _lastCardPlayed = (playedCard, i); //Stores card and the index
+                _dealtCards = _deckManagerCard.RemoveAt(_dealtCards, i); //Removes card from the dealt deck
+
+                _playedCards.Add(playedCard); //Adds card to the played deck
+
+                break;
+            }
+        }
+
+        _uiManager.UpdatePlayedCards();
+        ChangeGameState(STATE.RunActionOrder);
+    }
+
+    /// <summary>
     /// Checks the sequence and calls the animation based off the card
     /// Called after the player chooses a card and when the player returns to the idle animation
     /// </summary>
     public void PlaySequence()
     {
         //TODO - Get Eli's State Machine and send in action order
-
         ChangeGameState(STATE.ChooseCards);
     }
 
@@ -300,6 +339,7 @@ public class GameManager : MonoBehaviour
         ChangeGameState(STATE.RunActionOrder);
     }
 
+    #region Action Order Card Effects
     /// <summary>
     /// Functionality of the Clear Card
     /// </summary>
@@ -413,51 +453,6 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Starts a new turn
-    /// </summary>
-    public void NewTurn()
-    {
-        ChangeGameState(STATE.ChooseCards);
-    }
-
-    /// <summary>
-    /// Toggles traps on and off
-    /// </summary>
-    public void ToggleTraps()
-    {
-        //TODO - Communicate with Marissa and Eli
-    }
-
-    /// <summary>
-    /// When the player fails, this method is called
-    /// </summary>
-    private void Failure()
-    {
-        print("Rip Bozo.");
-
-        _levelDeck.ResetDeck();
-
-        _deck = _levelDeck.deck;
-        _dealtCards = new();
-        _playedCards = new();
-        _tempPlayedCards = new();
-        _tempBeforeBackToItCards = new();
-        _tempAfterBackToItCards = new();
-
-        _collectedSwitchIDs = new();
-
-        ChangeGameState(STATE.StartLevel);
-    }
-
-    /// <summary>
-    /// When the player runs out of cards, this method is called
-    /// </summary>
-    private void OutOfCards()
-    {
-        print("Skill Issue."); //TODO - Replace this with actual functionality
-    }
-
-    /// <summary>
     /// Functionality of the Back To It Card
     /// </summary>
     private void BackToItAction()
@@ -529,6 +524,15 @@ public class GameManager : MonoBehaviour
             _tempPlayedCards.Add(_tempAfterBackToItCards[i]);
         }
     }
+    #endregion
+
+    /// <summary>
+    /// Starts a new turn
+    /// </summary>
+    public void NewTurn()
+    {
+        ChangeGameState(STATE.ChooseCards);
+    }
 
 
     public void AddCollectable(Collectable collectable)
@@ -537,6 +541,7 @@ public class GameManager : MonoBehaviour
         _uiManager.UpdateCollectables();
     }
 
+    #region Getters
     public int GetCollectableCount() { return collectablesCollected.Count; }
 
     /// <summary>
@@ -557,6 +562,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <returns>List<int> list of IDs from played cards being selected to be swapped</returns>
     public List<int> GetCollectedSwitchIDs() { return _collectedSwitchIDs; }
+    #endregion
 
     public enum STATE
     {
