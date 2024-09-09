@@ -40,15 +40,21 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _canvas;
     [SerializeField] private TextMeshProUGUI _collectablesCount;
 
-    [Header("Scriptable Objects")]
-    [SerializeField] private Card _moveCard;
-    [SerializeField] private Card _jumpCard;
-    [SerializeField] private Card _turnCard;
-    [SerializeField] private Card _turnLeftCard;
-    [SerializeField] private Card _turnRightCard;
-    [SerializeField] private Card _switchCard;
-    [SerializeField] private Card _clearCard;
+    [Header("Dealt Scriptable Objects")]
+    [SerializeField] private Card _dealtMoveCard;
+    [SerializeField] private Card _dealtJumpCard;
+    [SerializeField] private Card _dealtTurnCard;
+    [SerializeField] private Card _dealtTurnLeftCard;
+    [SerializeField] private Card _dealtTurnRightCard;
+    [SerializeField] private Card _dealtSwitchCard;
+    [SerializeField] private Card _dealtClearCard;
     [SerializeField] private Card _backToItCard;
+
+    [Header("Played Scriptable Objects")]
+    [SerializeField] private Card _playedMoveCard;
+    [SerializeField] private Card _playedJumpCard;
+    [SerializeField] private Card _playedTurnLeftCard;
+    [SerializeField] private Card _playedTurnRightCard;
 
     private GameManager _gameManager;
 
@@ -100,25 +106,25 @@ public class UIManager : MonoBehaviour
             switch (dealtCards[i].name)
             {
                 case Card.CardName.Move:
-                    card.UpdateCard(_moveCard);
+                    card.UpdateCard(_dealtMoveCard);
                     break;
                 case Card.CardName.Jump:
-                    card.UpdateCard(_jumpCard);
+                    card.UpdateCard(_dealtJumpCard);
                     break;
                 case Card.CardName.Turn:
-                    card.UpdateCard(_turnCard);
+                    card.UpdateCard(_dealtTurnCard);
                     break;
                 case Card.CardName.TurnLeft: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_turnLeftCard);
+                    card.UpdateCard(_playedTurnLeftCard);
                     break;
                 case Card.CardName.TurnRight: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_turnRightCard);
+                    card.UpdateCard(_playedTurnRightCard);
                     break;
                 case Card.CardName.Clear:
-                    card.UpdateCard(_clearCard);
+                    card.UpdateCard(_dealtClearCard);
                     break;
                 case Card.CardName.Switch:
-                    card.UpdateCard(_switchCard);
+                    card.UpdateCard(_dealtSwitchCard);
                     break;
                 case Card.CardName.BackToIt:
                     card.UpdateCard(_backToItCard);
@@ -158,36 +164,77 @@ public class UIManager : MonoBehaviour
             _playedCardImages.Add(newImage); //Adds image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
-            //Uses grabbed data to compare with possible types and convert image to found type
-            switch (playedCards[i].name)
+                                                                               //Uses grabbed data to compare with possible types and convert image to found type
+
+            if (i < numOfPlayedCards - 1)
             {
-                case Card.CardName.Move:
-                    card.UpdateCard(_moveCard);
-                    break;
-                case Card.CardName.Jump:
-                    card.UpdateCard(_jumpCard);
-                    break;
-                case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_turnCard);
-                    break;
-                case Card.CardName.TurnLeft:
-                    card.UpdateCard(_turnLeftCard);
-                    break;
-                case Card.CardName.TurnRight:
-                    card.UpdateCard(_turnRightCard);
-                    break;
-                case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_clearCard);
-                    break;
-                case Card.CardName.Switch: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_switchCard);
-                    break;
-                case Card.CardName.BackToIt:
-                    card.UpdateCard(_backToItCard);
-                    break;
-                default:
-                    print("ERROR: COULD NOT UPDATE CARD IN UI");
-                    break;
+                #region Update Hidden Cards
+                switch (playedCards[i].name)
+                {
+                    case Card.CardName.Move:
+                        card.UpdateCard(_playedMoveCard);
+                        break;
+                    case Card.CardName.Jump:
+                        card.UpdateCard(_playedJumpCard);
+                        break;
+                    case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
+                        card.UpdateCard(_dealtTurnCard);
+                        break;
+                    case Card.CardName.TurnLeft:
+                        card.UpdateCard(_playedTurnLeftCard);
+                        break;
+                    case Card.CardName.TurnRight:
+                        card.UpdateCard(_playedTurnRightCard);
+                        break;
+                    case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
+                        card.UpdateCard(_dealtClearCard);
+                        break;
+                    case Card.CardName.Switch: //Error Case. Should not be used, but it can be used if needed
+                        card.UpdateCard(_dealtSwitchCard);
+                        break;
+                    case Card.CardName.BackToIt:
+                        card.UpdateCard(_backToItCard);
+                        break;
+                    default:
+                        print("ERROR: COULD NOT UPDATE CARD IN UI");
+                        break;
+                }
+                #endregion
+
+            } else
+            {
+                #region Update Last Card
+                switch (playedCards[i].name)
+                {
+                    case Card.CardName.Move:
+                        card.UpdateCard(_dealtMoveCard);
+                        break;
+                    case Card.CardName.Jump:
+                        card.UpdateCard(_dealtJumpCard);
+                        break;
+                    case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
+                        card.UpdateCard(_dealtTurnCard);
+                        break;
+                    case Card.CardName.TurnLeft:
+                        card.UpdateCard(_dealtTurnLeftCard);
+                        break;
+                    case Card.CardName.TurnRight:
+                        card.UpdateCard(_dealtTurnRightCard);
+                        break;
+                    case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
+                        card.UpdateCard(_dealtClearCard);
+                        break;
+                    case Card.CardName.Switch: //Error Case. Should not be used, but it can be used if needed
+                        card.UpdateCard(_dealtSwitchCard);
+                        break;
+                    case Card.CardName.BackToIt:
+                        card.UpdateCard(_backToItCard);
+                        break;
+                    default:
+                        print("ERROR: COULD NOT UPDATE CARD IN UI");
+                        break;
+                }
+                #endregion
             }
         }
     }
@@ -220,13 +267,13 @@ public class UIManager : MonoBehaviour
             CardDisplay leftCard = _leftImage.GetComponent<CardDisplay>(); //Grabs data from image
 
             //Uses grabbed data to compare with possible types and convert image to found type
-            leftCard.UpdateCard(_turnLeftCard);
+            leftCard.UpdateCard(_playedTurnLeftCard);
             
 
             CardDisplay rightCard = _rightImage.GetComponent<CardDisplay>(); //Grabs data from image
 
             //Uses grabbed data to compare with possible types and convert image to found type
-            rightCard.UpdateCard(_turnRightCard);
+            rightCard.UpdateCard(_playedTurnRightCard);
     }
 
     /// <summary>
@@ -244,12 +291,12 @@ public class UIManager : MonoBehaviour
         //Player is turning left
         if (wasTurnLeftChosen)
         {
-            _gameManager.AddToPlayedCards(_turnLeftCard);
+            _gameManager.AddToPlayedCards(_playedTurnLeftCard);
         }
         //Player is turning right
         else
         {
-            _gameManager.AddToPlayedCards(_turnRightCard);
+            _gameManager.AddToPlayedCards(_playedTurnRightCard);
         }
     }
 
