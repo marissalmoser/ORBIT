@@ -188,6 +188,21 @@ public class PlayerStateMachineBrain : MonoBehaviour
         actions.AddRange(incomingActions);
     }
 
+    /// <summary>
+    /// Adds a card to the 0th index
+    /// </summary>
+    /// <param name="card"></param>
+    public void AddCardToList(Card card)
+    {
+        if(card != null)
+        {
+            actions.Insert(0, card);
+        }
+        else
+        {
+            Debug.LogError("Card is null");
+        }
+    }
 
     /// <summary>
     /// The method used to start a new action order from outside scripts
