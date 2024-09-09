@@ -7,13 +7,34 @@
 *******************************************************************/
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class TileManager : MonoBehaviour
 {
-    [SerializeField] private List<Tile> allTilesInScene = new List<Tile>();
+    #region Singleton
+    public static TileManager Instance { get; private set; }
 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+            //DontDestroyOnLoad(gameObject);
+        }
+    }
+    #endregion
+    [SerializeField] private List<Tile> allTilesInScene = new List<Tile>();
+    [SerializeField] private Dictionary<Obstacle, Vector2> allObstacles = new Dictionary<Obstacle, Vector2>();
+    // [SerializeField] private Dictionary<Collectable, Vector2> allCollectables = new Dictionary<Collectable, Vector2>();
+
+    public enum TileDirection
+    {
+        Northwest, North, Northeast, West, None, East, SouthWest, South, SouthEast,
+    }
     #region Getters
 
     /// <summary>
@@ -26,6 +47,26 @@ public class TileManager : MonoBehaviour
         allTilesInScene = FindObjectsByType<Tile>(FindObjectsInactive.Exclude, FindObjectsSortMode.InstanceID).ToList();
     }
     /// <summary>
+    /// This method searches the scene for ALL tile objects as a setup method. 
+    /// DO NOT USE THIS TO GET THE OBSTACLELIST
+    /// </summary>
+    public void LoadObstacleList()
+    {
+        allObstacles.Clear();
+        // allObstacles = GetAllTilesInScene().Where(tile => tile.GetObstacleClass() != null);
+    }
+    /// <summary>
+    /// This method searches the scene for ALL tile objects as a setup method. 
+    /// DO NOT USE THIS TO GET THE COLLECTIBLELIST
+    /// </summary>
+    public void LoadCollectibleList()
+    {
+        // allCollectables.Clear();
+        // allCollectables = GetAllTilesInScene().Where(tile => tile.GetCollectableClass() != null);
+    }
+
+
+    /// <summary>
     /// Gets all loaded tiles in this scene
     /// </summary>
     /// <returns></returns>
@@ -33,10 +74,85 @@ public class TileManager : MonoBehaviour
     {
         return allTilesInScene;
     }
+    public List<Obstacle> GetAllObstacles()
+    {
+        return allObstacles.Keys.ToList();
+    }
+    //public List<Collectable> GetCollectables()
+    //{
+    //    return allCollectables.Keys.ToList();
+    //}
+    public Tile GetTileWithCoordinates(Vector2 coordinates)
+    {
+        return allTilesInScene.FirstOrDefault(tile => tile.GetCoordinates() == coordinates);
+    }
+    public Obstacle GetObstacleWithTileCoordinates(Vector2 coordinates)
+    {
+        return allObstacles.FirstOrDefault(obstacle => obstacle.Value == coordinates).Key;
+    }
+    //public Collectable GetCollectableWithTileCoordinates(Vector2 coordinates)
+    //{
+    //    return allCollectables.FirstOrDefault(collectable => collectable.Value == coordinates).Key;
+    //}
+
+    public Tile[] GetTilesInLine(Tile originTile, Tile targetTile)
+    {
+        List<Tile> tilesInLine = new List<Tile>();
+
+        Vector2 targetCoords = targetTile.GetCoordinates();
+        Vector2 direction = (targetCoords - originTile.GetCoordinates()).normalized;
+
+        // initialize the current position as starting from the tile adjacent to the origin tile
+        Vector2 currentCoords = originTile.GetCoordinates() + direction;
+
+        while (currentCoords != targetCoords)
+        {
+            Tile currentTile = GetTileByCoordinates(currentCoords);
+
+            if (currentTile != null)
+            {
+                tilesInLine.Add(currentTile);
+            }
+            currentCoords += direction;
+        }
+
+        // add the target tile as the last tile to the list
+        Tile targetTileInLine = GetTileByCoordinates(targetCoords);
+        if (targetTileInLine != null)
+        {
+            tilesInLine.Add(targetTileInLine);
+        }
+        return tilesInLine.ToArray();
+    }
+    public Tile GetTileAtLocation(Tile startTile, int direction, int distance)
+    {
+        Vector2[] directionOffsets = new Vector2[]
+        {
+        new Vector2(-1, 1),  // 0: Northwest
+        new Vector2(0, 1),   // 1: North
+        new Vector2(1, 1),   // 2: Northeast
+        new Vector2(-1, 0),  // 3: West
+        new Vector2(0, 0),   // 4: None (stay at the same tile)
+        new Vector2(1, 0),   // 5: East
+        new Vector2(-1, -1), // 6: Southwest
+        new Vector2(0, -1),  // 7: South
+        new Vector2(1, -1),  // 8: Southeast
+        };
+
+        Vector2 startCoords = startTile.GetCoordinates();
+        Vector2 offset = directionOffsets[direction] * distance;
+
+
+        Vector2 targetCoords = startCoords + offset;
+
+        Tile targetTile = GetAllTilesInScene().FirstOrDefault(tile => tile.GetCoordinates() == targetCoords);
+
+        return targetTile;
+    }
     public Tile GetTileByCoordinates(Vector2 coordinates)
     {
         Tile tile = allTilesInScene.FirstOrDefault(t => t.GetCoordinates() == coordinates);
-        if(tile != null)
+        if (tile != null)
         {
             return tile;
         }
@@ -46,9 +162,5 @@ public class TileManager : MonoBehaviour
     #endregion
 
     #region Setters
-    #endregion
-    //public void Start()
-    //{
-    //    LoadTileList();
-    //}
+    #endregion    
 }

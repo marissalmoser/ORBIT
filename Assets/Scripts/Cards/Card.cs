@@ -1,12 +1,11 @@
 // +-----------------------------------------------------------------------------------------------+
 // @author - Ryan Herwig
-// @Contributers - 
+// @Contributers - Elijah Vroman
 // @Last Modified - August 4 2024
 // @ Description - A scriptable object of a card to use. The scriptable object will contain a name,
 //                 sprite, and if it has been clicked or not. It also has a ToString override.
 // +-----------------------------------------------------------------------------------------------+
 
-using System;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Card", menuName = "Card")]
@@ -15,15 +14,16 @@ public class Card : ScriptableObject
 {
     public new CardName name;
     public Sprite cardSprite;
-    [SerializeField] Tile _desinationTile;
-    public int ID {  get; private set; }
+    [SerializeField] Tile _destinationTile;
+    [SerializeField] private int distance;
+    public int ID { get; private set; }
 
     public enum CardName
     {
         Move,
         Turn,
-        TurnLeft, 
-        TurnRight, 
+        TurnLeft,
+        TurnRight,
         Jump,
         Clear,
         Switch,
@@ -37,6 +37,15 @@ public class Card : ScriptableObject
     public void SetID(int id)
     {
         ID = id;
+    }
+
+    /// <summary>
+    /// Getter for the private variable i made - E.v.
+    /// </summary>
+    /// <returns></returns>
+    public int GetDistance()
+    {
+        return distance;
     }
 
     /// <summary>
