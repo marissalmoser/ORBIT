@@ -122,6 +122,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &909808400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 909808402}
+  - component: {fileID: 909808401}
+  m_Layer: 0
+  m_Name: TurnObstacle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &909808401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909808400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab497a6d23d016a4dbe6aff2569afd10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _obstacleMovementCard: {fileID: 11400000, guid: 05ad4f276b683884f87edaa9a30dee09, type: 2}
+  _defaultState: 0
+--- !u!4 &909808402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 909808400}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.0609155, y: -1.8039014, z: -0.83608675}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1167745797
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,6 +406,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TileTest
       objectReference: {fileID: 0}
+    - target: {fileID: 1174751095092560990, guid: 34ac18151361e5540be9bb364e8d9674, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3438626029215765074, guid: 34ac18151361e5540be9bb364e8d9674, type: 3}
       propertyPath: _obstacleRef
       value: 
@@ -381,6 +431,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5676240792648858954, guid: a8c8c48428d15b94dace19566e8b5ed1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 6572157680005279483, guid: a8c8c48428d15b94dace19566e8b5ed1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -438,3 +492,4 @@ SceneRoots:
   - {fileID: 1167745799}
   - {fileID: 1562553882}
   - {fileID: 4731357019421274538}
+  - {fileID: 909808402}
