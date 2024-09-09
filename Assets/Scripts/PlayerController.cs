@@ -1,54 +1,52 @@
+/******************************************************************
+*    Author: Elijah Vroman
+*    Contributors: 
+*    Date Created: 9/02/24
+*    Description: This script is mainly focused on moving the player
+*    object from point A to point B, and turning, using coroutines
+*******************************************************************/
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Tile currentTile;
-    [SerializeField] private int currentFacingDirection;
-    [SerializeField] private Transform raycastPoint;
     public static UnityAction ReachedDestination;
+
+    [SerializeField] private int currentFacingDirection;
+    [SerializeField] private float fallTime = 1f;
+    [SerializeField] private float checkMoveInterval;
+    [SerializeField] private float jumpArcHeight;
+
+    [SerializeField] private Transform raycastPoint;
+    [SerializeField] private Tile currentTile;
 
     [SerializeField] private AnimationCurve moveEaseCurve;
     [SerializeField] private AnimationCurve jumpEaseCurve;
     [SerializeField] private AnimationCurve fallEaseCurve;
-    public float fallTime = 1f;
-    public float checkMoveInterval;
-    public float jumpArcHeight;
 
     private Tile previousTile;
     private Coroutine currentCoroutine;
 
-    //public List<Card> dummyList = new List<Card>();
-    //public PlayerStateMachineBrain mB;
-
     public void Start()
     {
-        currentTile = TileManager.Instance.GetTileByCoordinates(new Vector2(0,0));
+        currentTile = TileManager.Instance.GetTileByCoordinates(new Vector2(0, 0));
+        transform.position = currentTile.GetPlayerSnapPosition();
+        //TODO : replace this with a more concrete way to set the starting position
     }
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.T))
-        //{
-        //    TurnPlayer(true);
-        //}
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    TurnPlayer(false);
-        //}
-        //if(Input.GetKeyDown(KeyCode.S))
-        //{
-        //    StopJumpCoroutine();
-        //    print("HERE");
-        //}
-        //if(Input.GetKeyDown(KeyCode.V))
-        //{
-        //    mB.StartCardActions(dummyList);
-        //}
+
     }
 
-
+    #region LiteralMovement
+    /// <summary>
+    /// These are all private because there are public callers below they all 
+    /// use Lerp to update the player gameobject between two points
+    /// </summary>
+    /// <param name="originTileLoc"></param>
+    /// <param name="targetTileLoc"></param>
+    /// <returns></returns>
     private IEnumerator MovePlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
     {
         float timeElapsed = 0f;
@@ -138,7 +136,7 @@ public class PlayerController : MonoBehaviour
         ReachedDestination?.Invoke();
     }
     /// <summary>
-    /// Calculations for BezierCurve
+    /// Calculations for BezierCurve, all math stuff 
     /// </summary>
     /// <param name="t"></param>
     /// <param name="p0"></param>
@@ -158,6 +156,69 @@ public class PlayerController : MonoBehaviour
 
         return p;
     }
+    #endregion
+
+    #region Getters
+    public Tile GetTileWithPlayerRaycast()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(raycastPoint.position, -Vector3.up, out hit, 1f))
+        {
+            if (hit.collider.GetComponent<Tile>() != null)
+            {
+                return hit.collider.GetComponent<Tile>();
+            }
+        }
+        return null;
+    }
+    public Tile GetCurrentTile()
+    {
+        if (currentTile != null)
+        {
+            return currentTile;
+        }
+        Debug.LogError("Player controller's reference to the tile it is on is null");
+        return null;
+    }
+    public int GetCurrentFacingDirection()
+    {
+        return currentFacingDirection;
+    }
+    #endregion
+
+    #region Setters
+    public void SetCurrentTile(Tile tileToBeAt)
+    {
+        currentTile = tileToBeAt;
+    }
+    /// <summary>
+    /// Literally updates the playerobject rotation
+    /// </summary>
+    /// <param name="direction"></param>
+    public void SetFacingDirection(int direction)
+    {
+        currentFacingDirection = direction;
+
+        float newYRotation = 0f;  // Default rotation for North
+        switch (currentFacingDirection)
+        {
+            case 0: newYRotation = 315f; break;  // Northwest
+            case 1: newYRotation = 0f; break;    // North
+            case 2: newYRotation = 45f; break;   // Northeast
+            case 3: newYRotation = 270f; break;  // West
+            case 5: newYRotation = 90f; break;   // East
+            case 6: newYRotation = 225f; break;  // Southwest
+            case 7: newYRotation = 180f; break;  // South
+            case 8: newYRotation = 135f; break;  // Southeast
+        }
+        transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
+    }
+    #endregion
+
+    /// <summary>
+    /// Updates the facing direction in code only, but also calls SetFacingDir
+    /// </summary>
+    /// <param name="turningLeft"></param>
     public void TurnPlayer(bool turningLeft)
     {
         if (turningLeft)
@@ -183,55 +244,12 @@ public class PlayerController : MonoBehaviour
 
         SetFacingDirection(currentFacingDirection); //updating rotation
     }
-    public Tile GetTileWithPlayerRaycast()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(raycastPoint.position, -Vector3.up, out hit, 1f))
-        {
-            if (hit.collider.GetComponent<Tile>() != null)
-            {
-                return hit.collider.GetComponent<Tile>();
-            }
-        }
-        return null;
-    }
-    public Tile GetCurrentTile()
-    {
-        if (currentTile != null)
-        {
-            return currentTile;
-        }
-        Debug.LogError("Player controller's reference to the tile it is on is null");
-        return null;
-    }
 
-    public void SetCurrentTile(Tile tileToBeAt)
-    {
-        currentTile = tileToBeAt;
-    }
-    public int GetCurrentFacingDirection()
-    {
-        return currentFacingDirection;
-    }
-
-    public void SetFacingDirection(int direction)
-    {
-        currentFacingDirection = direction;
-
-        float newYRotation = 0f;  // Default rotation for North
-        switch (currentFacingDirection)
-        {
-            case 0: newYRotation = 315f; break;  // Northwest
-            case 1: newYRotation = 0f; break;    // North
-            case 2: newYRotation = 45f; break;   // Northeast
-            case 3: newYRotation = 270f; break;  // West
-            case 5: newYRotation = 90f; break;   // East
-            case 6: newYRotation = 225f; break;  // Southwest
-            case 7: newYRotation = 180f; break;  // South
-            case 8: newYRotation = 135f; break;  // Southeast
-        }
-        transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
-    }
+    /// <summary>
+    /// Will be using this to reset the players position + add new anim after
+    /// they collide with an obstacle
+    /// </summary>
+    /// <param name="target"></param>
     public void ScanTile(Tile target)
     {
         Tile currentTile = target;
@@ -245,6 +263,29 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    /// <summary>
+    /// Will be using this to detect collisions with walls and spikes
+    /// </summary>
+    /// <param name="other"></param>
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Collider>() != null)
+        {
+            print("HERE");
+        }
+    }
+
+    #region StartsAndStops
+    /// <summary>
+    /// Below are all the coroutines for moving the playercontainer. We will a
+    /// nimate the player itself, not the container. However, we still need to 
+    /// move the container, because the animations will be animated in place
+    /// I dont know a better way to stop a coroutine from another script
+    /// without doing string comparison, so thats why there are so many methods
+    /// </summary>
+    /// <param name="origin"></param>
+    /// <param name="target"></param>
     public void StartMoveCoroutine(Vector3 origin, Vector3 target)
     {
         currentCoroutine = StartCoroutine(MovePlayer(origin, target));
@@ -269,12 +310,6 @@ public class PlayerController : MonoBehaviour
     {
         StopCoroutine(currentCoroutine);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.GetComponent<Collider>() != null)
-        {
-            print("HERE");
-        }
-    }
+    #endregion
 }
+

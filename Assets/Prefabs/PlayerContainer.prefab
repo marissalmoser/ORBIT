@@ -285,9 +285,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc3340d301d1c94b991a32cc0856cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTile: {fileID: 0}
   currentFacingDirection: 1
+  fallTime: 1
+  checkMoveInterval: 0.1
+  jumpArcHeight: 4
   raycastPoint: {fileID: 6253370473978591665}
+  currentTile: {fileID: 0}
   moveEaseCurve:
     serializedVersion: 2
     m_Curve:
@@ -360,9 +363,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fallTime: 1
-  checkMoveInterval: 0.1
-  jumpArcHeight: 4
 --- !u!114 &2236043229551066485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,4 +376,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
-  actions: []

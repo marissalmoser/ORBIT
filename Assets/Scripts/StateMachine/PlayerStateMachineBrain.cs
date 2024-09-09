@@ -1,6 +1,25 @@
+/******************************************************************
+*    Author: Elijah Vroman
+*    Contributors: 
+*    Date Created: 9/02/24
+*    Description: After many, many, iterations, this is the state 
+*    machine i decided upon. The process is as follows:
+*    1. GameManager or Obstacle tiles determine player movement is 
+*       needed, if player played a card or stepped on a move tile
+*    2. Using the HandleIncomingActions method, this script collects 
+*       a list of actions in StartCardActions
+*    3. Enters FSM at Prepare next action, which gets the first card
+*       in the list
+*    4. Goes to FindTileUponAction, which sets targetTile and distance
+*    5. Plays a coroutine from PlayerController in PlayResult state
+*    6. Gets another card in PrepareNextAction state and repeats, or
+*       goes to waiting for actions state.
+*       
+*       IMPORTANT: AS OF 9/9/24, THERE IS NO HANDLER FOR HITTING 
+*       OBSTACLES OR FALLING INTO HOLES/OFF MAP. WIP. 
+*******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerStateMachineBrain : MonoBehaviour
@@ -9,8 +28,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     [SerializeField] private State currentState;
     private Coroutine currentCoroutine;
     private Card currentAction;
-
-    [SerializeField] private List<Card> actions = new List<Card>();
+    private List<Card> actions = new List<Card>();
     private Tile targetTile;
     private GameObject player;
     private PlayerController pC;
@@ -22,26 +40,36 @@ public class PlayerStateMachineBrain : MonoBehaviour
         GameManager.PlayActionOrder += HandleIncomingActions;
         TileManager.Instance.LoadTileList();
         FindPlayer();
+        //TODO: Have something else load the tileList()
     }
+
+    /// <summary>
+    /// Good old enum finite state machine. 
+    /// </summary>
     public enum State
     {
         WaitingForActions,
         FindTileUponAction,
-        DetermineActionResult,
         PlayResult,
         PrepareNextAction,
     }
 
-    public void FSM(State stateTo)
+    /// <summary>
+    /// This is private because you should not directly influence the FSM
+    /// Additionally, you cant have enums as params in animation events,
+    /// and that would be the only other reason to be public
+    /// </summary>
+    /// <param name="stateTo"></param>
+    private void FSM(State stateTo)
     {
         switch (stateTo)
         {
             case State.WaitingForActions:
-                if(currentCoroutine != null)
+                if (currentCoroutine != null)
                 {
                     StopCoroutine(currentCoroutine);
                 }
-                print("waiting for actions");
+                print("Waiting for actions");
                 currentState = State.WaitingForActions;
                 currentCoroutine = StartCoroutine(WaitingForActions());
                 break;
@@ -52,18 +80,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     StopCoroutine(currentCoroutine);
                 }
                 currentState = State.FindTileUponAction;
-                print("FINDING target tile");
+                print("Finding target tile");
                 currentCoroutine = StartCoroutine(FindTileUponAction());
-                break;
-
-            case State.DetermineActionResult:
-                if (currentCoroutine != null)
-                {
-                    StopCoroutine(currentCoroutine);
-                }
-                currentState = State.DetermineActionResult;
-                print("determining result");
-                currentCoroutine = StartCoroutine(DetermineActionResult());
                 break;
 
             case State.PlayResult:
@@ -72,7 +90,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     StopCoroutine(currentCoroutine);
                 }
                 currentState = State.PlayResult;
-                print("playing result");
+                print("Playing results");
                 currentCoroutine = StartCoroutine(PlayResult());
                 break;
 
@@ -155,7 +173,6 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
         FSM(State.PrepareNextAction);
     }
-
     public void HandleReachedDestination()
     {
         pC.StopFallCoroutine(); //We dont need to stop all these coroutines, but Unity doesnt care
@@ -207,57 +224,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
             distance = currentAction.GetDistance(); //main focus of this state
             targetTile = TileManager.Instance.GetTileAtLocation(currentTile, pC.GetCurrentFacingDirection(), distance);
-            //if (currentAction.name == Card.CardName.Move)
-            //{
-            //    Tile targetTile = TileManager.Instance.GetTileAtLocation(currentTile, pC.GetCurrentFacingDirection(), distance);
-            //    //returns tiles in a line in order from origin to target, excluding origin
-            //    Tile[] tiles = TileManager.Instance.GetTilesInLine(currentTile, targetTile);
-
-            //    foreach (Tile tile in tiles)
-            //    {
-            //        if(tile.GetElevation() > 0)
-            //        {
-
-            //        }
-            //    }
-            //}
-            //else if (currentAction.name == Card.CardName.Jump)
-            //{
-            //    if(distance > 1) //this is a spring tile
-            //    {
-            //        int[] possibleNumbers = { 0, 2, 6, 8 };
-            //        int randomIndex = Random.Range(0, possibleNumbers.Length);
-
-            //        targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
-            //    (currentTile, possibleNumbers[randomIndex], currentAction.GetDistance()); 
-            //    }
-            //    else
-            //    {
-            //        targetTile = TileManager.Instance.GetTileAtLocation
-            //    (currentTile, pC.GetCurrentFacingDirection(), distance 
-            //    + (currentTile.GetElevation() - targetTile.GetElevation())); //this line adds additional or negative distance to the jump based on elevation               
-            //    }
-
-
-            //    pC.StartJumpCoroutine(currentTile, targetTile);
-            //    //TODO: play animation
-            //}
-
-
 
             FSM(State.PlayResult);
-            yield return null;
-        }
-    }
-
-    /// <summary>
-    /// currently not being used
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator DetermineActionResult()
-    {
-        while (currentState == State.DetermineActionResult)
-        {
             yield return null;
         }
     }
@@ -281,7 +249,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 case Card.CardName.Jump:
                     if (distance > 2) //this is a spring tile
                     {
-                        distance -= 1; 
+                        distance -= 1;
                         //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles. Code wise, i need it to be two
                         // (two up, two across) to work properly
                         int[] possibleNumbers = { 0, 2, 6, 8 };
