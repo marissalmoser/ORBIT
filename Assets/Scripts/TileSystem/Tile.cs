@@ -5,12 +5,7 @@
 *    Description: This script will be on all tiles. It contains the functionality to
 *    assign obstacles and collectables to a tile and moves the objects to it's anchor.
 *******************************************************************/
-using System.Collections.Generic;
-using Unity.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using static Tile;
-using static UnityEngine.GraphicsBuffer;
 
 public class Tile : MonoBehaviour
 {
@@ -22,6 +17,7 @@ public class Tile : MonoBehaviour
     [Tooltip("Do not edit this field, it is just serialized for reference")]
     [SerializeField] private Vector2 _coordinates;
     [SerializeField] private TileType _tileType;
+    [SerializeField] private int _elevation;
     private TileType _lastTileType;
 
     [SerializeField] private GameObject _obstacleRef;
@@ -35,6 +31,11 @@ public class Tile : MonoBehaviour
     private GameObject _playerSnapTo;
 
     #region GettersAndSetters
+
+    public void Start()
+    {
+        _playerSnapTo = GetPlayerSnapAnchor();
+    }
     /// <summary>
     /// Returns a tile's 2D coordinates on the map
     /// </summary>
@@ -88,6 +89,10 @@ public class Tile : MonoBehaviour
         return null;
     }
 
+    public int GetElevation()
+    {
+        return _elevation;
+    }
     /// <summary>
     /// returns the reference to the tile's obstacle class
     /// </summary>
@@ -169,9 +174,7 @@ public class Tile : MonoBehaviour
         {
             return _playerSnapTo.transform.position;
         }
-
-        Debug.LogError("Player Snap To anchor is null");
-        return new Vector3(0,0,0);
+        return GetPlayerSnapAnchor().transform.position;
     }
 
     #endregion
@@ -192,6 +195,11 @@ public class Tile : MonoBehaviour
             SetTileType(_tileType);
             _lastTileType = _tileType;
         }
+        if(_tileType == TileType.Hole)
+        {
+            _elevation = 0;
+        }
+        //TODO : add handler for blocks on tile
     }
 
     /// <summary>
@@ -253,6 +261,10 @@ public class Tile : MonoBehaviour
             GetComponent<Collider>().enabled = false;
             GetComponent<MeshRenderer>().enabled = false;
         }
+    }
+    public void SetElevation(int height)
+    {
+        _elevation = height;
     }
 
     #endregion
