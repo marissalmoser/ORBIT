@@ -51,6 +51,8 @@ public class GameManager : MonoBehaviour
     private int _lastBackToItIndex;
     #endregion
 
+    public static Action<List<Card>> PlayActionOrder;
+
     private void Start()
     {
         //Carefully change order if needed. Some managers must be initialzed before others
@@ -324,7 +326,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlaySequence()
     {
-        //TODO - Get Eli's State Machine and send in action order
+        //Invokes Action that Eli's script is listening to
+        PlayActionOrder?.Invoke(_playedCards);
         ChangeGameState(STATE.ChooseCards);
     }
 
