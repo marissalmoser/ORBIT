@@ -130,6 +130,8 @@ MonoBehaviour:
   _moveCard: {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   _jumpCard: {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
   _turnCard: {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
+  _turnLeftCard: {fileID: 11400000, guid: 05ad4f276b683884f87edaa9a30dee09, type: 2}
+  _turnRightCard: {fileID: 11400000, guid: 97568e1732e7d4a46b63a91c7d5206c6, type: 2}
   _switchCard: {fileID: 11400000, guid: 1d5bf802da7e41b4980953489bfb2940, type: 2}
   _clearCard: {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   _backToItCard: {fileID: 0}
@@ -212,6 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e09aba69777f7fd41b7674b556b63c31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _targetFrameRate: 30
   _dealtCards: []
   _playedCards: []
   gameState: 0

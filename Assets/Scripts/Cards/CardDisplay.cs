@@ -87,4 +87,20 @@ public class CardDisplay : MonoBehaviour
     {
         PlayedCardManager.Instance.MouseEnterCard(card);
     }
+
+    /// <summary>
+    /// Helper method for choosing to turn left
+    /// </summary>
+    public void TurnLeftChosen()
+    {
+        PlayedCardManager.Instance.TurnChooseLeft();
+    }
+
+    /// <summary>
+    /// Helper method for choosing to turn right
+    /// </summary>
+    public void TurnRightChosen()
+    {
+        PlayedCardManager.Instance.TurnChooseRight();
+    }
 }
