@@ -25,14 +25,14 @@ using UnityEngine;
 public class PlayerStateMachineBrain : MonoBehaviour
 {
 
-    [SerializeField] private State currentState;
-    private Coroutine currentCoroutine;
-    private Card currentAction;
-    private List<Card> actions = new List<Card>();
-    private Tile targetTile;
-    private GameObject player;
-    private PlayerController pC;
-    private int distance;
+    [SerializeField] private State _currentState;
+    private Coroutine _currentCoroutine;
+    private Card _currentAction;
+    private List<Card> _actions = new List<Card>();
+    private Tile _targetTile;
+    private GameObject _player;
+    private PlayerController _pC;
+    private int _distance;
 
     public void Start()
     {
@@ -65,58 +65,58 @@ public class PlayerStateMachineBrain : MonoBehaviour
         switch (stateTo)
         {
             case State.WaitingForActions:
-                if (currentCoroutine != null)
+                if (_currentCoroutine != null)
                 {
-                    StopCoroutine(currentCoroutine);
+                    StopCoroutine(_currentCoroutine);
                 }
                 print("Waiting for actions");
-                currentState = State.WaitingForActions;
-                currentCoroutine = StartCoroutine(WaitingForActions());
+                _currentState = State.WaitingForActions;
+                _currentCoroutine = StartCoroutine(WaitingForActions());
                 break;
 
             case State.FindTileUponAction:
-                if (currentCoroutine != null)
+                if (_currentCoroutine != null)
                 {
-                    StopCoroutine(currentCoroutine);
+                    StopCoroutine(_currentCoroutine);
                 }
-                currentState = State.FindTileUponAction;
+                _currentState = State.FindTileUponAction;
                 print("Finding target tile");
-                currentCoroutine = StartCoroutine(FindTileUponAction());
+                _currentCoroutine = StartCoroutine(FindTileUponAction());
                 break;
 
             case State.PlayResult:
-                if (currentCoroutine != null)
+                if (_currentCoroutine != null)
                 {
-                    StopCoroutine(currentCoroutine);
+                    StopCoroutine(_currentCoroutine);
                 }
-                currentState = State.PlayResult;
+                _currentState = State.PlayResult;
                 print("Playing results");
-                currentCoroutine = StartCoroutine(PlayResult());
+                _currentCoroutine = StartCoroutine(PlayResult());
                 break;
 
             case State.PrepareNextAction:
-                if (currentCoroutine != null)
+                if (_currentCoroutine != null)
                 {
-                    StopCoroutine(currentCoroutine);
+                    StopCoroutine(_currentCoroutine);
                 }
-                currentState = State.PrepareNextAction;
+                _currentState = State.PrepareNextAction;
                 print("Preparing next action");
-                currentCoroutine = StartCoroutine(PrepareNextAction());
+                _currentCoroutine = StartCoroutine(PrepareNextAction());
                 break;
         }
     }
 
     public void FindPlayer()
     {
-        if (player == null)
+        if (_player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player");
-            pC = GetPlayerController();
-            if (pC == null)
+            _player = GameObject.FindGameObjectWithTag("Player");
+            _pC = GetPlayerController();
+            if (_pC == null)
             {
                 print("NULL");
             }
-            if (player == null)
+            if (_player == null)
             {
                 Debug.Log("No gameobject in scene tagged with player");
             }
@@ -124,35 +124,35 @@ public class PlayerStateMachineBrain : MonoBehaviour
     }
     public Card GetNextAction()
     {
-        if (actions.Count >= 1)
+        if (_actions.Count >= 1)
         {
-            Card actionToGive = actions[0];
-            actions.RemoveAt(0);
+            Card actionToGive = _actions[0];
+            _actions.RemoveAt(0);
             return actionToGive;
         }
         return null;
     }
     public State GetState()
     {
-        return currentState;
+        return _currentState;
     }
     public PlayerController GetPlayerController()
     {
-        if (pC != null)
+        if (_pC != null)
         {
-            return pC;
+            return _pC;
         }
         return GetPlayer().GetComponent<PlayerController>();
     }
     public GameObject GetPlayer()
     {
-        if (player != null)
+        if (_player != null)
         {
-            return player;
+            return _player;
         }
         {
             FindPlayer();
-            return player;
+            return _player;
         }
     }
 
@@ -162,30 +162,30 @@ public class PlayerStateMachineBrain : MonoBehaviour
     }
     public void HandleObstacleInterruption()
     {
-        pC.StopFallCoroutine(); //We dont need to stop all these coroutines, but Unity doesnt care
-        pC.StopJumpCoroutine(); // and I couldnt figure out how to stop a specific coroutine from
-        pC.StopMoveCoroutine(); // another script without making methods
+        _pC.StopFallCoroutine(); //We dont need to stop all these coroutines, but Unity doesnt care
+        _pC.StopJumpCoroutine(); // and I couldnt figure out how to stop a specific coroutine from
+        _pC.StopMoveCoroutine(); // another script without making methods
 
         //TODO : play an interruption animation
         Debug.Log("HIT AN OBSTACLE");
 
-        player.transform.position = pC.GetCurrentTile().GetPlayerSnapPosition();
+        _player.transform.position = _pC.GetCurrentTile().GetPlayerSnapPosition();
 
         FSM(State.PrepareNextAction);
     }
     public void HandleReachedDestination()
     {
-        pC.StopFallCoroutine(); //We dont need to stop all these coroutines, but Unity doesnt care
-        pC.StopJumpCoroutine(); // and I couldnt figure out how to stop a specific coroutine from
-        pC.StopMoveCoroutine(); // another script without making methods. Just to make sure the player is 
+        _pC.StopFallCoroutine(); //We dont need to stop all these coroutines, but Unity doesnt care
+        _pC.StopJumpCoroutine(); // and I couldnt figure out how to stop a specific coroutine from
+        _pC.StopMoveCoroutine(); // another script without making methods. Just to make sure the player is 
         // done moving so there is no jittery behavior
 
         FSM(State.PrepareNextAction);
     }
     public void SetCardList(List<Card> incomingActions)
     {
-        actions.Clear();
-        actions.AddRange(incomingActions);
+        _actions.Clear();
+        _actions.AddRange(incomingActions);
     }
 
     /// <summary>
@@ -196,7 +196,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         if(card != null)
         {
-            actions.Insert(0, card);
+            _actions.Insert(0, card);
         }
         else
         {
@@ -216,10 +216,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator PrepareNextAction()
     {
-        while (currentState == State.PrepareNextAction)
+        while (_currentState == State.PrepareNextAction)
         {
-            currentAction = GetNextAction();
-            if (currentAction != null)
+            _currentAction = GetNextAction();
+            if (_currentAction != null)
             {
                 FSM(State.FindTileUponAction);
             }
@@ -233,12 +233,12 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator FindTileUponAction()
     {
-        while (currentState == State.FindTileUponAction)
+        while (_currentState == State.FindTileUponAction)
         {
-            var currentTile = pC.GetCurrentTile();
+            var currentTile = _pC.GetCurrentTile();
 
-            distance = currentAction.GetDistance(); //main focus of this state
-            targetTile = TileManager.Instance.GetTileAtLocation(currentTile, pC.GetCurrentFacingDirection(), distance);
+            _distance = _currentAction.GetDistance(); //main focus of this state
+            _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, _pC.GetCurrentFacingDirection(), _distance);
 
             FSM(State.PlayResult);
             yield return null;
@@ -247,53 +247,53 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator PlayResult()
     {
-        if (currentState == State.PlayResult)
+        if (_currentState == State.PlayResult)
         {
-            switch (currentAction.name)
+            switch (_currentAction.name)
             {
                 case Card.CardName.TurnLeft:
-                    pC.TurnPlayer(true);
+                    _pC.TurnPlayer(true);
                     PlayerController.ReachedDestination?.Invoke();
                     //TODO: listen for wait for turn player animation event 
                     break;
                 case Card.CardName.TurnRight:
-                    pC.TurnPlayer(false);
+                    _pC.TurnPlayer(false);
                     PlayerController.ReachedDestination?.Invoke();
                     //TODO: animation here
                     break;
                 case Card.CardName.Jump:
-                    if (distance > 2) //this is a spring tile
+                    if (_distance > 2) //this is a spring tile
                     {
-                        distance -= 1;
+                        _distance -= 1;
                         //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles. Code wise, i need it to be two
                         // (two up, two across) to work properly
                         int[] possibleNumbers = { 0, 2, 6, 8 };
                         int randomIndex = Random.Range(0, possibleNumbers.Length);
 
-                        targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
-                    (pC.GetCurrentTile(), possibleNumbers[randomIndex], distance);
+                        _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
+                    (_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
 
-                        pC.StartJumpCoroutine(pC.GetCurrentTile().GetPlayerSnapPosition(), targetTile.GetPlayerSnapPosition());
+                        _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
                     }
 
                     else // this is a normal jump
                     {
                         //determine result by getting difference of elevation
-                        distance += (pC.GetCurrentTile().GetElevation() - targetTile.GetElevation());
+                        _distance += (_pC.GetCurrentTile().GetElevation() - _targetTile.GetElevation());
 
-                        if (distance < 0) //block is too high
+                        if (_distance < 0) //block is too high
                         {
-                            Vector3 newVector = (targetTile.GetPlayerSnapPosition());
-                            pC.StartJumpCoroutine(pC.GetCurrentTile().GetPlayerSnapPosition(), new Vector3(newVector.x, newVector.y - 1, newVector.z));
+                            Vector3 newVector = (_targetTile.GetPlayerSnapPosition());
+                            _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), new Vector3(newVector.x, newVector.y - 1, newVector.z));
                         }
                         else
                         {
-                            pC.StartJumpCoroutine(pC.GetCurrentTile().GetPlayerSnapPosition(), targetTile.GetPlayerSnapPosition());
+                            _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
                         }
                     }
                     break;
                 case Card.CardName.Move:
-                    pC.StartMoveCoroutine(pC.GetCurrentTile().GetPlayerSnapPosition(), targetTile.GetPlayerSnapPosition());
+                    _pC.StartMoveCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
                     break;
             }
             yield return null;
@@ -302,7 +302,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator WaitingForActions()
     {
-        while (currentState == State.WaitingForActions)
+        while (_currentState == State.WaitingForActions)
         {
             yield return null;
         }

@@ -13,25 +13,25 @@ public class PlayerController : MonoBehaviour
 {
     public static UnityAction ReachedDestination;
 
-    [SerializeField] private int currentFacingDirection;
-    [SerializeField] private float fallTime = 1f;
-    [SerializeField] private float checkMoveInterval;
-    [SerializeField] private float jumpArcHeight;
+    [SerializeField] private int _currentFacingDirection;
+    [SerializeField] private float _fallTime = 1f;
+    [SerializeField] private float _checkMoveInterval;
+    [SerializeField] private float _jumpArcHeight;
 
-    [SerializeField] private Transform raycastPoint;
-    [SerializeField] private Tile currentTile;
+    [SerializeField] private Transform _raycastPoint;
+    [SerializeField] private Tile _currentTile;
 
-    [SerializeField] private AnimationCurve moveEaseCurve;
-    [SerializeField] private AnimationCurve jumpEaseCurve;
-    [SerializeField] private AnimationCurve fallEaseCurve;
+    [SerializeField] private AnimationCurve _moveEaseCurve;
+    [SerializeField] private AnimationCurve _jumpEaseCurve;
+    [SerializeField] private AnimationCurve _fallEaseCurve;
 
-    private Tile previousTile;
-    private Coroutine currentCoroutine;
+    private Tile _previousTile;
+    private Coroutine _currentCoroutine;
 
     public void Start()
     {
-        currentTile = TileManager.Instance.GetTileByCoordinates(new Vector2(0, 0));
-        transform.position = currentTile.GetPlayerSnapPosition();
+        _currentTile = TileManager.Instance.GetTileByCoordinates(new Vector2(0, 0));
+        transform.position = _currentTile.GetPlayerSnapPosition();
         //TODO : replace this with a more concrete way to set the starting position
     }
     void Update()
@@ -53,9 +53,9 @@ public class PlayerController : MonoBehaviour
         float checkTimeElapsed = 0f;
 
         //get the last key in the curve
-        while (timeElapsed < moveEaseCurve.keys[moveEaseCurve.length - 1].time)
+        while (timeElapsed < _moveEaseCurve.keys[_moveEaseCurve.length - 1].time)
         {
-            float curvePosition = moveEaseCurve.Evaluate(timeElapsed);
+            float curvePosition = _moveEaseCurve.Evaluate(timeElapsed);
 
             // Interpolate the player's position based on the curve's output
             transform.position = Vector3.Lerp(originTileLoc, targetTileLoc, curvePosition);
@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator FallPlayer(Vector3 originTileLoc)
     {
         float timeElapsed = 0f;
-        float totalTime = fallEaseCurve.keys[moveEaseCurve.length - 1].time;
+        float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
 
         Vector3 target = new Vector3(originTileLoc.x, originTileLoc.y - 10f, originTileLoc.z);
 
@@ -102,8 +102,8 @@ public class PlayerController : MonoBehaviour
         float checkTimeElapsed = 0f;
 
         //calculate the midpoint by using both A and B and getting halfway at the archeight
-        Vector3 controlPoint = (originTileLoc + targetTileLoc) / 2 + Vector3.up * jumpArcHeight;
-        float totalDuration = jumpEaseCurve.keys[moveEaseCurve.length - 1].time;
+        Vector3 controlPoint = (originTileLoc + targetTileLoc) / 2 + Vector3.up * _jumpArcHeight;
+        float totalDuration = _jumpEaseCurve.keys[_moveEaseCurve.length - 1].time;
 
         while (timeElapsed < totalDuration)
         {
@@ -162,7 +162,7 @@ public class PlayerController : MonoBehaviour
     public Tile GetTileWithPlayerRaycast()
     {
         RaycastHit hit;
-        if (Physics.Raycast(raycastPoint.position, -Vector3.up, out hit, 1f))
+        if (Physics.Raycast(_raycastPoint.position, -Vector3.up, out hit, 1f))
         {
             if (hit.collider.GetComponent<Tile>() != null)
             {
@@ -173,23 +173,23 @@ public class PlayerController : MonoBehaviour
     }
     public Tile GetCurrentTile()
     {
-        if (currentTile != null)
+        if (_currentTile != null)
         {
-            return currentTile;
+            return _currentTile;
         }
         Debug.LogError("Player controller's reference to the tile it is on is null");
         return null;
     }
     public int GetCurrentFacingDirection()
     {
-        return currentFacingDirection;
+        return _currentFacingDirection;
     }
     #endregion
 
     #region Setters
     public void SetCurrentTile(Tile tileToBeAt)
     {
-        currentTile = tileToBeAt;
+        _currentTile = tileToBeAt;
     }
     /// <summary>
     /// Literally updates the playerobject rotation
@@ -197,10 +197,10 @@ public class PlayerController : MonoBehaviour
     /// <param name="direction"></param>
     public void SetFacingDirection(int direction)
     {
-        currentFacingDirection = direction;
+        _currentFacingDirection = direction;
 
         float newYRotation = 0f;  // Default rotation for North
-        switch (currentFacingDirection)
+        switch (_currentFacingDirection)
         {
             case 0: newYRotation = 315f; break;  // Northwest
             case 1: newYRotation = 0f; break;    // North
@@ -223,26 +223,26 @@ public class PlayerController : MonoBehaviour
     {
         if (turningLeft)
         {
-            switch (currentFacingDirection)
+            switch (_currentFacingDirection)
             {
-                case 1: currentFacingDirection = 3; break;
-                case 3: currentFacingDirection = 7; break;
-                case 7: currentFacingDirection = 5; break;
-                case 5: currentFacingDirection = 1; break;
+                case 1: _currentFacingDirection = 3; break;
+                case 3: _currentFacingDirection = 7; break;
+                case 7: _currentFacingDirection = 5; break;
+                case 5: _currentFacingDirection = 1; break;
             }
         }
         else
         {
-            switch (currentFacingDirection)
+            switch (_currentFacingDirection)
             {
-                case 1: currentFacingDirection = 5; break;
-                case 5: currentFacingDirection = 7; break;
-                case 7: currentFacingDirection = 3; break;
-                case 3: currentFacingDirection = 1; break;
+                case 1: _currentFacingDirection = 5; break;
+                case 5: _currentFacingDirection = 7; break;
+                case 7: _currentFacingDirection = 3; break;
+                case 3: _currentFacingDirection = 1; break;
             }
         }
 
-        SetFacingDirection(currentFacingDirection); //updating rotation
+        SetFacingDirection(_currentFacingDirection); //updating rotation
     }
 
     /// <summary>
@@ -253,10 +253,10 @@ public class PlayerController : MonoBehaviour
     public void ScanTile(Tile target)
     {
         Tile currentTile = target;
-        if (previousTile == null || currentTile != previousTile)
+        if (_previousTile == null || currentTile != _previousTile)
         {
-            previousTile = currentTile;
-            if (previousTile.GetObstacleClass() != null)
+            _previousTile = currentTile;
+            if (_previousTile.GetObstacleClass() != null)
             {
                 //there is an obstacle, 
                 ReachedDestination?.Invoke();
@@ -288,27 +288,27 @@ public class PlayerController : MonoBehaviour
     /// <param name="target"></param>
     public void StartMoveCoroutine(Vector3 origin, Vector3 target)
     {
-        currentCoroutine = StartCoroutine(MovePlayer(origin, target));
+        _currentCoroutine = StartCoroutine(MovePlayer(origin, target));
     }
     public void StopMoveCoroutine()
     {
-        StopCoroutine(currentCoroutine);
+        StopCoroutine(_currentCoroutine);
     }
     public void StartJumpCoroutine(Vector3 origin, Vector3 target)
     {
-        currentCoroutine = StartCoroutine(JumpPlayer(origin, target));
+        _currentCoroutine = StartCoroutine(JumpPlayer(origin, target));
     }
     public void StopJumpCoroutine()
     {
-        StopCoroutine(currentCoroutine);
+        StopCoroutine(_currentCoroutine);
     }
     public void StartFallCoroutine(Vector3 origin)
     {
-        currentCoroutine = StartCoroutine(FallPlayer(origin));
+        _currentCoroutine = StartCoroutine(FallPlayer(origin));
     }
     public void StopFallCoroutine()
     {
-        StopCoroutine(currentCoroutine);
+        StopCoroutine(_currentCoroutine);
     }
     #endregion
 }

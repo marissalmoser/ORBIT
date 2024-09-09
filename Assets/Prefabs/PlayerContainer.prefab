@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2155908179888845990}
   m_Layer: 0
   m_Name: PlayerObject
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -285,13 +285,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc3340d301d1c94b991a32cc0856cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentFacingDirection: 1
-  fallTime: 1
-  checkMoveInterval: 0.1
-  jumpArcHeight: 4
-  raycastPoint: {fileID: 6253370473978591665}
-  currentTile: {fileID: 0}
-  moveEaseCurve:
+  _currentFacingDirection: 1
+  _fallTime: 1
+  _checkMoveInterval: 0.1
+  _jumpArcHeight: 4
+  _raycastPoint: {fileID: 0}
+  _currentTile: {fileID: 0}
+  _moveEaseCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -315,7 +315,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  jumpEaseCurve:
+  _jumpEaseCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -339,7 +339,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  fallEaseCurve:
+  _fallEaseCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -375,4 +375,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fece15e5374d1fe4f86d6e7088d3a869, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
+  _currentState: 0
