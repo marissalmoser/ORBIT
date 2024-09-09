@@ -195,6 +195,11 @@ public class Tile : MonoBehaviour
             SetTileType(_tileType);
             _lastTileType = _tileType;
         }
+        if(_tileType == TileType.Hole)
+        {
+            _elevation = 0;
+        }
+        //TODO : add handler for blocks on tile
     }
 
     /// <summary>

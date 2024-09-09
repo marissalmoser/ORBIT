@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,9 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int currentFacingDirection;
     [SerializeField] private Transform raycastPoint;
     public static UnityAction ReachedDestination;
-    public Tile tile1;
-    public Tile tile2;
-    public Tile tile3;
+
     [SerializeField] private AnimationCurve moveEaseCurve;
     [SerializeField] private AnimationCurve jumpEaseCurve;
     [SerializeField] private AnimationCurve fallEaseCurve;
@@ -21,35 +20,37 @@ public class PlayerController : MonoBehaviour
     private Tile previousTile;
     private Coroutine currentCoroutine;
 
+    //public List<Card> dummyList = new List<Card>();
+    //public PlayerStateMachineBrain mB;
+
     public void Start()
     {
-
+        currentTile = TileManager.Instance.GetTileByCoordinates(new Vector2(0,0));
     }
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartCoroutine(JumpPlayer(tile1, tile2));
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            TurnPlayer(true);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            TurnPlayer(false);
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            StartCoroutine(JumpPlayer(tile2, tile3));
-        }
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    TurnPlayer(true);
+        //}
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    TurnPlayer(false);
+        //}
+        //if(Input.GetKeyDown(KeyCode.S))
+        //{
+        //    StopJumpCoroutine();
+        //    print("HERE");
+        //}
+        //if(Input.GetKeyDown(KeyCode.V))
+        //{
+        //    mB.StartCardActions(dummyList);
+        //}
     }
 
 
-    private IEnumerator MovePlayer(Tile originTile, Tile targetTile)
+    private IEnumerator MovePlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
     {
-        Vector3 origin = originTile.GetPlayerSnapPosition();
-        Vector3 target = targetTile.GetPlayerSnapPosition();
         float timeElapsed = 0f;
         float checkTimeElapsed = 0f;
 
@@ -59,7 +60,7 @@ public class PlayerController : MonoBehaviour
             float curvePosition = moveEaseCurve.Evaluate(timeElapsed);
 
             // Interpolate the player's position based on the curve's output
-            transform.position = Vector3.Lerp(origin, target, curvePosition);
+            transform.position = Vector3.Lerp(originTileLoc, targetTileLoc, curvePosition);
 
             timeElapsed += Time.deltaTime;
             checkTimeElapsed += Time.deltaTime;
@@ -78,32 +79,32 @@ public class PlayerController : MonoBehaviour
         //{
         //    StartCoroutine(Fall(targetTile));
         //}
+        transform.position = targetTileLoc; //double check final position
+        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
+        ReachedDestination?.Invoke();
     }
-    private IEnumerator FallPlayer(Tile originTile)
+    private IEnumerator FallPlayer(Vector3 originTileLoc)
     {
         float timeElapsed = 0f;
         float totalTime = fallEaseCurve.keys[moveEaseCurve.length - 1].time;
 
-        Vector3 origin = originTile.GetPlayerSnapPosition();
-        Vector3 target = new Vector3(origin.x, origin.y - 10f, origin.z);
+        Vector3 target = new Vector3(originTileLoc.x, originTileLoc.y - 10f, originTileLoc.z);
 
         while (timeElapsed < totalTime)
         {
             float time = timeElapsed / totalTime;
-            transform.position = Vector3.Lerp(origin, target, time);
+            transform.position = Vector3.Lerp(originTileLoc, target, time);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
     }
-    private IEnumerator JumpPlayer(Tile originTile, Tile targetTile)
+    private IEnumerator JumpPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
     {
         float timeElapsed = 0f;
         float checkTimeElapsed = 0f;
-        Vector3 origin = originTile.GetPlayerSnapPosition();
-        Vector3 target = targetTile.GetPlayerSnapPosition();
 
         //calculate the midpoint by using both A and B and getting halfway at the archeight
-        Vector3 controlPoint = (origin + target) / 2 + Vector3.up * jumpArcHeight;
+        Vector3 controlPoint = (originTileLoc + targetTileLoc) / 2 + Vector3.up * jumpArcHeight;
         float totalDuration = jumpEaseCurve.keys[moveEaseCurve.length - 1].time;
 
         while (timeElapsed < totalDuration)
@@ -111,7 +112,7 @@ public class PlayerController : MonoBehaviour
             float time = timeElapsed / totalDuration;
 
             // Calculate the current position on the Bezier curve
-            Vector3 currentPos = CalculateQuadraticBezierPoint(time, origin, controlPoint, target);
+            Vector3 currentPos = CalculateQuadraticBezierPoint(time, originTileLoc, controlPoint, targetTileLoc);
             transform.position = currentPos;
 
             timeElapsed += Time.deltaTime;
@@ -132,6 +133,9 @@ public class PlayerController : MonoBehaviour
         //{
         //    StartCoroutine(Fall(targetTile));
         //}
+        transform.position = targetTileLoc; //double check final position
+        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
+        ReachedDestination?.Invoke();
     }
     /// <summary>
     /// Calculations for BezierCurve
@@ -200,10 +204,16 @@ public class PlayerController : MonoBehaviour
         Debug.LogError("Player controller's reference to the tile it is on is null");
         return null;
     }
+
+    public void SetCurrentTile(Tile tileToBeAt)
+    {
+        currentTile = tileToBeAt;
+    }
     public int GetCurrentFacingDirection()
     {
         return currentFacingDirection;
     }
+
     public void SetFacingDirection(int direction)
     {
         currentFacingDirection = direction;
@@ -235,28 +245,36 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    public void StartMoveCoroutine(Tile origin, Tile target)
+    public void StartMoveCoroutine(Vector3 origin, Vector3 target)
     {
-        StartCoroutine(MovePlayer(origin, target));
+        currentCoroutine = StartCoroutine(MovePlayer(origin, target));
     }
     public void StopMoveCoroutine()
     {
-        StopCoroutine(MovePlayer(currentTile, currentTile));
+        StopCoroutine(currentCoroutine);
     }
-    public void StartJumpCoroutine(Tile origin, Tile target)
+    public void StartJumpCoroutine(Vector3 origin, Vector3 target)
     {
-        StartCoroutine(JumpPlayer(origin, target));
+        currentCoroutine = StartCoroutine(JumpPlayer(origin, target));
     }
     public void StopJumpCoroutine()
     {
-        StopCoroutine(JumpPlayer(currentTile, currentTile));
+        StopCoroutine(currentCoroutine);
     }
-    public void StartFallCoroutine(Tile origin)
+    public void StartFallCoroutine(Vector3 origin)
     {
-        StartCoroutine(FallPlayer(origin));
+        currentCoroutine = StartCoroutine(FallPlayer(origin));
     }
     public void StopFallCoroutine()
     {
-        StopCoroutine(FallPlayer(currentTile));
+        StopCoroutine(currentCoroutine);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.GetComponent<Collider>() != null)
+        {
+            print("HERE");
+        }
     }
 }

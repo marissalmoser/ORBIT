@@ -94,6 +94,36 @@ public class TileManager : MonoBehaviour
     //{
     //    return allCollectables.FirstOrDefault(collectable => collectable.Value == coordinates).Key;
     //}
+
+    public Tile[] GetTilesInLine(Tile originTile, Tile targetTile)
+    {
+        List<Tile> tilesInLine = new List<Tile>();
+
+        Vector2 targetCoords = targetTile.GetCoordinates();
+        Vector2 direction = (targetCoords - originTile.GetCoordinates()).normalized;
+
+        // initialize the current position as starting from the tile adjacent to the origin tile
+        Vector2 currentCoords = originTile.GetCoordinates() + direction;
+
+        while (currentCoords != targetCoords)
+        {
+            Tile currentTile = GetTileByCoordinates(currentCoords);
+
+            if (currentTile != null)
+            {
+                tilesInLine.Add(currentTile);
+            }
+            currentCoords += direction;
+        }
+
+        // add the target tile as the last tile to the list
+        Tile targetTileInLine = GetTileByCoordinates(targetCoords);
+        if (targetTileInLine != null)
+        {
+            tilesInLine.Add(targetTileInLine);
+        }
+        return tilesInLine.ToArray();
+    }
     public Tile GetTileAtLocation(Tile startTile, int direction, int distance)
     {
         Vector2[] directionOffsets = new Vector2[]
@@ -111,6 +141,8 @@ public class TileManager : MonoBehaviour
 
         Vector2 startCoords = startTile.GetCoordinates();
         Vector2 offset = directionOffsets[direction] * distance;
+
+
         Vector2 targetCoords = startCoords + offset;
 
         Tile targetTile = GetAllTilesInScene().FirstOrDefault(tile => tile.GetCoordinates() == targetCoords);
