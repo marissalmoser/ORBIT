@@ -115,10 +115,10 @@ public class UIManager : MonoBehaviour
                     card.UpdateCard(_dealtTurnCard);
                     break;
                 case Card.CardName.TurnLeft: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_playedTurnLeftCard);
+                    card.UpdateCard(_dealtTurnLeftCard);
                     break;
                 case Card.CardName.TurnRight: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_playedTurnRightCard);
+                    card.UpdateCard(_dealtTurnRightCard);
                     break;
                 case Card.CardName.Clear:
                     card.UpdateCard(_dealtClearCard);
@@ -267,13 +267,13 @@ public class UIManager : MonoBehaviour
             CardDisplay leftCard = _leftImage.GetComponent<CardDisplay>(); //Grabs data from image
 
             //Uses grabbed data to compare with possible types and convert image to found type
-            leftCard.UpdateCard(_playedTurnLeftCard);
+            leftCard.UpdateCard(_dealtTurnLeftCard);
             
 
             CardDisplay rightCard = _rightImage.GetComponent<CardDisplay>(); //Grabs data from image
 
             //Uses grabbed data to compare with possible types and convert image to found type
-            rightCard.UpdateCard(_playedTurnRightCard);
+            rightCard.UpdateCard(_dealtTurnRightCard);
     }
 
     /// <summary>
