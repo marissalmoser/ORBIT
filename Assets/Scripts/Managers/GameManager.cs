@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     private List<Card> _tempPlayedCards;
     private List<Card> _tempBeforeBackToItCards, _tempAfterBackToItCards;
     private List<int> _collectedSwitchIDs;
-    private List<Collectable> collectablesCollected;
+    private List<Collectable> collectablesCollected = new List<Collectable>();
     private (Card, int) _lastCardPlayed;
     private int _lastBackToItIndex;
     #endregion

@@ -6,6 +6,7 @@
 *    assign obstacles and collectables to a tile and moves the objects to it's anchor.
 *******************************************************************/
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 public class Tile : MonoBehaviour
 {
@@ -219,7 +220,7 @@ public class Tile : MonoBehaviour
             }
 
             //get and move obstacle ref to the anchor point
-            GetObstacleAnchor().transform.position = _obstacleAnchor.transform.position;
+            _obstacleRef.transform.position = GetObstacleAnchor().transform.position;
         }
     }
 
@@ -240,7 +241,7 @@ public class Tile : MonoBehaviour
             }
 
             //get and move collectable ref to the anchor point
-            GetCollectableAnchor().transform.position = _collectableAnchor.transform.position;
+            _collectableRef.transform.position = GetCollectableAnchor().transform.position;
         }
     }
 

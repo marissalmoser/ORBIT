@@ -8,11 +8,11 @@ public class Planet : Collectable
     {
         gameManager = GameManager.Instance;
     }
-    public void OnCollisionEnter(Collision collision)
+    public void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player"))
         {
-            gameManager.AddCollectable(this);
+            GameManager.Instance.AddCollectable(this);
             Destroy(gameObject);
         }
     }
