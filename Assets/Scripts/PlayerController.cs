@@ -12,11 +12,13 @@ using UnityEngine.Events;
 public class PlayerController : MonoBehaviour
 {
     public static UnityAction ReachedDestination;
+    public static UnityAction<Card> AddCard;
 
     [SerializeField] private int _currentFacingDirection;
     [SerializeField] private float _fallTime = 1f;
     [SerializeField] private float _checkMoveInterval;
     [SerializeField] private float _jumpArcHeight;
+    [SerializeField] private float _checkInterval;
 
     [SerializeField] private Transform _raycastPoint;
     [SerializeField] private Tile _currentTile;
@@ -63,13 +65,13 @@ public class PlayerController : MonoBehaviour
             timeElapsed += Time.deltaTime;
             checkTimeElapsed += Time.deltaTime;
 
-            //if (checkTimeElapsed >= checkMoveInterval)
-            //{
-            //    ScanTile(GetTileWithPlayerRaycast());
+            if (checkTimeElapsed >= _checkInterval)
+            {
+                ScanTile(GetTileWithPlayerRaycast());
 
-            //    // Reset the check timer
-            //    checkTimeElapsed = 0f;
-            //}
+                // Reset the check timer
+                checkTimeElapsed = 0f;
+            }
             yield return null;
         }
         //transform.position = target;
@@ -79,7 +81,9 @@ public class PlayerController : MonoBehaviour
         //}
         transform.position = targetTileLoc; //double check final position
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
+
         ReachedDestination?.Invoke();
+
     }
     private IEnumerator FallPlayer(Vector3 originTileLoc)
     {

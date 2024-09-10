@@ -37,6 +37,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     public void Start()
     {
         PlayerController.ReachedDestination += HandleReachedDestination;
+        PlayerController.AddCard += HandleCardAdd;
         GameManager.PlayActionOrder += HandleIncomingActions;
         TileManager.Instance.LoadTileList();
         FindPlayer();
@@ -156,6 +157,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
         }
     }
 
+    public void HandleCardAdd(Card card)
+    {
+        AddCardToList(card);
+    }
     public void HandleIncomingActions(List<Card> cardList)
     {
         StartCardActions(cardList);
