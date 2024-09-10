@@ -12,10 +12,10 @@ FBXHeaderExtension:  {
 		Year: 2024
 		Month: 9
 		Day: 10
-		Hour: 14
-		Minute: 57
-		Second: 54
-		Millisecond: 673
+		Hour: 16
+		Minute: 15
+		Second: 11
+		Millisecond: 972
 	}
 	Creator: "Blockbench 4.10.4"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2024-09-10 19:57:54:673"
+CreationTime: "2024-09-10 21:15:11:972"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 291955511 {
+	Document: 265991035 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,9 +268,9 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 24512733, "Geometry::cube2", "Mesh" {
+	Geometry: 39665225, "Geometry::cube2", "Mesh" {
 		Vertices: *24 {
-			a: 0,200,100,0,200,0,0,0,100,0,0,0,-100,200,0,-100,200,100,-100,0,0,-100,0,100
+			a: 50,150,50,50,150,-50,50,-50,50,50,-50,-50,-50,150,-50,-50,150,50,-50,-50,-50,-50,-50,50
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -319,13 +319,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 63273814, "Model::cube2", "Mesh" {
+	Model: 36096359, "Model::cube2", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",50,0,-50
+			P: "Lcl Translation", "Lcl Translation", "", "A",0,50,0
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -334,7 +334,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Material: 68464844, "Material::texture1.png", "" {
+	Material: 54605703, "Material::texture1.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -345,7 +345,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 4292751, "Texture::texture1.png", "" {
+	Texture: 55731304, "Texture::texture1.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::texture1.png"
@@ -357,7 +357,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 89461115, "Video::texture1.png", "Clip" {
+	Video: 8682154, "Video::texture1.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture1.png"
@@ -366,7 +366,7 @@ Objects:  {
 		Filename: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture1.png"
 		RelativeFilename: "texture1.png"
 	}
-	Material: 57128583, "Material::texture2.png", "" {
+	Material: 86733478, "Material::texture2.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -377,7 +377,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 9695833, "Texture::texture2.png", "" {
+	Texture: 32997083, "Texture::texture2.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::texture2.png"
@@ -389,7 +389,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 30583813, "Video::texture2.png", "Clip" {
+	Video: 14535399, "Video::texture2.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture2.png"
@@ -398,7 +398,7 @@ Objects:  {
 		Filename: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture2.png"
 		RelativeFilename: "texture2.png"
 	}
-	Material: 77677337, "Material::texture3.png", "" {
+	Material: 82096687, "Material::texture3.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -409,7 +409,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 43104603, "Texture::texture3.png", "" {
+	Texture: 12870818, "Texture::texture3.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::texture3.png"
@@ -421,7 +421,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 36289429, "Video::texture3.png", "Clip" {
+	Video: 68213825, "Video::texture3.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture3.png"
@@ -436,15 +436,15 @@ Objects:  {
 ;------------------------------------------------------------------
 
 Connections:  {
-	C: "OO",63273814,0
-	C: "OO",24512733,63273814
-	C: "OO",57128583,63273814
-	C: "OP",4292751,68464844, "DiffuseColor"
-	C: "OO",89461115,4292751
-	C: "OP",9695833,57128583, "DiffuseColor"
-	C: "OO",30583813,9695833
-	C: "OP",43104603,77677337, "DiffuseColor"
-	C: "OO",36289429,43104603
+	C: "OO",36096359,0
+	C: "OO",39665225,36096359
+	C: "OO",86733478,36096359
+	C: "OP",55731304,54605703, "DiffuseColor"
+	C: "OO",8682154,55731304
+	C: "OP",32997083,86733478, "DiffuseColor"
+	C: "OO",14535399,32997083
+	C: "OP",12870818,82096687, "DiffuseColor"
+	C: "OO",68213825,12870818
 }
 
 ; Takes section
