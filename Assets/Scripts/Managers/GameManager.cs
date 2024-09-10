@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public static Action<List<Card>> PlayActionOrder;
-
     private void Start()
     {
         //Carefully change order if needed. Some managers must be initialzed before others
@@ -246,8 +245,7 @@ public class GameManager : MonoBehaviour
             ChangeGameState(STATE.ChooseTurn); //Waits for User Input to Switch two cards
             _uiManager.CreateTurnCards();
         }
-
-            if (gameState == STATE.RunActionOrder)
+        if (gameState == STATE.RunActionOrder)
             PlaySequence(); //Plays the action order
     }
 
@@ -328,7 +326,6 @@ public class GameManager : MonoBehaviour
     {
         //Invokes Action that Eli's script is listening to
         PlayActionOrder?.Invoke(_playedCards);
-        ChangeGameState(STATE.ChooseCards);
     }
 
     /// <summary>
