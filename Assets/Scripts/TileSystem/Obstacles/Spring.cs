@@ -8,11 +8,10 @@ public class Spring : Obstacle
     {
         if (_isActive)
         {
-            _anim.SetTrigger("Spring");
+            _anim.SetTrigger("SpringUp");
         }
         _isActive = !_isActive;
     }
-
 
     public override void SetToDefaultState()
     {
