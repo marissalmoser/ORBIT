@@ -4,18 +4,19 @@ using UnityEngine;
 
 public class TurnTable : Obstacle
 {
-    [SerializeField] bool _turnsLeft;
+    //Will update this when asset is created
+    //[SerializeField] bool _turnsLeft;
 
     public override void PerformObstacleAnim()
     {
         _isActive = true;
-        if(_turnsLeft)
+        //if(_turnsLeft)
+        //{
+        //    //turn left anim
+        //}
+        //else
         {
-            //turn left anim
-        }
-        else
-        {
-            //turn right anim
+            _anim.SetTrigger("Right");
         }
         _isActive = false;
     }
