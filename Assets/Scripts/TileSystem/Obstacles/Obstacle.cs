@@ -29,9 +29,14 @@ public abstract class Obstacle : MonoBehaviour
         SetToDefaultState();
     }
 
-    public bool getIsActive()
+    public bool IsActive()
     {
         return _isActive;
+    }
+
+    public Card GetCard()
+    {
+        return _obstacleMovementCard;
     }
 
     /// <summary>

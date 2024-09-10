@@ -52,8 +52,17 @@ public class TileManager : MonoBehaviour
     /// </summary>
     public void LoadObstacleList()
     {
+        var tilesWithObstacles = GetAllTilesInScene()
+                             .Where(tile => tile.GetObstacleClass() != null);
+
         allObstacles.Clear();
-        // allObstacles = GetAllTilesInScene().Where(tile => tile.GetObstacleClass() != null);
+
+        foreach (var tile in tilesWithObstacles)
+        {
+            Obstacle obstacle = tile.GetObstacleClass(); 
+            Vector2 coordinates = tile.GetCoordinates();
+            allObstacles.Add(obstacle, coordinates);
+        }
     }
     /// <summary>
     /// This method searches the scene for ALL tile objects as a setup method. 

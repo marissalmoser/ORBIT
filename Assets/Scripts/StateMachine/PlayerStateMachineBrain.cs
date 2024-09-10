@@ -26,7 +26,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
 {
 
     [SerializeField] private State _currentState;
-    private Coroutine _currentCoroutine;
+    private Coroutine _currentStateCoroutine;
     private Card _currentAction;
     private List<Card> _actions = new List<Card>();
     private Tile _targetTile;
@@ -38,8 +38,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         PlayerController.ReachedDestination += HandleReachedDestination;
         PlayerController.AddCard += HandleCardAdd;
+        PlayerController.AnimationInterrupt += HandleSpikeInterruption;
         GameManager.PlayActionOrder += HandleIncomingActions;
         TileManager.Instance.LoadTileList();
+        TileManager.Instance.LoadObstacleList();
         FindPlayer();
         //TODO: Have something else load the tileList()
     }
@@ -66,43 +68,43 @@ public class PlayerStateMachineBrain : MonoBehaviour
         switch (stateTo)
         {
             case State.WaitingForActions:
-                if (_currentCoroutine != null)
+                if (_currentStateCoroutine != null)
                 {
-                    StopCoroutine(_currentCoroutine);
+                    StopCoroutine(_currentStateCoroutine);
                 }
                 print("Waiting for actions");
                 _currentState = State.WaitingForActions;
-                _currentCoroutine = StartCoroutine(WaitingForActions());
+                _currentStateCoroutine = StartCoroutine(WaitingForActions());
                 break;
 
             case State.FindTileUponAction:
-                if (_currentCoroutine != null)
+                if (_currentStateCoroutine != null)
                 {
-                    StopCoroutine(_currentCoroutine);
+                    StopCoroutine(_currentStateCoroutine);
                 }
                 _currentState = State.FindTileUponAction;
                 print("Finding target tile");
-                _currentCoroutine = StartCoroutine(FindTileUponAction());
+                _currentStateCoroutine = StartCoroutine(FindTileUponAction());
                 break;
 
             case State.PlayResult:
-                if (_currentCoroutine != null)
+                if (_currentStateCoroutine != null)
                 {
-                    StopCoroutine(_currentCoroutine);
+                    StopCoroutine(_currentStateCoroutine);
                 }
                 _currentState = State.PlayResult;
                 print("Playing results");
-                _currentCoroutine = StartCoroutine(PlayResult());
+                _currentStateCoroutine = StartCoroutine(PlayResult());
                 break;
 
             case State.PrepareNextAction:
-                if (_currentCoroutine != null)
+                if (_currentStateCoroutine != null)
                 {
-                    StopCoroutine(_currentCoroutine);
+                    StopCoroutine(_currentStateCoroutine);
                 }
                 _currentState = State.PrepareNextAction;
                 print("Preparing next action");
-                _currentCoroutine = StartCoroutine(PrepareNextAction());
+                _currentStateCoroutine = StartCoroutine(PrepareNextAction());
                 break;
         }
     }
@@ -165,25 +167,20 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         StartCardActions(cardList);
     }
-    public void HandleObstacleInterruption()
+    public void HandleSpikeInterruption()
     {
-        _pC.StopFallCoroutine(); //We dont need to stop all these coroutines, but Unity doesnt care
-        _pC.StopJumpCoroutine(); // and I couldnt figure out how to stop a specific coroutine from
-        _pC.StopMoveCoroutine(); // another script without making methods
-
-        //TODO : play an interruption animation
-        Debug.Log("HIT AN OBSTACLE");
-
-        _player.transform.position = _pC.GetCurrentTile().GetPlayerSnapPosition();
-
-        FSM(State.PrepareNextAction);
+        if (_pC.GetCurrentMovementCoroutine() != null)
+        {
+            _pC.StopCoroutine(_pC.GetCurrentMovementCoroutine());
+        }
+        FSM(State.WaitingForActions);
     }
     public void HandleReachedDestination()
     {
-        _pC.StopFallCoroutine(); //We dont need to stop all these coroutines, but Unity doesnt care
-        _pC.StopJumpCoroutine(); // and I couldnt figure out how to stop a specific coroutine from
-        _pC.StopMoveCoroutine(); // another script without making methods. Just to make sure the player is 
-        // done moving so there is no jittery behavior
+        if(_pC.GetCurrentMovementCoroutine() != null)
+        {
+            _pC.StopCoroutine(_pC.GetCurrentMovementCoroutine());
+        }
 
         FSM(State.PrepareNextAction);
     }
