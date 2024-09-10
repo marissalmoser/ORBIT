@@ -8,20 +8,21 @@ public class TurnTable : Obstacle
 
     public override void PerformObstacleAnim()
     {
-        _isActive = true;
-        if (_turnsLeft)
+        if(_isActive)
         {
-            //turn left anim
+            if (_turnsLeft)
+            {
+                _anim.SetTrigger("Left");
+            }
+            else
+            {
+                _anim.SetTrigger("Right");
+            }
         }
-        else
-        {
-            _anim.SetTrigger("Right");
-        }
-        _isActive = false;
     }
 
     public override void SetToDefaultState()
     {
-        _isActive = false;
+        _isActive = _defaultState;
     }
 }

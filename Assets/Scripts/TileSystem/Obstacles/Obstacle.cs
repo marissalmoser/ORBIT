@@ -50,4 +50,12 @@ public abstract class Obstacle : MonoBehaviour
     {
 
     }
+
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.P))
+        {
+            PerformObstacleAnim();
+        }
+    }
 }
