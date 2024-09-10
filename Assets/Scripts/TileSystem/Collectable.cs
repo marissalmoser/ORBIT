@@ -7,7 +7,7 @@
 using UnityEngine;
 
 [SelectionBase]
-public class Collectable : MonoBehaviour
+public abstract class Collectable : MonoBehaviour
 {
     
 }
