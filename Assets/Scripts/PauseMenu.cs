@@ -14,10 +14,10 @@ public class PauseMenu : MonoBehaviour
     {
         // Subscribe to input events
         _playerInput.currentActionMap["Pause"].performed += ctx =>
-            Pause();
+            TogglePause();
     }
     
-    private void Pause()
+    public void TogglePause()
     {
         _isPaused = !_isPaused;
 
@@ -31,6 +31,11 @@ public class PauseMenu : MonoBehaviour
             _pauseMenu.SetActive(false);
             Time.timeScale = 1f;
         }
+    }
+
+    public void QuitToMenu()
+    {
+
     }
     
 }
