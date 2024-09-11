@@ -1,3 +1,10 @@
+/******************************************************************
+*    Author: Sky Turner
+*    Contributors: 
+*    Date Created: 9/11/24
+*    Description: This script handles the pause menu
+*******************************************************************/
+
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -17,6 +24,9 @@ public class PauseMenu : MonoBehaviour
             TogglePause();
     }
     
+    /// <summary>
+    /// Handles toggling the pause menu
+    /// </summary>
     public void TogglePause()
     {
         _isPaused = !_isPaused;
