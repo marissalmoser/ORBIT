@@ -11,11 +11,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2024
 		Month: 9
-		Day: 7
-		Hour: 16
-		Minute: 7
-		Second: 16
-		Millisecond: 283
+		Day: 10
+		Hour: 15
+		Minute: 0
+		Second: 53
+		Millisecond: 450
 	}
 	Creator: "Blockbench 4.10.4"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2024-09-07 21:07:16:283"
+CreationTime: "2024-09-10 20:00:53:450"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1667332740 {
+	Document: 1757368681 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,9 +268,9 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 60796799, "Geometry::cube", "Mesh" {
+	Geometry: 70782974, "Geometry::cube", "Mesh" {
 		Vertices: *24 {
-			a: 50,0,50,50,0,-50,50,0,50,50,0,-50,-150,0,-50,-150,0,50,-150,0,-50,-150,0,50
+			a: 0,0.6250000000000003,100,0,0.6250000000000003,0,0,0.6250000000000003,100,0,0.6250000000000003,0,-200,0.6250000000000003,0,-200,0.6250000000000003,100,-200,0.6250000000000003,0,-200,0.6250000000000003,100
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -319,13 +319,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 89916295, "Model::cube", "Mesh" {
+	Model: 92137097, "Model::cube", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",0,0,0
+			P: "Lcl Translation", "Lcl Translation", "", "A",50,-0.6250000000000003,-50
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -334,7 +334,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Material: 6695996, "Material::texture", "" {
+	Material: 2989820, "Material::texture", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -345,7 +345,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 55296377, "Texture::texture", "" {
+	Texture: 41654505, "Texture::texture", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::texture"
@@ -357,7 +357,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 33416020, "Video::texture", "Clip" {
+	Video: 71968146, "Video::texture", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "texture"
@@ -373,11 +373,11 @@ Objects:  {
 ;------------------------------------------------------------------
 
 Connections:  {
-	C: "OO",89916295,0
-	C: "OO",60796799,89916295
-	C: "OO",6695996,89916295
-	C: "OP",55296377,6695996, "DiffuseColor"
-	C: "OO",33416020,55296377
+	C: "OO",92137097,0
+	C: "OO",70782974,92137097
+	C: "OO",2989820,92137097
+	C: "OP",41654505,2989820, "DiffuseColor"
+	C: "OO",71968146,41654505
 }
 
 ; Takes section
