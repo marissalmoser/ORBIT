@@ -89,6 +89,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""8a1ad049-8e76-4be5-906b-bf8d7a802ebd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -190,6 +199,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""234672d6-5026-4873-b8b0-acab00c302b8"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -205,6 +225,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_BaseMap_TurnRight = m_BaseMap.FindAction("TurnRight", throwIfNotFound: true);
         m_BaseMap_Move = m_BaseMap.FindAction("Move", throwIfNotFound: true);
         m_BaseMap_Jump = m_BaseMap.FindAction("Jump", throwIfNotFound: true);
+        m_BaseMap_Pause = m_BaseMap.FindAction("Pause", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +294,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_BaseMap_TurnRight;
     private readonly InputAction m_BaseMap_Move;
     private readonly InputAction m_BaseMap_Jump;
+    private readonly InputAction m_BaseMap_Pause;
     public struct BaseMapActions
     {
         private @Controls m_Wrapper;
@@ -284,6 +306,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @TurnRight => m_Wrapper.m_BaseMap_TurnRight;
         public InputAction @Move => m_Wrapper.m_BaseMap_Move;
         public InputAction @Jump => m_Wrapper.m_BaseMap_Jump;
+        public InputAction @Pause => m_Wrapper.m_BaseMap_Pause;
         public InputActionMap Get() { return m_Wrapper.m_BaseMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -314,6 +337,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IBaseMapActions instance)
@@ -339,6 +365,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IBaseMapActions instance)
@@ -365,5 +394,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnTurnRight(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
 }
