@@ -31,12 +31,12 @@ public class PauseMenu : MonoBehaviour
     {
         _isPaused = !_isPaused;
 
-        if (_isPaused)
+        if (_isPaused && _pauseMenu != null)
         {
             _pauseMenu.SetActive(true);
             Time.timeScale = 0f;
         }
-        else
+        else if(!_isPaused && _pauseMenu != null)
         {
             _pauseMenu.SetActive(false);
             Time.timeScale = 1f;
