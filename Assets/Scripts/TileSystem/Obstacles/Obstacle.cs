@@ -16,7 +16,6 @@ public abstract class Obstacle : MonoBehaviour
     protected bool _isActive;
 
     //Is this useful?
-    //Probably? If we put all of the obstacles in the same container, having this would allow us to sort through the container for a specific obstacle type - Ryan
     public enum ObstacleType
     {
         None, Arch, Ramp, Spring, Spike
@@ -50,5 +49,13 @@ public abstract class Obstacle : MonoBehaviour
     public virtual void SetToDefaultState()
     {
 
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.P))
+        {
+            PerformObstacleAnim();
+        }
     }
 }
