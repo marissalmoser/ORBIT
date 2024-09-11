@@ -73,6 +73,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     StopCoroutine(_currentStateCoroutine);
                 }
                 print("Waiting for actions");
+                GameManager.Instance.NewTurn();
                 _currentState = State.WaitingForActions;
                 _currentStateCoroutine = StartCoroutine(WaitingForActions());
                 break;
@@ -280,8 +281,9 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
                     else // this is a normal jump
                     {
-                        //determine result by getting difference of elevation
-                        _distance += (_pC.GetCurrentTile().GetElevation() - _targetTile.GetElevation());
+                        //determine result by getting difference of elevation betwen current tile and tile right in front of player
+                        _distance += (_pC.GetCurrentTile().GetElevation() - 
+                            (TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), 1).GetElevation()));
 
                         if (_distance < 0) //block is too high
                         {
@@ -290,12 +292,14 @@ public class PlayerStateMachineBrain : MonoBehaviour
                         }
                         else
                         {
-                            _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
+                            _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), 
+                                TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), _distance).GetPlayerSnapPosition());
                         }
                     }
                     break;
                 case Card.CardName.Move:
-                    _pC.StartMoveCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
+                    Vector3 newV = new Vector3(_targetTile.GetPlayerSnapPosition().x, _pC.transform.position.y, _targetTile.GetPlayerSnapPosition().z);
+                    _pC.StartMoveCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), newV);
                     break;
             }
             yield return null;

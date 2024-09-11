@@ -251,13 +251,11 @@ public class Tile : MonoBehaviour
         if(type == TileType.Tile)
         {
             _tileType = TileType.Tile;
-            //GetComponent<Collider>().enabled = true;
             GetComponent<MeshRenderer>().enabled = true;
         }
         else
         {
             _tileType = TileType.Hole;
-            //GetComponent<Collider>().enabled = false;
             GetComponent<MeshRenderer>().enabled = false;
         }
     }
