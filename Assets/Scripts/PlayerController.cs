@@ -11,7 +11,8 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
-    public static UnityAction AnimationInterrupt;
+    public static UnityAction WallInterruptAnimation;
+    public static UnityAction SpikeInterruptAnimation;
     public static UnityAction ReachedDestination;
     public static UnityAction<Card> AddCard;
 
@@ -284,15 +285,19 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.GetComponentInParent<Spike>() != null)
         {
-            AnimationInterrupt?.Invoke();
+            SpikeInterruptAnimation?.Invoke();
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
             StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y+10, newV.z));
         }
-        //else if(other.gameObject.TryGetComponent<Wall>(out _))
-        //{
-               
-        //}
 
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            WallInterruptAnimation?.Invoke();
+            //StartFallCoroutine(transform.position, GetTileWithPlayerRaycast().GetPlayerSnapPosition());
+        }
     }
 
     #region StartsAndStops

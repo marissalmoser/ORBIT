@@ -38,7 +38,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         PlayerController.ReachedDestination += HandleReachedDestination;
         PlayerController.AddCard += HandleCardAdd;
-        PlayerController.AnimationInterrupt += HandleSpikeInterruption;
+        PlayerController.SpikeInterruptAnimation += HandleSpikeInterruption;
+        PlayerController.WallInterruptAnimation += HandleWallInterruption;
         GameManager.PlayActionOrder += HandleIncomingActions;
         TileManager.Instance.LoadTileList();
         TileManager.Instance.LoadObstacleList();
@@ -167,6 +168,14 @@ public class PlayerStateMachineBrain : MonoBehaviour
     public void HandleIncomingActions(List<Card> cardList)
     {
         StartCardActions(cardList);
+    }
+    public void HandleWallInterruption()
+    {
+        if (_pC.GetCurrentMovementCoroutine() != null)
+        {
+            _pC.StopCoroutine(_pC.GetCurrentMovementCoroutine());
+        }
+        FSM(State.PrepareNextAction);
     }
     public void HandleSpikeInterruption()
     {
