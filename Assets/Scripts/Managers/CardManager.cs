@@ -37,8 +37,6 @@ public class CardManager : MonoBehaviour
     private Vector3 _imageStartingPosition;
     private BoxCollider2D _imageCollider;
 
-    [SerializeField] private PlayerInput _playerInput;
-
     /// <summary>
     /// Initializes variables for DealtCardManager. Called by GameManager
     /// </summary>
