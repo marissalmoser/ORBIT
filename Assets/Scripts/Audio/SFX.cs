@@ -4,14 +4,17 @@
  *    Date Created: 9/12/24
  *    Description: Sxf class with fields to customize each sfx
  *******************************************************************/
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Collections;
 
 [System.Serializable]
 public class SFX
 {
     public string name;
 
+    [Tooltip("Do not edit this field, it is just serialized for reference")]
     public int id;
 
     public AudioClip[] clips;
