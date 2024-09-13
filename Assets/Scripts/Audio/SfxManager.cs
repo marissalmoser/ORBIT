@@ -7,6 +7,7 @@
  *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SfxManager : MonoBehaviour
@@ -154,5 +155,16 @@ public class SfxManager : MonoBehaviour
         }
 
         yield break;
+    }
+
+    /// <summary>
+    /// Temp for testing
+    /// </summary>
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            PlaySFX(8834);
+        }
     }
 }
