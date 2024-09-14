@@ -34,6 +34,16 @@ public abstract class Obstacle : MonoBehaviour
         return _isActive;
     }
 
+    public void SetIsActive(bool input)
+    {
+        _isActive = input;
+    }
+
+    public void SetDefaultState(bool input)
+    {
+        _defaultState = input;
+    }
+
     public Card GetCard()
     {
         return _obstacleMovementCard;
