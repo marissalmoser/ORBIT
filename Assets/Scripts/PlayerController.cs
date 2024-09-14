@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
-        _currentTile = TileManager.Instance.GetTileByCoordinates(new Vector2(0, 0));
+        //_currentTile = TileManager.Instance.GetTileByCoordinates(_currentTile.GetCoordinates());
         transform.position = _currentTile.GetPlayerSnapPosition();
         //TODO : replace this with a more concrete way to set the starting position
     }
