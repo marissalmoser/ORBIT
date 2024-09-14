@@ -7,7 +7,6 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 public class CardManager : MonoBehaviour
 {
@@ -156,7 +155,18 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void PlayedMouseEnterCard(Image cardImage)
     {
-        //TODO
+        cardImage.GetComponentInParent<Canvas>().overrideSorting = true;
+        cardImage.GetComponent<Canvas>().sortingOrder = 1;
+    }
+
+    /// <summary>
+    /// Called when the mouse leaves the card's bounds
+    /// </summary>
+    /// <param name="cardImage">The image of the card</param>
+    public void PlayedMouseExitCard(Image cardImage, int soritingOrder)
+    {
+        cardImage.GetComponentInParent<Canvas>().overrideSorting = true;
+        cardImage.GetComponentInParent<Canvas>().sortingOrder = 0;
     }
 
     /// <summary>

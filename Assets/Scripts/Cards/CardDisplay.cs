@@ -14,6 +14,7 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private Card _card;
     [SerializeField] private Image _sprite;
     public int ID;
+    public int sortingLayer;
 
     private GameManager _gameManager;
     void Start()
@@ -105,6 +106,15 @@ public class CardDisplay : MonoBehaviour
     public void OnMouseEnterPlayedCard(Image card)
     {
         CardManager.Instance.PlayedMouseEnterCard(card);
+    }
+
+    /// <summary>
+    /// Helper method for Event Trigger Pointer Exit for Played Cards
+    /// </summary>
+    /// <param name="card">Image object for the card</param>
+    public void OnMouseExitPlayedCard(Image card)
+    {
+        CardManager.Instance.PlayedMouseExitCard(card, sortingLayer);
     }
     #endregion
 }
