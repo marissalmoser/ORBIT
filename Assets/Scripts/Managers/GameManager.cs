@@ -6,6 +6,7 @@
 // +-----------------------------------------------------------------------------------+
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,6 +33,7 @@ public class GameManager : MonoBehaviour
     #region Variables
     [SerializeField] private List<Card> _dealtCards;
     [SerializeField] private List<Card> _playedCards;
+    [SerializeField] private int _deathTimerLength;
 
     private DeckManager<Card> _deckManagerCard;
     private DeckManager<int> _deckManagerInt;
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public static Action<List<Card>> PlayActionOrder;
+    public static Action DeathAction;
     private void Start()
     {
         //Carefully change order if needed. Some managers must be initialzed before others
@@ -63,6 +66,34 @@ public class GameManager : MonoBehaviour
         _lastBackToItIndex = -1;
 
         ChangeGameState(STATE.LoadGame);
+        ChangeGameState(STATE.Death);
+    }
+
+    public void OnEnable()
+    {
+        DeathAction += DeathMethod;
+    }
+
+    public void OnDisable()
+    {
+        DeathAction -= DeathMethod;
+    }
+
+    /// <summary>
+    /// Method that is listening to the DeathAction being invoked.
+    /// </summary>
+    private void DeathMethod()
+    {
+        print("Rip Bozo");
+        _levelDeck.ResetDeck();
+
+        _deck = _levelDeck.deck;
+        _dealtCards = new();
+        _playedCards = new();
+        _tempPlayedCards = new();
+        _tempBeforeBackToItCards = new();
+        _tempAfterBackToItCards = new();
+        _collectedSwitchIDs = new();
     }
 
     /// <summary>
@@ -262,20 +293,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Failure()
     {
-        print("Rip Bozo.");
-
-        _levelDeck.ResetDeck();
-
-        _deck = _levelDeck.deck;
-        _dealtCards = new();
-        _playedCards = new();
-        _tempPlayedCards = new();
-        _tempBeforeBackToItCards = new();
-        _tempAfterBackToItCards = new();
-
-        _collectedSwitchIDs = new();
-
-        ChangeGameState(STATE.StartLevel);
+        DeathAction?.Invoke();
+        StartCoroutine(DeathTimer());
     }
 
     /// <summary>
@@ -539,6 +558,16 @@ public class GameManager : MonoBehaviour
     {
         collectablesCollected.Add(collectable);
         _uiManager.UpdateCollectables();
+    }
+
+    /// <summary>
+    /// Timer to reset the game state
+    /// </summary>
+    IEnumerator DeathTimer()
+    {
+        yield return new WaitForSeconds(_deathTimerLength);
+        ChangeGameState(STATE.StartLevel);
+        yield return null;
     }
 
     #region Getters
