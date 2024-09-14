@@ -1,3 +1,9 @@
+/******************************************************************
+*    Author: Marissa Moser
+*    Contributors: 
+*    Date Created: September 10, 2024
+*    Description: 
+*******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -12,12 +12,17 @@ using UnityEngine;
 
 public class Card : ScriptableObject
 {
+    [Tooltip(" North is positive on the z axis. East is positive on the x axis")] [SerializeField] private Direction direction;
     public new CardName name;
     public Sprite cardSprite;
-    [SerializeField] Tile _destinationTile;
+
     [SerializeField] private int distance;
     public int ID { get; private set; }
 
+    public enum Direction
+    {
+        None, Northwest, North, Northeast, West, East, Southwest, South, Southeast
+    }
     public enum CardName
     {
         Move,
@@ -46,6 +51,31 @@ public class Card : ScriptableObject
     public int GetDistance()
     {
         return distance;
+    }
+
+    public int GetDirection()
+    {
+        switch (direction)
+        {
+            case Direction.Northwest:
+                return 0;
+            case Direction.North:
+                return 1;
+            case Direction.Northeast:
+                return 2;
+            case Direction.West:
+                return 3;
+            case Direction.East:
+                return 5;
+            case Direction.Southwest:
+                return 6;
+            case Direction.South:
+                return 7;
+            case Direction.Southeast:
+                return 8;
+            default:
+                return 4;
+        }
     }
 
     /// <summary>
