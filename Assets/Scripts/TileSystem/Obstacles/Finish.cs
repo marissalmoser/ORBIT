@@ -9,6 +9,8 @@ public class Finish : Obstacle
 {
     public override void PerformObstacleAnim()
     {
+        //TODO : invoke win event
+        print("Fired win event");
         base.PerformObstacleAnim();
     }
     public override void SetToDefaultState()
