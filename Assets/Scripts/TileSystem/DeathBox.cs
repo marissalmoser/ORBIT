@@ -8,7 +8,7 @@ public class DeathBox : MonoBehaviour
         if (player != null)
         {
             print("DIED");
-            //TODO: call restart level 
+            GameManager.Instance.ChangeGameState(GameManager.STATE.Death);
         }
     }
 }

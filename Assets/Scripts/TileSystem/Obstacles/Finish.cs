@@ -8,10 +8,10 @@ using UnityEngine;
 public class Finish : Obstacle
 {
     public override void PerformObstacleAnim()
-    {
-        //TODO : invoke win event
+    {     
         print("Fired win event");
         base.PerformObstacleAnim();
+        GameManager.Instance.ChangeGameState(GameManager.STATE.End);
     }
     public override void SetToDefaultState()
     {
