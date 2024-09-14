@@ -38,7 +38,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         PlayerController.ReachedDestination += HandleReachedDestination;
         PlayerController.AddCard += HandleCardAdd;
-        PlayerController.SpikeInterruptAnimation += HandleSpikeInterruption;
+        PlayerController.SpikeCollision += HandleSpikeInterruption;
         PlayerController.WallInterruptAnimation += HandleWallInterruption;
         GameManager.PlayActionOrder += HandleIncomingActions;
         TileManager.Instance.LoadTileList();
@@ -174,6 +174,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         if (_pC.GetCurrentMovementCoroutine() != null)
         {
             _pC.StopCoroutine(_pC.GetCurrentMovementCoroutine());
+            //_pC.StartFallCoroutine(transform.position, _pC.GetCurrentTile().GetPlayerSnapPosition());
         }
         FSM(State.PrepareNextAction);
     }
@@ -274,9 +275,9 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     //TODO: animation here
                     break;
                 case Card.CardName.Jump:
-                    if (_distance > 2) //this is a spring tile
+                    if (_distance > 1) //this is a spring tile
                     {
-                        _distance -= 1;
+                        //_distance -= 1;
                         //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles. Code wise, i need it to be two
                         // (two up, two across) to work properly
                         int[] possibleNumbers = { 0, 2, 6, 8 };
@@ -293,14 +294,17 @@ public class PlayerStateMachineBrain : MonoBehaviour
                         //determine result by getting difference of elevation betwen current tile and tile right in front of player
                         _distance += (_pC.GetCurrentTile().GetElevation() - 
                             (TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), 1).GetElevation()));
-
                         if (_distance < 0) //block is too high
                         {
                             Vector3 newVector = (_targetTile.GetPlayerSnapPosition());
                             _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), new Vector3(newVector.x, newVector.y - 1, newVector.z));
                         }
-                        else
+                        else //block isnt too tall; need to add distance if 0 to actually jump onto the next block
                         {
+                            if(_distance == 0)
+                            {
+                                _distance++;
+                            }
                             _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), 
                                 TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), _distance).GetPlayerSnapPosition());
                         }
