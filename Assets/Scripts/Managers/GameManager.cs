@@ -66,7 +66,6 @@ public class GameManager : MonoBehaviour
         _lastBackToItIndex = -1;
 
         ChangeGameState(STATE.LoadGame);
-        ChangeGameState(STATE.Death);
     }
 
     public void OnEnable()
