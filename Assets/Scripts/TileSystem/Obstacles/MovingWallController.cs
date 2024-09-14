@@ -94,6 +94,7 @@ public class MovingWallController : Obstacle
             timeElapsed += Time.deltaTime;
             yield return null;
         }
+        transform.position = targetPos;
     }
 
     //private void Update()
