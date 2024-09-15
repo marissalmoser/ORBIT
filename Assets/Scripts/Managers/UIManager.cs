@@ -34,7 +34,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _dealtCardImage;
     [SerializeField] private Image _playedCardImage, _turnLeftImage, _turnRightImage;
     [SerializeField] private int _widthPadding, _heightPadding;
-    [SerializeField] private int _cardWidthSpacing, _cardHeightSpacing;
+    [SerializeField] private int _dealtCardWidthSpacing, _playedCardWidthSpacing, _cardHeightSpacing;
+    [SerializeField] private bool doVerticalFormat;
 
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
@@ -61,12 +62,17 @@ public class UIManager : MonoBehaviour
     private List<Image> _dealtCardImages;
     private List<Image> _playedCardImages;
 
+    private float _screenWidth, _screenHeight;
+
     /// <summary>
     /// Initializes variables for UIManager. Called by GameManager
     /// </summary>
     public void Init()
     {
         _gameManager = _gameManager = GameManager.Instance;
+
+        _screenWidth = _canvas.GetComponent<RectTransform>().rect.width;
+        _screenHeight = _canvas.GetComponent<RectTransform>().rect.height;
 
         _dealtCardImages = new();
         _playedCardImages = new();
@@ -95,7 +101,7 @@ public class UIManager : MonoBehaviour
         {
             Image newImage = Instantiate(_dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
             newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _cardWidthSpacing ) * i + _widthPadding, 0, 0); //Sets position
+            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) * i + _widthPadding, 0, 0); //Sets position
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Sets highlight to off
             _dealtCardImages.Add(newImage); //Adds instantiated image to list
@@ -154,87 +160,53 @@ public class UIManager : MonoBehaviour
         List<Card> playedCards = _gameManager.GetPlayedCards();
         int numOfPlayedCards = playedCards.Count;
 
+        float cardWidth = _dealtCardImage.rectTransform.rect.width; //Gets width of a card
+
         for (int i = 0; i < numOfPlayedCards; i++)
         {
             Image newImage = Instantiate(_playedCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
             newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
-            newImage.rectTransform.anchoredPosition = new Vector3(-_widthPadding, -_cardHeightSpacing * i - _heightPadding, 0); //Sets position
+
+            if (doVerticalFormat)
+                newImage.rectTransform.anchoredPosition = new Vector3(-_widthPadding, -_cardHeightSpacing * i - _heightPadding, 0); //Sets position - Vertical Format
+            else
+                newImage.rectTransform.anchoredPosition = new Vector3((-_screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2) + (_playedCardWidthSpacing * i + _widthPadding), -_heightPadding, 0); //Sets position - Horizontal Format
+            
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Turns off highlight
             _playedCardImages.Add(newImage); //Adds image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
-                                                                               //Uses grabbed data to compare with possible types and convert image to found type
-
-            if (i < numOfPlayedCards - 1)
+                                                                               //Uses grabbed data to compare with possible types and convert image to found typ
+            switch (playedCards[i].name)
             {
-                #region Update Hidden Cards
-                switch (playedCards[i].name)
-                {
-                    case Card.CardName.Move:
-                        card.UpdateCard(_playedMoveCard);
-                        break;
-                    case Card.CardName.Jump:
-                        card.UpdateCard(_playedJumpCard);
-                        break;
-                    case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
-                        card.UpdateCard(_dealtTurnCard);
-                        break;
-                    case Card.CardName.TurnLeft:
-                        card.UpdateCard(_playedTurnLeftCard);
-                        break;
-                    case Card.CardName.TurnRight:
-                        card.UpdateCard(_playedTurnRightCard);
-                        break;
-                    case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
-                        card.UpdateCard(_dealtClearCard);
-                        break;
-                    case Card.CardName.Switch: //Error Case. Should not be used, but it can be used if needed
-                        card.UpdateCard(_dealtSwitchCard);
-                        break;
-                    case Card.CardName.BackToIt:
-                        card.UpdateCard(_backToItCard);
-                        break;
-                    default:
-                        print("ERROR: COULD NOT UPDATE CARD IN UI");
-                        break;
-                }
-                #endregion
-
-            } else
-            {
-                #region Update Last Card
-                switch (playedCards[i].name)
-                {
-                    case Card.CardName.Move:
-                        card.UpdateCard(_dealtMoveCard);
-                        break;
-                    case Card.CardName.Jump:
-                        card.UpdateCard(_dealtJumpCard);
-                        break;
-                    case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
-                        card.UpdateCard(_dealtTurnCard);
-                        break;
-                    case Card.CardName.TurnLeft:
-                        card.UpdateCard(_dealtTurnLeftCard);
-                        break;
-                    case Card.CardName.TurnRight:
-                        card.UpdateCard(_dealtTurnRightCard);
-                        break;
-                    case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
-                        card.UpdateCard(_dealtClearCard);
-                        break;
-                    case Card.CardName.Switch: //Error Case. Should not be used, but it can be used if needed
-                        card.UpdateCard(_dealtSwitchCard);
-                        break;
-                    case Card.CardName.BackToIt:
-                        card.UpdateCard(_backToItCard);
-                        break;
-                    default:
-                        print("ERROR: COULD NOT UPDATE CARD IN UI");
-                        break;
-                }
-                #endregion
+                case Card.CardName.Move:
+                    card.UpdateCard(_dealtMoveCard);
+                    break;
+                case Card.CardName.Jump:
+                    card.UpdateCard(_dealtJumpCard);
+                    break;
+                case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
+                    card.UpdateCard(_dealtTurnCard);
+                    break;
+                case Card.CardName.TurnLeft:
+                    card.UpdateCard(_dealtTurnLeftCard);
+                    break;
+                case Card.CardName.TurnRight:
+                    card.UpdateCard(_dealtTurnRightCard);
+                    break;
+                case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
+                    card.UpdateCard(_dealtClearCard);
+                    break;
+                case Card.CardName.Switch: //Error Case. Should not be used, but it can be used if needed
+                    card.UpdateCard(_dealtSwitchCard);
+                    break;
+                case Card.CardName.BackToIt:
+                    card.UpdateCard(_backToItCard);
+                    break;
+                default:
+                    print("ERROR: COULD NOT UPDATE CARD IN UI");
+                    break;
             }
         }
     }
@@ -262,7 +234,7 @@ public class UIManager : MonoBehaviour
 
             _rightImage = Instantiate(_turnRightImage, Vector3.zero, Quaternion.identity); //Instantiates new card
             _rightImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-            _rightImage.rectTransform.anchoredPosition = new Vector3(_widthPadding + cardWidth + _cardWidthSpacing, cardHeight + 20, 0); //Sets position
+            _rightImage.rectTransform.anchoredPosition = new Vector3(_widthPadding + cardWidth + _dealtCardWidthSpacing, cardHeight + 20, 0); //Sets position
 
             CardDisplay leftCard = _leftImage.GetComponent<CardDisplay>(); //Grabs data from image
 
