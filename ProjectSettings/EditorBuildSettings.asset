@@ -4,5 +4,35 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/LevelSelect.unity
+    guid: 49a9e01bd9293594c9bd597425f2cfc9
+  - enabled: 1
+    path: Assets/Scenes/Levels/MoveTutorial.unity
+    guid: 21bc1c475483ff442bc473392d733dc6
+  - enabled: 1
+    path: Assets/Scenes/Levels/TurnTutorial.unity
+    guid: d9ef944aa1448244aa305db0215b50d6
+  - enabled: 1
+    path: Assets/Scenes/Levels/JumpTutorial.unity
+    guid: 503477bd203d2b34e83cbf54287405d2
+  - enabled: 1
+    path: Assets/Scenes/Levels/ClearTutorial.unity
+    guid: db48663944c8c1244a0c8b885209031a
+  - enabled: 1
+    path: Assets/Scenes/Levels/SwitchTutorial.unity
+    guid: 65f672d573677b44489a11990998c852
+  - enabled: 1
+    path: Assets/Scenes/Levels/SpikeLevel1.unity
+    guid: 4da6122f4a953f44ab7b7d6b76103401
+  - enabled: 1
+    path: Assets/Scenes/Levels/RotatingPlatformLv2.unity
+    guid: a62e19861203ee94fbc71355a7542ba6
+  - enabled: 1
+    path: Assets/Scenes/Levels/SpringLevel3.unity
+    guid: 7960d36bc959a57498a9966e701694fe
+  - enabled: 1
+    path: Assets/Scenes/Levels/RampLv4.unity
+    guid: 4998ac27349809f4eb761395ac7b496c
   m_configObjects: {}
