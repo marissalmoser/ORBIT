@@ -1,3 +1,9 @@
+/******************************************************************
+*    Author: Marissa Moser
+*    Contributors: 
+*    Date Created: September 11, 2024
+*    Description: Turn tables turn at the end of every turn.
+*******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
