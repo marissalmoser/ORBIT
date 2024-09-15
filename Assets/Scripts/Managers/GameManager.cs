@@ -34,7 +34,9 @@ public class GameManager : MonoBehaviour
     #region Variables
     [SerializeField] private List<Card> _dealtCards;
     [SerializeField] private List<Card> _playedCards;
+    [SerializeField] bool _doDebugMode;
     [SerializeField] private int _deathTimerLength;
+
 
     private DeckManager<Card> _deckManagerCard;
     private DeckManager<int> _deckManagerInt;
@@ -346,6 +348,9 @@ public class GameManager : MonoBehaviour
     {
         //Invokes Action that Eli's script is listening to
         PlayActionOrder?.Invoke(_playedCards);
+
+        if (_doDebugMode)
+            ChangeGameState(STATE.ChooseCards);
     }
 
     /// <summary>
