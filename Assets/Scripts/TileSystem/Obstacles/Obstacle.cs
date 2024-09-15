@@ -13,7 +13,7 @@ public abstract class Obstacle : MonoBehaviour
     protected Animator _anim;
 
     [SerializeField] protected bool _defaultState;
-    protected bool _isActive;
+    [SerializeField] protected bool _isActive;
 
     //Is this useful?
     public enum ObstacleType
@@ -21,6 +21,17 @@ public abstract class Obstacle : MonoBehaviour
         None, Arch, Ramp, Spring, Spike
     }
     //[SerializeField] private ObstacleType obstacleType;
+
+    private void OnEnable()
+    {
+        GameManager.DeathAction += SetToDefaultState;
+        GameManager.TrapAction += PerformObstacleAnim;
+    }
+    private void OnDisable()
+    {
+        GameManager.DeathAction -= SetToDefaultState;
+        GameManager.TrapAction -= PerformObstacleAnim;
+    }
 
     private void Start()
     {
@@ -63,12 +74,12 @@ public abstract class Obstacle : MonoBehaviour
     /// </summary>
     public virtual void SetToDefaultState()
     {
-
+        _isActive = _defaultState;
     }
 
     private void Update()
     {
-        if(Input.GetKeyUp(KeyCode.P))
+        if(Input.GetKeyDown(KeyCode.P))
         {
             PerformObstacleAnim();
         }
