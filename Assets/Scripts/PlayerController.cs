@@ -53,11 +53,21 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MovePlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
     {
+        //if (_currentTile.GetObstacleClass() != null && _currentTile.GetObstacleClass().IsActive()) //First check if you're on a tile with an obstacle
+        //{
+        //    _currentTile.GetObstacleClass().PerformObstacleAnim();
+        //    var card = TileManager.Instance.GetObstacleWithTileCoordinates(_currentTile.GetCoordinates()).GetCard();
+        //    if (card != null)
+        //    {
+        //        AddCard?.Invoke(card);
+        //    }
+        //}
+
         float timeElapsed = 0f;
         float checkTimeElapsed = 0f;
 
-        Tile previousTile = new Tile();
-        previousTile = _currentTile;
+        Tile previousTile = _currentTile;
+        bool changedDestination = false;
 
         //get the last key in the curve
         while (timeElapsed < _moveEaseCurve.keys[_moveEaseCurve.length - 1].time)
@@ -71,28 +81,39 @@ public class PlayerController : MonoBehaviour
             checkTimeElapsed += Time.deltaTime;
 
             if (checkTimeElapsed >= _checkInterval)
-            {               
-                var tile = GetTileWithPlayerRaycast();
-                if(tile != previousTile)
+            {
+                if (GetTileWithPlayerRaycast() != previousTile)
                 {
-                    previousTile = tile;
-
-                    if (tile.IsHole()) //player needs to fall down
+                    previousTile = GetTileWithPlayerRaycast();
+                    if (previousTile.IsHole()) //player needs to fall down
                     {
                         StopCoroutine(_currentMovementCoroutine);
-                        Vector3 newV = tile.GetPlayerSnapPosition();
+                        Vector3 newV = previousTile.GetPlayerSnapPosition();
                         StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y - 10, newV.z));
                     }
-                    if (tile.GetObstacleClass() != null && tile.GetObstacleClass() is Finish)
-                    {
-                        tile.GetObstacleClass().PerformObstacleAnim();
-                    }
-                    else if (tile.GetElevation() < _currentTile.GetElevation()) // going down
+                    else if (previousTile.GetElevation() < _currentTile.GetElevation()) // going down
                     {
                         StopCoroutine(_currentMovementCoroutine);
-                        StartFallCoroutine(transform.position, tile.GetPlayerSnapPosition());
+                        StartFallCoroutine(transform.position, previousTile.GetPlayerSnapPosition());
                     }
-                }                         
+                    else if (previousTile.GetObstacleClass() != null && previousTile.GetObstacleClass().IsActive())
+                    {
+                        StopCoroutine(_currentMovementCoroutine);
+
+                        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(previousTile.GetCoordinates()));
+
+                        previousTile.GetObstacleClass().PerformObstacleAnim();
+                        
+                       
+                        var card = TileManager.Instance.GetObstacleWithTileCoordinates(previousTile.GetCoordinates()).GetCard();
+
+                        if (card != null)
+                        {
+                            AddCard?.Invoke(card);
+                        }
+                        ReachedDestination?.Invoke();
+                    }
+                }
                 // Reset the check timer
                 checkTimeElapsed = 0f;
             }
@@ -101,16 +122,6 @@ public class PlayerController : MonoBehaviour
         transform.position = targetTileLoc; //double check final position
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
 
-        var obstacleOnTile = _currentTile.GetObstacleClass();
-        if (obstacleOnTile != null && obstacleOnTile.IsActive())
-        {
-            obstacleOnTile.PerformObstacleAnim();
-            var card = TileManager.Instance.GetObstacleWithTileCoordinates(_currentTile.GetCoordinates()).GetCard();
-            if (card != null)
-            {
-                AddCard?.Invoke(card);
-            }
-        }
         if (_currentMovementCoroutine != null)
         {
             ReachedDestination?.Invoke();
@@ -130,10 +141,23 @@ public class PlayerController : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
+        transform.position = target;
+        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)target.x, (int)target.z)));
+        if (_currentTile.GetObstacleClass() != null && _currentTile.GetObstacleClass().IsActive())
+        {
+            _currentTile.GetObstacleClass().PerformObstacleAnim();
+            var card = TileManager.Instance.GetObstacleWithTileCoordinates(_currentTile.GetCoordinates()).GetCard();
+            if (card != null)
+            {
+                AddCard?.Invoke(card);
+            }
+        }
+        ReachedDestination?.Invoke();
     }
     private IEnumerator JumpPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
     {
         float timeElapsed = 0f;
+        //float checkTimeElapsed = 0f;
 
         //calculate the midpoint by using both A and B and getting halfway at the archeight
         Vector3 controlPoint = (originTileLoc + targetTileLoc) / 2 + Vector3.up * _jumpArcHeight;
@@ -148,6 +172,7 @@ public class PlayerController : MonoBehaviour
             transform.position = currentPos;
 
             timeElapsed += Time.deltaTime;
+            //checkTimeElapsed += Time.deltaTime;
 
             yield return null;
         }
@@ -157,26 +182,23 @@ public class PlayerController : MonoBehaviour
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
             StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y - 10, newV.z));
         }
+
         else
         {
             transform.position = targetTileLoc; //double check final position
             SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
-
-            var obstacleOnTile = _currentTile.GetObstacleClass();
-            if (obstacleOnTile != null && obstacleOnTile.IsActive())
+            if (_currentTile.GetObstacleClass() != null && _currentTile.GetObstacleClass().IsActive())
             {
-                obstacleOnTile.PerformObstacleAnim();
+                _currentTile.GetObstacleClass().PerformObstacleAnim();
                 var card = TileManager.Instance.GetObstacleWithTileCoordinates(_currentTile.GetCoordinates()).GetCard();
                 if (card != null)
                 {
                     AddCard?.Invoke(card);
                 }
             }
-            if (_currentMovementCoroutine != null)
-            {
-                ReachedDestination?.Invoke();
-            }
-        }     
+
+            ReachedDestination?.Invoke();
+        }
     }
     /// <summary>
     /// Calculations for BezierCurve, all math stuff 
@@ -199,7 +221,6 @@ public class PlayerController : MonoBehaviour
 
         return p;
     }
-
     #endregion
 
     #region Getters
@@ -228,6 +249,7 @@ public class PlayerController : MonoBehaviour
     {
         return _currentFacingDirection;
     }
+
     public Coroutine GetCurrentMovementCoroutine()
     {
         return _currentMovementCoroutine;
@@ -301,15 +323,15 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.GetComponentInParent<Spike>() != null)
         {
-            print("HIT SPIKE");
             SpikeCollision?.Invoke();
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
-            StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y+10, newV.z));
+            StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y + 10, newV.z));
         }
         if (other.gameObject.CompareTag("Wall"))
         {
-            print("HIT WALL");
+            print("HERE");
             WallInterruptAnimation?.Invoke();
+
             //StartFallCoroutine(transform.position, GetTileWithPlayerRaycast().GetPlayerSnapPosition());
         }
     }

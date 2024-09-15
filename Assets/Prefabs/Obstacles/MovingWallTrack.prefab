@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 508077412299264462}
   - component: {fileID: 9083510270948779860}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MovingWallTrack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstacleMovementCard: {fileID: 0}
   _defaultState: 0
+  _isActive: 0
+  direction: 0
 --- !u!1 &7677646633796478801
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +60,7 @@ GameObject:
   - component: {fileID: 8648002343157252380}
   - component: {fileID: 7633606753653908901}
   - component: {fileID: 4428981411666389811}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wall_Track
   m_TagString: Untagged
   m_Icon: {fileID: 0}
