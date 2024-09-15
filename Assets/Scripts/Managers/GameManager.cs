@@ -8,6 +8,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,6 +56,7 @@ public class GameManager : MonoBehaviour
 
     public static Action<List<Card>> PlayActionOrder;
     public static Action DeathAction;
+    public static Action TrapAction;
     private void Start()
     {
         //Carefully change order if needed. Some managers must be initialzed before others
@@ -284,7 +286,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ToggleTraps()
     {
-        //TODO - Communicate with Marissa and Eli
+        TrapAction?.Invoke();
     }
 
     /// <summary>
