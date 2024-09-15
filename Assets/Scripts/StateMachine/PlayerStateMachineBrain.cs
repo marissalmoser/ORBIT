@@ -251,7 +251,26 @@ public class PlayerStateMachineBrain : MonoBehaviour
             var currentTile = _pC.GetCurrentTile();
 
             _distance = _currentAction.GetDistance(); //main focus of this state
-            _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, _pC.GetCurrentFacingDirection(), _distance);
+
+            int facingDirection = _pC.GetCurrentFacingDirection();
+            if (_pC.GetCurrentTile().GetObstacleClass() != null) //If youre standing on an obstacle that sends you in a direction
+            {
+               
+                facingDirection = _pC.GetCurrentTile().GetObstacleClass().GetDirection();
+                if(facingDirection == 4) //IF the tile doesnt have a facing direction, use the player's current FD
+                {
+                    facingDirection = _pC.GetCurrentFacingDirection();
+                }
+                if(_currentAction.name != Card.CardName.Jump)
+                {
+                    _pC.SetFacingDirection(facingDirection); //turn the player to face where they are going
+                }
+
+                
+            }
+
+
+            _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, facingDirection, _distance);
 
             FSM(State.PlayResult);
             yield return null;
@@ -278,13 +297,13 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     if (_distance > 1) //this is a spring tile
                     {
                         //_distance -= 1;
-                        //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles. Code wise, i need it to be two
+                        //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles.Code wise, i need it to be two
                         // (two up, two across) to work properly
-                        int[] possibleNumbers = { 0, 2, 6, 8 };
-                        int randomIndex = Random.Range(0, possibleNumbers.Length);
+                        //int[] possibleNumbers = { 0, 2, 6, 8 };
+                        //int randomIndex = Random.Range(0, possibleNumbers.Length);
 
-                        _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
-                    (_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
+                    //    _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
+                    //(_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
 
                         _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
                     }

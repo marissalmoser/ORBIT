@@ -14,7 +14,12 @@ public abstract class Obstacle : MonoBehaviour
 
     [SerializeField] protected bool _defaultState;
     [SerializeField] protected bool _isActive;
+    [Tooltip(" North is positive on the z axis. East is positive on the x axis")][SerializeField] private Direction direction;
 
+    public enum Direction
+    {
+        None, Northwest, North, Northeast, West, East, Southwest, South, Southeast
+    }
     //Is this useful?
     public enum ObstacleType
     {
@@ -76,12 +81,28 @@ public abstract class Obstacle : MonoBehaviour
     {
         _isActive = _defaultState;
     }
-
-    private void Update()
+    public int GetDirection()
     {
-        if(Input.GetKeyDown(KeyCode.P))
+        switch (direction)
         {
-            PerformObstacleAnim();
+            case Direction.Northwest:
+                return 0;
+            case Direction.North:
+                return 1;
+            case Direction.Northeast:
+                return 2;
+            case Direction.West:
+                return 3;
+            case Direction.East:
+                return 5;
+            case Direction.Southwest:
+                return 6;
+            case Direction.South:
+                return 7;
+            case Direction.Southeast:
+                return 8;
+            default:
+                return 4;
         }
     }
 }

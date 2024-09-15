@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3860412782538069040}
   - component: {fileID: 8207134452197085670}
   - component: {fileID: 1135297529908440487}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ramp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstacleMovementCard: {fileID: 11400000, guid: ee35724b0599e8e4b84adca09c43f0b5, type: 2}
   _defaultState: 0
+  _isActive: 0
+  direction: 0
 --- !u!95 &1135297529908440487
 Animator:
   serializedVersion: 5
@@ -80,7 +82,7 @@ GameObject:
   - component: {fileID: 1594757467359907339}
   - component: {fileID: 7830332419325830388}
   - component: {fileID: 3181150369786029873}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Ramp
   m_TagString: Untagged
   m_Icon: {fileID: 0}

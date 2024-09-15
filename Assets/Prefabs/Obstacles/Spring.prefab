@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2406064733847103930}
   - component: {fileID: 3172531313909583294}
   - component: {fileID: 6196466130780976865}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Spring
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50,6 +50,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _obstacleMovementCard: {fileID: 11400000, guid: fe5d79ab068fd734095e2ba479585090, type: 2}
   _defaultState: 1
+  _isActive: 0
+  direction: 0
 --- !u!95 &6196466130780976865
 Animator:
   serializedVersion: 5
@@ -82,7 +84,7 @@ GameObject:
   - component: {fileID: 7969173274813207698}
   - component: {fileID: 9106954369128614138}
   - component: {fileID: 5957023533686486036}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +167,7 @@ GameObject:
   - component: {fileID: 5539183471001599711}
   - component: {fileID: 3382852064291687517}
   - component: {fileID: 3942709209405285421}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Spring_Pad_WUVS:Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,7 +250,7 @@ GameObject:
   - component: {fileID: 5774105448058242699}
   - component: {fileID: 7743261013532548918}
   - component: {fileID: 2248161427277120283}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: cube_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
