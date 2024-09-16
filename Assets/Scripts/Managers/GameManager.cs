@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -111,7 +112,7 @@ public class GameManager : MonoBehaviour
         {
             case STATE.LoadGame:
                 //Sets up and initializes necessary functions to play
-                gameState = STATE.LoadGame;
+                gameState = STATE.LoadGame; //call when level loads
                 StartGame();
                 break;
             case STATE.Menu:
@@ -154,6 +155,7 @@ public class GameManager : MonoBehaviour
             case STATE.End:
                 gameState = STATE.End;
                 //Add method here if needed
+                Invoke("LoadLevelSelect", 1);
                 break;
             default:
                 //Error check
@@ -574,6 +576,11 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(_deathTimerLength);
         ChangeGameState(STATE.StartLevel);
         yield return null;
+    }
+
+    private void LoadLevelSelect()
+    {
+        SceneManager.LoadScene(0);
     }
 
     #region Getters
