@@ -16,7 +16,6 @@ public class Spring : Obstacle
         {
             _anim.SetTrigger("SpringUp");
         }
-        _isActive = !_isActive;
     }
 
     public override void SetToDefaultState()

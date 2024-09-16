@@ -16,7 +16,7 @@ public class Spike : Obstacle
 
     public override void PerformObstacleAnim()
     {
-        if(_isActive)
+        if(!_isActive)
         {
             _anim.SetTrigger("SpikeDown");
         }
@@ -24,7 +24,6 @@ public class Spike : Obstacle
         {
             _anim.SetTrigger("SpikeUp");
         }
-        _isActive = !_isActive;
     }
 
 
