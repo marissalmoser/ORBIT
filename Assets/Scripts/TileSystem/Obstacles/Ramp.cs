@@ -10,7 +10,6 @@ public class Ramp : Obstacle
         {
             _anim.SetTrigger("Ramp Up");
         }
-        _isActive = !_isActive;
     }
 
 

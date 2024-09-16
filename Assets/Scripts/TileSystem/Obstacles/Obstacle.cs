@@ -13,14 +13,30 @@ public abstract class Obstacle : MonoBehaviour
     protected Animator _anim;
 
     [SerializeField] protected bool _defaultState;
-    protected bool _isActive;
+    [SerializeField] protected bool _isActive;
+    [Tooltip(" North is positive on the z axis. East is positive on the x axis")][SerializeField] private Direction direction;
 
+    public enum Direction
+    {
+        None, Northwest, North, Northeast, West, East, Southwest, South, Southeast
+    }
     //Is this useful?
     public enum ObstacleType
     {
         None, Arch, Ramp, Spring, Spike
     }
     //[SerializeField] private ObstacleType obstacleType;
+
+    private void OnEnable()
+    {
+        GameManager.DeathAction += SetToDefaultState;
+        GameManager.TrapAction += SwitchActiveState;
+    }
+    private void OnDisable()
+    {
+        GameManager.DeathAction -= SetToDefaultState;
+        GameManager.TrapAction -= SwitchActiveState;
+    }
 
     private void Start()
     {
@@ -57,20 +73,42 @@ public abstract class Obstacle : MonoBehaviour
 
     }
 
+    public void SwitchActiveState()
+    {
+        _isActive = !_isActive;
+        PerformObstacleAnim();
+    }
+
     /// <summary>
     /// Call this to set the obstacle to it's default state, it's state on the first
     /// turn.
     /// </summary>
     public virtual void SetToDefaultState()
     {
-
+        _isActive = _defaultState;
     }
-
-    private void Update()
+    public int GetDirection()
     {
-        if(Input.GetKeyUp(KeyCode.P))
+        switch (direction)
         {
-            PerformObstacleAnim();
+            case Direction.Northwest:
+                return 0;
+            case Direction.North:
+                return 1;
+            case Direction.Northeast:
+                return 2;
+            case Direction.West:
+                return 3;
+            case Direction.East:
+                return 5;
+            case Direction.Southwest:
+                return 6;
+            case Direction.South:
+                return 7;
+            case Direction.Southeast:
+                return 8;
+            default:
+                return 4;
         }
     }
 }

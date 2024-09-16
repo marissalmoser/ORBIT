@@ -106,5 +106,14 @@ public class CardDisplay : MonoBehaviour
     {
         CardManager.Instance.PlayedMouseEnterCard(card);
     }
+
+    /// <summary>
+    /// Helper method for Event Trigger Pointer Exit for Played Cards
+    /// </summary>
+    /// <param name="card">Image object for the card</param>
+    public void OnMouseExitPlayedCard(Image card)
+    {
+        CardManager.Instance.PlayedMouseExitCard(card);
+    }
     #endregion
 }

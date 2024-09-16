@@ -95,8 +95,10 @@ MonoBehaviour:
   _turnRightImage: {fileID: 467321719107628408, guid: 847185c60c41a58408e04bd519147210, type: 3}
   _widthPadding: 15
   _heightPadding: 15
-  _cardWidthSpacing: 20
-  _cardHeightSpacing: 70
+  _dealtCardWidthSpacing: 0
+  _playedCardWidthSpacing: 0
+  _cardHeightSpacing: 140
+  doVerticalFormat: 1
   _canvas: {fileID: 0}
   _collectablesCount: {fileID: 0}
   _dealtMoveCard: {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
@@ -191,4 +193,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dealtCards: []
   _playedCards: []
+  _doDebugMode: 1
+  _deathTimerLength: 3
   gameState: 0

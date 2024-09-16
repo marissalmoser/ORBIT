@@ -33,7 +33,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     private GameObject _player;
     private PlayerController _pC;
     private int _distance;
-
+    private bool _firedTraps = false;
     public void Start()
     {
         PlayerController.ReachedDestination += HandleReachedDestination;
@@ -56,6 +56,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         FindTileUponAction,
         PlayResult,
         PrepareNextAction,
+        TrapPlayState,
     }
 
     /// <summary>
@@ -107,6 +108,15 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 _currentState = State.PrepareNextAction;
                 print("Preparing next action");
                 _currentStateCoroutine = StartCoroutine(PrepareNextAction());
+                break;
+            case State.TrapPlayState:
+                if (_currentStateCoroutine != null)
+                {
+                    StopCoroutine(_currentStateCoroutine);
+                }
+                print("Turning traps on and off");
+                _currentState = State.TrapPlayState;
+                _currentStateCoroutine = StartCoroutine(TrapFiring());
                 break;
         }
     }
@@ -198,7 +208,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
     public void SetCardList(List<Card> incomingActions)
     {
         _actions.Clear();
-        _actions.AddRange(incomingActions);
+        if(incomingActions != null)
+        {
+            _actions.AddRange(incomingActions);
+        }
     }
 
     /// <summary>
@@ -213,7 +226,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Card is null");
+            //Debug.LogError("Card is null");
         }
     }
 
@@ -223,6 +236,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     /// <param name="incomingActions"></param>
     public void StartCardActions(List<Card> incomingActions)
     {
+        _firedTraps = false;
         SetCardList(incomingActions);
         FSM(State.PrepareNextAction);
     }
@@ -235,6 +249,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
             if (_currentAction != null)
             {
                 FSM(State.FindTileUponAction);
+            }
+            else if(!_firedTraps)
+            {
+                FSM(State.TrapPlayState);
             }
             else
             {
@@ -251,7 +269,23 @@ public class PlayerStateMachineBrain : MonoBehaviour
             var currentTile = _pC.GetCurrentTile();
 
             _distance = _currentAction.GetDistance(); //main focus of this state
-            _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, _pC.GetCurrentFacingDirection(), _distance);
+
+            int facingDirection = _pC.GetCurrentFacingDirection();
+            if (_pC.GetCurrentTile().GetObstacleClass() != null) //If youre standing on an obstacle that sends you in a direction
+            {
+               
+                facingDirection = _pC.GetCurrentTile().GetObstacleClass().GetDirection();
+                if(facingDirection == 4) //IF the tile doesnt have a facing direction, use the player's current FD
+                {
+                    facingDirection = _pC.GetCurrentFacingDirection();
+                }
+                if(_currentAction.name != Card.CardName.Jump)
+                {
+                    _pC.SetFacingDirection(facingDirection); //turn the player to face where they are going
+                }               
+            }
+
+            _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, facingDirection, _distance);
 
             FSM(State.PlayResult);
             yield return null;
@@ -278,13 +312,13 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     if (_distance > 1) //this is a spring tile
                     {
                         //_distance -= 1;
-                        //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles. Code wise, i need it to be two
+                        //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles.Code wise, i need it to be two
                         // (two up, two across) to work properly
-                        int[] possibleNumbers = { 0, 2, 6, 8 };
-                        int randomIndex = Random.Range(0, possibleNumbers.Length);
+                        //int[] possibleNumbers = { 0, 2, 6, 8 };
+                        //int randomIndex = Random.Range(0, possibleNumbers.Length);
 
-                        _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
-                    (_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
+                    //    _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
+                    //(_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
 
                         _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
                     }
@@ -325,5 +359,31 @@ public class PlayerStateMachineBrain : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    private IEnumerator TrapFiring()
+    {
+        while(_currentState == State.TrapPlayState)
+        {
+          
+            print("invoked");
+            yield return new WaitForSeconds(1);
+            GameManager.TrapAction?.Invoke();
+            _firedTraps = true;
+            if (_pC.GetTileWithPlayerRaycast().GetObstacleClass() != null)
+            {
+                AddCardToList(_pC.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
+            }
+            FSM(State.PrepareNextAction);
+        }
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.ReachedDestination -= HandleReachedDestination;
+        PlayerController.AddCard -= HandleCardAdd;
+        PlayerController.SpikeCollision -= HandleSpikeInterruption;
+        PlayerController.WallInterruptAnimation -= HandleWallInterruption;
+        GameManager.PlayActionOrder -= HandleIncomingActions;
     }
 }
