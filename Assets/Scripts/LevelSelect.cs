@@ -18,6 +18,7 @@ public class LevelSelect : MonoBehaviour
     /// <param name="levelNumber">The build index for the scene</param>
    public void LoadLevel(int levelNumber)
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene(levelNumber);
     }
 

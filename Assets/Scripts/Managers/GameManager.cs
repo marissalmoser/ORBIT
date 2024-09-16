@@ -88,16 +88,17 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DeathMethod()
     {
-        print("Rip Bozo");
-        _levelDeck.ResetDeck();
+        //print("Rip Bozo");
+        //_levelDeck.ResetDeck();
 
-        _deck = _levelDeck.deck;
-        _dealtCards = new();
-        _playedCards = new();
-        _tempPlayedCards = new();
-        _tempBeforeBackToItCards = new();
-        _tempAfterBackToItCards = new();
-        _collectedSwitchIDs = new();
+        //_deck = _levelDeck.deck;
+        //_dealtCards = new();
+        //_playedCards = new();
+        //_tempPlayedCards = new();
+        //_tempBeforeBackToItCards = new();
+        //_tempAfterBackToItCards = new();
+        //_collectedSwitchIDs = new();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     /// <summary>
