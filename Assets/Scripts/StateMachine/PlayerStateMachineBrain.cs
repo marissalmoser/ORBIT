@@ -33,7 +33,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     private GameObject _player;
     private PlayerController _pC;
     private int _distance;
-
+    private bool _firedTraps = false;
     public void Start()
     {
         PlayerController.ReachedDestination += HandleReachedDestination;
@@ -56,6 +56,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         FindTileUponAction,
         PlayResult,
         PrepareNextAction,
+        TrapPlayState,
     }
 
     /// <summary>
@@ -107,6 +108,15 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 _currentState = State.PrepareNextAction;
                 print("Preparing next action");
                 _currentStateCoroutine = StartCoroutine(PrepareNextAction());
+                break;
+            case State.TrapPlayState:
+                if (_currentStateCoroutine != null)
+                {
+                    StopCoroutine(_currentStateCoroutine);
+                }
+                print("Turning traps on and off");
+                _currentState = State.TrapPlayState;
+                _currentStateCoroutine = StartCoroutine(TrapFiring());
                 break;
         }
     }
@@ -223,6 +233,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     /// <param name="incomingActions"></param>
     public void StartCardActions(List<Card> incomingActions)
     {
+        _firedTraps = false;
         SetCardList(incomingActions);
         FSM(State.PrepareNextAction);
     }
@@ -235,6 +246,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
             if (_currentAction != null)
             {
                 FSM(State.FindTileUponAction);
+            }
+            else if(!_firedTraps)
+            {
+                FSM(State.TrapPlayState);
             }
             else
             {
@@ -264,11 +279,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 if(_currentAction.name != Card.CardName.Jump)
                 {
                     _pC.SetFacingDirection(facingDirection); //turn the player to face where they are going
-                }
-
-                
+                }               
             }
-
 
             _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, facingDirection, _distance);
 
@@ -344,5 +356,31 @@ public class PlayerStateMachineBrain : MonoBehaviour
         {
             yield return null;
         }
+    }
+
+    private IEnumerator TrapFiring()
+    {
+        while(_currentState == State.TrapPlayState)
+        {
+          
+            print("invoked");
+            yield return new WaitForSeconds(1);
+            GameManager.TrapAction?.Invoke();
+            _firedTraps = true;
+            if (_pC.GetTileWithPlayerRaycast().GetObstacleClass() != null)
+            {
+                AddCardToList(_pC.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
+            }
+            FSM(State.PrepareNextAction);
+        }
+    }
+
+    private void OnDisable()
+    {
+        PlayerController.ReachedDestination -= HandleReachedDestination;
+        PlayerController.AddCard -= HandleCardAdd;
+        PlayerController.SpikeCollision -= HandleSpikeInterruption;
+        PlayerController.WallInterruptAnimation -= HandleWallInterruption;
+        GameManager.PlayActionOrder -= HandleIncomingActions;
     }
 }
