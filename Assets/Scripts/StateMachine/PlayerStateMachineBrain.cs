@@ -208,7 +208,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
     public void SetCardList(List<Card> incomingActions)
     {
         _actions.Clear();
-        _actions.AddRange(incomingActions);
+        if(incomingActions != null)
+        {
+            _actions.AddRange(incomingActions);
+        }
     }
 
     /// <summary>
@@ -223,7 +226,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Card is null");
+            //Debug.LogError("Card is null");
         }
     }
 
