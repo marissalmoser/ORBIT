@@ -90,6 +90,8 @@ public class CardManager : MonoBehaviour
             //Sets the mouse position
             _mousePosition = Input.mousePosition;
 
+            cardImage.transform.SetAsLastSibling();
+
             cardImage.enabled = true;
         }
     }
