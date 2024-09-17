@@ -31,7 +31,7 @@ public class Spike : Obstacle
     {
         _isActive = _defaultState;
 
-        if (_defaultState)
+        if (_isActive)
         {
             _anim.SetTrigger("SpikeUp");
         }

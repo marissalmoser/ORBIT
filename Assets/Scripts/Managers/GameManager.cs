@@ -8,7 +8,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -35,6 +34,7 @@ public class GameManager : MonoBehaviour
     #region Variables
     [SerializeField] private List<Card> _dealtCards;
     [SerializeField] private List<Card> _playedCards;
+    [SerializeField] private Image _darken;
     [SerializeField] bool _doDebugMode;
     [SerializeField] private int _deathTimerLength;
 
@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     private UIManager _uiManager;
 
     public STATE gameState;
+    private bool _gameWon;
 
     private LevelDeck _levelDeck;
     private List<Card> _deck;
@@ -60,6 +61,8 @@ public class GameManager : MonoBehaviour
     public static Action<List<Card>> PlayActionOrder;
     public static Action DeathAction;
     public static Action TrapAction;
+
+    private bool _lowerDarkenIndex;
     private void Start()
     {
         //Carefully change order if needed. Some managers must be initialzed before others
@@ -69,7 +72,7 @@ public class GameManager : MonoBehaviour
         _cardManager = CardManager.Instance;
         _levelDeck = FindObjectOfType<LevelDeck>();
         _lastBackToItIndex = -1;
-
+        _lowerDarkenIndex = false;
         ChangeGameState(STATE.LoadGame);
     }
 
@@ -156,6 +159,7 @@ public class GameManager : MonoBehaviour
             case STATE.End:
                 gameState = STATE.End;
                 //Add method here if needed
+                _gameWon = true;
                 Invoke("LoadLevelSelect", 1);
                 break;
             default:
@@ -197,9 +201,9 @@ public class GameManager : MonoBehaviour
     private void SetUpLevel()
     {
         _deck = _levelDeck.deck;
+        _darken.enabled = false;
 
         //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
-
         ChangeGameState(STATE.ChooseCards);
     }
 
@@ -226,8 +230,8 @@ public class GameManager : MonoBehaviour
             _deck = _deckManagerCard.RemoveFirst(_deck); //Removes the now dealt card from the deck
         }
 
-        //If out of cards, go to corresponding game state
-        if (_dealtCards.Count == 0 && _deck.Count == 0)
+        //If out of cards, go to corresponding game state AND IF NOT ALREADY WON
+        if (_dealtCards.Count == 0 && _deck.Count == 0 && !_gameWon)
         {
             ChangeGameState(STATE.OutOfCards);
         }
@@ -259,6 +263,7 @@ public class GameManager : MonoBehaviour
             _uiManager.UpdatePlayedCards(); //Updates played cards so clear card does not appear
             if (_playedCards.Count > 0) //If there is a card to clear, call ClearAction
             {
+                _darken.enabled = true;
                 ChangeGameState(STATE.ChooseClear); //Waits for User Input to Clear a Card
             }
         }
@@ -270,6 +275,7 @@ public class GameManager : MonoBehaviour
             _uiManager.UpdatePlayedCards(); //Updates played cards so switch card does not appear
             if (_playedCards.Count > 1) //Performs switch if there are at least two cards in the deck
             {
+                _darken.enabled = true;
                 ChangeGameState(STATE.SwitchCards); //Waits for User Input to Switch two cards
             }
         }
@@ -279,6 +285,9 @@ public class GameManager : MonoBehaviour
         {
             _playedCards = _deckManagerCard.RemoveLast(_playedCards); //Removes switch card from played cards
             _uiManager.UpdatePlayedCards(); //Updates played cards so switch card does not appear
+            _darken.enabled = true;
+            _darken.transform.SetSiblingIndex(_darken.transform.GetSiblingIndex() + 1);
+            _lowerDarkenIndex = true;
             ChangeGameState(STATE.ChooseTurn); //Waits for User Input to Switch two cards
             _uiManager.CreateTurnCards();
         }
@@ -308,6 +317,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void OutOfCards()
     {
+        ChangeGameState(STATE.Death);
         print("Skill Issue."); //TODO - Replace this with actual functionality
     }
 
@@ -349,6 +359,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlaySequence()
     {
+        if (_lowerDarkenIndex)
+        {
+            _darken.transform.SetSiblingIndex(_darken.transform.GetSiblingIndex() - 1);
+            _lowerDarkenIndex = false;
+        }
+        _darken.enabled = false;
         //Invokes Action that Eli's script is listening to
         PlayActionOrder?.Invoke(_playedCards);
 
