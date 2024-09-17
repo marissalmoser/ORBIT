@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AnimationCurve _moveEaseCurve;
     [SerializeField] private AnimationCurve _jumpEaseCurve;
     [SerializeField] private AnimationCurve _fallEaseCurve;
-
+    [SerializeField] private AnimationCurve _turnEaseCurve;
     private Tile _previousTile;
     private Coroutine _currentMovementCoroutine;
 
@@ -40,7 +40,14 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            StartCoroutine(TurnPlayer(true));
+        }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            StartCoroutine(TurnPlayer(false));
+        }
     }
 
     #region LiteralMovement
@@ -53,16 +60,6 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator MovePlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
     {
-        //if (_currentTile.GetObstacleClass() != null && _currentTile.GetObstacleClass().IsActive()) //First check if you're on a tile with an obstacle
-        //{
-        //    _currentTile.GetObstacleClass().PerformObstacleAnim();
-        //    var card = TileManager.Instance.GetObstacleWithTileCoordinates(_currentTile.GetCoordinates()).GetCard();
-        //    if (card != null)
-        //    {
-        //        AddCard?.Invoke(card);
-        //    }
-        //}
-
         float timeElapsed = 0f;
         float checkTimeElapsed = 0f;
 
@@ -152,6 +149,38 @@ public class PlayerController : MonoBehaviour
                 AddCard?.Invoke(card);
             }
         }
+        ReachedDestination?.Invoke();
+    }
+
+    private IEnumerator TurnPlayer(bool turningLeft)
+    {
+        float timeElapsed = 0f;
+        float totalDuration = _turnEaseCurve.keys[_turnEaseCurve.length - 1].time;
+
+        float startRotationY = transform.eulerAngles.y;
+
+        //first calculate the target Y rotation (90 degrees to the left or right)
+        float targetRotationY = turningLeft ? startRotationY - 90f : startRotationY + 90f;
+        //then we need to normalize the angle to prevent values greater than 360 or less than 0
+        if (targetRotationY < 0f)
+            targetRotationY += 360f;
+        else if (targetRotationY >= 360f)
+            targetRotationY -= 360f;
+
+        while (timeElapsed < totalDuration)
+        {
+            float t = _turnEaseCurve.Evaluate(timeElapsed);
+
+            float newRotationY = Mathf.LerpAngle(startRotationY, targetRotationY, t);
+
+            transform.eulerAngles = new Vector3(transform.eulerAngles.x, newRotationY, transform.eulerAngles.z);
+
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, targetRotationY, transform.eulerAngles.z);
+        UpdateFacingDirection(turningLeft);
         ReachedDestination?.Invoke();
     }
     private IEnumerator JumpPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
@@ -249,7 +278,6 @@ public class PlayerController : MonoBehaviour
     {
         return _currentFacingDirection;
     }
-
     public Coroutine GetCurrentMovementCoroutine()
     {
         return _currentMovementCoroutine;
@@ -289,7 +317,7 @@ public class PlayerController : MonoBehaviour
     /// Updates the facing direction in code only, but also calls SetFacingDir
     /// </summary>
     /// <param name="turningLeft"></param>
-    public void TurnPlayer(bool turningLeft)
+    public void UpdateFacingDirection(bool turningLeft)
     {
         if (turningLeft)
         {
@@ -312,7 +340,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        SetFacingDirection(_currentFacingDirection); //updating rotation
+        //SetFacingDirection(_currentFacingDirection); //updating rotation
     }
 
     /// <summary>
@@ -335,12 +363,8 @@ public class PlayerController : MonoBehaviour
             //StartFallCoroutine(transform.position, GetTileWithPlayerRaycast().GetPlayerSnapPosition());
         }
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        
-    }
 
-    #region StartsAndStops
+    #region Starts
     /// <summary>
     /// Below are all the coroutines for moving the playercontainer. We will a
     /// nimate the player itself, not the container. However, we still need to 
@@ -354,25 +378,17 @@ public class PlayerController : MonoBehaviour
     {
         _currentMovementCoroutine = StartCoroutine(MovePlayer(origin, target));
     }
-    public void StopMoveCoroutine()
+    public void StartTurnCoroutine(bool turningLeft)
     {
-        StopCoroutine(_currentMovementCoroutine);
+        _currentMovementCoroutine = StartCoroutine(TurnPlayer(turningLeft));
     }
     public void StartJumpCoroutine(Vector3 origin, Vector3 target)
     {
         _currentMovementCoroutine = StartCoroutine(JumpPlayer(origin, target));
     }
-    public void StopJumpCoroutine()
-    {
-        StopCoroutine(_currentMovementCoroutine);
-    }
     public void StartFallCoroutine(Vector3 origin, Vector3 target)
     {
         _currentMovementCoroutine = StartCoroutine(FallPlayer(origin, target));
-    }
-    public void StopFallCoroutine()
-    {
-        StopCoroutine(_currentMovementCoroutine);
     }
     #endregion
 }
