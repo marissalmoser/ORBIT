@@ -256,6 +256,7 @@ PrefabInstance:
       propertyPath: _cardBackSprite
       value: 
       objectReference: {fileID: 21300000, guid: 76dc7e679cff7a946b9b79639647693d, type: 3}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _dealtCardsFolder
       value: 
       objectReference: {fileID: 361404004}
@@ -264,6 +265,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2110689373}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _playedCardsFolder
+      value: 
+      objectReference: {fileID: 1162088043}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _dealtCardWidthSpacing
       value: 10
       objectReference: {fileID: 0}
@@ -271,9 +276,6 @@ PrefabInstance:
       propertyPath: _playedCardWidthSpacing
       value: 10
       objectReference: {fileID: 0}
-      propertyPath: _playedCardsFolder
-      value: 
-      objectReference: {fileID: 1162088043}
     - target: {fileID: 7511067672945292195, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: m_Name
       value: Managers

@@ -117,6 +117,7 @@ public class UIManager : MonoBehaviour
         _deckImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
         _deckImage.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
         _deckImage.sprite = _cardBackSprite;
+        _deckImage.transform.SetAsFirstSibling();
 
         for (int i = 0; i < numOfDealtCards; i++)
         {
