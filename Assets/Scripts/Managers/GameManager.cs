@@ -199,6 +199,7 @@ public class GameManager : MonoBehaviour
     private void SetUpLevel()
     {
         _deck = _levelDeck.deck;
+        _darken.enabled = false;
 
         //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
         ChangeGameState(STATE.ChooseCards);
@@ -210,12 +211,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DealCards()
     {
-        if (_lowerDarkenIndex)
-        {
-            _darken.transform.SetSiblingIndex(_darken.transform.GetSiblingIndex() - 1);
-            _lowerDarkenIndex = false;
-        }
-        _darken.enabled = false;
         //Draws until the player has 4 cards or until the deck runs out
         while (_dealtCards.Count < 4 && _deck.Count > 0)
         {
@@ -361,6 +356,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlaySequence()
     {
+        if (_lowerDarkenIndex)
+        {
+            _darken.transform.SetSiblingIndex(_darken.transform.GetSiblingIndex() - 1);
+            _lowerDarkenIndex = false;
+        }
+        _darken.enabled = false;
         //Invokes Action that Eli's script is listening to
         PlayActionOrder?.Invoke(_playedCards);
 
