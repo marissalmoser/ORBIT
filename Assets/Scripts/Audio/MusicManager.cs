@@ -1,20 +1,40 @@
 /******************************************************************
  *    Author: Marissa 
- *    Contributors: 
+ *    Contributors: Sky Turner
  *    Date Created: 9/12/24
- *    Description: Sfx manager singleton. Call to start a sound effect. Also includes 
+ *    Description: Music manager singleton
  *    
  *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
     [SerializeField] private List<Music> _music = new List<Music>();
+
     [SerializeField] private float _fadeInDuration;
     [SerializeField] private float _fadeOutDuration;
+
+    #region Level Music IDs
+    
+    [Header("Level Music IDs")]
+    
+    [SerializeField] private int _mainMenuMusicID;
+    [SerializeField] private int _levelSelectMusicID;
+    [SerializeField] private int _levelMoveMusicID;
+    [SerializeField] private int _levelTurnMusicID;
+    [SerializeField] private int _levelJumpMusicID;
+    [SerializeField] private int _levelClearMusicID;
+    [SerializeField] private int _levelSwitchMusicID;
+    [SerializeField] private int _level1MusicID;
+    [SerializeField] private int _level2MusicID;
+    [SerializeField] private int _level3MusicID;
+    [SerializeField] private int _level4MusicID;
+    #endregion
+
     public static MusicManager Instance { get; private set; }
 
     private void Awake()
@@ -81,7 +101,7 @@ public class MusicManager : MonoBehaviour
     #endregion
 
     /// <summary>
-    /// Plays the given sound effect. Finds the index of the specific sound effect,
+    /// Plays the given music clip. Finds the index of the specific sound effect,
     /// sets the audio clip based on the avaliable clips, and then plays the clip
     /// </summary>
     /// <param name="name"></param>
@@ -94,7 +114,7 @@ public class MusicManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Stops the given sound effect from playing. Finds the index of the specific
+    /// Stops the given music clip from playing. Finds the index of the specific
     /// sound effect, and then stops the clip.
     /// </summary>
     /// <param name="name"></param>
@@ -105,7 +125,7 @@ public class MusicManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Fades in the given sound effect. Finds the index of the specific sound effect,
+    /// Fades in the given music clip. Finds the index of the specific sound effect,
     /// sets the audio clip based on the avaliable clips, and then plays the clip
     /// </summary>
     /// <param name="id"></param>
@@ -120,7 +140,7 @@ public class MusicManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Fades the given sound effect's volume to 0.
+    /// Fades the given music clip's volume to 0.
     /// </summary>
     /// <param name="id"></param>
     public void FadeOutMusic(int id)
@@ -131,7 +151,21 @@ public class MusicManager : MonoBehaviour
     }
 
     /// <summary>
-    /// coroutine used by the fade in and fade out functions to fade a sfx to a
+    /// Stops all currently playing music
+    /// </summary>
+    public void StopAllMusic()
+    {
+        foreach(var music in _music)
+        {
+            if(music.source.isPlaying)
+            {
+                music.source.Stop();
+            }
+        }
+    }
+
+    /// <summary>
+    /// coroutine used by the fade in and fade out functions to fade a clip to a
     /// specific volume.
     /// </summary>
     /// <param name="audioSource"></param>
@@ -165,6 +199,78 @@ public class MusicManager : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.P))
         {
             PlayMusic(7524);
+        }
+
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            StopAllMusic();
+        }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        PlayLevelMusic();
+    }
+
+    /// <summary>
+    /// Uses the serialized fields for level music IDs to play the song based
+    /// on what level is loaded.
+    /// </summary>
+    private void PlayLevelMusic()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        
+        StopAllMusic();
+
+        if (scene.buildIndex == 0) // Level Select
+        {
+            PlayMusic(_levelSelectMusicID);
+        }
+        else if (scene.buildIndex == 1) // Move Level
+        {
+            PlayMusic(_levelMoveMusicID);
+        }
+        else if (scene.buildIndex == 2) // Turn Level
+        {
+            PlayMusic(_levelTurnMusicID);
+        }
+        else if (scene.buildIndex == 3) // Jump Level
+        {
+            PlayMusic(_levelJumpMusicID);
+        }
+        else if (scene.buildIndex == 4) // Clear Level
+        {
+            PlayMusic(_levelClearMusicID);
+        }
+        else if (scene.buildIndex == 5) // Switch Level
+        {
+            PlayMusic(_levelSwitchMusicID);
+        }
+        else if (scene.buildIndex == 6) 
+        {
+            PlayMusic(_level1MusicID);
+        }
+        else if (scene.buildIndex == 7)
+        {
+            PlayMusic(_level2MusicID);
+        }
+        else if (scene.buildIndex == 8)
+        {
+            PlayMusic(_level3MusicID);
+        }
+        else if (scene.buildIndex == 9)
+        {
+            PlayMusic(_level4MusicID);
         }
     }
 }
