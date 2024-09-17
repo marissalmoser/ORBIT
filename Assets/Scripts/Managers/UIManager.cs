@@ -31,11 +31,16 @@ public class UIManager : MonoBehaviour
     #endregion
 
     [Header("Cards")]
-    [SerializeField] private Image _dealtCardImage;
-    [SerializeField] private Image _playedCardImage, _turnLeftImage, _turnRightImage;
+    [SerializeField] private Image _cardBack;
+    [SerializeField] private Sprite _cardBackSprite;
+    [SerializeField] private Image _dealtCardImage, _playedCardImage, _turnLeftImage, _turnRightImage;
     [SerializeField] private int _widthPadding, _heightPadding;
     [SerializeField] private int _dealtCardWidthSpacing, _playedCardWidthSpacing, _cardHeightSpacing;
     [SerializeField] private bool doVerticalFormat;
+
+    [Header("Tooltip")]
+    [SerializeField] private Sprite _movedTooltip;
+    [SerializeField] private Sprite _jumpTooltip, _turnTooltip, _switchTooltip, _clearTooltip;
 
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
@@ -61,6 +66,7 @@ public class UIManager : MonoBehaviour
 
     private List<Image> _dealtCardImages;
     private List<Image> _playedCardImages;
+    private Image _deckImage;
 
     private float _screenWidth, _screenHeight;
 
@@ -89,6 +95,9 @@ public class UIManager : MonoBehaviour
             if (_dealtCardImages[i] != null)
                 Destroy(_dealtCardImages[i].gameObject);
         }
+        if (_deckImage != null)
+            Destroy(_deckImage.gameObject); //Destroys deck image
+
         //Resets list
         _dealtCardImages = new();
 
@@ -97,6 +106,14 @@ public class UIManager : MonoBehaviour
         int numOfDealtCards = dealtCards.Count;
 
         float cardWidth = _dealtCardImage.rectTransform.rect.width; //Gets width of a card
+        float cardHeight = _dealtCardImage.rectTransform.rect.height; //Gets height of a card
+
+        //Instantiates Card Back
+        _deckImage = Instantiate(_cardBack, Vector3.zero, Quaternion.identity); //Instantiates new card;
+        _deckImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
+        _deckImage.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
+        _deckImage.sprite = _cardBackSprite;
+
         for (int i = 0; i < numOfDealtCards; i++)
         {
             Image newImage = Instantiate(_dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
@@ -104,6 +121,11 @@ public class UIManager : MonoBehaviour
             newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) * i + _widthPadding, 0, 0); //Sets position
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Sets highlight to off
+
+            //Makes tooltip invisible
+            newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+            newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
             _dealtCardImages.Add(newImage); //Adds instantiated image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
@@ -113,12 +135,18 @@ public class UIManager : MonoBehaviour
             {
                 case Card.CardName.Move:
                     card.UpdateCard(_dealtMoveCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE\nMOVE FORWARD ONE TILE.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _movedTooltip;
                     break;
                 case Card.CardName.Jump:
                     card.UpdateCard(_dealtJumpCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "JUMP\n MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _jumpTooltip;
                     break;
                 case Card.CardName.Turn:
                     card.UpdateCard(_dealtTurnCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURN\nTURNS LEFT OR RIGHT.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.TurnLeft: //Error Case. Should not be used, but it can be used if needed
                     card.UpdateCard(_dealtTurnLeftCard);
@@ -128,9 +156,13 @@ public class UIManager : MonoBehaviour
                     break;
                 case Card.CardName.Clear:
                     card.UpdateCard(_dealtClearCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "CLEAR\nREMOVES ONE CARD FROM ACTION ORDER.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _clearTooltip;
                     break;
                 case Card.CardName.Switch:
                     card.UpdateCard(_dealtSwitchCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWITCH\nSWAP TWO CARDS IN ACTION ORDER.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _switchTooltip;
                     break;
                 case Card.CardName.BackToIt:
                     card.UpdateCard(_backToItCard);
@@ -174,6 +206,8 @@ public class UIManager : MonoBehaviour
             
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Turns off highlight
+            newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+            newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
             _playedCardImages.Add(newImage); //Adds image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
@@ -182,18 +216,28 @@ public class UIManager : MonoBehaviour
             {
                 case Card.CardName.Move:
                     card.UpdateCard(_dealtMoveCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE\nMOVE FORWARD ONE TILE.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _movedTooltip;
                     break;
                 case Card.CardName.Jump:
                     card.UpdateCard(_dealtJumpCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "JUMP\n MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _jumpTooltip;
                     break;
                 case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
                     card.UpdateCard(_dealtTurnCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURN\nTURNS LEFT OR RIGHT.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.TurnLeft:
                     card.UpdateCard(_dealtTurnLeftCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURN\nTURNS LEFT";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.TurnRight:
                     card.UpdateCard(_dealtTurnRightCard);
+                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURN\nTURNS LEFT RIGHT.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
                     card.UpdateCard(_dealtClearCard);
@@ -230,11 +274,11 @@ public class UIManager : MonoBehaviour
 
             _leftImage = Instantiate(_turnLeftImage, Vector3.zero, Quaternion.identity); //Instantiates new card
             _leftImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-            _leftImage.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
+            _leftImage.rectTransform.anchoredPosition = new Vector3(_widthPadding + cardWidth + _dealtCardWidthSpacing, cardHeight + 20, 0); //Sets position
 
             _rightImage = Instantiate(_turnRightImage, Vector3.zero, Quaternion.identity); //Instantiates new card
             _rightImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-            _rightImage.rectTransform.anchoredPosition = new Vector3(_widthPadding + cardWidth + _dealtCardWidthSpacing, cardHeight + 20, 0); //Sets position
+            _rightImage.rectTransform.anchoredPosition = new Vector3(_widthPadding + (cardWidth + _dealtCardWidthSpacing) * 2, cardHeight + 20, 0); //Sets position
 
             CardDisplay leftCard = _leftImage.GetComponent<CardDisplay>(); //Grabs data from image
 
