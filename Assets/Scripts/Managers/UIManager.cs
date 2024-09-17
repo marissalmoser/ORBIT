@@ -37,6 +37,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private int _dealtCardWidthSpacing, _playedCardWidthSpacing, _cardHeightSpacing;
     [SerializeField] private bool doVerticalFormat;
 
+    [Header("Folders")]
+    [SerializeField] private Transform _dealtCardsFolder;
+    [SerializeField] private Transform _playedCardsFolder;
+
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
     [SerializeField] private TextMeshProUGUI _collectablesCount;
@@ -104,6 +108,7 @@ public class UIManager : MonoBehaviour
             newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) * i + _widthPadding, 0, 0); //Sets position
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Sets highlight to off
+            newImage.gameObject.transform.SetParent(_dealtCardsFolder);
             _dealtCardImages.Add(newImage); //Adds instantiated image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
@@ -174,6 +179,7 @@ public class UIManager : MonoBehaviour
             
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Turns off highlight
+            newImage.gameObject.transform.SetParent(_playedCardsFolder);
             _playedCardImages.Add(newImage); //Adds image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
