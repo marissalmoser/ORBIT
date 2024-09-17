@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2013298029267953996}
   - component: {fileID: 1587924970855399988}
   - component: {fileID: 1692833811926492168}
+  - component: {fileID: 1954342773884155990}
   m_Layer: 2
   m_Name: Moving Wall
   m_TagString: Wall
@@ -102,3 +103,24 @@ MonoBehaviour:
   direction: 0
   _tracks: []
   _wallMoveSpeed: 1
+--- !u!65 &1954342773884155990
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7746297718368478507}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 3, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
