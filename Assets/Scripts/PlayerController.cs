@@ -40,14 +40,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            StartCoroutine(TurnPlayer(true));
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            StartCoroutine(TurnPlayer(false));
-        }
+        
     }
 
     #region LiteralMovement
