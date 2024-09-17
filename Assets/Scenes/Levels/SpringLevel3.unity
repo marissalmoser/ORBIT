@@ -4801,7 +4801,7 @@ MonoBehaviour:
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
-  _collectableRef: {fileID: 0}
+  _collectableRef: {fileID: 2082652678}
 --- !u!65 &300157061
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -23869,7 +23869,7 @@ MonoBehaviour:
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
-  _collectableRef: {fileID: 2082652678}
+  _collectableRef: {fileID: 0}
 --- !u!65 &1441458424
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -33506,7 +33506,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalPosition.y
@@ -33514,7 +33514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalRotation.w
