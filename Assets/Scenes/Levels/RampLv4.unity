@@ -16957,10 +16957,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ramp(2,0)
       objectReference: {fileID: 0}
-    - target: {fileID: 8207134452197085670, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
-      propertyPath: direction
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -41079,10 +41075,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ramp(0,2)
       objectReference: {fileID: 0}
-    - target: {fileID: 8207134452197085670, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
-      propertyPath: direction
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -53994,6 +53986,10 @@ PrefabInstance:
     - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: LoadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 9207758725683891339, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
