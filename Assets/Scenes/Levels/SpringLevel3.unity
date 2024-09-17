@@ -3421,6 +3421,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3172531313909583294, guid: 412156d1be978ea4992167acc678bd00, type: 3}
+      propertyPath: direction
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7483,6 +7487,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 784288138}
     - target: {fileID: 8526579759844976674, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
+      propertyPath: _jumpArcHeight
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8526579759844976674, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
       propertyPath: _currentFacingDirection
       value: 5
       objectReference: {fileID: 0}
@@ -9743,6 +9751,14 @@ PrefabInstance:
     - target: {fileID: 2406064733847103930, guid: 412156d1be978ea4992167acc678bd00, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3172531313909583294, guid: 412156d1be978ea4992167acc678bd00, type: 3}
+      propertyPath: _isActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3172531313909583294, guid: 412156d1be978ea4992167acc678bd00, type: 3}
+      propertyPath: direction
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20249,7 +20265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 508077412299264462, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 508077412299264462, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalRotation.w
@@ -21619,7 +21635,7 @@ MonoBehaviour:
   _coordinates: {x: 2, y: 1}
   _tileType: 0
   _elevation: 0
-  _obstacleRef: {fileID: 1238533215}
+  _obstacleRef: {fileID: 0}
   _collectableRef: {fileID: 0}
 --- !u!65 &1323040005
 BoxCollider:
@@ -27599,7 +27615,7 @@ MonoBehaviour:
   _coordinates: {x: 2, y: 3}
   _tileType: 0
   _elevation: 0
-  _obstacleRef: {fileID: 0}
+  _obstacleRef: {fileID: 1238533215}
   _collectableRef: {fileID: 0}
 --- !u!65 &1655080982
 BoxCollider:
