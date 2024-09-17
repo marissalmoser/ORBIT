@@ -42,6 +42,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Sprite _movedTooltip;
     [SerializeField] private Sprite _jumpTooltip, _turnTooltip, _switchTooltip, _clearTooltip;
 
+    [Header("Folders")]
+    [SerializeField] private Transform _dealtCardsFolder;
+    [SerializeField] private Transform _playedCardsFolder;
+
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
     [SerializeField] private TextMeshProUGUI _collectablesCount;
@@ -126,6 +130,9 @@ public class UIManager : MonoBehaviour
             newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
             newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
+            //Adds card into folder
+            newImage.gameObject.transform.SetParent(_dealtCardsFolder);
+
             _dealtCardImages.Add(newImage); //Adds instantiated image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
@@ -206,8 +213,14 @@ public class UIManager : MonoBehaviour
             
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Turns off highlight
+
+            //Makes tooltip invisible
             newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
             newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
+            //Adds card to folder
+            newImage.gameObject.transform.SetParent(_playedCardsFolder);
+
             _playedCardImages.Add(newImage); //Adds image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image

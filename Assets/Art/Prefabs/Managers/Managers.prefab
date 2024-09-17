@@ -106,6 +106,8 @@ MonoBehaviour:
   _turnTooltip: {fileID: 21300000, guid: 6322b63775b05cf43ad1dc371b0022eb, type: 3}
   _switchTooltip: {fileID: 21300000, guid: 77fad54395bec0b44b960bf42ac081bd, type: 3}
   _clearTooltip: {fileID: 21300000, guid: e0288865a1280a94cabe9bc372fda055, type: 3}
+  _dealtCardsFolder: {fileID: 0}
+  _playedCardsFolder: {fileID: 0}
   _canvas: {fileID: 0}
   _collectablesCount: {fileID: 0}
   _dealtMoveCard: {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
@@ -200,6 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dealtCards: []
   _playedCards: []
-  _doDebugMode: 1
+  _darken: {fileID: 0}
+  _doDebugMode: 0
   _deathTimerLength: 3
   gameState: 0
