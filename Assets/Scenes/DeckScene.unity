@@ -158,6 +158,22 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 5284036625563039402, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
   m_PrefabInstance: {fileID: 2870088648296899361}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &99421112 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 832300641598887367, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 2870088648296899361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 99421111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!223 &99421114 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 5986970473879921346, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 2870088648296899361}
+  m_PrefabAsset: {fileID: 0}
 --- !u!61 &694418660 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 3486485052370382671, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
@@ -756,6 +772,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2389245948912837720, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _canvas
+      value: 
+      objectReference: {fileID: 99421114}
+    - target: {fileID: 2389245948912837720, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _playArea
       value: 
       objectReference: {fileID: 694418660}
@@ -763,6 +783,10 @@ PrefabInstance:
       propertyPath: _playerInput
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2389245948912837720, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: graphicRaycaster
+      value: 
+      objectReference: {fileID: 99421112}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _canvas
       value: 
@@ -770,10 +794,6 @@ PrefabInstance:
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: doVerticalFormat
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
-      propertyPath: _cardHeightSpacing
-      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _dealtCardWidthSpacing

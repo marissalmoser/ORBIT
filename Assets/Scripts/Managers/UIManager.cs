@@ -32,9 +32,11 @@ public class UIManager : MonoBehaviour
 
     [Header("Cards")]
     [SerializeField] private Image _dealtCardImage;
-    [SerializeField] private Image _playedCardImage, _turnLeftImage, _turnRightImage;
-    [SerializeField] private int _widthPadding, _heightPadding;
-    [SerializeField] private int _dealtCardWidthSpacing, _playedCardWidthSpacing, _cardHeightSpacing;
+                     public Image _playedCardImage;
+    [SerializeField] private Image _turnLeftImage, _turnRightImage;
+                     public int _widthPadding, _heightPadding;
+    [SerializeField] private int _dealtCardWidthSpacing, _playedCardWidthSpacing;
+                     public int _cardHeightSpacing;
     [SerializeField] private bool doVerticalFormat;
 
     [Header("Canvas")]

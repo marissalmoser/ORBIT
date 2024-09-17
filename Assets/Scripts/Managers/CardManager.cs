@@ -6,7 +6,9 @@
 // +-------------------------------------------------------+
 
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 public class CardManager : MonoBehaviour
@@ -30,12 +32,15 @@ public class CardManager : MonoBehaviour
 
     //Declares Variables
     [SerializeField] private BoxCollider2D _playArea;
-
+    [SerializeField] private Canvas _canvas;
+    [SerializeField] private GraphicRaycaster graphicRaycaster;
     private GameManager _gameManager;
     private UIManager _uiManager;
     private Vector3 _mousePosition;
     private Vector3 _imageStartingPosition;
     private BoxCollider2D _imageCollider;
+
+    private Camera _cam;
 
     /// <summary>
     /// Initializes variables for DealtCardManager. Called by GameManager
@@ -150,15 +155,57 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        PointerEventData ped = new PointerEventData(null);
+        List<RaycastResult> raycastResults = new();
+
+
+    Vector2 mousePosition = Mouse.current.position.ReadValue();
+        //mousePosition = mousePosition / _canvas.scaleFactor;
+       // print(mousePosition);
+        ped.position = mousePosition; //TODO - Get y positon of mouse
+
+        graphicRaycaster.Raycast(ped, raycastResults);
+        print(raycastResults.Count);
+        //Gets UI information
+        int heightPadding = _uiManager._heightPadding;
+        int cardSpacing = _uiManager._cardHeightSpacing;
+
+        int prev = heightPadding;
+
+        List<Image> cards = _uiManager.GetInstantiatedPlayedCardImages();
+        int count = cards.Count;
+
+        /**
+        for (int i = 0; i < count; i++)
+        {
+            if (i != count - 1)
+            {
+                if (mousePosition > prev && mousePosition < heightPadding + cardSpacing * (i + 1))
+                {
+                    cards[i].GetComponentInParent<Canvas>().sortingOrder = 1;
+                    cards[i].GetComponentInParent<Canvas>().overrideSorting = true;
+                }
+                else
+                {
+                    cards[i].GetComponentInParent<Canvas>().sortingOrder = 0;
+                    cards[i].GetComponentInParent<Canvas>().overrideSorting = false;
+                }
+            }
+            prev = heightPadding + cardSpacing * (i + 1);
+        }
+        */
+    }
+
     /// <summary>
     /// Called when the mouse enters the card's bounds
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
     public void PlayedMouseEnterCard(Image cardImage)
     {
-        Vector2 mousePosition = Mouse.current.position.ReadValue();
-        //cardImage.GetComponentInParent<Canvas>().overrideSorting = true;
-        //cardImage.GetComponent<Canvas>().sortingOrder = 1;
+        //Gets mouse position
+        cardImage.transform.SetSiblingIndex(_canvas.transform.childCount - 1);
     }
 
     /// <summary>
