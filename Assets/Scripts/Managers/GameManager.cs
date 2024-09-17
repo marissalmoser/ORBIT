@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     private UIManager _uiManager;
 
     public STATE gameState;
+    private bool _gameWon;
 
     private LevelDeck _levelDeck;
     private List<Card> _deck;
@@ -158,6 +159,7 @@ public class GameManager : MonoBehaviour
             case STATE.End:
                 gameState = STATE.End;
                 //Add method here if needed
+                _gameWon = true;
                 Invoke("LoadLevelSelect", 1);
                 break;
             default:
@@ -228,8 +230,8 @@ public class GameManager : MonoBehaviour
             _deck = _deckManagerCard.RemoveFirst(_deck); //Removes the now dealt card from the deck
         }
 
-        //If out of cards, go to corresponding game state
-        if (_dealtCards.Count == 0 && _deck.Count == 0)
+        //If out of cards, go to corresponding game state AND IF NOT ALREADY WON
+        if (_dealtCards.Count == 0 && _deck.Count == 0 && !_gameWon)
         {
             ChangeGameState(STATE.OutOfCards);
         }
