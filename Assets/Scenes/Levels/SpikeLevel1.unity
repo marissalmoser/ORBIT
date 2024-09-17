@@ -31607,6 +31607,22 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6556149401375417572, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1919
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556149401375417572, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1076.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556149401375417572, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 1.0011
+      objectReference: {fileID: 0}
+    - target: {fileID: 6556149401375417572, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.79992676
+      objectReference: {fileID: 0}
     - target: {fileID: 8540797110114223254, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
       propertyPath: m_UiScaleMode
       value: 1
@@ -31635,6 +31651,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &2870088648296899363 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8794364410359480799, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 2870088648296899361}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2870088648296899364 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7164283349579519282, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 2870088648296899361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &2870088648296899365 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 374898337913259867, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 2870088648296899361}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3912513158160439214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31643,6 +31680,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1486646505}
     m_Modifications:
+    - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _darken
+      value: 
+      objectReference: {fileID: 2870088648296899364}
     - target: {fileID: 506377384592549989, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: m_LocalPosition.x
       value: 295.17618
@@ -31700,13 +31741,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 467321719107628408, guid: 847185c60c41a58408e04bd519147210, type: 3}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _dealtCardsFolder
+      value: 
+      objectReference: {fileID: 2870088648296899365}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _cardHeightSpacing
-      value: 70
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _collectablesCount
       value: 
       objectReference: {fileID: 2870088648296899362}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _playedCardsFolder
+      value: 
+      objectReference: {fileID: 2870088648296899363}
     - target: {fileID: 7511067672945292195, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: m_Name
       value: Managers
