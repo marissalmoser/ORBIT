@@ -299,13 +299,15 @@ public class PlayerStateMachineBrain : MonoBehaviour
             switch (_currentAction.name)
             {
                 case Card.CardName.TurnLeft:
-                    _pC.TurnPlayer(true);
-                    PlayerController.ReachedDestination?.Invoke();
+                    //_pC.TurnPlayer(true);
+                    //PlayerController.ReachedDestination?.Invoke();
+                    _pC.StartTurnCoroutine(true);
                     //TODO: listen for wait for turn player animation event 
                     break;
                 case Card.CardName.TurnRight:
-                    _pC.TurnPlayer(false);
-                    PlayerController.ReachedDestination?.Invoke();
+                    //_pC.TurnPlayer(false);
+                    //PlayerController.ReachedDestination?.Invoke();
+                    _pC.StartTurnCoroutine(false);
                     //TODO: animation here
                     break;
                 case Card.CardName.Jump:
