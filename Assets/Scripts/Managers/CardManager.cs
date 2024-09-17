@@ -6,6 +6,7 @@
 // +-------------------------------------------------------+
 
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -49,12 +50,38 @@ public class CardManager : MonoBehaviour
     }
 
     #region Dealt Card Methods
+
+    /// <summary>
+    /// Called when the mouse enters a dealt card
+    /// </summary>
+    /// <param name="cardImage">The image of the card</param>
+    public void DealtMouseEnterCard(Image toolTip)
+    {
+        //Makes tooltip visible
+        toolTip.enabled = true;
+        toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+    }
+
+    /// <summary>
+    /// Called when the mouse exits a dealt card
+    /// </summary>
+    /// <param name="cardImage">The image of the card</param>
+    public void DealtMouseExitCard(Image toolTip)
+    {
+        //Makes tooltip invisible
+        toolTip.enabled = false;
+        toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+    }
+
     /// <summary>
     /// Called when the mouse is pressed on a dealt card
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
     public void DealtMousePressedCard(Image cardImage)
     {
+        //Makes tooltip invisible
+        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
+        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards)
         {
@@ -74,6 +101,9 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void DealtMouseReleasedCard(Image cardImage, int ID)
     {
+        //Makes tooltip visible
+        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards)
         {
@@ -114,6 +144,10 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void PlayedMousePressedCard(Image cardImage, int ID)
     {
+        //Makes tooltip invisible
+        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
+        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
         cardImage.enabled = true;
         //If Cards are being cleared
         if (_gameManager.gameState == GameManager.STATE.ChooseClear)
@@ -137,6 +171,10 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void PlayedMouseReleasedCard(Image cardImage)
     {
+        //Makes tooltip visible
+        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+
         if (_gameManager.gameState != GameManager.STATE.SwitchCards) //If the player is not switching cards, remove highlight immediately
         {
             cardImage.enabled = false;
@@ -156,6 +194,10 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void PlayedMouseEnterCard(Image cardImage)
     {
+        //Makes tooltip visible
+        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+
         Vector2 mousePosition = Mouse.current.position.ReadValue();
         //cardImage.GetComponentInParent<Canvas>().overrideSorting = true;
         //cardImage.GetComponent<Canvas>().sortingOrder = 1;
@@ -167,6 +209,10 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void PlayedMouseExitCard(Image cardImage)
     {
+        //Makes tooltip invisible
+        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
+        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
         //cardImage.GetComponentInParent<Canvas>().overrideSorting = true;
         //cardImage.GetComponentInParent<Canvas>().sortingOrder = 0;
     }

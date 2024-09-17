@@ -89,16 +89,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d2cdeff13d9c2448a8bba17471dd20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardBack: {fileID: 2211793318461686019, guid: 74a6c20f270ecf84f9925163439608cd, type: 3}
+  _cardBackSprite: {fileID: 21300000, guid: 76dc7e679cff7a946b9b79639647693d, type: 3}
   _dealtCardImage: {fileID: 467321719107628408, guid: ce88ebcf69adff140a574ffa7be2e77b, type: 3}
   _playedCardImage: {fileID: 467321719107628408, guid: d8df8885ceb9a8246897892c8dfb8f16, type: 3}
   _turnLeftImage: {fileID: 2630411302793006820, guid: 2bbbabf94a7d05044a503f9dd98dc445, type: 3}
   _turnRightImage: {fileID: 467321719107628408, guid: 847185c60c41a58408e04bd519147210, type: 3}
   _widthPadding: 15
   _heightPadding: 15
-  _dealtCardWidthSpacing: 0
-  _playedCardWidthSpacing: 0
+  _dealtCardWidthSpacing: 10
+  _playedCardWidthSpacing: 10
   _cardHeightSpacing: 140
   doVerticalFormat: 1
+  _movedTooltip: {fileID: 21300000, guid: dedfcf96b7cfaff428cbf09a3d8c6a77, type: 3}
+  _jumpTooltip: {fileID: 21300000, guid: 6ff1fceb985b563439a9a5aa40cd97f8, type: 3}
+  _turnTooltip: {fileID: 21300000, guid: 6322b63775b05cf43ad1dc371b0022eb, type: 3}
+  _switchTooltip: {fileID: 21300000, guid: 77fad54395bec0b44b960bf42ac081bd, type: 3}
+  _clearTooltip: {fileID: 21300000, guid: e0288865a1280a94cabe9bc372fda055, type: 3}
+  _dealtCardsFolder: {fileID: 0}
+  _playedCardsFolder: {fileID: 0}
   _canvas: {fileID: 0}
   _collectablesCount: {fileID: 0}
   _dealtMoveCard: {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
@@ -193,6 +202,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dealtCards: []
   _playedCards: []
-  _doDebugMode: 1
+  _darken: {fileID: 0}
+  _doDebugMode: 0
   _deathTimerLength: 3
   gameState: 0

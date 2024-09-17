@@ -35,6 +35,24 @@ public class CardDisplay : MonoBehaviour
     }
 
     #region Dealt Card Methods
+
+    /// <summary>
+    /// Helper method for Event Trigger Pointer Down for DealtCards
+    /// </summary>
+    /// <param name="Card">Image object for the card</param>
+    public void MouseEnterDealtCard(Image tooltip)
+    {
+        CardManager.Instance.DealtMouseEnterCard(tooltip);
+    }
+
+    /// <summary>
+    /// Helper method for Event Trigger Pointer Down for DealtCards
+    /// </summary>
+    /// <param name="Card">Image object for the card</param>
+    public void MouseExitDealtCard(Image tooltip)
+    {
+        CardManager.Instance.DealtMouseExitCard(tooltip);
+    }
     /// <summary>
     /// Helper method for Event Trigger Pointer Down for DealtCards
     /// </summary>
@@ -80,6 +98,7 @@ public class CardDisplay : MonoBehaviour
     #endregion
 
     #region Played Card Methods
+
     /// <summary>
     /// Helper method for Event Trigger Mouse Down for Played Cards
     /// </summary>
