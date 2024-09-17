@@ -136,6 +136,12 @@ public class UIManager : MonoBehaviour
             newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
             newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
+            //If it is the first tooltip, off center it to keep it on screen
+            if (i == 0)
+                newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position = 
+                    new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x + 25, 
+                    newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
+
             //Adds card into folder
             newImage.gameObject.transform.SetParent(_dealtCardsFolder);
 
@@ -223,6 +229,12 @@ public class UIManager : MonoBehaviour
             //Makes tooltip invisible
             newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
             newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
+            //If it is the first tooltip, off center it to keep it on screen
+            if (i == 0)
+                newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
+                    new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x,
+                    newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y - 20);
 
             //Adds card to folder
             newImage.gameObject.transform.SetParent(_playedCardsFolder);
