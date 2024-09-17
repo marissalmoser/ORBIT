@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
     [SerializeField] private TextMeshProUGUI _collectablesCount;
+    [SerializeField] private TextMeshProUGUI _deckCount;
 
     [Header("Dealt Scriptable Objects")]
     [SerializeField] private Card _dealtMoveCard;
@@ -117,7 +118,11 @@ public class UIManager : MonoBehaviour
         _deckImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
         _deckImage.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
         _deckImage.sprite = _cardBackSprite;
+        
+        _deckCount.transform.SetAsFirstSibling();
         _deckImage.transform.SetAsFirstSibling();
+
+        _deckCount.text = _gameManager._deck.Count.ToString();
 
         for (int i = 0; i < numOfDealtCards; i++)
         {

@@ -32687,6 +32687,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780991472}
   m_Mesh: {fileID: 3517491496714742517, guid: b742bc6025635ad4bac57e7ba741b9e5, type: 3}
+--- !u!114 &1783068335 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4269151524841773678, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 2870088648296899361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1790848455
 GameObject:
   m_ObjectHideFlags: 0
@@ -40604,6 +40615,10 @@ PrefabInstance:
       propertyPath: _canvas
       value: 
       objectReference: {fileID: 99421111}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _deckCount
+      value: 
+      objectReference: {fileID: 1783068335}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _dealtCardsFolder
       value: 
