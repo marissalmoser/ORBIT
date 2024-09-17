@@ -315,6 +315,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void OutOfCards()
     {
+        ChangeGameState(STATE.Death);
         print("Skill Issue."); //TODO - Replace this with actual functionality
     }
 
