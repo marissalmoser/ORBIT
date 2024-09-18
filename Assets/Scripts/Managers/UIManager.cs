@@ -49,6 +49,7 @@ public class UIManager : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
     [SerializeField] private TextMeshProUGUI _collectablesCount;
+    [SerializeField] private TextMeshProUGUI _deckCount;
 
     [Header("Dealt Scriptable Objects")]
     [SerializeField] private Card _dealtMoveCard;
@@ -117,7 +118,11 @@ public class UIManager : MonoBehaviour
         _deckImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
         _deckImage.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
         _deckImage.sprite = _cardBackSprite;
+        
+        _deckCount.transform.SetAsFirstSibling();
         _deckImage.transform.SetAsFirstSibling();
+
+        _deckCount.text = _gameManager._deck.Count.ToString();
 
         for (int i = 0; i < numOfDealtCards; i++)
         {
@@ -130,6 +135,12 @@ public class UIManager : MonoBehaviour
             //Makes tooltip invisible
             newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
             newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
+            //If it is the first tooltip, off center it to keep it on screen
+            if (i == 0)
+                newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position = 
+                    new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x + 25, 
+                    newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
 
             //Adds card into folder
             newImage.gameObject.transform.SetParent(_dealtCardsFolder);
@@ -218,6 +229,12 @@ public class UIManager : MonoBehaviour
             //Makes tooltip invisible
             newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
             newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
+            //If it is the first tooltip, off center it to keep it on screen
+            if (i == 0)
+                newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
+                    new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x,
+                    newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y - 20);
 
             //Adds card to folder
             newImage.gameObject.transform.SetParent(_playedCardsFolder);
