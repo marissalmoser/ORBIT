@@ -79,6 +79,11 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void DealtMousePressedCard(Image cardImage)
     {
+        //sound effect caller
+        GameObject manager = GameObject.Find("SfxManager");
+        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
+        function_call.PlaySFX(3541);
+
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -146,6 +151,11 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void PlayedMousePressedCard(Image cardImage, int ID)
     {
+        //sound effect caller
+        GameObject manager = GameObject.Find("SfxManager");
+        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
+        function_call.PlaySFX(8885);
+
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -155,6 +165,8 @@ public class CardManager : MonoBehaviour
         if (_gameManager.gameState == GameManager.STATE.ChooseClear)
         {
             _gameManager.ClearAction(ID); //Calls method to take the card off of action order
+
+            function_call.PlaySFX(6189);
 
             //Destroys game object
             Destroy(cardImage.gameObject);
@@ -224,6 +236,11 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseLeft()
     {
+        //sound effect caller
+        GameObject manager = GameObject.Find("SfxManager");
+        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
+        function_call.PlaySFX(1092);
+
         _uiManager.DestroyTurnCards(true);
     }
 
@@ -232,6 +249,11 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseRight()
     {
+        //sound effect caller
+        GameObject manager = GameObject.Find("SfxManager");
+        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
+        function_call.PlaySFX(1092);
+
         _uiManager.DestroyTurnCards(false);
     }
     #endregion
