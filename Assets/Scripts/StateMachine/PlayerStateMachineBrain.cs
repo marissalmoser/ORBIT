@@ -375,7 +375,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
             yield return new WaitForSeconds(1);
             GameManager.TrapAction?.Invoke();
             _firedTraps = true;
-            if (_pC.GetTileWithPlayerRaycast().GetObstacleClass() != null)
+            if (_pC.GetTileWithPlayerRaycast() != null && _pC.GetTileWithPlayerRaycast().GetObstacleClass() != null)
             {
                 AddCardToList(_pC.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
             }

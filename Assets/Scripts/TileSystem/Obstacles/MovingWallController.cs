@@ -132,10 +132,6 @@ public class MovingWallController : Obstacle
                 GetComponent<BoxCollider>().enabled = false;
                 pc.StartMoveCoroutine(tilePCIsOn.GetPlayerSnapPosition(), TileManager.Instance.GetTileAtLocation(tilePCIsOn, _direction, 1).GetPlayerSnapPosition());
             }
-            else //player is moving into the wall
-            {
-                PlayerController.WallInterruptAnimation?.Invoke();
-            }
         }
     }
 }
