@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardBack: {fileID: 2211793318461686019, guid: 74a6c20f270ecf84f9925163439608cd, type: 3}
-  _cardBackSprite: {fileID: 21300000, guid: 76dc7e679cff7a946b9b79639647693d, type: 3}
+  _cardBackSprite: {fileID: 21300000, guid: c9e229069a8cbda428b20febe21b1f30, type: 3}
   _dealtCardImage: {fileID: 467321719107628408, guid: ce88ebcf69adff140a574ffa7be2e77b, type: 3}
   _playedCardImage: {fileID: 467321719107628408, guid: d8df8885ceb9a8246897892c8dfb8f16, type: 3}
   _turnLeftImage: {fileID: 2630411302793006820, guid: 2bbbabf94a7d05044a503f9dd98dc445, type: 3}
@@ -110,6 +110,7 @@ MonoBehaviour:
   _playedCardsFolder: {fileID: 0}
   _canvas: {fileID: 0}
   _collectablesCount: {fileID: 0}
+  _deckCount: {fileID: 0}
   _dealtMoveCard: {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   _dealtJumpCard: {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
   _dealtTurnCard: {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
@@ -206,3 +207,4 @@ MonoBehaviour:
   _doDebugMode: 0
   _deathTimerLength: 3
   gameState: 0
+  _deck: []
