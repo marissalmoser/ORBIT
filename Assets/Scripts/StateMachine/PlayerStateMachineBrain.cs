@@ -34,6 +34,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     private PlayerController _pC;
     private int _distance;
     private bool _firedTraps = false;
+    
     public void Start()
     {
         PlayerController.ReachedDestination += HandleReachedDestination;
@@ -294,17 +295,46 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator PlayResult()
     {
+        //sound effect caller
+        GameObject manager = GameObject.Find("SfxManager");
+        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
+
         if (_currentState == State.PlayResult)
         {
+            int roll = Random.Range(0, 2);
             switch (_currentAction.name)
             {
                 case Card.CardName.TurnLeft:
+                    switch (roll)
+                    {
+                        case 0:
+                            function_call.PlaySFX(2469);
+                            break;
+                        case 1:
+                            function_call.PlaySFX(4295);
+                            break;
+                        case 2:
+                            function_call.PlaySFX(8894);
+                            break;
+                    }
                     //_pC.TurnPlayer(true);
                     //PlayerController.ReachedDestination?.Invoke();
                     _pC.StartTurnCoroutine(true);
                     //TODO: listen for wait for turn player animation event 
                     break;
                 case Card.CardName.TurnRight:
+                    switch (roll)
+                    {
+                        case 0:
+                            function_call.PlaySFX(2469);
+                            break;
+                        case 1:
+                            function_call.PlaySFX(4295);
+                            break;
+                        case 2:
+                            function_call.PlaySFX(8894);
+                            break;
+                    }
                     //_pC.TurnPlayer(false);
                     //PlayerController.ReachedDestination?.Invoke();
                     _pC.StartTurnCoroutine(false);
@@ -313,20 +343,22 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 case Card.CardName.Jump:
                     if (_distance > 1) //this is a spring tile
                     {
+                        function_call.PlaySFX(1917);
                         //_distance -= 1;
                         //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles.Code wise, i need it to be two
                         // (two up, two across) to work properly
                         //int[] possibleNumbers = { 0, 2, 6, 8 };
                         //int randomIndex = Random.Range(0, possibleNumbers.Length);
 
-                    //    _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
-                    //(_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
+                        //    _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
+                        //(_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
 
                         _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
                     }
 
                     else // this is a normal jump
                     {
+                        function_call.PlaySFX(3740);
                         //determine result by getting difference of elevation betwen current tile and tile right in front of player
                         _distance += (_pC.GetCurrentTile().GetElevation() - 
                             (TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), 1).GetElevation()));
@@ -347,6 +379,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     }
                     break;
                 case Card.CardName.Move:
+                    function_call.PlaySFX(9754);
                     Vector3 newV = new Vector3(_targetTile.GetPlayerSnapPosition().x, _pC.transform.position.y, _targetTile.GetPlayerSnapPosition().z);
                     _pC.StartMoveCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), newV);
                     break;
