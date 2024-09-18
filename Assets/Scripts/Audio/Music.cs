@@ -1,8 +1,8 @@
 /******************************************************************
- *    Author: Marissa 
+ *    Author: Sky Turner 
  *    Contributors: 
  *    Date Created: 9/12/24
- *    Description: Sxf class with fields to customize each sfx
+ *    Description: Music class with fields to customize each music clip
  *******************************************************************/
 using UnityEditor;
 using UnityEngine;

@@ -1,6 +1,6 @@
 /******************************************************************
- *    Author: Marissa 
- *    Contributors: Sky Turner
+ *    Author: Sky Turner 
+ *    Contributors: Marissa
  *    Date Created: 9/12/24
  *    Description: Music manager singleton
  *    
@@ -66,7 +66,7 @@ public class MusicManager : MonoBehaviour
 
     #region Setting ID in editor
     /// <summary>
-    /// Whenever the list of sfx is edited, verifies all sfx have their own id
+    /// Whenever the list of clips is edited, verifies all clips have their own id
     /// </summary>
     private void OnValidate()
     {
@@ -77,10 +77,11 @@ public class MusicManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks if the given index of _SFXs has a duplicate ID, if so calls GenerateID()
+    /// Checks if the given index of _music has a duplicate ID, if so calls GenerateID()
     /// to update it.
     /// </summary>
-    /// <param name="sfx"></param>
+    /// <param name="music"></param>
+    /// <param name="index"></param>
     private void ValidateID(Music music, int index)
     {
         for (int i = _music.Count - 1; i >= 0; i--)
@@ -117,7 +118,7 @@ public class MusicManager : MonoBehaviour
     /// Stops the given music clip from playing. Finds the index of the specific
     /// sound effect, and then stops the clip.
     /// </summary>
-    /// <param name="name"></param>
+    /// <param name="id"></param>
     public void StopMusic(int id)
     {
         Music music = _music[_music.FindIndex(i => i.id == id)];
@@ -191,22 +192,6 @@ public class MusicManager : MonoBehaviour
         yield break;
     }
 
-    /// <summary>
-    /// Temp for testing
-    /// </summary>
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            PlayMusic(7524);
-        }
-
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            StopAllMusic();
-        }
-    }
-
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -217,6 +202,11 @@ public class MusicManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    /// <summary>
+    /// Plays the levels music for the scene when it is loaded
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="mode"></param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         PlayLevelMusic();
@@ -234,43 +224,43 @@ public class MusicManager : MonoBehaviour
 
         if (scene.buildIndex == 0) // Level Select
         {
-            PlayMusic(_levelSelectMusicID);
+            FadeInMusic(_levelSelectMusicID);
         }
         else if (scene.buildIndex == 1) // Move Level
         {
-            PlayMusic(_levelMoveMusicID);
+            FadeInMusic(_levelMoveMusicID);
         }
         else if (scene.buildIndex == 2) // Turn Level
         {
-            PlayMusic(_levelTurnMusicID);
+            FadeInMusic(_levelTurnMusicID);
         }
         else if (scene.buildIndex == 3) // Jump Level
         {
-            PlayMusic(_levelJumpMusicID);
+            FadeInMusic(_levelJumpMusicID);
         }
         else if (scene.buildIndex == 4) // Clear Level
         {
-            PlayMusic(_levelClearMusicID);
+            FadeInMusic(_levelClearMusicID);
         }
         else if (scene.buildIndex == 5) // Switch Level
         {
-            PlayMusic(_levelSwitchMusicID);
+            FadeInMusic(_levelSwitchMusicID);
         }
         else if (scene.buildIndex == 6) 
         {
-            PlayMusic(_level1MusicID);
+            FadeInMusic(_level1MusicID);
         }
         else if (scene.buildIndex == 7)
         {
-            PlayMusic(_level2MusicID);
+            FadeInMusic(_level2MusicID);
         }
         else if (scene.buildIndex == 8)
         {
-            PlayMusic(_level3MusicID);
+            FadeInMusic(_level3MusicID);
         }
         else if (scene.buildIndex == 9)
         {
-            PlayMusic(_level4MusicID);
+            FadeInMusic(_level4MusicID);
         }
     }
 }
