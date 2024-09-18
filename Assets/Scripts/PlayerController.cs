@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
-        //_currentTile = TileManager.Instance.GetTileByCoordinates(_currentTile.GetCoordinates());
         transform.position = _currentTile.GetPlayerSnapPosition();
         //TODO : replace this with a more concrete way to set the starting position
     }
@@ -57,7 +56,6 @@ public class PlayerController : MonoBehaviour
         float checkTimeElapsed = 0f;
 
         Tile previousTile = _currentTile;
-        bool changedDestination = false;
 
         //get the last key in the curve
         while (timeElapsed < _moveEaseCurve.keys[_moveEaseCurve.length - 1].time)
@@ -347,13 +345,6 @@ public class PlayerController : MonoBehaviour
             SpikeCollision?.Invoke();
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
             StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y + 10, newV.z));
-        }
-        if (other.gameObject.CompareTag("Wall"))
-        {
-            print("HERE");
-            WallInterruptAnimation?.Invoke();
-
-            //StartFallCoroutine(transform.position, GetTileWithPlayerRaycast().GetPlayerSnapPosition());
         }
     }
 

@@ -91,10 +91,6 @@ public class TileManager : MonoBehaviour
     //{
     //    return allCollectables.Keys.ToList();
     //}
-    public Tile GetTileWithCoordinates(Vector2 coordinates)
-    {
-        return allTilesInScene.FirstOrDefault(tile => tile.GetCoordinates() == coordinates);
-    }
     public Obstacle GetObstacleWithTileCoordinates(Vector2 coordinates)
     {
         return allObstacles.FirstOrDefault(obstacle => obstacle.Value == coordinates).Key;

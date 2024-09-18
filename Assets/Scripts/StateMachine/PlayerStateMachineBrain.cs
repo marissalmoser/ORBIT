@@ -184,9 +184,14 @@ public class PlayerStateMachineBrain : MonoBehaviour
         if (_pC.GetCurrentMovementCoroutine() != null)
         {
             _pC.StopCoroutine(_pC.GetCurrentMovementCoroutine());
-            //_pC.StartFallCoroutine(transform.position, _pC.GetCurrentTile().GetPlayerSnapPosition());
+            _pC.StartFallCoroutine(transform.position, _pC.GetCurrentTile().GetPlayerSnapPosition());
         }
-        FSM(State.PrepareNextAction);
+        else
+        {
+            Debug.LogError("Current coroutine was null after hitting wall");
+            FSM(State.PrepareNextAction);
+        }
+
     }
     public void HandleSpikeInterruption()
     {
@@ -198,7 +203,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     }
     public void HandleReachedDestination()
     {
-        if(_pC.GetCurrentMovementCoroutine() != null)
+        if (_pC.GetCurrentMovementCoroutine() != null)
         {
             _pC.StopCoroutine(_pC.GetCurrentMovementCoroutine());
         }
@@ -208,7 +213,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     public void SetCardList(List<Card> incomingActions)
     {
         _actions.Clear();
-        if(incomingActions != null)
+        if (incomingActions != null)
         {
             _actions.AddRange(incomingActions);
         }
@@ -220,7 +225,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     /// <param name="card"></param>
     public void AddCardToList(Card card)
     {
-        if(card != null)
+        if (card != null)
         {
             _actions.Insert(0, card);
         }
@@ -250,7 +255,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
             {
                 FSM(State.FindTileUponAction);
             }
-            else if(!_firedTraps)
+            else if (!_firedTraps)
             {
                 FSM(State.TrapPlayState);
             }
@@ -273,16 +278,16 @@ public class PlayerStateMachineBrain : MonoBehaviour
             int facingDirection = _pC.GetCurrentFacingDirection();
             if (_pC.GetCurrentTile().GetObstacleClass() != null) //If youre standing on an obstacle that sends you in a direction
             {
-               
+
                 facingDirection = _pC.GetCurrentTile().GetObstacleClass().GetDirection();
-                if(facingDirection == 4) //IF the tile doesnt have a facing direction, use the player's current FD
+                if (facingDirection == 4) //IF the tile doesnt have a facing direction, use the player's current FD
                 {
                     facingDirection = _pC.GetCurrentFacingDirection();
                 }
-                if(_currentAction.name != Card.CardName.Jump)
+                if (_currentAction.name != Card.CardName.Jump)
                 {
                     _pC.SetFacingDirection(facingDirection); //turn the player to face where they are going
-                }               
+                }
             }
 
             _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, facingDirection, _distance);
@@ -319,8 +324,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
                         //int[] possibleNumbers = { 0, 2, 6, 8 };
                         //int randomIndex = Random.Range(0, possibleNumbers.Length);
 
-                    //    _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
-                    //(_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
+                        //    _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
+                        //(_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
 
                         _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
                     }
@@ -328,7 +333,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     else // this is a normal jump
                     {
                         //determine result by getting difference of elevation betwen current tile and tile right in front of player
-                        _distance += (_pC.GetCurrentTile().GetElevation() - 
+                        _distance += (_pC.GetCurrentTile().GetElevation() -
                             (TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), 1).GetElevation()));
                         if (_distance < 0) //block is too high
                         {
@@ -337,11 +342,11 @@ public class PlayerStateMachineBrain : MonoBehaviour
                         }
                         else //block isnt too tall; need to add distance if 0 to actually jump onto the next block
                         {
-                            if(_distance == 0)
+                            if (_distance == 0)
                             {
                                 _distance++;
                             }
-                            _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), 
+                            _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(),
                                 TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), _distance).GetPlayerSnapPosition());
                         }
                     }
@@ -365,10 +370,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator TrapFiring()
     {
-        while(_currentState == State.TrapPlayState)
+        while (_currentState == State.TrapPlayState)
         {
-          
-            print("invoked");
             yield return new WaitForSeconds(1);
             GameManager.TrapAction?.Invoke();
             _firedTraps = true;
