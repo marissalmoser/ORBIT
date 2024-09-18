@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour
     private bool _gameWon;
 
     private LevelDeck _levelDeck;
-    private List<Card> _deck;
+    public List<Card> _deck;
 
     private List<Card> _tempPlayedCards;
     private List<Card> _tempBeforeBackToItCards, _tempAfterBackToItCards;

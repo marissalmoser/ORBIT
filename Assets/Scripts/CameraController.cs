@@ -27,6 +27,15 @@ public class CameraController : MonoBehaviour
         PanCameraCanceled(ctx);
     }
 
+    private void OnDisable()
+    {
+        _playerInput.currentActionMap["PanCamera"].started -= ctx =>
+        PanCamera(ctx);
+
+        _playerInput.currentActionMap["PanCamera"].canceled -= ctx =>
+        PanCameraCanceled(ctx);
+    }
+
     /// <summary>
     /// This function handles when the PanCamera action is started
     /// </summary>
