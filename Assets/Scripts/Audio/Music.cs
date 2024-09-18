@@ -1,7 +1,7 @@
 /******************************************************************
  *    Author: Sky Turner 
  *    Contributors: 
- *    Date Created: 9/12/24
+ *    Date Created: 9/14/24
  *    Description: Music class with fields to customize each music clip
  *******************************************************************/
 using UnityEditor;
