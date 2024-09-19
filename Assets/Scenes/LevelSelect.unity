@@ -1459,15 +1459,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _fadeInDuration
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.size
-      value: 18
+      value: 19
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _fadeOutDuration
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[8].id
@@ -1508,6 +1508,10 @@ PrefabInstance:
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[17].id
       value: 8885
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[18].id
+      value: 8346
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[1].name
@@ -1556,6 +1560,10 @@ PrefabInstance:
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[17].name
       value: PlayedCardClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[18].name
+      value: CollectablePickup
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[2].pitch
@@ -1615,7 +1623,7 @@ PrefabInstance:
       objectReference: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[15].pitch
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[16].mixer
@@ -1634,6 +1642,14 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[18].mixer
+      value: 
+      objectReference: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[18].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[10].doLoop
       value: 0
       objectReference: {fileID: 0}
@@ -1650,6 +1666,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[6].maxVolume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[7].maxVolume
       value: 0.22
       objectReference: {fileID: 0}
@@ -1663,11 +1683,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[10].maxVolume
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[11].maxVolume
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[12].maxVolume
@@ -1683,7 +1703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[15].maxVolume
-      value: 0.4
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[16].maxVolume
@@ -1692,6 +1712,10 @@ PrefabInstance:
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[17].maxVolume
       value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[18].maxVolume
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[10].clips.Array.size
@@ -1726,6 +1750,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[18].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[1].clips.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 7c768620eacc7434fa9fe34b7e272a36, type: 3}
@@ -1733,6 +1761,14 @@ PrefabInstance:
       propertyPath: _SFXs.Array.data[2].clips.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: 91b5cede9b573c142ae1e42ff8e205a4, type: 3}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[5].clips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9a54b7d619d6e8c49b1cfc2f83f2bf9a, type: 3}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[6].clips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 96386992747a1ea4dacb85e357a00018, type: 3}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[8].clips.Array.data[0]
       value: 
@@ -1773,6 +1809,10 @@ PrefabInstance:
       propertyPath: _SFXs.Array.data[17].clips.Array.data[0]
       value: 
       objectReference: {fileID: 8300000, guid: d8ccac90f2f1d70438562086289c933f, type: 3}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[18].clips.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: e08d017efabd403489af772d9624fc81, type: 3}
     - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
