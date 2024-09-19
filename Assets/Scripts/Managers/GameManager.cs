@@ -227,6 +227,8 @@ public class GameManager : MonoBehaviour
         {
             ChangeGameState(STATE.OutOfCards);
         }
+
+        _uiManager.UpdateTextBox("PLAY A CARD.");
         _uiManager.UpdateDealtCards(); //Updates Cards
     }
 
@@ -243,6 +245,7 @@ public class GameManager : MonoBehaviour
             {
                 _darken.enabled = true;
                 _isClearing = true;
+                _uiManager.UpdateTextBox("SELECT A CARD TO CLEAR.");
             }
             else
             {
@@ -259,6 +262,7 @@ public class GameManager : MonoBehaviour
             {
                 _darken.enabled = true;
                 _isSwitching = true;
+                _uiManager.UpdateTextBox("SELECT TWO CARDS TO SWAP.");
             }
             else
             {
@@ -274,6 +278,7 @@ public class GameManager : MonoBehaviour
             _darken.transform.SetSiblingIndex(_darken.transform.GetSiblingIndex() + 1);
             _lowerDarkenIndex = true;
             ChangeGameState(STATE.ChooseTurn); //Waits for User Input to Switch two cards
+            _uiManager.UpdateTextBox("CHOOSE TO TURN LEFT OR RIGHT.");
             _uiManager.CreateTurnCards();
             _isTurning = true;
         }
@@ -348,6 +353,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ConfirmCards()
     {
+        _uiManager.DisableTextBox();
         //If the confirmation card is a clear or switch, do not add it into play order
         if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch)
             _playedCards.Add(confirmationCard);
