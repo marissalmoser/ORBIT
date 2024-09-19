@@ -10,9 +10,7 @@ public class FinishFlag : Collectable
         if (other.gameObject.CompareTag("Player"))
         {
             //sound effect caller
-            GameObject manager = GameObject.Find("SfxManager");
-            SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
-            function_call.PlaySFX(1566);
+            SfxManager.Instance.PlaySFX(1566);
 
             _PSMB = other.GetComponent<PlayerStateMachineBrain>();
             StartCoroutine(WaitCoroutine());

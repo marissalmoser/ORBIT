@@ -34,6 +34,7 @@ public class ConfirmationControls : MonoBehaviour
 
     public void ConfirmationPressed()
     {
+
         isConfirmationPressedDown = true;
     }
 
@@ -59,6 +60,9 @@ public class ConfirmationControls : MonoBehaviour
 
     public void CancelPressed()
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
+
         isCancelPressedDown = true;
     }
 

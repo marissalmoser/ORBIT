@@ -1639,7 +1639,7 @@ PrefabInstance:
       objectReference: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[17].pitch
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[18].mixer
@@ -1655,7 +1655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[0].maxVolume
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: _SFXs.Array.data[1].maxVolume
