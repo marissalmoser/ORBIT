@@ -34,6 +34,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     private PlayerController _pC;
     private int _distance;
     private bool _firedTraps = false;
+    
     public void Start()
     {
         PlayerController.ReachedDestination += HandleReachedDestination;
@@ -299,17 +300,20 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator PlayResult()
     {
+
         if (_currentState == State.PlayResult)
         {
             switch (_currentAction.name)
             {
                 case Card.CardName.TurnLeft:
+                    SfxManager.Instance.PlaySFX(2469);
                     //_pC.TurnPlayer(true);
                     //PlayerController.ReachedDestination?.Invoke();
                     _pC.StartTurnCoroutine(true);
                     //TODO: listen for wait for turn player animation event 
                     break;
                 case Card.CardName.TurnRight:
+                    SfxManager.Instance.PlaySFX(2469);
                     //_pC.TurnPlayer(false);
                     //PlayerController.ReachedDestination?.Invoke();
                     _pC.StartTurnCoroutine(false);
@@ -318,6 +322,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 case Card.CardName.Jump:
                     if (_distance > 1) //this is a spring tile
                     {
+                        SfxManager.Instance.PlaySFX(1917);
                         //_distance -= 1;
                         //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles.Code wise, i need it to be two
                         // (two up, two across) to work properly
@@ -332,6 +337,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
                     else // this is a normal jump
                     {
+                        SfxManager.Instance.PlaySFX(3740);
                         //determine result by getting difference of elevation betwen current tile and tile right in front of player
                         _distance += (_pC.GetCurrentTile().GetElevation() -
                             (TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), 1).GetElevation()));
@@ -352,6 +358,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     }
                     break;
                 case Card.CardName.Move:
+                    SfxManager.Instance.PlaySFX(9754);
                     Vector3 newV = new Vector3(_targetTile.GetPlayerSnapPosition().x, _pC.transform.position.y, _targetTile.GetPlayerSnapPosition().z);
                     _pC.StartMoveCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), newV);
                     break;

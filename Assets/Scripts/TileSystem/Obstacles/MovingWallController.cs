@@ -37,6 +37,9 @@ public class MovingWallController : Obstacle
 
     public override void PerformObstacleAnim()
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(1191);
+
         MoveWall();
     }
 
