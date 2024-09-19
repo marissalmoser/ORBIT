@@ -348,11 +348,15 @@ public class UIManager : MonoBehaviour
                     cardDisplay.UpdateCard(_dealtTurnRightCard);
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT RIGHT.";
                     break;
-                case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
+                case Card.CardName.Clear:
                     cardDisplay.UpdateCard(_dealtClearCard);
+                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _clearTooltip;
                     break;
-                case Card.CardName.Switch: //Error Case. Should not be used, but it can be used if needed
+                case Card.CardName.Switch:
                     cardDisplay.UpdateCard(_dealtSwitchCard);
+                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
+                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _switchTooltip;
                     break;
                 case Card.CardName.BackToIt:
                     cardDisplay.UpdateCard(_backToItCard);
