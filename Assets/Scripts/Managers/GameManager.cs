@@ -228,7 +228,7 @@ public class GameManager : MonoBehaviour
             ChangeGameState(STATE.OutOfCards);
         }
 
-        _uiManager.UpdateTextBox("PLAY A CARD.");
+        _uiManager.UpdateTextBox("DRAG A CARD TO PLAY.");
         _uiManager.UpdateDealtCards(); //Updates Cards
     }
 
