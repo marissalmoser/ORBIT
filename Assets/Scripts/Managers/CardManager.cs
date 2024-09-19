@@ -49,6 +49,14 @@ public class CardManager : MonoBehaviour
         _imageStartingPosition = Vector3.zero;
     }
 
+    public void RemoveAllHighlight(List<Image> cards)
+    {
+        foreach (var card in cards)
+        {
+            card.enabled = false;
+        }
+    }
+
     #region Dealt Card Methods
 
     /// <summary>
@@ -79,11 +87,6 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void DealtMousePressedCard(Image cardImage)
     {
-        //sound effect caller
-        GameObject manager = GameObject.Find("SfxManager");
-        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
-        function_call.PlaySFX(3541);
-
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -109,8 +112,12 @@ public class CardManager : MonoBehaviour
     public void DealtMouseReleasedCard(Image cardImage, int ID)
     {
         //Makes tooltip visible
-        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
-        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
+        {
+            cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+            cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
+
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards)
         {
@@ -151,29 +158,19 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void PlayedMousePressedCard(Image cardImage, int ID)
     {
-        //sound effect caller
-        GameObject manager = GameObject.Find("SfxManager");
-        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
-        function_call.PlaySFX(8885);
-
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
         cardImage.enabled = true;
         //If Cards are being cleared
-        if (_gameManager.gameState == GameManager.STATE.ChooseClear)
+        if (_gameManager._isClearing)
         {
             _gameManager.ClearAction(ID); //Calls method to take the card off of action order
-
-            function_call.PlaySFX(6189);
-
-            //Destroys game object
-            Destroy(cardImage.gameObject);
         }
 
         //If Cards are being switched
-        else if (_gameManager.gameState == GameManager.STATE.SwitchCards)
+        else if (_gameManager._isSwitching)
         {
             _gameManager.SwitchActionHelper(ID); //Calls the method helper to swap two cards' order
         }
@@ -186,10 +183,13 @@ public class CardManager : MonoBehaviour
     public void PlayedMouseReleasedCard(Image cardImage)
     {
         //Makes tooltip visible
-        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
-        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
+        {
+            cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+            cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
 
-        if (_gameManager.gameState != GameManager.STATE.SwitchCards) //If the player is not switching cards, remove highlight immediately
+        if (!_gameManager._isSwitching) //If the player is not switching cards, remove highlight immediately
         {
             cardImage.enabled = false;
         }
@@ -199,6 +199,10 @@ public class CardManager : MonoBehaviour
 
             if (!switchIDs.Contains(cardImage.GetComponentInChildren<CardDisplay>().ID))
                 cardImage.enabled = false;
+        }
+        if (_gameManager._isClearing)
+        {
+            cardImage.enabled = true;
         }
     }
 
@@ -236,11 +240,6 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseLeft()
     {
-        //sound effect caller
-        GameObject manager = GameObject.Find("SfxManager");
-        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
-        function_call.PlaySFX(1092);
-
         _uiManager.DestroyTurnCards(true);
     }
 
@@ -249,11 +248,6 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseRight()
     {
-        //sound effect caller
-        GameObject manager = GameObject.Find("SfxManager");
-        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
-        function_call.PlaySFX(1092);
-
         _uiManager.DestroyTurnCards(false);
     }
     #endregion
