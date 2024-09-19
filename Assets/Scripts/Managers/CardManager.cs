@@ -90,6 +90,8 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void DealtMousePressedCard(Image cardImage)
     {
+        //sound call
+        SfxManager.Instance.PlaySFX(3541);
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -114,6 +116,8 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void DealtMouseReleasedCard(Image cardImage, int ID)
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(1092);
         //Makes tooltip visible
         if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
         {
@@ -161,6 +165,9 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void PlayedMousePressedCard(Image cardImage, int ID)
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
+
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -243,6 +250,8 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseLeft()
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
         _uiManager.DestroyTurnCards(true);
     }
 
@@ -251,6 +260,8 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseRight()
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
         _uiManager.DestroyTurnCards(false);
     }
     #endregion

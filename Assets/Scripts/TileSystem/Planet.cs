@@ -12,6 +12,9 @@ public class Planet : Collectable
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            //sound effect caller
+            SfxManager.Instance.PlaySFX(8346);
+
             GameManager.Instance.AddCollectable(this);
             Destroy(gameObject);
         }

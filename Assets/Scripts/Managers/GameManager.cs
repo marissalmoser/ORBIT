@@ -365,6 +365,9 @@ public class GameManager : MonoBehaviour
         {
             _isClearing = false;
 
+            //sound effect call
+            SfxManager.Instance.PlaySFX(6189);
+
             List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
             int instantiatedImagesCount = instantiatedImages.Count;
