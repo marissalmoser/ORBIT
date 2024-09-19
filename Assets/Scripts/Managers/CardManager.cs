@@ -49,6 +49,14 @@ public class CardManager : MonoBehaviour
         _imageStartingPosition = Vector3.zero;
     }
 
+    public void RemoveAllHighlight(List<Image> cards)
+    {
+        foreach (var card in cards)
+        {
+            card.enabled = false;
+        }
+    }
+
     #region Dealt Card Methods
 
     /// <summary>
@@ -104,8 +112,12 @@ public class CardManager : MonoBehaviour
     public void DealtMouseReleasedCard(Image cardImage, int ID)
     {
         //Makes tooltip visible
-        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
-        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
+        {
+            cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+            cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
+
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards)
         {
@@ -152,16 +164,13 @@ public class CardManager : MonoBehaviour
 
         cardImage.enabled = true;
         //If Cards are being cleared
-        if (_gameManager.gameState == GameManager.STATE.ChooseClear)
+        if (_gameManager._isClearing)
         {
             _gameManager.ClearAction(ID); //Calls method to take the card off of action order
-
-            //Destroys game object
-            Destroy(cardImage.gameObject);
         }
 
         //If Cards are being switched
-        else if (_gameManager.gameState == GameManager.STATE.SwitchCards)
+        else if (_gameManager._isSwitching)
         {
             _gameManager.SwitchActionHelper(ID); //Calls the method helper to swap two cards' order
         }
@@ -174,10 +183,13 @@ public class CardManager : MonoBehaviour
     public void PlayedMouseReleasedCard(Image cardImage)
     {
         //Makes tooltip visible
-        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
-        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
+        {
+            cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+            cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
 
-        if (_gameManager.gameState != GameManager.STATE.SwitchCards) //If the player is not switching cards, remove highlight immediately
+        if (!_gameManager._isSwitching) //If the player is not switching cards, remove highlight immediately
         {
             cardImage.enabled = false;
         }
@@ -187,6 +199,10 @@ public class CardManager : MonoBehaviour
 
             if (!switchIDs.Contains(cardImage.GetComponentInChildren<CardDisplay>().ID))
                 cardImage.enabled = false;
+        }
+        if (_gameManager._isClearing)
+        {
+            cardImage.enabled = true;
         }
     }
 
