@@ -14,6 +14,7 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private Card _card;
     [SerializeField] private Image _sprite;
     public int ID;
+    public bool IsMouseInCard { get;  private set; }
 
     private GameManager _gameManager;
     void Start()
@@ -42,6 +43,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MouseEnterDealtCard(Image tooltip)
     {
+        IsMouseInCard = true;
         CardManager.Instance.DealtMouseEnterCard(tooltip);
     }
 
@@ -51,6 +53,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MouseExitDealtCard(Image tooltip)
     {
+        IsMouseInCard = false;
         CardManager.Instance.DealtMouseExitCard(tooltip);
     }
     /// <summary>
@@ -123,6 +126,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="card">Image object for the card</param>
     public void OnMouseEnterPlayedCard(Image card)
     {
+        IsMouseInCard = true;
         CardManager.Instance.PlayedMouseEnterCard(card);
     }
 
@@ -132,6 +136,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="card">Image object for the card</param>
     public void OnMouseExitPlayedCard(Image card)
     {
+        IsMouseInCard = false;
         CardManager.Instance.PlayedMouseExitCard(card);
     }
     #endregion
