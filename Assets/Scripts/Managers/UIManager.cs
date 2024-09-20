@@ -407,10 +407,10 @@ public class UIManager : MonoBehaviour
 
         _leftImage = Instantiate(_turnLeftImage, Vector3.zero, Quaternion.identity); //Instantiates new card
         _leftImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-        _leftImage.rectTransform.anchoredPosition = new Vector3(_widthPadding + cardWidth + _dealtCardWidthSpacing, cardHeight + 20, 0); //Sets position
+        _leftImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - cardWidth * 4 - _dealtCardWidthSpacing, 0); //Sets position
         _rightImage = Instantiate(_turnRightImage, Vector3.zero, Quaternion.identity); //Instantiates new card
         _rightImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-        _rightImage.rectTransform.anchoredPosition = new Vector3(_widthPadding + (cardWidth + _dealtCardWidthSpacing) * 2, cardHeight + 20, 0); //Sets position
+        _rightImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - cardWidth * 3, 0); //Sets position
 
         CardDisplay leftCard = _leftImage.GetComponent<CardDisplay>(); //Grabs data from image
 
