@@ -103,6 +103,22 @@ public class CardDisplay : MonoBehaviour
     {
         CardManager.Instance.PlayedTurnChooseRight();
     }
+
+    /// <summary>
+    /// Helper method for mouse entering turn card
+    /// </summary>
+    public void MouseEnterTurnCard(Image tooltip)
+    {
+        CardManager.Instance.MouseEnterTurnCard(tooltip);
+    }
+
+    /// <summary>
+    /// Helper method for mouse leaving turn card
+    /// </summary>
+    public void MouseExitTurnCard(Image tooltip)
+    {
+        CardManager.Instance.MouseExitTurnCard(tooltip);
+    }
     #endregion
 
     #region Played Card Methods
