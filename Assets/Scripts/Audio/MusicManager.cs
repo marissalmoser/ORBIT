@@ -64,6 +64,8 @@ public class MusicManager : MonoBehaviour
             _music[i].source.playOnAwake = false;
             _music[i].source.loop = _music[i].doLoop;
         }
+
+        PlayLevelMusic();
     }
 
     #region Setting ID in editor
