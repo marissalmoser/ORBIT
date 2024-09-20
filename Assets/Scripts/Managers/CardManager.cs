@@ -88,7 +88,7 @@ public class CardManager : MonoBehaviour
     public void DealtMousePressedCard(Image cardImage)
     {
         //sound call
-        SfxManager.Instance.PlaySFX(3541);
+        //SfxManager.Instance.PlaySFX(3541);
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
