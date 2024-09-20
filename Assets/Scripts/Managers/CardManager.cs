@@ -66,8 +66,11 @@ public class CardManager : MonoBehaviour
     public void DealtMouseEnterCard(Image toolTip)
     {
         //Makes tooltip visible
-        toolTip.enabled = true;
-        toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        if (!toolTip.GetComponentInParent<BoxCollider2D>().GetComponentInChildren<CardDisplay>().IsMouseDown) //Guaranteed to find parent with unique component
+        {
+            toolTip.enabled = true;
+            toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
     }
 
     /// <summary>
@@ -100,7 +103,7 @@ public class CardManager : MonoBehaviour
             //Sets the mouse position
             _mousePosition = Input.mousePosition;
 
-            cardImage.transform.SetAsLastSibling();
+            cardImage.transform.SetAsLastSibling(); //Makes sure other card's tooltips do not appear
 
             cardImage.enabled = true;
         }
