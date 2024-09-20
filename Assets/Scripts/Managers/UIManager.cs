@@ -5,6 +5,7 @@
 // @Description - Manages the UI for the game
 // +-------------------------------------------------------+
 
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -80,6 +81,7 @@ public class UIManager : MonoBehaviour
 
     private float cardWidth, cardHeight;
 
+    private Vector2 _nextPlayCardPosition;
     /// <summary>
     /// Initializes variables for UIManager. Called by GameManager
     /// </summary>
@@ -102,6 +104,8 @@ public class UIManager : MonoBehaviour
 
         _upperTextBox.enabled = false;
         _upperTextBox.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
+        _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
     }
 
     /// <summary>
@@ -229,10 +233,17 @@ public class UIManager : MonoBehaviour
             newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
             if (doVerticalFormat)
-                newImage.rectTransform.anchoredPosition = new Vector3(-_widthPadding, _screenHeight - cardHeight / 2 -_cardHeightSpacing * i - _heightPadding, 0); //Sets position - Vertical Format
+                newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 -_cardHeightSpacing * i - _heightPadding); //Sets position - Vertical Format
             else
-                newImage.rectTransform.anchoredPosition = new Vector3((-_screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2) + (_playedCardWidthSpacing * i + _widthPadding), -_heightPadding, 0); //Sets position - Horizontal Format
+                newImage.rectTransform.anchoredPosition = new Vector2((-_screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2) 
+                    + (_playedCardWidthSpacing * i + _widthPadding), -_heightPadding); //Sets position - Horizontal Format
             
+            if (i == numOfPlayedCards - 1)
+            {
+                //Gets next card position
+                _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * (i + 1) - _heightPadding);
+            }
+
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Turns off highlight
 
@@ -460,6 +471,14 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
+    /// When confirm is clicked, moves the card from the play area to the action order
+    /// </summary>
+    public void MoveCardToActionOrder()
+    {
+        StartCoroutine(MoveCard(_confirmationImage, _nextPlayCardPosition.y));
+    }
+
+    /// <summary>
     /// Updates the text box text
     /// </summary>
     public void UpdateTextBox(string text)
@@ -486,4 +505,40 @@ public class UIManager : MonoBehaviour
     public List<Image> GetInstantiatedDealtCardImages() { return _dealtCardImages; }
 
     public List<Image> GetInstantiatedPlayedCardImages() {  return _playedCardImages; }
+
+    public IEnumerator MoveCard(Image image, float targetYPosition)
+    {
+        while (image.rectTransform.anchoredPosition.y != targetYPosition)
+        {
+            //Moves card
+            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetYPosition), 3f);
+
+            //Shrinks x value
+            if(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x > _playedCardImage.rectTransform.sizeDelta.x)
+            {
+                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(1f, 0);
+                image.rectTransform.position += new Vector3(0.25f, 0);
+                if (image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x < _playedCardImage.rectTransform.sizeDelta.x)
+                    image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta = new Vector2(_playedCardImage.rectTransform.sizeDelta.x, 
+                        image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.y);
+            }
+
+            //Shrinks Y value
+            if (image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.y > _playedCardImage.rectTransform.sizeDelta.y)
+            {
+                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(0, 1f);
+                image.rectTransform.position += new Vector3(0, 0.25f);
+                if (image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.y < _playedCardImage.rectTransform.sizeDelta.y)
+                    image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta = new Vector2(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x, 
+                        _playedCardImage.rectTransform.sizeDelta.y);
+            }
+
+            yield return new WaitForEndOfFrame();
+        }
+        UpdatePlayedCards();
+        UpdateDealtCards();
+        _gameManager.PlaySequence();
+        DestroyConfirmCard();
+    }
+
 }

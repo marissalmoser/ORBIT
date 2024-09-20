@@ -43,7 +43,6 @@ public class ConfirmationControls : MonoBehaviour
         if (isConfirmationPressedDown && mouseInConfirmationButton)
         {
             isConfirmationPressedDown = false;
-            _uiManager.DestroyConfirmCard();
             _gameManager.ConfirmCards();
         }
     }
