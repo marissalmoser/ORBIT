@@ -34,6 +34,7 @@ public class ConfirmationControls : MonoBehaviour
 
     public void ConfirmationPressed()
     {
+
         isConfirmationPressedDown = true;
     }
 
@@ -42,7 +43,6 @@ public class ConfirmationControls : MonoBehaviour
         if (isConfirmationPressedDown && mouseInConfirmationButton)
         {
             isConfirmationPressedDown = false;
-            _uiManager.DestroyConfirmCard();
             _gameManager.ConfirmCards();
         }
     }
@@ -59,6 +59,9 @@ public class ConfirmationControls : MonoBehaviour
 
     public void CancelPressed()
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
+
         isCancelPressedDown = true;
     }
 

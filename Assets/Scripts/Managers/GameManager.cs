@@ -227,7 +227,11 @@ public class GameManager : MonoBehaviour
         {
             ChangeGameState(STATE.OutOfCards);
         }
-        _uiManager.UpdateDealtCards(); //Updates Cards
+        else if (!_gameWon)
+        {
+            _uiManager.UpdateTextBox("DRAG A CARD TO PLAY.");
+            _uiManager.UpdateDealtCards(); //Updates Cards
+        }
     }
 
     /// <summary>
@@ -243,6 +247,7 @@ public class GameManager : MonoBehaviour
             {
                 _darken.enabled = true;
                 _isClearing = true;
+                _uiManager.UpdateTextBox("SELECT A CARD TO CLEAR.");
             }
             else
             {
@@ -259,6 +264,7 @@ public class GameManager : MonoBehaviour
             {
                 _darken.enabled = true;
                 _isSwitching = true;
+                _uiManager.UpdateTextBox("SELECT TWO CARDS TO SWAP.");
             }
             else
             {
@@ -274,6 +280,7 @@ public class GameManager : MonoBehaviour
             _darken.transform.SetSiblingIndex(_darken.transform.GetSiblingIndex() + 1);
             _lowerDarkenIndex = true;
             ChangeGameState(STATE.ChooseTurn); //Waits for User Input to Switch two cards
+            _uiManager.UpdateTextBox("CHOOSE TO TURN LEFT OR RIGHT.");
             _uiManager.CreateTurnCards();
             _isTurning = true;
         }
@@ -348,6 +355,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ConfirmCards()
     {
+        //NOTE:
+        //If Clear and Switch do not want to play animation, check if _isClearing and _isSwitching is false
+        //If they are both false, do _uiManager.MoveCardToActionOrder() AND do the following at end of method
+        // _uiManager.UpdatePlayedCards();
+        // _uiManager.UpdateDealtCards();
+        // PlaySequence();
+
+        _uiManager.MoveCardToActionOrder();
+        _uiManager.DisableTextBox();
         //If the confirmation card is a clear or switch, do not add it into play order
         if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch)
             _playedCards.Add(confirmationCard);
@@ -358,6 +374,9 @@ public class GameManager : MonoBehaviour
         if (_isClearing)
         {
             _isClearing = false;
+
+            //sound effect call
+            SfxManager.Instance.PlaySFX(6189);
 
             List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
@@ -415,10 +434,6 @@ public class GameManager : MonoBehaviour
                 print("FAILED TO LOCATE CARD IDS");
             }
         }
-
-        _uiManager.UpdatePlayedCards();
-        _uiManager.UpdateDealtCards();
-        PlaySequence();
     }
 
     /// <summary>

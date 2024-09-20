@@ -66,8 +66,11 @@ public class CardManager : MonoBehaviour
     public void DealtMouseEnterCard(Image toolTip)
     {
         //Makes tooltip visible
-        toolTip.enabled = true;
-        toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        if (!toolTip.GetComponentInParent<BoxCollider2D>().GetComponentInChildren<CardDisplay>().IsMouseDown) //Guaranteed to find parent with unique component
+        {
+            toolTip.enabled = true;
+            toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
     }
 
     /// <summary>
@@ -87,6 +90,8 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void DealtMousePressedCard(Image cardImage)
     {
+        //sound call
+        SfxManager.Instance.PlaySFX(3541);
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -98,7 +103,7 @@ public class CardManager : MonoBehaviour
             //Sets the mouse position
             _mousePosition = Input.mousePosition;
 
-            cardImage.transform.SetAsLastSibling();
+            cardImage.transform.SetAsLastSibling(); //Makes sure other card's tooltips do not appear
 
             cardImage.enabled = true;
         }
@@ -111,6 +116,8 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void DealtMouseReleasedCard(Image cardImage, int ID)
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(1092);
         //Makes tooltip visible
         if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
         {
@@ -158,6 +165,9 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void PlayedMousePressedCard(Image cardImage, int ID)
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
+
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -240,6 +250,8 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseLeft()
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
         _uiManager.DestroyTurnCards(true);
     }
 
@@ -248,7 +260,29 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseRight()
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
         _uiManager.DestroyTurnCards(false);
+    }
+
+    /// <summary>
+    /// Makes tooltip visible when mouse enters card
+    /// </summary>
+    /// <param name="tooltip"></param>
+    public void MouseEnterTurnCard(Image tooltip)
+    {
+        tooltip.enabled = true;
+        tooltip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+    }
+
+    /// <summary>
+    /// Makes tooltip invisible when mouse exits card
+    /// </summary>
+    /// <param name="tooltip"></param>
+    public void MouseExitTurnCard(Image tooltip)
+    {
+        tooltip.enabled = false;
+        tooltip.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
     }
     #endregion
 }
