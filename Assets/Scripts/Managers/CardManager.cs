@@ -264,5 +264,25 @@ public class CardManager : MonoBehaviour
         SfxManager.Instance.PlaySFX(8885);
         _uiManager.DestroyTurnCards(false);
     }
+
+    /// <summary>
+    /// Makes tooltip visible when mouse enters card
+    /// </summary>
+    /// <param name="tooltip"></param>
+    public void MouseEnterTurnCard(Image tooltip)
+    {
+        tooltip.enabled = true;
+        tooltip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+    }
+
+    /// <summary>
+    /// Makes tooltip invisible when mouse exits card
+    /// </summary>
+    /// <param name="tooltip"></param>
+    public void MouseExitTurnCard(Image tooltip)
+    {
+        tooltip.enabled = false;
+        tooltip.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+    }
     #endregion
 }

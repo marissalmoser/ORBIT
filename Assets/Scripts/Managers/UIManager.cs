@@ -418,6 +418,14 @@ public class UIManager : MonoBehaviour
 
         CardDisplay leftCard = _leftImage.GetComponent<CardDisplay>(); //Grabs data from image
 
+        //Disables tooltips
+
+        _leftImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+        _leftImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
+        _rightImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+        _rightImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
         //Uses grabbed data to compare with possible types and convert image to found type
         leftCard.UpdateCard(_dealtTurnLeftCard);
 
