@@ -49,6 +49,14 @@ public class CardManager : MonoBehaviour
         _imageStartingPosition = Vector3.zero;
     }
 
+    public void RemoveAllHighlight(List<Image> cards)
+    {
+        foreach (var card in cards)
+        {
+            card.enabled = false;
+        }
+    }
+
     #region Dealt Card Methods
 
     /// <summary>
@@ -58,8 +66,11 @@ public class CardManager : MonoBehaviour
     public void DealtMouseEnterCard(Image toolTip)
     {
         //Makes tooltip visible
-        toolTip.enabled = true;
-        toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        if (!toolTip.GetComponentInParent<BoxCollider2D>().GetComponentInChildren<CardDisplay>().IsMouseDown) //Guaranteed to find parent with unique component
+        {
+            toolTip.enabled = true;
+            toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
     }
 
     /// <summary>
@@ -79,6 +90,8 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void DealtMousePressedCard(Image cardImage)
     {
+        //sound call
+        SfxManager.Instance.PlaySFX(3541);
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -90,7 +103,7 @@ public class CardManager : MonoBehaviour
             //Sets the mouse position
             _mousePosition = Input.mousePosition;
 
-            cardImage.transform.SetAsLastSibling();
+            cardImage.transform.SetAsLastSibling(); //Makes sure other card's tooltips do not appear
 
             cardImage.enabled = true;
         }
@@ -103,9 +116,15 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void DealtMouseReleasedCard(Image cardImage, int ID)
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(1092);
         //Makes tooltip visible
-        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
-        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
+        {
+            cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+            cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
+
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards)
         {
@@ -146,22 +165,22 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void PlayedMousePressedCard(Image cardImage, int ID)
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
+
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
         cardImage.enabled = true;
         //If Cards are being cleared
-        if (_gameManager.gameState == GameManager.STATE.ChooseClear)
+        if (_gameManager._isClearing)
         {
             _gameManager.ClearAction(ID); //Calls method to take the card off of action order
-
-            //Destroys game object
-            Destroy(cardImage.gameObject);
         }
 
         //If Cards are being switched
-        else if (_gameManager.gameState == GameManager.STATE.SwitchCards)
+        else if (_gameManager._isSwitching)
         {
             _gameManager.SwitchActionHelper(ID); //Calls the method helper to swap two cards' order
         }
@@ -174,10 +193,13 @@ public class CardManager : MonoBehaviour
     public void PlayedMouseReleasedCard(Image cardImage)
     {
         //Makes tooltip visible
-        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
-        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
+        {
+            cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+            cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
 
-        if (_gameManager.gameState != GameManager.STATE.SwitchCards) //If the player is not switching cards, remove highlight immediately
+        if (!_gameManager._isSwitching) //If the player is not switching cards, remove highlight immediately
         {
             cardImage.enabled = false;
         }
@@ -187,6 +209,10 @@ public class CardManager : MonoBehaviour
 
             if (!switchIDs.Contains(cardImage.GetComponentInChildren<CardDisplay>().ID))
                 cardImage.enabled = false;
+        }
+        if (_gameManager._isClearing)
+        {
+            cardImage.enabled = true;
         }
     }
 
@@ -224,6 +250,8 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseLeft()
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
         _uiManager.DestroyTurnCards(true);
     }
 
@@ -232,7 +260,29 @@ public class CardManager : MonoBehaviour
     /// </summary>
     public void PlayedTurnChooseRight()
     {
+        //sound effect call
+        SfxManager.Instance.PlaySFX(8885);
         _uiManager.DestroyTurnCards(false);
+    }
+
+    /// <summary>
+    /// Makes tooltip visible when mouse enters card
+    /// </summary>
+    /// <param name="tooltip"></param>
+    public void MouseEnterTurnCard(Image tooltip)
+    {
+        tooltip.enabled = true;
+        tooltip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+    }
+
+    /// <summary>
+    /// Makes tooltip invisible when mouse exits card
+    /// </summary>
+    /// <param name="tooltip"></param>
+    public void MouseExitTurnCard(Image tooltip)
+    {
+        tooltip.enabled = false;
+        tooltip.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
     }
     #endregion
 }
