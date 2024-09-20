@@ -5,14 +5,16 @@
  *    Description: Music manager singleton
  *    
  *******************************************************************/
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
 {
+    public static Action ChangeMusic;
+
     [SerializeField] private List<Music> _music = new List<Music>();
 
     [SerializeField] private float _fadeInDuration;
@@ -194,12 +196,12 @@ public class MusicManager : MonoBehaviour
 
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        MusicManager.ChangeMusic += OnChangeMusic;
     }
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        MusicManager.ChangeMusic -= OnChangeMusic;
     }
 
     /// <summary>
@@ -207,7 +209,7 @@ public class MusicManager : MonoBehaviour
     /// </summary>
     /// <param name="scene"></param>
     /// <param name="mode"></param>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnChangeMusic()
     {
         PlayLevelMusic();
     }
