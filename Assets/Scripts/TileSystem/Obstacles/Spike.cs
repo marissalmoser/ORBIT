@@ -16,12 +16,15 @@ public class Spike : Obstacle
 
     public override void PerformObstacleAnim()
     {
-        if(!_isActive)
+
+        if (!_isActive)
         {
+            SfxManager.Instance.PlaySFX(1987);
             _anim.SetTrigger("SpikeDown");
         }
         else
         {
+            SfxManager.Instance.PlaySFX(4136);
             _anim.SetTrigger("SpikeUp");
         }
     }
@@ -31,12 +34,17 @@ public class Spike : Obstacle
     {
         _isActive = _defaultState;
 
+        GameObject manager = GameObject.Find("SfxManager");
+        SfxManager function_call = (SfxManager)manager.GetComponent(typeof(SfxManager));
+
         if (_isActive)
         {
+            SfxManager.Instance.PlaySFX(4136);
             _anim.SetTrigger("SpikeUp");
         }
         else
         {
+            SfxManager.Instance.PlaySFX(1987);
             _anim.SetTrigger("SpikeDown");
         }
     }

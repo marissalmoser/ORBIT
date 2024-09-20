@@ -9,7 +9,9 @@ public class FinishFlag : Collectable
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            
+            //sound effect caller
+            SfxManager.Instance.PlaySFX(1566);
+
             _PSMB = other.GetComponent<PlayerStateMachineBrain>();
             StartCoroutine(WaitCoroutine());
         }
