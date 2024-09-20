@@ -19463,6 +19463,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1470397641}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1255762385
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1615072251309109194, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_Name
+      value: SfxManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
 --- !u!1 &1258339037
 GameObject:
   m_ObjectHideFlags: 0
@@ -24748,17 +24805,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1496402107}
   m_Mesh: {fileID: 3517491496714742517, guid: b742bc6025635ad4bac57e7ba741b9e5, type: 3}
---- !u!114 &1503148314 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1997987859221538088, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
-  m_PrefabInstance: {fileID: 2870088648296899361}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1503987418
 GameObject:
   m_ObjectHideFlags: 0
@@ -30071,6 +30117,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1067670565}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1874711458 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1997987859221538088, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 2870088648296899361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1881906126
 GameObject:
   m_ObjectHideFlags: 0
@@ -34540,7 +34597,7 @@ PrefabInstance:
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _upperTextBox
       value: 
-      objectReference: {fileID: 1503148314}
+      objectReference: {fileID: 1874711458}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _confirmButton
       value: 
@@ -34599,3 +34656,4 @@ SceneRoots:
   - {fileID: 213573323}
   - {fileID: 1867606680}
   - {fileID: 1201973979}
+  - {fileID: 1255762385}
