@@ -99,8 +99,8 @@ public class UIManager : MonoBehaviour
         cardHeight = _dealtCardImage.rectTransform.rect.height;
 
         //Disables buttons on start
-        //_confirmButton.enabled = false;
-        //_cancelButton.enabled = false;
+        _confirmButton.GetComponent<ConfirmationControls>().isActive = false;
+        _cancelButton.GetComponent<ConfirmationControls>().isActive = false;
 
         _upperTextBox.enabled = false;
         _upperTextBox.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -318,8 +318,8 @@ public class UIManager : MonoBehaviour
         if (_gameManager.confirmationCard != null)
         {
             //Enables buttons when confirming cards
-            //_confirmButton.enabled = true;
-            //_cancelButton.enabled = true;
+            _confirmButton.GetComponent<ConfirmationControls>().isActive = true;
+            _cancelButton.GetComponent<ConfirmationControls>().isActive = true;
 
             Card card = _gameManager.GetLastPlayedCard();
 
@@ -391,8 +391,8 @@ public class UIManager : MonoBehaviour
     public void DestroyConfirmCard()
     {
         //Disables buttons
-        //_confirmButton.enabled = false;
-        //_cancelButton.enabled = false;
+        _confirmButton.GetComponent<ConfirmationControls>().isActive = false;
+        _cancelButton.GetComponent<ConfirmationControls>().isActive = false;
 
         if (_confirmationImage != null)
             Destroy(_confirmationImage.gameObject);
@@ -511,12 +511,12 @@ public class UIManager : MonoBehaviour
         while (image.rectTransform.anchoredPosition.y != targetYPosition)
         {
             //Moves card
-            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetYPosition), 3f);
+            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetYPosition), 9f);
 
             //Shrinks x value
             if(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x > _playedCardImage.rectTransform.sizeDelta.x)
             {
-                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(1f, 0);
+                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(2f, 0);
                 image.rectTransform.position += new Vector3(0.25f, 0);
                 if (image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x < _playedCardImage.rectTransform.sizeDelta.x)
                     image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta = new Vector2(_playedCardImage.rectTransform.sizeDelta.x, 
@@ -526,7 +526,7 @@ public class UIManager : MonoBehaviour
             //Shrinks Y value
             if (image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.y > _playedCardImage.rectTransform.sizeDelta.y)
             {
-                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(0, 1f);
+                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(0, 2f);
                 image.rectTransform.position += new Vector3(0, 0.25f);
                 if (image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.y < _playedCardImage.rectTransform.sizeDelta.y)
                     image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta = new Vector2(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x, 
