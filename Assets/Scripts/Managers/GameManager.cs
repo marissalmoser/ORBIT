@@ -355,6 +355,14 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ConfirmCards()
     {
+        //NOTE:
+        //If Clear and Switch do not want to play animation, check if _isClearing and _isSwitching is false
+        //If they are both false, do _uiManager.MoveCardToActionOrder() AND do the following at end of method
+        // _uiManager.UpdatePlayedCards();
+        // _uiManager.UpdateDealtCards();
+        // PlaySequence();
+
+        _uiManager.MoveCardToActionOrder();
         _uiManager.DisableTextBox();
         //If the confirmation card is a clear or switch, do not add it into play order
         if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch)
@@ -426,10 +434,6 @@ public class GameManager : MonoBehaviour
                 print("FAILED TO LOCATE CARD IDS");
             }
         }
-
-        _uiManager.UpdatePlayedCards();
-        _uiManager.UpdateDealtCards();
-        PlaySequence();
     }
 
     /// <summary>
