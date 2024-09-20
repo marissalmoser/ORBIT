@@ -12,6 +12,7 @@ public class ConfirmationControls : MonoBehaviour
     private GameManager _gameManager;
     private UIManager _uiManager;
 
+    public bool isActive;
     private void Start()
     {
         _gameManager = GameManager.Instance;
@@ -40,7 +41,7 @@ public class ConfirmationControls : MonoBehaviour
 
     public void ConfirmationReleased()
     {
-        if (isConfirmationPressedDown && mouseInConfirmationButton)
+        if (isConfirmationPressedDown && mouseInConfirmationButton && isActive)
         {
             isConfirmationPressedDown = false;
             _gameManager.ConfirmCards();
@@ -67,7 +68,7 @@ public class ConfirmationControls : MonoBehaviour
 
     public void CancelReleased()
     {
-        if (isCancelPressedDown && mouseInCancelButton)
+        if (isCancelPressedDown && mouseInCancelButton && isActive)
         {
             isCancelPressedDown = false;
             _uiManager.DestroyConfirmCard();
