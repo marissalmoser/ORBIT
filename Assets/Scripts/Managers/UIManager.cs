@@ -96,8 +96,10 @@ public class UIManager : MonoBehaviour
         cardWidth = _dealtCardImage.rectTransform.rect.width;
         cardHeight = _dealtCardImage.rectTransform.rect.height;
 
-        _confirmButton.enabled = false;
-        _cancelButton.enabled = false;
+        //Disables buttons on start
+        //_confirmButton.enabled = false;
+        //_cancelButton.enabled = false;
+
         _upperTextBox.enabled = false;
         _upperTextBox.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
     }
@@ -304,8 +306,9 @@ public class UIManager : MonoBehaviour
         //Makes sure a clear or switch card was not played when it wasn't supposed to be played
         if (_gameManager.confirmationCard != null)
         {
-            _confirmButton.enabled = true;
-            _cancelButton.enabled = true;
+            //Enables buttons when confirming cards
+            //_confirmButton.enabled = true;
+            //_cancelButton.enabled = true;
 
             Card card = _gameManager.GetLastPlayedCard();
 
@@ -376,8 +379,9 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void DestroyConfirmCard()
     {
-        _confirmButton.enabled = false;
-        _cancelButton.enabled = false;
+        //Disables buttons
+        //_confirmButton.enabled = false;
+        //_cancelButton.enabled = false;
 
         if (_confirmationImage != null)
             Destroy(_confirmationImage.gameObject);
