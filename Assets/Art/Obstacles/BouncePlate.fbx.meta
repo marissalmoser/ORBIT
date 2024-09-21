@@ -7,8 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: UVspringmap_U1_V1.png
-    second: {fileID: 2100000, guid: 4381279ed6128b04383ffe4a714fe520, type: 2}
+      name: Spring.png
+    second: {fileID: 2100000, guid: a1bdad639a66a9e43b16834ba046ca9d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: SpringPad.png
+    second: {fileID: 2100000, guid: 0ccdfd2157e877d4bbde0f3817a275aa, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

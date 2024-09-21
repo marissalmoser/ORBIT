@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Planet1.png
-    second: {fileID: 2100000, guid: 459a71da1b08b3e409b1da99fad29fcb, type: 2}
+      name: Clouds.png
+    second: {fileID: 2100000, guid: 284b2729680d0e3428e026558c9280d0, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Planet2.png
-    second: {fileID: 2100000, guid: 5e09fa35be8bedd48bee813488d82038, type: 2}
+      name: Earth_Planet.png
+    second: {fileID: 2100000, guid: f38013025baa6ac4fbe80f67ae30a988, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
