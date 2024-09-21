@@ -54310,7 +54310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 753764ee05ebb37419eed2a9bad04ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFX_ID: 6893
 --- !u!1 &2075950870
 GameObject:
   m_ObjectHideFlags: 0
@@ -56796,6 +56795,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2870088648296899364}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: cancelButton
+      value: 
+      objectReference: {fileID: 468937161}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _cancelButton
       value: 
       objectReference: {fileID: 468937161}
@@ -56803,6 +56806,10 @@ PrefabInstance:
       propertyPath: _upperTextBox
       value: 
       objectReference: {fileID: 2870088648296899365}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: confirmButton
+      value: 
+      objectReference: {fileID: 1172565358}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _confirmButton
       value: 
