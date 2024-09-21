@@ -54,6 +54,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _canvas;
     [SerializeField] private TextMeshProUGUI _collectablesCount;
     [SerializeField] private TextMeshProUGUI _deckCount;
+    private Vector2 _deckCountPos;
     public Image confirmButton, cancelButton;
 
     [Header("Dealt Scriptable Objects")]
@@ -107,6 +108,8 @@ public class UIManager : MonoBehaviour
         _upperTextBox.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
         _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
+
+        _deckCountPos = _deckCount.GetComponent<RectTransform>().anchoredPosition;
     }
 
     /// <summary>
@@ -144,6 +147,8 @@ public class UIManager : MonoBehaviour
         {
             _deckImage.sprite = _cardBackSprite;
             _deckCount.enabled = true;
+            _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
+            _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 40);
         }
         else
         {
