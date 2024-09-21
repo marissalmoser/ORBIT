@@ -7428,7 +7428,7 @@ MonoBehaviour:
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
-  _collectableRef: {fileID: 0}
+  _collectableRef: {fileID: 1477193762}
 --- !u!65 &321285285
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12294,7 +12294,7 @@ MonoBehaviour:
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
-  _collectableRef: {fileID: 1477193762}
+  _collectableRef: {fileID: 0}
 --- !u!65 &484074922
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -35523,9 +35523,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
   - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
-  - {fileID: 11400000, guid: 1d5bf802da7e41b4980953489bfb2940, type: 2}
+  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
   - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
-  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   originalDeck: []
 --- !u!1001 &1477193761
 PrefabInstance:
@@ -35537,7 +35536,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalPosition.y
@@ -35545,7 +35544,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalRotation.w
