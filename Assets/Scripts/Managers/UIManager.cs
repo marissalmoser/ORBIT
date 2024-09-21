@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Cards")]
     [SerializeField] private Image _cardBack;
+    [SerializeField] private Sprite _cardDeckSprite;
     [SerializeField] private Sprite _cardBackSprite;
     [SerializeField] private Image _dealtCardImage, _playedCardImage, _turnLeftImage, _turnRightImage;
     [SerializeField] private int _widthPadding, _heightPadding;
@@ -133,7 +134,22 @@ public class UIManager : MonoBehaviour
         _deckImage = Instantiate(_cardBack, Vector3.zero, Quaternion.identity); //Instantiates new card;
         _deckImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
         _deckImage.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
-        _deckImage.sprite = _cardBackSprite;
+
+        if (_gameManager._deck.Count > 1)
+        {
+            _deckImage.sprite = _cardDeckSprite;
+            _deckCount.enabled = true;
+        }
+        else if (_gameManager._deck.Count == 1)
+        {
+            _deckImage.sprite = _cardBackSprite;
+            _deckCount.enabled = true;
+        }
+        else
+        {
+            Destroy(_deckImage.gameObject);
+            _deckCount.enabled = false;
+        }
         
         _deckCount.transform.SetAsFirstSibling();
         _deckImage.transform.SetAsFirstSibling();
@@ -520,7 +536,7 @@ public class UIManager : MonoBehaviour
         while (image.rectTransform.anchoredPosition.y != targetYPosition)
         {
             //Moves card
-            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetYPosition), 9f);
+            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetYPosition), 12f);
 
             //Shrinks x value
             if(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x > _playedCardImage.rectTransform.sizeDelta.x)
