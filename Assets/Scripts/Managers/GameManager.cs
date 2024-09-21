@@ -54,10 +54,8 @@ public class GameManager : MonoBehaviour
     private List<Collectable> collectablesCollected = new List<Collectable>();
     private (Card, int) _lastCardPlayed;
     public Card confirmationCard { get; private set; }
-    public bool _isSwitching, _isClearing;
+    public bool isSwitching, isClearing;
     private bool _isTurning;
-
-    private int _clearID, _switch1ID, _switch2ID;
 
     public bool _isTurningleft {get; private set; }
     #endregion
@@ -78,9 +76,9 @@ public class GameManager : MonoBehaviour
         _levelDeck = FindObjectOfType<LevelDeck>();
         _lowerDarkenIndex = false;
 
-        _isSwitching = false;
+        isSwitching = false;
         _isTurning = false;
-        _isClearing = false;
+        isClearing = false;
 
         ChangeGameState(STATE.LoadGame);
     }
@@ -240,18 +238,21 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void RunPlaySequence()
     {
+        _uiManager.UpdateConfirmCard();
+        _uiManager.cancelButton.GetComponent<ConfirmationControls>().isActive = true;
         //If Clear Card was Played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Clear) //Error check and checks if last card played was a Clear
         {
             if (_playedCards.Count > 0)
             {
                 _darken.enabled = true;
-                _isClearing = true;
+                isClearing = true;
                 _uiManager.UpdateTextBox("SELECT A CARD TO CLEAR.");
             }
             else
             {
                 confirmationCard = null;
+                _uiManager.DestroyConfirmCard();
                 ChangeGameState(STATE.ChooseCards);
             }    
         }
@@ -263,12 +264,13 @@ public class GameManager : MonoBehaviour
             if (_playedCards.Count > 1)
             {
                 _darken.enabled = true;
-                _isSwitching = true;
+                isSwitching = true;
                 _uiManager.UpdateTextBox("SELECT TWO CARDS TO SWAP.");
             }
             else
             {
                 confirmationCard = null;
+                _uiManager.DestroyConfirmCard();
                 ChangeGameState(STATE.ChooseCards);
             }
         }
@@ -284,10 +286,9 @@ public class GameManager : MonoBehaviour
             _uiManager.CreateTurnCards();
             _isTurning = true;
         }
-        if (!_isClearing && !_isSwitching && !_isTurning && gameState != STATE.ChooseCards)
+        if (!isClearing && !isSwitching && !_isTurning && gameState != STATE.ChooseCards)
         {
-            _uiManager.UpdateConfirmCard();
-
+            _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = true;
             ChangeGameState(STATE.ConfirmCards);
         }
     }
@@ -362,6 +363,16 @@ public class GameManager : MonoBehaviour
         // _uiManager.UpdateDealtCards();
         // PlaySequence();
 
+        //Removes all highlight from cards
+        List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
+
+        int tempCount = tempPlayedCards.Count;
+        for (int i = 0; i < tempCount; i++)
+        {
+            tempPlayedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+            tempPlayedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+        }
+
         _uiManager.MoveCardToActionOrder();
         _uiManager.DisableTextBox();
         //If the confirmation card is a clear or switch, do not add it into play order
@@ -371,9 +382,10 @@ public class GameManager : MonoBehaviour
         _dealtCards.Remove(_lastCardPlayed.Item1);
 
         //If the confirmed card was a clear card
-        if (_isClearing)
+        if (isClearing)
         {
-            _isClearing = false;
+            _cardManager.clearCard = null;
+            isClearing = false;
 
             //sound effect call
             SfxManager.Instance.PlaySFX(6189);
@@ -383,7 +395,7 @@ public class GameManager : MonoBehaviour
             int instantiatedImagesCount = instantiatedImages.Count;
             for (int i = 0; i < instantiatedImagesCount; i++)
             {
-                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _clearID) //Compares instantiated images' unique ID to the target ID
+                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCard.GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
                 {
                     _playedCards = _deckManagerCard.RemoveAt(_playedCards, i); //When IDs match, remove the card from the list
                     break;
@@ -392,9 +404,9 @@ public class GameManager : MonoBehaviour
         }
 
         //If the confirmed card was a switch card
-        if (_isSwitching)
+        if (isSwitching)
         {
-            _isSwitching = false;
+            isSwitching = false;
 
             List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
@@ -403,11 +415,12 @@ public class GameManager : MonoBehaviour
             //Initializes variables
             int target1Index = -1;
             int target2Index = -1;
+            (Image, Image) switchCards = _cardManager.switchCards;
 
             //Finds the first target ID
             for (int i = 0; i < instantiatedImagesCount; i++)
             {
-                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _switch1ID) //Compares instantiated images' unique ID to the target ID
+                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == switchCards.Item1.GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
                 {
                     target1Index = i;
 
@@ -418,7 +431,7 @@ public class GameManager : MonoBehaviour
             //Finds the second target ID
             for (int i = 0; i < instantiatedImagesCount; i++)
             {
-                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _switch2ID) //Compares instantiated images' unique ID to the target ID
+                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == switchCards.Item2.GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
                 {
                     target2Index = i;
 
@@ -441,6 +454,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void CancelCard()
     {
+        //Removes all highlight from the images
+        List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
+        _cardManager.clearCard = null;
+        _cardManager.switchCards.Item1 = null;
+        _cardManager.switchCards.Item2 = null;
+        _uiManager.DestroyTurnCards();
+
+        int tempCount = tempPlayedCards.Count;
+        for (int i = 0; i < tempCount; i++)
+        {
+            tempPlayedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+            tempPlayedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+        }
+
         //Resets to prior state
         if (_lowerDarkenIndex)
         {
@@ -448,8 +475,8 @@ public class GameManager : MonoBehaviour
             _lowerDarkenIndex = false;
         }
         _darken.enabled = false;
-        _isClearing = false;
-        _isSwitching = false;
+        isClearing = false;
+        isSwitching = false;
 
         _cardManager.RemoveAllHighlight(_uiManager.GetInstantiatedPlayedCardImages()); //Removes the highlight
         _collectedSwitchIDs = new(); //Clears the list
@@ -491,12 +518,8 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Functionality of the Clear Card
     /// </summary>
-    public void ClearAction(int targetID)
+    public void ClearAction()
     {
-        //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
-        //So I gave the images unique IDs and used those. Weird way, but it works
-        _clearID = targetID;
-
         _uiManager.UpdateConfirmCard();
         ChangeGameState(STATE.ConfirmCards);
     }
@@ -506,50 +529,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <param name="firstTargetID">The first card ID to switch</param>
     /// <param name="secondTargetID">The second card ID to switch</param>
-    private void SwitchAction(int firstTargetID, int secondTargetID)
+    public void SwitchAction()
     {
-        //Due to the Cards being Scriptable Objects, I couldn't find a good way to give them unique IDs
-        //So I gave the images unique IDs and used those. Weird way, but it works
-        _switch1ID = firstTargetID;
-        _switch2ID = secondTargetID;
-        _uiManager.UpdateConfirmCard();
-        ChangeGameState(STATE.ConfirmCards);
-    }
+        (Image, Image) cards = _cardManager.switchCards;
 
-    /// <summary>
-    /// Receives user input and does checks until conditions are met to continue
-    /// </summary>
-    /// <param name="targetID">The ID of one of the cards to switch</param>
-    public void SwitchActionHelper(int targetID)
-    {
-        List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
-
-        int instantiatedImagesCount = instantiatedImages.Count;
-        for (int i = 0; i < instantiatedImagesCount; i++)
+        if (cards.Item1 != null && cards.Item2 != null)
         {
-            if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
-            {
-                int collectedIdsListCount = _collectedSwitchIDs.Count;
-
-                //If the list contains the target ID already
-                if (_collectedSwitchIDs.Contains(targetID))
-                {
-                    //There can only be two Cards in the list. If there is a duplicate ID, it must be the first card
-                    _collectedSwitchIDs = _deckManagerInt.RemoveFirst(_collectedSwitchIDs); 
-                }
-                //If the list does not contain the target ID
-                else
-                {
-                    _collectedSwitchIDs.Add(targetID);
-                }
-                
-                break;
-            }
+            _uiManager.UpdateConfirmCard();
+            ChangeGameState(STATE.ConfirmCards);
         }
 
-        //If two cards have been selected, perform switch action
-        if (_collectedSwitchIDs.Count == 2)
-            SwitchAction(_collectedSwitchIDs[0], _collectedSwitchIDs[1]);
     }
     #endregion
 
