@@ -375,10 +375,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-
-
-        for (int i = 0; i < tempList.Count; i++)
-            print(tempList[i].name);
         PlayDemoActionOrder?.Invoke(tempList);
     }
 
