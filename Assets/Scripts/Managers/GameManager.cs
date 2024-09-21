@@ -298,6 +298,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void PlayDemo()
     {
+        _uiManager.UpdateTextBox("Confirm / Cancel");
         List<Card> tempList = new();
 
         //Adds the confirmation card to be played in demo
