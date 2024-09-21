@@ -34,9 +34,7 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
-        //_currentTile = TileManager.Instance.GetTileByCoordinates(_currentTile.GetCoordinates());
-        transform.position = _currentTile.GetPlayerSnapPosition();
-        //TODO : replace this with a more concrete way to set the starting position
+
     }
     void Update()
     {
@@ -57,7 +55,6 @@ public class PlayerController : MonoBehaviour
         float checkTimeElapsed = 0f;
 
         Tile previousTile = _currentTile;
-        bool changedDestination = false;
 
         //get the last key in the curve
         while (timeElapsed < _moveEaseCurve.keys[_moveEaseCurve.length - 1].time)
