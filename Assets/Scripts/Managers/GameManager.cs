@@ -293,9 +293,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Plays a forecast on where the player will move
+    /// </summary>
     private void PlayDemo()
     {
-        PlayDemoActionOrder?.Invoke(_playedCards);
+        List<Card> tempList = new();
+
+        //Adds the confirmation card to be played in demo
+        int tempSize = tempList.Count;
+        for (int i = 0; i < tempSize; i++)
+        {
+            tempList.Add(_playedCards[i]);
+        }
+        tempList.Add(confirmationCard);
+
+        PlayDemoActionOrder?.Invoke(tempList);
     }
 
     /// <summary>
