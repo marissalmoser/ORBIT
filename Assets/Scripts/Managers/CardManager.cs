@@ -166,7 +166,7 @@ public class CardManager : MonoBehaviour
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
     /// <param name="ID">The ID of the card</param>
-    public void PlayedMousePressedCard(Image cardImage, int ID)
+    public void PlayedMousePressedCard(Image cardImage)
     {
         //sound effect call
         SfxManager.Instance.PlaySFX(8885);
@@ -176,18 +176,6 @@ public class CardManager : MonoBehaviour
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
         cardImage.enabled = true;
-
-        //If Cards are being cleared
-        if (_gameManager.isClearing)
-        {
-            _gameManager.ClearAction(); //Calls method to take the card off of action order
-        }
-
-        //If Cards are being switched
-        else if (_gameManager.isSwitching)
-        {
-            _gameManager.SwitchAction();
-        }
     }
 
     /// <summary>
@@ -266,12 +254,14 @@ public class CardManager : MonoBehaviour
         int size = playedCards.Count;
         for (int i = 0; i < size; i++)
         {
+            //Handles which card is being cleared
             if (_gameManager.isClearing)
             {
                 if (playedCards[i].GetComponentInChildren<CardDisplay>().ID != clearCard.GetComponentInChildren<CardDisplay>().ID)
                     playedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
             }
 
+            //Handles which card is being swapped
             if (_gameManager.isSwitching)
             {
                 if (switchCards.Item1 != null && switchCards.Item2 == null)
@@ -294,6 +284,18 @@ public class CardManager : MonoBehaviour
                         playedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
                 }
             }
+        }
+
+        //If Cards are being cleared
+        if (_gameManager.isClearing)
+        {
+            _gameManager.ClearAction(); //Calls method to take the card off of action order
+        }
+
+        //If Cards are being switched
+        else if (_gameManager.isSwitching)
+        {
+            _gameManager.SwitchAction();
         }
 
         if (_gameManager.isClearing && clearCard != null)
