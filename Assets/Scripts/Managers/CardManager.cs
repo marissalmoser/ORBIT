@@ -38,6 +38,9 @@ public class CardManager : MonoBehaviour
     private Vector3 _imageStartingPosition;
     private BoxCollider2D _imageCollider;
 
+    public Image clearCard;
+    public (Image, Image) switchCards;
+
     /// <summary>
     /// Initializes variables for DealtCardManager. Called by GameManager
     /// </summary>
@@ -173,16 +176,17 @@ public class CardManager : MonoBehaviour
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
         cardImage.enabled = true;
+
         //If Cards are being cleared
-        if (_gameManager._isClearing)
+        if (_gameManager.isClearing)
         {
-            _gameManager.ClearAction(ID); //Calls method to take the card off of action order
+            _gameManager.ClearAction(); //Calls method to take the card off of action order
         }
 
         //If Cards are being switched
-        else if (_gameManager._isSwitching)
+        else if (_gameManager.isSwitching)
         {
-            _gameManager.SwitchActionHelper(ID); //Calls the method helper to swap two cards' order
+            _gameManager.SwitchAction();
         }
     }
 
@@ -192,6 +196,52 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void PlayedMouseReleasedCard(Image cardImage)
     {
+        List<Image> playedCards = _uiManager.GetInstantiatedPlayedCardImages();
+        bool isCopy = false;
+
+        //Sets the card to clear
+        if (_gameManager.isClearing)
+            clearCard = cardImage;
+
+        //Sets the cards to switch
+        if (_gameManager.isSwitching)
+        {
+            //Checks if the card is already in item 1, if it is, deletes it from switchCards
+            if (switchCards.Item1 != null && cardImage.GetComponentInChildren<CardDisplay>().ID == switchCards.Item1.GetComponentInChildren<CardDisplay>().ID)
+            {
+                switchCards.Item1 = null;
+                isCopy = true;
+
+                //If there was an element in Item2, push it to item1
+                if (switchCards.Item2 != null)
+                {
+                    switchCards.Item1 = switchCards.Item2;
+                    switchCards.Item2 = null;
+                }
+            }
+            //Checks if the card is already in item 2, if it is, deletes it from switchCards
+            if (switchCards.Item2 != null && cardImage.GetComponentInChildren<CardDisplay>().ID == switchCards.Item2.GetComponentInChildren<CardDisplay>().ID)
+            {
+                switchCards.Item2 = null;
+                isCopy = true;
+            }
+
+            //If the card was not already in switchCards, adds it in
+            if (!isCopy)
+            {
+                if (switchCards.Item1 == null)
+                    switchCards.Item1 = cardImage;
+                else if (switchCards.Item2 == null)
+                    switchCards.Item2 = cardImage;
+                else
+                {
+                    //Replaced oldest card for the most recent card clicked
+                    switchCards.Item1 = switchCards.Item2;
+                    switchCards.Item2 = cardImage;
+                }
+            }
+        }
+
         //Makes tooltip visible
         if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
         {
@@ -199,7 +249,7 @@ public class CardManager : MonoBehaviour
             cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
         }
 
-        if (!_gameManager._isSwitching) //If the player is not switching cards, remove highlight immediately
+        if (!_gameManager.isSwitching) //If the player is not switching cards, remove highlight immediately
         {
             cardImage.enabled = false;
         }
@@ -208,12 +258,55 @@ public class CardManager : MonoBehaviour
             List<int> switchIDs = _gameManager.GetCollectedSwitchIDs(); //If card has not been selected to be switched
 
             if (!switchIDs.Contains(cardImage.GetComponentInChildren<CardDisplay>().ID))
+            {
                 cardImage.enabled = false;
+            }
         }
-        if (_gameManager._isClearing)
+
+        int size = playedCards.Count;
+        for (int i = 0; i < size; i++)
         {
-            cardImage.enabled = true;
+            if (_gameManager.isClearing)
+            {
+                if (playedCards[i].GetComponentInChildren<CardDisplay>().ID != clearCard.GetComponentInChildren<CardDisplay>().ID)
+                    playedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+            }
+
+            if (_gameManager.isSwitching)
+            {
+                if (switchCards.Item1 != null && switchCards.Item2 == null)
+                {
+                    //If first value is not null but second value is null, only check first value
+                    if (playedCards[i].GetComponentInChildren<CardDisplay>().ID != switchCards.Item1.GetComponentInChildren<CardDisplay>().ID)
+                        playedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+                }
+                else if (switchCards.Item1 == null && switchCards.Item2 != null)
+                {
+                    //If first value is null but second value is not null, only check first value
+                    if (playedCards[i].GetComponentInChildren<CardDisplay>().ID != switchCards.Item2.GetComponentInChildren<CardDisplay>().ID)
+                        playedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+                }
+                else if (switchCards.Item1 != null && switchCards.Item2 != null)
+                {
+                    //If neither value is null, check both values
+                    if (playedCards[i].GetComponentInChildren<CardDisplay>().ID != switchCards.Item1.GetComponentInChildren<CardDisplay>().ID
+                        && playedCards[i].GetComponentInChildren<CardDisplay>().ID != switchCards.Item2.GetComponentInChildren<CardDisplay>().ID)
+                        playedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+                }
+            }
         }
+
+        if (_gameManager.isClearing && clearCard != null)
+        {
+            _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = true;
+            _uiManager.cancelButton.GetComponent<ConfirmationControls>().isActive = true;
+        }
+        if (_gameManager.isSwitching && switchCards.Item1 != null && switchCards.Item2 != null)
+        {
+            _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = true;
+            _uiManager.cancelButton.GetComponent<ConfirmationControls>().isActive = true;
+        }
+
     }
 
     /// <summary>
@@ -222,6 +315,11 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void PlayedMouseEnterCard(Image cardImage)
     {
+        if (_gameManager.isClearing)
+            cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = true;
+        if (_gameManager.isSwitching)
+            cardImage.gameObject.transform.Find("Swap").GetComponent<Image>().enabled = true;
+
         //Makes tooltip visible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
@@ -237,6 +335,51 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void PlayedMouseExitCard(Image cardImage)
     {
+        //Removes clear highlight
+        if (_gameManager.isClearing)
+        {
+            //If clearCard is null, no card has been selected
+            if (clearCard == null)
+                cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+            //Checks clear card and see if it matches
+            else if (cardImage.GetComponentInChildren<CardDisplay>().ID != clearCard.GetComponentInChildren<CardDisplay>().ID)
+                cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+        }
+        //If game state is not in clearing, remove all highlight
+        else
+            cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+
+        //Removes swap highlight
+        if (_gameManager.isSwitching)
+        {
+            //If both values are null, nothing is selected
+            if (switchCards.Item1 == null && switchCards.Item2 == null)
+                cardImage.gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+            else if (switchCards.Item1 != null && switchCards.Item2 == null)
+            {
+                //If first value is not null but second value is null, only check first value
+                if (cardImage.GetComponentInChildren<CardDisplay>().ID != switchCards.Item1.GetComponentInChildren<CardDisplay>().ID)
+                    cardImage.gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+            }
+            else if (switchCards.Item1 == null && switchCards.Item2 != null)
+            {
+                //If first value is null but second value is not null, check first value
+                if (cardImage.GetComponentInChildren<CardDisplay>().ID != switchCards.Item2.GetComponentInChildren<CardDisplay>().ID)
+                    cardImage.gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+            }
+            else if (switchCards.Item1 != null && switchCards.Item2 != null)
+            {
+                //If neither value is null, check both values
+                if (cardImage.GetComponentInChildren<CardDisplay>().ID != switchCards.Item1.GetComponentInChildren<CardDisplay>().ID
+            && cardImage.GetComponentInChildren<CardDisplay>().ID != switchCards.Item2.GetComponentInChildren<CardDisplay>().ID)
+                    cardImage.gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+            }
+        }
+        else
+        {
+            cardImage.gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+        }
+
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
