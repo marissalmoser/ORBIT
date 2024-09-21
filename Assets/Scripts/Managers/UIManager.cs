@@ -384,7 +384,7 @@ public class UIManager : MonoBehaviour
                     break;
                 case Card.CardName.TurnRight:
                     cardDisplay.UpdateCard(_dealtTurnRightCard);
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT RIGHT.";
+                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                     break;
                 case Card.CardName.Clear:
                     cardDisplay.UpdateCard(_dealtClearCard);
