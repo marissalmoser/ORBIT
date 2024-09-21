@@ -182,24 +182,31 @@ public class PlayerStateMachineBrain : MonoBehaviour
     }
     public void HandleIncomingActions(List<Card> cardList)
     {
-        //_currentPlayerController.SetCurrentTile(_playerControllerOriginal.GetCurrentTile());
-        //_currentPlayerController.SetFacingDirection(_playerControllerOriginal.GetCurrentFacingDirection());
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        _ghostPlayer.SetActive(false); //turn off the ghost gameobject
+        _currentPlayerController.StopAllCoroutines(); //stop whatever ghost is doing
 
-        //_ghostPlayer.SetActive(false); //turn off the ghost gameobject
-        //_currentPlayerController.StopAllCoroutines(); //stop whatever ghost is doing
-        //SetGhostState(false); //change the selected player script back to player from ghost
-        //_ghostPlayer.transform.position = Vector3.zero; //make sure the ghost goes back to the parent
+        SetGhostState(false); //change the selected player script back to player from ghost
+        _ghostPlayer.transform.position = Vector3.zero; //make sure the ghost goes back to the parent
 
-        //_firedTraps = false;
-        //StartCardActions(cardList);
+        _firedTraps = false;
+
+        StartCardActions(cardList);
+        FSM(State.PrepareNextAction);
     }
     public void HandleIncomingGhostActions(List<Card> cardList)
     {
-        _currentPlayerController.SetCurrentTile(_playerControllerOriginal.GetCurrentTile());
-        _currentPlayerController.SetFacingDirection(_playerControllerOriginal.GetCurrentFacingDirection());
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        _ghostPlayer.SetActive(true);
+        _currentPlayerController.StopAllCoroutines();
+
+        _firedTraps = true; //so that traps dont fire at the end of this state
         SetGhostState(true);
+        _actionCopies.Clear();
+        _actionCopies.AddRange(cardList); //for ghost repeating
+
         StartCardActions(cardList);
-        print(cardList.Count);
+        FSM(State.PrepareNextAction);
     }
     public void HandleWallInterruption()
     {
@@ -233,16 +240,13 @@ public class PlayerStateMachineBrain : MonoBehaviour
     /// <param name="incomingActions"></param>
     public void StartCardActions(List<Card> incomingActions)
     {
-        SetCardList(incomingActions);
-        FSM(State.PrepareNextAction);
-    }
-    public void SetCardList(List<Card> incomingActions)
-    {
+        _currentPlayerController.SetCurrentTile(_playerControllerOriginal.GetCurrentTile());
+        _currentPlayerController.SetFacingDirection(_playerControllerOriginal.GetCurrentFacingDirection());
+        _currentPlayerController.transform.position = _currentPlayerController.GetCurrentTile().GetPlayerSnapPosition();
         _actions.Clear();
-        if(incomingActions != null)
+        if (incomingActions != null)
         {
             _actions.AddRange(incomingActions);
-            _actionCopies.AddRange(incomingActions); //for ghost repeating
         }
     }
 
@@ -271,14 +275,13 @@ public class PlayerStateMachineBrain : MonoBehaviour
             _currentAction = GetNextAction();
             if (_currentAction != null)
             {
-                print("here");
                 FSM(State.FindTileUponAction);
             }
             else if (!_firedTraps)
             {
                 FSM(State.TrapPlayState);
             }
-            else if (_currentAction != null && _isGhost)
+            else if (_currentAction == null && _isGhost)
             {
                 StartCardActions(_actionCopies); //restart the preview until the true cards come in
             }

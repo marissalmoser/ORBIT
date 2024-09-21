@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
             if (checkTimeElapsed >= _checkInterval)
             {
-                if (GetTileWithPlayerRaycast() != previousTile)
+                if (GetTileWithPlayerRaycast() != previousTile && GetTileWithPlayerRaycast() != null)
                 {
                     previousTile = GetTileWithPlayerRaycast();
                     if (previousTile.IsHole()) //player needs to fall down

@@ -18,7 +18,8 @@ public class FinishFlag : Collectable
     }
     private IEnumerator WaitCoroutine()
     {
-        _PSMB.SetCardList(null);
+        //_PSMB.SetCardList(null);
+        _PSMB.StartCardActions(null);
         yield return new WaitForSeconds(1);
         GameManager.Instance.ChangeGameState(GameManager.STATE.End);
         print("WIN");
