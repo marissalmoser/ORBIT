@@ -51,28 +51,28 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5b36616dc113e92439ab8424e5bc48ba, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 1
+    maxVolume: 0.5
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
-  - name: CardPickedUp
+  - name: CardClick_high
     id: 3541
     clips:
-    - {fileID: 8300000, guid: 32b80ef19ad4e734993b01c7559ff7ea, type: 3}
+    - {fileID: 8300000, guid: 7c768620eacc7434fa9fe34b7e272a36, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 1
+    maxVolume: 0.5
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
-  - name: CardPutDown
+  - name: CardClick_low
     id: 1092
     clips:
-    - {fileID: 8300000, guid: 2013883abc2114144a838434ce8bcf73, type: 3}
+    - {fileID: 8300000, guid: 91b5cede9b573c142ae1e42ff8e205a4, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 1
-    pitch: 1
+    maxVolume: 0.5
+    pitch: 1.5
     doLoop: 0
     source: {fileID: 0}
   - name: LoadIn
@@ -98,7 +98,7 @@ MonoBehaviour:
   - name: MovingWallMove
     id: 1191
     clips:
-    - {fileID: 8300000, guid: 87c1edecfbd528a409ca224585d1c248, type: 3}
+    - {fileID: 8300000, guid: 9a54b7d619d6e8c49b1cfc2f83f2bf9a, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
     maxVolume: 1
@@ -108,10 +108,10 @@ MonoBehaviour:
   - name: PlayerFallOffMap
     id: 8834
     clips:
-    - {fileID: 8300000, guid: c27f3b030585d324fbc090368f03c024, type: 3}
+    - {fileID: 8300000, guid: 96386992747a1ea4dacb85e357a00018, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 1
+    maxVolume: 0.5
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
@@ -121,8 +121,28 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7d5b61ba9b789f448b9374442c9d4fbb, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 1
+    maxVolume: 0.22
     pitch: 1
+    doLoop: 0
+    source: {fileID: 0}
+  - name: PlayerJump
+    id: 3740
+    clips:
+    - {fileID: 8300000, guid: 0cbf4a167a964124cb6d3d6ee80469b2, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.21
+    pitch: 1.5
+    doLoop: 0
+    source: {fileID: 0}
+  - name: PlayerJumpHigh
+    id: 1917
+    clips:
+    - {fileID: 8300000, guid: 7c4a2bd695b7712479456f0317de16e3, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.21
+    pitch: 2
     doLoop: 0
     source: {fileID: 0}
   - name: SpikesDown
@@ -131,7 +151,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 314cf23be3615ce4fbad1bf25c9c5044, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 1
+    maxVolume: 0.5
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
@@ -141,9 +161,79 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 9aed45507c1a04f42a6d3b2f52fd11d4, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 1
+    maxVolume: 0.5
+    pitch: 1
+    doLoop: 0
+    source: {fileID: 0}
+  - name: Woosh1
+    id: 2469
+    clips:
+    - {fileID: 8300000, guid: 45a4aad6418b077448772c6c99f582d9, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.4
+    pitch: 2
+    doLoop: 0
+    source: {fileID: 0}
+  - name: Woosh2
+    id: 4295
+    clips:
+    - {fileID: 8300000, guid: eb6b24ac4de073d479256b52c75b55e6, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.4
+    pitch: 2
+    doLoop: 0
+    source: {fileID: 0}
+  - name: Woosh3
+    id: 8894
+    clips:
+    - {fileID: 8300000, guid: fa95256c9db4e904688d99bb340af8b0, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.4
+    pitch: 2
+    doLoop: 0
+    source: {fileID: 0}
+  - name: Win_Fanfare
+    id: 1566
+    clips:
+    - {fileID: 8300000, guid: 442e859d83227a14c8a7e042d48e2687, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.2
+    pitch: 1
+    doLoop: 0
+    source: {fileID: 0}
+  - name: ClearCardCrinkle
+    id: 6189
+    clips:
+    - {fileID: 8300000, guid: 5f10dec1fe40b6c4091112c6a2239f5c, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.4
+    pitch: 2
+    doLoop: 0
+    source: {fileID: 0}
+  - name: PlayedCardClick
+    id: 8885
+    clips:
+    - {fileID: 8300000, guid: d8ccac90f2f1d70438562086289c933f, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.4
+    pitch: 1
+    doLoop: 0
+    source: {fileID: 0}
+  - name: CollectablePickup
+    id: 8346
+    clips:
+    - {fileID: 8300000, guid: e08d017efabd403489af772d9624fc81, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.25
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
   _fadeInDuration: 2
-  _fadeOutDuration: 3
+  _fadeOutDuration: 5

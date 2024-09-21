@@ -15,13 +15,19 @@ public class CardDisplay : MonoBehaviour
     [SerializeField] private Image _sprite;
     public int ID;
     public bool IsMouseInCard { get;  private set; }
+    public bool IsMouseDown { get; private set; }
+    public bool IsClearing { get; private set; }
+    public bool IsSwapping { get; private set; }
 
     private GameManager _gameManager;
     void Start()
     {
         _gameManager = GameManager.Instance;
         _sprite.sprite = _card.cardSprite;
-        
+
+        IsMouseInCard = false;
+        IsMouseDown = false;
+        IsSwapping = false;
     }
 
     /// <summary>
@@ -30,7 +36,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="card">The card to be updared</param>
     public void UpdateCard(Card card)
     {
-        this._card = card;
+        _card = card;
 
         _gameManager = GameManager.Instance;
     }
@@ -62,6 +68,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MousePressedDealtCard(Image Card)
     {
+        IsMouseDown = true;
         CardManager.Instance.DealtMousePressedCard(Card);
     }
 
@@ -71,6 +78,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MouseReleasedDealtCard(Image Card)
     {
+        IsMouseDown = false;
         CardManager.Instance.DealtMouseReleasedCard(Card, ID);
     }
 
@@ -98,6 +106,22 @@ public class CardDisplay : MonoBehaviour
     {
         CardManager.Instance.PlayedTurnChooseRight();
     }
+
+    /// <summary>
+    /// Helper method for mouse entering turn card
+    /// </summary>
+    public void MouseEnterTurnCard(Image tooltip)
+    {
+        CardManager.Instance.MouseEnterTurnCard(tooltip);
+    }
+
+    /// <summary>
+    /// Helper method for mouse leaving turn card
+    /// </summary>
+    public void MouseExitTurnCard(Image tooltip)
+    {
+        CardManager.Instance.MouseExitTurnCard(tooltip);
+    }
     #endregion
 
     #region Played Card Methods
@@ -108,6 +132,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MousePressedPlayedCard(Image Card)
     {
+        IsMouseDown = true;
         CardManager.Instance.PlayedMousePressedCard(Card, ID);
     }
 
@@ -117,6 +142,13 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MouseReleasedPlayedCard(Image Card)
     {
+        IsMouseDown = false;
+
+        if (_gameManager.isSwitching)
+            IsSwapping = !IsSwapping;
+        if (_gameManager.isClearing)
+            IsClearing = !IsClearing;
+
         CardManager.Instance.PlayedMouseReleasedCard(Card);
     }
 
