@@ -33954,6 +33954,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2870088648296899365}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: cancelButton
+      value: 
+      objectReference: {fileID: 2870088648296899366}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _cancelButton
       value: 
       objectReference: {fileID: 2870088648296899366}
@@ -33961,6 +33965,10 @@ PrefabInstance:
       propertyPath: _upperTextBox
       value: 
       objectReference: {fileID: 1912406397}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: confirmButton
+      value: 
+      objectReference: {fileID: 2870088648296899367}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _confirmButton
       value: 
