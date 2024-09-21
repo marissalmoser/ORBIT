@@ -384,7 +384,6 @@ public class GameManager : MonoBehaviour
         //If the confirmed card was a clear card
         if (isClearing)
         {
-            _cardManager.clearCard = null;
             isClearing = false;
 
             //sound effect call
@@ -395,12 +394,14 @@ public class GameManager : MonoBehaviour
             int instantiatedImagesCount = instantiatedImages.Count;
             for (int i = 0; i < instantiatedImagesCount; i++)
             {
+                print(_cardManager.clearCard);
                 if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCard.GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
                 {
                     _playedCards = _deckManagerCard.RemoveAt(_playedCards, i); //When IDs match, remove the card from the list
                     break;
                 }
             }
+            _cardManager.clearCard = null;
         }
 
         //If the confirmed card was a switch card
