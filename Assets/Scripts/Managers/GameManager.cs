@@ -570,7 +570,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadLevelSelect()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
 
     #region Getters
