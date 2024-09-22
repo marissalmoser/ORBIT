@@ -13,11 +13,11 @@ FBXHeaderExtension:  {
 		Month: 9
 		Day: 22
 		Hour: 15
-		Minute: 13
-		Second: 57
-		Millisecond: 191
+		Minute: 51
+		Second: 32
+		Millisecond: 240
 	}
-	Creator: "Blockbench 4.10.4"
+	Creator: "Blockbench 4.11.0"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
 		Version: 100
@@ -36,20 +36,20 @@ FBXHeaderExtension:  {
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "Original|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "Original|ApplicationVersion", "KString", "", "", "4.10.4"
+			P: "Original|ApplicationVersion", "KString", "", "", "4.11.0"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|FileName", "KString", "", "", "/foobar.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "LastSaved|ApplicationVersion", "KString", "", "", "4.10.4"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "4.11.0"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|ApplicationNativeFile", "KString", "", "", ""
 		}
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2024-09-22 20:13:57:191"
+CreationTime: "2024-09-22 20:51:32:240"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1180666657 {
+	Document: 278291120 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,9 +268,9 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 1641607, "Geometry::cube", "Mesh" {
+	Geometry: 1724011, "Geometry::cube", "Mesh" {
 		Vertices: *24 {
-			a: 0,200,100,0,200,0,0,0,100,0,0,0,-100,200,0,-100,200,100,-100,0,0,-100,0,100
+			a: 50,150,50,50,150,-50,50,-50,50,50,-50,-50,-50,150,-50,-50,150,50,-50,-50,-50,-50,-50,50
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -319,13 +319,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 5729369, "Model::cube", "Mesh" {
+	Model: 4330735, "Model::cube", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",50,0,-50
+			P: "Lcl Translation", "Lcl Translation", "", "A",0,50,0
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -334,7 +334,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Material: 79951807, "Material::TwoBricks.png", "" {
+	Material: 55151895, "Material::TwoBricks.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -345,7 +345,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 15398851, "Texture::TwoBricks.png", "" {
+	Texture: 35940732, "Texture::TwoBricks.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::TwoBricks.png"
@@ -357,7 +357,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 98431816, "Video::TwoBricks.png", "Clip" {
+	Video: 86810154, "Video::TwoBricks.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\Cubes\TwoHighCube\TwoBricks.png"
@@ -372,11 +372,11 @@ Objects:  {
 ;------------------------------------------------------------------
 
 Connections:  {
-	C: "OO",5729369,0
-	C: "OO",1641607,5729369
-	C: "OO",79951807,5729369
-	C: "OP",15398851,79951807, "DiffuseColor"
-	C: "OO",98431816,15398851
+	C: "OO",4330735,0
+	C: "OO",1724011,4330735
+	C: "OO",55151895,4330735
+	C: "OP",35940732,55151895, "DiffuseColor"
+	C: "OO",86810154,35940732
 }
 
 ; Takes section

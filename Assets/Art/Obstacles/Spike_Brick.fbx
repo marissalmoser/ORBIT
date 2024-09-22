@@ -13,11 +13,11 @@ FBXHeaderExtension:  {
 		Month: 9
 		Day: 22
 		Hour: 15
-		Minute: 19
-		Second: 49
-		Millisecond: 680
+		Minute: 52
+		Second: 0
+		Millisecond: 127
 	}
-	Creator: "Blockbench 4.10.4"
+	Creator: "Blockbench 4.11.0"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
 		Version: 100
@@ -36,20 +36,20 @@ FBXHeaderExtension:  {
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "Original|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "Original|ApplicationVersion", "KString", "", "", "4.10.4"
+			P: "Original|ApplicationVersion", "KString", "", "", "4.11.0"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|FileName", "KString", "", "", "/foobar.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "LastSaved|ApplicationVersion", "KString", "", "", "4.10.4"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "4.11.0"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|ApplicationNativeFile", "KString", "", "", ""
 		}
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2024-09-22 20:19:49:680"
+CreationTime: "2024-09-22 20:52:00:127"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 2120597930 {
+	Document: 1825509624 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,9 +268,9 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 29662538, "Geometry::cube", "Mesh" {
+	Geometry: 69413792, "Geometry::cube", "Mesh" {
 		Vertices: *24 {
-			a: 0,100,100,0,100,0,0,0,100,0,0,0,-100,100,0,-100,100,100,-100,0,0,-100,0,100
+			a: 50,50,50,50,50,-50,50,-50,50,50,-50,-50,-50,50,-50,-50,50,50,-50,-50,-50,-50,-50,50
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -319,13 +319,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 93314677, "Model::cube", "Mesh" {
+	Model: 4437835, "Model::cube", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",50,0,-50
+			P: "Lcl Translation", "Lcl Translation", "", "A",0,50,0
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -334,7 +334,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Material: 96310597, "Material::bricks3_Spike_holes.png", "" {
+	Material: 40017292, "Material::bricks3_Spike_holes.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -345,7 +345,7 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 29929068, "Texture::bricks3_Spike_holes.png", "" {
+	Texture: 26256340, "Texture::bricks3_Spike_holes.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
 		TextureName: "Texture::bricks3_Spike_holes.png"
@@ -357,7 +357,7 @@ Objects:  {
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 11057873, "Video::bricks3_Spike_holes.png", "Clip" {
+	Video: 21506820, "Video::bricks3_Spike_holes.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
 			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\Cubes\NormalCube\bricks3_Spike_holes.png"
@@ -372,11 +372,11 @@ Objects:  {
 ;------------------------------------------------------------------
 
 Connections:  {
-	C: "OO",93314677,0
-	C: "OO",29662538,93314677
-	C: "OO",96310597,93314677
-	C: "OP",29929068,96310597, "DiffuseColor"
-	C: "OO",11057873,29929068
+	C: "OO",4437835,0
+	C: "OO",69413792,4437835
+	C: "OO",40017292,4437835
+	C: "OP",26256340,40017292, "DiffuseColor"
+	C: "OO",21506820,26256340
 }
 
 ; Takes section
