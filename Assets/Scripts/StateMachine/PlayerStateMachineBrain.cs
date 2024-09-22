@@ -240,6 +240,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     /// <param name="incomingActions"></param>
     public void StartCardActions(List<Card> incomingActions)
     {
+        ActionOrderDisplay.ActionOrderComplete?.Invoke();
         _currentPlayerController.SetCurrentTile(_playerControllerOriginal.GetCurrentTile());
         _currentPlayerController.SetFacingDirection(_playerControllerOriginal.GetCurrentFacingDirection());
         _currentPlayerController.transform.position = _currentPlayerController.GetCurrentTile().GetPlayerSnapPosition();
@@ -325,7 +326,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator PlayResult()
     {
-
+        if (!_currentAction.GetIsObstacle())
+        {
+            ActionOrderDisplay.NewActionPlayed?.Invoke();
+        }
         if (_currentState == State.PlayResult)
         {
             switch (_currentAction.name)
