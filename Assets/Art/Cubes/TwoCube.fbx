@@ -11,11 +11,11 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2024
 		Month: 9
-		Day: 19
-		Hour: 23
-		Minute: 4
-		Second: 30
-		Millisecond: 6
+		Day: 22
+		Hour: 15
+		Minute: 13
+		Second: 57
+		Millisecond: 191
 	}
 	Creator: "Blockbench 4.10.4"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
@@ -49,7 +49,7 @@ FBXHeaderExtension:  {
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2024-09-20 04:04:30:006"
+CreationTime: "2024-09-22 20:13:57:191"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 691593742 {
+	Document: 1180666657 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -268,9 +268,9 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 77419651, "Geometry::cube", "Mesh" {
+	Geometry: 1641607, "Geometry::cube", "Mesh" {
 		Vertices: *24 {
-			a: 50,200,50,50,200,-50,50,0,50,50,0,-50,-50,200,-50,-50,200,50,-50,0,-50,-50,0,50
+			a: 0,200,100,0,200,0,0,0,100,0,0,0,-100,200,0,-100,200,100,-100,0,0,-100,0,100
 		}
 		PolygonVertexIndex: *24 {
 			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
@@ -319,13 +319,13 @@ Objects:  {
 			}
 		}
 	}
-	Model: 72419256, "Model::cube", "Mesh" {
+	Model: 5729369, "Model::cube", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
 			P: "InheritType", "enum", "", "",1
 			P: "ScalingMax", "Vector3D", "Vector", "",0,0,0
-			P: "Lcl Translation", "Lcl Translation", "", "A",0,0,0
+			P: "Lcl Translation", "Lcl Translation", "", "A",50,0,-50
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
 			P: "RotationOrder", "enum", "", "",0
@@ -334,7 +334,7 @@ Objects:  {
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Material: 25330427, "Material::texture", "" {
+	Material: 79951807, "Material::TwoBricks.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -345,27 +345,26 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 95164505, "Texture::texture", "" {
+	Texture: 15398851, "Texture::TwoBricks.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
-		TextureName: "Texture::texture"
-		Media: "Video::texture"
-		FileName: ""
-		RelativeFilename: ""
+		TextureName: "Texture::TwoBricks.png"
+		Media: "Video::TwoBricks.png"
+		FileName: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\Cubes\TwoHighCube\TwoBricks.png"
+		RelativeFilename: "TwoBricks.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 4910040, "Video::texture", "Clip" {
+	Video: 98431816, "Video::TwoBricks.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "texture"
+			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\Cubes\TwoHighCube\TwoBricks.png"
 		}
 		UseMipMap: 0
-		Filename: ""
-		RelativeFilename: ""
-		Content: "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAAXNSR0IArs4c6QAAA2BJREFUeF7tWT1oFFEQfoeIFhIRLFTElcM/iFpooxAJVwmHQRACqQRBEOWCaGOjIFgJYjCcgjaKlRCISOAgNocgaGMVtBA5PPCvETGdjZHvwSxzL7ub3XvgzC5vm/uZ3Xtvvvnmm3lztf6FyZVvv5cNv96NTZiJpVfxV9z+6+xlM/ri8cD99OH96XNmy9N7sW3H5pH4/cKhcXP09cLAc7BHD+dqiT/2n76svZk6ucLX+vH9s9lwbSZ2kjufZiNHAcCf21fMtu27V4Hg2ugZcQCej+8fAGDfg3m7+eVbV+0rnObX18lp+xHRhI07O3Ljrun3+6tAwP2uTQ0A7XbbAlCv161jURTZVziCq9fr2Vey8894T7QGGAReHvbS7zebTT0pwPM7SxdcG6UGwOt2uwP+AzgAxQHmLDn+bFEHABTBTbM3rQN5ch/3QTDhHDEHADQajUwSfLx0Jk4dcQC4BoDCSbkPUcRFCs914ciBwzFgyHMCwE0hSiMARWvgO3EAoAE8gmkbd/WBtIDKJRjDAUhiAn6bA6CyDMLRLC1wbXCC0iUNAHKcQAED1FSBon0AyiCPOk92NwV4xSCBhD6oAsDtA5DvJGjYaFIfwEsf9QEkolkiyG1gBQBqtVqyVYD6gLRewO0DeJ9AfQAvg0kaQiwhrVFZBvPkPu6hcwDlPTSBC2SeJkhVGSQNKHIG4H0CiRkA4UzgpQ73p9nEyyBpwFpnANh5k0TawPsA7qjLlDSbOACdTseeBSi3+TmA6Jxlg6NF2mb3OC1+GvSdByxN37E4HduzM0/6x/e8/fTFvj91MJKtAkX7AHdW8PP6o0KOuzeLA+A7Dzix+MEgmsMwAM9s3bhOlgG+84Cp8xfLDQBPgWHmAXufdKoBwLDzgNID4DsPqIQG+MwDKqUBVKKKzANKnwJF+wB3HlB6AHznAZXQAH5eT5v9Jf1vgHlApTRgrdxPmgeUPgV85wGlB8B3HrD+/styH4Z85wF/d42W+zjsFb4KPCx6FNWAXwBAQxQk9xAYIIm+hrUDAzREQXIPgQGS6GtYOzBAQxQk9xAYIIm+hrUDAzREQXIPgQGS6GtYOzBAQxQk9xAYIIm+hrUDAzREQXIPgQGS6GtYOzBAQxQk9xAYIIm+hrUDAzREQXIP/wCDZDZuCM6IYQAAAABJRU5ErkJggg=="
+		Filename: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\Cubes\TwoHighCube\TwoBricks.png"
+		RelativeFilename: "TwoBricks.png"
 	}
 }
 
@@ -373,11 +372,11 @@ Objects:  {
 ;------------------------------------------------------------------
 
 Connections:  {
-	C: "OO",72419256,0
-	C: "OO",77419651,72419256
-	C: "OO",25330427,72419256
-	C: "OP",95164505,25330427, "DiffuseColor"
-	C: "OO",4910040,95164505
+	C: "OO",5729369,0
+	C: "OO",1641607,5729369
+	C: "OO",79951807,5729369
+	C: "OP",15398851,79951807, "DiffuseColor"
+	C: "OO",98431816,15398851
 }
 
 ; Takes section
