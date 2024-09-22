@@ -11,13 +11,13 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2024
 		Month: 9
-		Day: 10
-		Hour: 16
-		Minute: 15
-		Second: 39
-		Millisecond: 405
+		Day: 22
+		Hour: 15
+		Minute: 51
+		Second: 18
+		Millisecond: 734
 	}
-	Creator: "Blockbench 4.10.4"
+	Creator: "Blockbench 4.11.0"
 	SceneInfo: "SceneInfo::GlobalInfo", "UserData" {
 		Type: "UserData"
 		Version: 100
@@ -36,20 +36,20 @@ FBXHeaderExtension:  {
 			P: "Original", "Compound", "", ""
 			P: "Original|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "Original|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "Original|ApplicationVersion", "KString", "", "", "4.10.4"
+			P: "Original|ApplicationVersion", "KString", "", "", "4.11.0"
 			P: "Original|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|FileName", "KString", "", "", "/foobar.fbx"
 			P: "LastSaved", "Compound", "", ""
 			P: "LastSaved|ApplicationVendor", "KString", "", "", "Blockbench"
 			P: "LastSaved|ApplicationName", "KString", "", "", "Blockbench FBX Exporter"
-			P: "LastSaved|ApplicationVersion", "KString", "", "", "4.10.4"
+			P: "LastSaved|ApplicationVersion", "KString", "", "", "4.11.0"
 			P: "LastSaved|DateTime_GMT", "DateTime", "", "", "01/01/1970 00:00:00.000"
 			P: "Original|ApplicationNativeFile", "KString", "", "", ""
 		}
 	}
 }
 FileId: "iVFoobar"
-CreationTime: "2024-09-10 21:15:39:405"
+CreationTime: "2024-09-22 20:51:18:734"
 Creator: "Made with Blockbench"
 GlobalSettings:  {
 	Version: 1000
@@ -78,7 +78,7 @@ GlobalSettings:  {
 
 Documents:  {
 	Count: 1
-	Document: 1289181393 {
+	Document: 421243989 {
 		Scene: "Scene"
 		Properties70:  {
 			P: "SourceObject", "object", "", ""
@@ -98,7 +98,7 @@ References:
 
 Definitions:  {
 	Version: 100
-	Count: 12
+	Count: 6
 	ObjectType: "GlobalSettings" {
 		Count: 1
 	}
@@ -194,7 +194,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "Material" {
-		Count: 3
+		Count: 1
 		PropertyTemplate: "FbxSurfaceLambert" {
 			Properties70:  {
 				P: "ShadingModel", "KString", "", "", "Lambert"
@@ -218,7 +218,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "Texture" {
-		Count: 3
+		Count: 1
 		PropertyTemplate: "FbxFileTexture" {
 			Properties70:  {
 				P: "TextureTypeUse", "enum", "", "",0
@@ -241,7 +241,7 @@ Definitions:  {
 		}
 	}
 	ObjectType: "Video" {
-		Count: 3
+		Count: 1
 		PropertyTemplate: "FbxVideo" {
 			Properties70:  {
 				P: "ImageSequence", "bool", "", "",0
@@ -268,12 +268,12 @@ Definitions:  {
 ;------------------------------------------------------------------
 
 Objects:  {
-	Geometry: 59575722, "Geometry::cube3", "Mesh" {
+	Geometry: 66942730, "Geometry::cube3", "Mesh" {
 		Vertices: *24 {
-			a: 50,250,50,50,250,-50,50,-50,50,50,-50,-50,-50,250,-50,-50,250,50,-50,-50,-50,-50,-50,50
+			a: 50,-50,-50,-50,-50,-50,-50,250,-50,50,250,-50,50,-50,50,50,250,50,-50,-50,50,-50,250,50
 		}
 		PolygonVertexIndex: *24 {
-			a: 3,6,4,-2,2,3,1,-1,7,2,0,-6,6,7,5,-5,5,0,1,-5,6,3,2,-8
+			a: 0,1,2,-4,4,0,3,-6,6,4,5,-8,1,6,7,-3,7,5,3,-3,1,0,4,-7
 		}
 		GeometryVersion: 124
 		LayerElementNormal: 0 {
@@ -291,7 +291,7 @@ Objects:  {
 			MappingInformationType: "ByPolygonVertex"
 			ReferenceInformationType: "Direct"
 			UV: *48 {
-				a: 0,0.625,0.125,0.625,0.125,1,0,1,0.125,0.625,0.25,0.625,0.25,1,0.125,1,0.25,0.625,0.375,0.625,0.375,1,0.25,1,0,0.25,0.125,0.25,0.125,0.625,0,0.625,0.5,1,0.375,1,0.375,0.875,0.5,0.875,0.25,0.5,0.125,0.5,0.125,0.625,0.25,0.625
+				a: 0,0.625,0.125,0.625,0.125,1,0,1,0,0.625,0.125,0.625,0.125,1,0,1,0,0.625,0.125,0.625,0.125,1,0,1,0,0.625,0.125,0.625,0.125,1,0,1,0.125,0.875,0.25,0.875,0.25,1,0.125,1,0.125,0.75,0.25,0.75,0.25,0.875,0.125,0.875
 			}
 		}
 		LayerElementMaterial: 0 {
@@ -319,7 +319,7 @@ Objects:  {
 			}
 		}
 	}
-	Model: 10809846, "Model::cube3", "Mesh" {
+	Model: 49027747, "Model::cube3", "Mesh" {
 		Version: 232
 		Properties70:  {
 			P: "RotationActive", "bool", "", "",1
@@ -328,13 +328,13 @@ Objects:  {
 			P: "Lcl Translation", "Lcl Translation", "", "A",0,50,0
 			P: "RotationPivot", "Vector3D", "Vector", "",0,0,0
 			P: "Lcl Rotation", "Lcl Rotation", "", "A",0,0,0
-			P: "RotationOrder", "enum", "", "",0
+			P: "RotationOrder", "enum", "", "",5
 			P: "DefaultAttributeIndex", "int", "Integer", "",0
 		}
 		Shading: Y
 		Culling: "CullingOff"
 	}
-	Material: 61864627, "Material::texture1.png", "" {
+	Material: 23278168, "Material::ThreeBricks.png", "" {
 		Version: 102
 		ShadingModel: "lambert"
 		MultiLayer: 0
@@ -345,90 +345,26 @@ Objects:  {
 			P: "Opacity", "double", "Number", "",1
 		}
 	}
-	Texture: 24696503, "Texture::texture1.png", "" {
+	Texture: 21669768, "Texture::ThreeBricks.png", "" {
 		Type: "TextureVideoClip"
 		Version: 202
-		TextureName: "Texture::texture1.png"
-		Media: "Video::texture1.png"
-		FileName: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture1.png"
-		RelativeFilename: "texture1.png"
+		TextureName: "Texture::ThreeBricks.png"
+		Media: "Video::ThreeBricks.png"
+		FileName: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\Cubes\ThreeHighCube\ThreeBricks.png"
+		RelativeFilename: "ThreeBricks.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
 		Cropping: 0,0,0,0
 	}
-	Video: 32319700, "Video::texture1.png", "Clip" {
+	Video: 26906446, "Video::ThreeBricks.png", "Clip" {
 		Type: "Clip"
 		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture1.png"
+			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\Cubes\ThreeHighCube\ThreeBricks.png"
 		}
 		UseMipMap: 0
-		Filename: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture1.png"
-		RelativeFilename: "texture1.png"
-	}
-	Material: 60760671, "Material::texture2.png", "" {
-		Version: 102
-		ShadingModel: "lambert"
-		MultiLayer: 0
-		Properties70:  {
-			P: "Emissive", "Vector3D", "Vector", "",0,0,0
-			P: "Ambient", "Vector3D", "Vector", "",0.2,0.2,0.2
-			P: "Diffuse", "Vector3D", "Vector", "",0.8,0.8,0.8
-			P: "Opacity", "double", "Number", "",1
-		}
-	}
-	Texture: 16607594, "Texture::texture2.png", "" {
-		Type: "TextureVideoClip"
-		Version: 202
-		TextureName: "Texture::texture2.png"
-		Media: "Video::texture2.png"
-		FileName: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture2.png"
-		RelativeFilename: "texture2.png"
-		ModelUVTranslation: 0,0
-		ModelUVScaling: 1,1
-		Texture_Alpha_Source: "None"
-		Cropping: 0,0,0,0
-	}
-	Video: 30400340, "Video::texture2.png", "Clip" {
-		Type: "Clip"
-		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture2.png"
-		}
-		UseMipMap: 0
-		Filename: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture2.png"
-		RelativeFilename: "texture2.png"
-	}
-	Material: 24392427, "Material::texture3.png", "" {
-		Version: 102
-		ShadingModel: "lambert"
-		MultiLayer: 0
-		Properties70:  {
-			P: "Emissive", "Vector3D", "Vector", "",0,0,0
-			P: "Ambient", "Vector3D", "Vector", "",0.2,0.2,0.2
-			P: "Diffuse", "Vector3D", "Vector", "",0.8,0.8,0.8
-			P: "Opacity", "double", "Number", "",1
-		}
-	}
-	Texture: 36089460, "Texture::texture3.png", "" {
-		Type: "TextureVideoClip"
-		Version: 202
-		TextureName: "Texture::texture3.png"
-		Media: "Video::texture3.png"
-		FileName: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture3.png"
-		RelativeFilename: "texture3.png"
-		ModelUVTranslation: 0,0
-		ModelUVScaling: 1,1
-		Texture_Alpha_Source: "None"
-		Cropping: 0,0,0,0
-	}
-	Video: 83489242, "Video::texture3.png", "Clip" {
-		Type: "Clip"
-		Properties70:  {
-			P: "Path", "KString", "XRefUrl", "", "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture3.png"
-		}
-		UseMipMap: 0
-		Filename: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\texture3.png"
-		RelativeFilename: "texture3.png"
+		Filename: "D:\Joel's Folder\Bradley Files\Game Production II\Offline Art Assets\Cubes\ThreeHighCube\ThreeBricks.png"
+		RelativeFilename: "ThreeBricks.png"
 	}
 }
 
@@ -436,15 +372,11 @@ Objects:  {
 ;------------------------------------------------------------------
 
 Connections:  {
-	C: "OO",10809846,0
-	C: "OO",59575722,10809846
-	C: "OO",24392427,10809846
-	C: "OP",24696503,61864627, "DiffuseColor"
-	C: "OO",32319700,24696503
-	C: "OP",16607594,60760671, "DiffuseColor"
-	C: "OO",30400340,16607594
-	C: "OP",36089460,24392427, "DiffuseColor"
-	C: "OO",83489242,36089460
+	C: "OO",49027747,0
+	C: "OO",66942730,49027747
+	C: "OO",23278168,49027747
+	C: "OP",21669768,23278168, "DiffuseColor"
+	C: "OO",26906446,21669768
 }
 
 ; Takes section
