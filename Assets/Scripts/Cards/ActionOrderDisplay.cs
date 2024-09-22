@@ -98,16 +98,4 @@ public class ActionOrderDisplay : MonoBehaviour
         _image.enabled = false;
         _rt.anchoredPosition = _startingPos;
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            OnNewActionPlayed();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            ClearIcon();
-        }
-    }
 }
