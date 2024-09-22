@@ -293,9 +293,90 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Plays a forecast on where the player will move
+    /// </summary>
     private void PlayDemo()
     {
-        PlayDemoActionOrder?.Invoke(_playedCards);
+        _uiManager.UpdateTextBox("Confirm / Cancel");
+        List<Card> tempList = new();
+
+        //Adds the confirmation card to be played in demo
+        int tempSize = _playedCards.Count;
+        for (int i = 0; i < tempSize; i++)
+        {
+            tempList.Add(_playedCards[i]);
+        }
+
+        if (!isClearing && !isSwitching)
+            tempList.Add(confirmationCard);
+
+
+
+        //If the confirmed card was a clear card
+        if (isClearing)
+        {
+            //sound effect call
+            SfxManager.Instance.PlaySFX(6189);
+
+            List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
+
+            int instantiatedImagesCount = instantiatedImages.Count;
+            for (int i = 0; i < instantiatedImagesCount; i++)
+            {
+                //Compares instantiated images' unique ID to the target ID
+                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCard.GetComponentInChildren<CardDisplay>().ID)
+                {
+                    tempList = _deckManagerCard.RemoveAt(tempList, i); //When IDs match, remove the card from the list
+                    break;
+                }
+            }
+        }
+
+        //If the confirmed card was a switch card
+        if (isSwitching)
+        {
+            List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
+
+            int instantiatedImagesCount = instantiatedImages.Count;
+
+            //Initializes variables
+            int target1Index = -1;
+            int target2Index = -1;
+            (Image, Image) switchCards = _cardManager.switchCards;
+
+            //Finds the first target ID
+            for (int i = 0; i < instantiatedImagesCount; i++)
+            {
+                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == switchCards.Item1.GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
+                {
+                    target1Index = i;
+
+                    break;
+                }
+            }
+
+            //Finds the second target ID
+            for (int i = 0; i < instantiatedImagesCount; i++)
+            {
+                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == switchCards.Item2.GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
+                {
+                    target2Index = i;
+
+                    break;
+                }
+            }
+            if (target1Index != -1 && target2Index != -1) //Error check. Does not continue if both cards are not found
+            {
+                tempList = _deckManagerCard.Swap(tempList, target1Index, target2Index); //Swaps the two cards
+            }
+            else
+            {
+                print("FAILED TO LOCATE CARD IDS");
+            }
+        }
+
+        PlayDemoActionOrder?.Invoke(tempList);
     }
 
     /// <summary>

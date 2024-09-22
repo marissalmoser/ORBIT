@@ -133,7 +133,7 @@ public class CardDisplay : MonoBehaviour
     public void MousePressedPlayedCard(Image Card)
     {
         IsMouseDown = true;
-        CardManager.Instance.PlayedMousePressedCard(Card, ID);
+        CardManager.Instance.PlayedMousePressedCard(Card);
     }
 
     /// <summary>
