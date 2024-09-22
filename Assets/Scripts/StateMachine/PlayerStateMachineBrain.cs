@@ -24,16 +24,17 @@ using UnityEngine;
 
 public class PlayerStateMachineBrain : MonoBehaviour
 {
-
     [SerializeField] private State _currentState;
     private Coroutine _currentStateCoroutine;
     private Card _currentAction;
     private List<Card> _actions = new List<Card>();
+    private List<Card> _actionCopies = new List<Card>();
     private Tile _targetTile;
-    private GameObject _player;
-    private PlayerController _pC;
+    private GameObject _player, _ghostPlayer;
+    private PlayerController _currentPlayerController, _playerControllerOriginal, _playerControllerGhost;
     private int _distance;
     private bool _firedTraps = false;
+    private bool _isGhost = false;
     
     public void Start()
     {
@@ -42,10 +43,16 @@ public class PlayerStateMachineBrain : MonoBehaviour
         PlayerController.SpikeCollision += HandleSpikeInterruption;
         PlayerController.WallInterruptAnimation += HandleWallInterruption;
         GameManager.PlayActionOrder += HandleIncomingActions;
+        GameManager.PlayDemoActionOrder += HandleIncomingGhostActions;
         TileManager.Instance.LoadTileList();
         TileManager.Instance.LoadObstacleList();
         FindPlayer();
+        _player.transform.position = _playerControllerOriginal.GetCurrentTile().GetPlayerSnapPosition();
         //TODO: Have something else load the tileList()
+    }
+    public void Update()
+    {
+
     }
 
     /// <summary>
@@ -121,14 +128,16 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 break;
         }
     }
-
     public void FindPlayer()
     {
         if (_player == null)
         {
             _player = GameObject.FindGameObjectWithTag("Player");
-            _pC = GetPlayerController();
-            if (_pC == null)
+            _currentPlayerController= _playerControllerOriginal = _player.GetComponent<PlayerController>();
+            _ghostPlayer = GameObject.FindGameObjectWithTag("PlayerGhost");
+            _playerControllerGhost = _ghostPlayer.GetComponent<PlayerController>();
+
+            if (_currentPlayerController == null)
             {
                 print("NULL");
             }
@@ -136,6 +145,19 @@ public class PlayerStateMachineBrain : MonoBehaviour
             {
                 Debug.Log("No gameobject in scene tagged with player");
             }
+        }
+    }
+    public void SetGhostState(bool isGhost)
+    {
+        if(!isGhost)
+        {
+            _isGhost = false;
+            _currentPlayerController = _playerControllerOriginal;
+        }
+        else
+        {
+            _isGhost = true;
+            _currentPlayerController = _playerControllerGhost;
         }
     }
     public Card GetNextAction()
@@ -152,25 +174,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         return _currentState;
     }
-    public PlayerController GetPlayerController()
-    {
-        if (_pC != null)
-        {
-            return _pC;
-        }
-        return GetPlayer().GetComponent<PlayerController>();
-    }
-    public GameObject GetPlayer()
-    {
-        if (_player != null)
-        {
-            return _player;
-        }
-        {
-            FindPlayer();
-            return _player;
-        }
-    }
+
 
     public void HandleCardAdd(Card card)
     {
@@ -178,38 +182,70 @@ public class PlayerStateMachineBrain : MonoBehaviour
     }
     public void HandleIncomingActions(List<Card> cardList)
     {
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        _ghostPlayer.SetActive(false); //turn off the ghost gameobject
+        _currentPlayerController.StopAllCoroutines(); //stop whatever ghost is doing
+
+        SetGhostState(false); //change the selected player script back to player from ghost
+        _ghostPlayer.transform.position = Vector3.zero; //make sure the ghost goes back to the parent
+
+        _firedTraps = false;
+
         StartCardActions(cardList);
+        FSM(State.PrepareNextAction);
+    }
+    public void HandleIncomingGhostActions(List<Card> cardList)
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        _ghostPlayer.SetActive(true);
+        _currentPlayerController.StopAllCoroutines();
+
+        _firedTraps = true; //so that traps dont fire at the end of this state
+        SetGhostState(true);
+        _actionCopies.Clear();
+        _actionCopies.AddRange(cardList); //for ghost repeating
+
+        StartCardActions(cardList);
+        FSM(State.PrepareNextAction);
     }
     public void HandleWallInterruption()
     {
-        if (_pC.GetCurrentMovementCoroutine() != null)
+        if (_currentPlayerController.GetCurrentMovementCoroutine() != null)
         {
-            _pC.StopCoroutine(_pC.GetCurrentMovementCoroutine());
+            _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
             //_pC.StartFallCoroutine(transform.position, _pC.GetCurrentTile().GetPlayerSnapPosition());
         }
         FSM(State.PrepareNextAction);
     }
     public void HandleSpikeInterruption()
     {
-        if (_pC.GetCurrentMovementCoroutine() != null)
+        if (_currentPlayerController.GetCurrentMovementCoroutine() != null)
         {
-            _pC.StopCoroutine(_pC.GetCurrentMovementCoroutine());
+            _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
         }
         FSM(State.WaitingForActions);
     }
     public void HandleReachedDestination()
     {
-        if(_pC.GetCurrentMovementCoroutine() != null)
+        if(_currentPlayerController.GetCurrentMovementCoroutine() != null)
         {
-            _pC.StopCoroutine(_pC.GetCurrentMovementCoroutine());
+            _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
         }
 
         FSM(State.PrepareNextAction);
     }
-    public void SetCardList(List<Card> incomingActions)
+    /// <summary>
+    /// The method used to start a new action order from outside scripts
+    /// </summary>
+    /// <param name="incomingActions"></param>
+    public void StartCardActions(List<Card> incomingActions)
     {
+        ActionOrderDisplay.ActionOrderComplete?.Invoke();
+        _currentPlayerController.SetCurrentTile(_playerControllerOriginal.GetCurrentTile());
+        _currentPlayerController.SetFacingDirection(_playerControllerOriginal.GetCurrentFacingDirection());
+        _currentPlayerController.transform.position = _currentPlayerController.GetCurrentTile().GetPlayerSnapPosition();
         _actions.Clear();
-        if(incomingActions != null)
+        if (incomingActions != null)
         {
             _actions.AddRange(incomingActions);
         }
@@ -231,16 +267,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// The method used to start a new action order from outside scripts
-    /// </summary>
-    /// <param name="incomingActions"></param>
-    public void StartCardActions(List<Card> incomingActions)
-    {
-        _firedTraps = false;
-        SetCardList(incomingActions);
-        FSM(State.PrepareNextAction);
-    }
+
 
     private IEnumerator PrepareNextAction()
     {
@@ -251,9 +278,13 @@ public class PlayerStateMachineBrain : MonoBehaviour
             {
                 FSM(State.FindTileUponAction);
             }
-            else if(!_firedTraps)
+            else if (!_firedTraps)
             {
                 FSM(State.TrapPlayState);
+            }
+            else if (_currentAction == null && _isGhost)
+            {
+                StartCardActions(_actionCopies); //restart the preview until the true cards come in
             }
             else
             {
@@ -267,22 +298,22 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         while (_currentState == State.FindTileUponAction)
         {
-            var currentTile = _pC.GetCurrentTile();
+            var currentTile = _currentPlayerController.GetCurrentTile();
 
             _distance = _currentAction.GetDistance(); //main focus of this state
 
-            int facingDirection = _pC.GetCurrentFacingDirection();
-            if (_pC.GetCurrentTile().GetObstacleClass() != null) //If youre standing on an obstacle that sends you in a direction
+            int facingDirection = _currentPlayerController.GetCurrentFacingDirection();
+            if (_currentPlayerController.GetCurrentTile().GetObstacleClass() != null) //If youre standing on an obstacle that sends you in a direction
             {
                
-                facingDirection = _pC.GetCurrentTile().GetObstacleClass().GetDirection();
+                facingDirection = _currentPlayerController.GetCurrentTile().GetObstacleClass().GetDirection();
                 if(facingDirection == 4) //IF the tile doesnt have a facing direction, use the player's current FD
                 {
-                    facingDirection = _pC.GetCurrentFacingDirection();
+                    facingDirection = _currentPlayerController.GetCurrentFacingDirection();
                 }
                 if(_currentAction.name != Card.CardName.Jump)
                 {
-                    _pC.SetFacingDirection(facingDirection); //turn the player to face where they are going
+                    _currentPlayerController.SetFacingDirection(facingDirection); //turn the player to face where they are going
                 }               
             }
 
@@ -295,7 +326,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator PlayResult()
     {
-
+        if (!_currentAction.GetIsObstacle())
+        {
+            ActionOrderDisplay.NewActionPlayed?.Invoke();
+        }
         if (_currentState == State.PlayResult)
         {
             switch (_currentAction.name)
@@ -304,14 +338,14 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     SfxManager.Instance.PlaySFX(2469);
                     //_pC.TurnPlayer(true);
                     //PlayerController.ReachedDestination?.Invoke();
-                    _pC.StartTurnCoroutine(true);
+                    _currentPlayerController.StartTurnCoroutine(true);
                     //TODO: listen for wait for turn player animation event 
                     break;
                 case Card.CardName.TurnRight:
                     SfxManager.Instance.PlaySFX(2469);
                     //_pC.TurnPlayer(false);
                     //PlayerController.ReachedDestination?.Invoke();
-                    _pC.StartTurnCoroutine(false);
+                    _currentPlayerController.StartTurnCoroutine(false);
                     //TODO: animation here
                     break;
                 case Card.CardName.Jump:
@@ -327,19 +361,19 @@ public class PlayerStateMachineBrain : MonoBehaviour
                         //    _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
                         //(_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
 
-                        _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
+                        _currentPlayerController.StartJumpCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
                     }
 
                     else // this is a normal jump
                     {
                         SfxManager.Instance.PlaySFX(3740);
                         //determine result by getting difference of elevation betwen current tile and tile right in front of player
-                        _distance += (_pC.GetCurrentTile().GetElevation() - 
-                            (TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), 1).GetElevation()));
+                        _distance += (_currentPlayerController.GetCurrentTile().GetElevation() - 
+                            (TileManager.Instance.GetTileAtLocation(_currentPlayerController.GetCurrentTile(), _currentPlayerController.GetCurrentFacingDirection(), 1).GetElevation()));
                         if (_distance < 0) //block is too high
                         {
                             Vector3 newVector = (_targetTile.GetPlayerSnapPosition());
-                            _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), new Vector3(newVector.x, newVector.y - 1, newVector.z));
+                            _currentPlayerController.StartJumpCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), new Vector3(newVector.x, newVector.y - 1, newVector.z));
                         }
                         else //block isnt too tall; need to add distance if 0 to actually jump onto the next block
                         {
@@ -347,15 +381,15 @@ public class PlayerStateMachineBrain : MonoBehaviour
                             {
                                 _distance++;
                             }
-                            _pC.StartJumpCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), 
-                                TileManager.Instance.GetTileAtLocation(_pC.GetCurrentTile(), _pC.GetCurrentFacingDirection(), _distance).GetPlayerSnapPosition());
+                            _currentPlayerController.StartJumpCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), 
+                                TileManager.Instance.GetTileAtLocation(_currentPlayerController.GetCurrentTile(), _currentPlayerController.GetCurrentFacingDirection(), _distance).GetPlayerSnapPosition());
                         }
                     }
                     break;
                 case Card.CardName.Move:
                     SfxManager.Instance.PlaySFX(9754);
-                    Vector3 newV = new Vector3(_targetTile.GetPlayerSnapPosition().x, _pC.transform.position.y, _targetTile.GetPlayerSnapPosition().z);
-                    _pC.StartMoveCoroutine(_pC.GetCurrentTile().GetPlayerSnapPosition(), newV);
+                    Vector3 newV = new Vector3(_targetTile.GetPlayerSnapPosition().x, _currentPlayerController.transform.position.y, _targetTile.GetPlayerSnapPosition().z);
+                    _currentPlayerController.StartMoveCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), newV);
                     break;
             }
             yield return null;
@@ -379,9 +413,9 @@ public class PlayerStateMachineBrain : MonoBehaviour
             yield return new WaitForSeconds(1);
             GameManager.TrapAction?.Invoke();
             _firedTraps = true;
-            if (_pC.GetTileWithPlayerRaycast().GetObstacleClass() != null)
+            if (_currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass() != null)
             {
-                AddCardToList(_pC.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
+                AddCardToList(_currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
             }
             FSM(State.PrepareNextAction);
         }
@@ -394,5 +428,6 @@ public class PlayerStateMachineBrain : MonoBehaviour
         PlayerController.SpikeCollision -= HandleSpikeInterruption;
         PlayerController.WallInterruptAnimation -= HandleWallInterruption;
         GameManager.PlayActionOrder -= HandleIncomingActions;
+        GameManager.PlayDemoActionOrder -= HandleIncomingGhostActions;
     }
 }

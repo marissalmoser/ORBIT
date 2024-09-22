@@ -156,15 +156,4 @@ public class SfxManager : MonoBehaviour
 
         yield break;
     }
-
-    /// <summary>
-    /// Temp for testing
-    /// </summary>
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            PlaySFX(8834);
-        }
-    }
 }
