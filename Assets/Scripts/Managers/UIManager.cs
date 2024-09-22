@@ -34,6 +34,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Cards")]
     [SerializeField] private Image _cardBack;
+    [SerializeField] private Sprite _cardDeckSprite;
     [SerializeField] private Sprite _cardBackSprite;
     [SerializeField] private Image _dealtCardImage, _playedCardImage, _turnLeftImage, _turnRightImage;
     [SerializeField] private int _widthPadding, _heightPadding;
@@ -53,7 +54,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject _canvas;
     [SerializeField] private TextMeshProUGUI _collectablesCount;
     [SerializeField] private TextMeshProUGUI _deckCount;
-    [SerializeField] private Image _confirmButton, _cancelButton;
+    private Vector2 _deckCountPos;
+    public Image confirmButton, cancelButton;
 
     [Header("Dealt Scriptable Objects")]
     [SerializeField] private Card _dealtMoveCard;
@@ -99,13 +101,15 @@ public class UIManager : MonoBehaviour
         cardHeight = _dealtCardImage.rectTransform.rect.height;
 
         //Disables buttons on start
-        _confirmButton.GetComponent<ConfirmationControls>().isActive = false;
-        _cancelButton.GetComponent<ConfirmationControls>().isActive = false;
+        confirmButton.GetComponent<ConfirmationControls>().isActive = false;
+        cancelButton.GetComponent<ConfirmationControls>().isActive = false;
 
         _upperTextBox.enabled = false;
         _upperTextBox.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
         _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
+
+        _deckCountPos = _deckCount.GetComponent<RectTransform>().anchoredPosition;
     }
 
     /// <summary>
@@ -133,7 +137,24 @@ public class UIManager : MonoBehaviour
         _deckImage = Instantiate(_cardBack, Vector3.zero, Quaternion.identity); //Instantiates new card;
         _deckImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
         _deckImage.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
-        _deckImage.sprite = _cardBackSprite;
+
+        if (_gameManager._deck.Count > 1)
+        {
+            _deckImage.sprite = _cardDeckSprite;
+            _deckCount.enabled = true;
+        }
+        else if (_gameManager._deck.Count == 1)
+        {
+            _deckImage.sprite = _cardBackSprite;
+            _deckCount.enabled = true;
+            _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
+            _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 40);
+        }
+        else
+        {
+            Destroy(_deckImage.gameObject);
+            _deckCount.enabled = false;
+        }
         
         _deckCount.transform.SetAsFirstSibling();
         _deckImage.transform.SetAsFirstSibling();
@@ -251,6 +272,10 @@ public class UIManager : MonoBehaviour
             newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
             newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
+            //Makes clear and switch hover invisible
+            newImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+            newImage.gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+
             //If it is the first tooltip, off center it to keep it on screen
             if (i == 0)
                 newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
@@ -317,10 +342,6 @@ public class UIManager : MonoBehaviour
         //Makes sure a clear or switch card was not played when it wasn't supposed to be played
         if (_gameManager.confirmationCard != null)
         {
-            //Enables buttons when confirming cards
-            _confirmButton.GetComponent<ConfirmationControls>().isActive = true;
-            _cancelButton.GetComponent<ConfirmationControls>().isActive = true;
-
             Card card = _gameManager.GetLastPlayedCard();
 
             //ERROR CHECK - They should already be deleted. If they haven't for whatever reason, delete them
@@ -363,7 +384,7 @@ public class UIManager : MonoBehaviour
                     break;
                 case Card.CardName.TurnRight:
                     cardDisplay.UpdateCard(_dealtTurnRightCard);
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT RIGHT.";
+                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                     break;
                 case Card.CardName.Clear:
                     cardDisplay.UpdateCard(_dealtClearCard);
@@ -391,8 +412,8 @@ public class UIManager : MonoBehaviour
     public void DestroyConfirmCard()
     {
         //Disables buttons
-        _confirmButton.GetComponent<ConfirmationControls>().isActive = false;
-        _cancelButton.GetComponent<ConfirmationControls>().isActive = false;
+        confirmButton.GetComponent<ConfirmationControls>().isActive = false;
+        cancelButton.GetComponent<ConfirmationControls>().isActive = false;
 
         if (_confirmationImage != null)
             Destroy(_confirmationImage.gameObject);
@@ -470,6 +491,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void DestroyTurnCards()
+    {
+        //Destroys game objects
+        if (_leftImage != null)
+            Destroy(_leftImage.gameObject);
+        if (_rightImage != null)
+            Destroy(_rightImage.gameObject);
+    }
+
     /// <summary>
     /// When confirm is clicked, moves the card from the play area to the action order
     /// </summary>
@@ -511,7 +541,7 @@ public class UIManager : MonoBehaviour
         while (image.rectTransform.anchoredPosition.y != targetYPosition)
         {
             //Moves card
-            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetYPosition), 9f);
+            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetYPosition), 12f);
 
             //Shrinks x value
             if(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x > _playedCardImage.rectTransform.sizeDelta.x)

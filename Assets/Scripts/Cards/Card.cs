@@ -15,6 +15,7 @@ public class Card : ScriptableObject
 
     public new CardName name;
     public Sprite cardSprite;
+    [SerializeField] private bool _isObstacle;
 
     [SerializeField] private int distance;
     public int ID { get; private set; }
@@ -64,5 +65,10 @@ public class Card : ScriptableObject
         text += name.ToString() + " | ID: " + ID;
 
         return text;
+    }
+
+    public bool GetIsObstacle()
+    {
+        return _isObstacle;
     }
 }
