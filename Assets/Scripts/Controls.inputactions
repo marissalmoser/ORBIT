@@ -102,7 +102,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "IDAxis",
+                    "name": "Arrows",
                     "id": "e7af8b36-b1ed-451a-932e-360f341dc1f9",
                     "path": "1DAxis",
                     "interactions": "",
@@ -127,6 +127,39 @@
                     "name": "positive",
                     "id": "d47db853-4ed8-49f2-8552-6737c9a968bb",
                     "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PanCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "WASD",
+                    "id": "2ead7f56-ed26-489f-aefd-517e3733672e",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PanCamera",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "307b32bf-59c1-4467-af16-840a0ebf358c",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PanCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "e878ae9f-0a57-4aa5-8d65-4a4fd9237c7b",
+                    "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
