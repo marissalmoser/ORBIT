@@ -42,6 +42,7 @@ public class CameraController : MonoBehaviour
     /// <param name="ctx">Input from player through arrow keys</param>
     private void PanCamera(InputAction.CallbackContext ctx)
     {
+        Debug.Log("Pan Camera Started");
         // Read the input value from the context
         float panInput = ctx.ReadValue<float>();
 
@@ -59,6 +60,7 @@ public class CameraController : MonoBehaviour
     /// <param name="ctx">Input from player through arrow keys</param>
     private void PanCameraCanceled(InputAction.CallbackContext ctx)
     {
+        Debug.Log("Pan Camera Canceled");
         // Stop camera movement when input is canceled
         if (_cameraMovementCoroutine != null)
         {
