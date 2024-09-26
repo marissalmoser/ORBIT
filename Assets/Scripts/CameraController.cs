@@ -17,63 +17,59 @@ public class CameraController : MonoBehaviour
     private Coroutine _cameraMovementCoroutine;
     [SerializeField] private float _cameraSpeedMult;
 
-    private void Start()
+    private void OnEnable()
     {
-        // Subscribe to input events
-        _playerInput.currentActionMap["PanCamera"].started += ctx => 
-        PanCamera(ctx);
+        // Store the action map reference
+        var actionMap = _playerInput.currentActionMap;
 
-        _playerInput.currentActionMap["PanCamera"].canceled += ctx => 
-        PanCameraCanceled(ctx);
+        // Subscribe to input events
+        actionMap["PanCamera"].started += PanCamera;
+        actionMap["PanCamera"].canceled += PanCameraCanceled;
     }
 
     private void OnDisable()
     {
-        _playerInput.currentActionMap["PanCamera"].started -= ctx =>
-        PanCamera(ctx);
+        var actionMap = _playerInput.currentActionMap;
 
-        _playerInput.currentActionMap["PanCamera"].canceled -= ctx =>
-        PanCameraCanceled(ctx);
+        // Unsubscribe from input events
+        actionMap["PanCamera"].started -= PanCamera;
+        actionMap["PanCamera"].canceled -= PanCameraCanceled;
     }
 
     /// <summary>
-    /// This function handles when the PanCamera action is started
+    /// Initiates camera panning based on player input.
     /// </summary>
-    /// <param name="ctx">Input from player through arrow keys</param>
     private void PanCamera(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Pan Camera Started");
-        // Read the input value from the context
+        // Start moving the camera with the current input
         float panInput = ctx.ReadValue<float>();
 
-        // Start or stop camera movement based on input
+        // Stop any ongoing camera movement
         if (_cameraMovementCoroutine != null)
         {
             StopCoroutine(_cameraMovementCoroutine);
         }
+
         _cameraMovementCoroutine = StartCoroutine(MoveCamera(panInput));
     }
 
     /// <summary>
-    /// This function handles when the PanCamera action is canceled
+    /// Stops camera panning when input is canceled.
     /// </summary>
-    /// <param name="ctx">Input from player through arrow keys</param>
     private void PanCameraCanceled(InputAction.CallbackContext ctx)
     {
-        Debug.Log("Pan Camera Canceled");
         // Stop camera movement when input is canceled
         if (_cameraMovementCoroutine != null)
         {
             StopCoroutine(_cameraMovementCoroutine);
+            _cameraMovementCoroutine = null; // Clear reference
         }
     }
 
     /// <summary>
-    /// This function actually moves the camera on the Cinemachine Dolly
+    /// Moves the camera along the Cinemachine Dolly path based on direction.
     /// </summary>
-    /// <param name="direction">Which direction the camera is moving on the
-    /// dolly</param>
-    /// <returns></returns>
+    /// <param name="direction">Direction input for camera movement.</param>
     private IEnumerator MoveCamera(float direction)
     {
         CinemachineTrackedDolly dolly = _virtualCamera.GetCinemachineComponent
@@ -86,5 +82,6 @@ public class CameraController : MonoBehaviour
             direction = _playerInput.currentActionMap["PanCamera"].ReadValue<float>();
             yield return null;
         }
+        _cameraMovementCoroutine = null; // Clear reference when done
     }
 }
