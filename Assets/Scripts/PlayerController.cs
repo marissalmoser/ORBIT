@@ -34,8 +34,7 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
-        transform.position = _currentTile.GetPlayerSnapPosition();
-        //TODO : replace this with a more concrete way to set the starting position
+
     }
     void Update()
     {

@@ -7,13 +7,18 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Glasses
-    second: {fileID: 2100000, guid: 3a145edf04c2a13468ba0c1817c68d67, type: 2}
+      name: Glasses.png
+    second: {fileID: 2100000, guid: 5c2003aacb9b6054ba8fb7c87d7d844e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Sun_Texture
-    second: {fileID: 2100000, guid: 3532ce8c548b26a4b982845b557470fd, type: 2}
+      name: Orange.png
+    second: {fileID: 2100000, guid: ea11986da269b934e8ffaab782260706, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sun_Texture.png
+    second: {fileID: 2100000, guid: 0bd1dc28973a3064cae3113aea58017f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

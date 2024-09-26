@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c99312d572c2f4faa3a6be9bde9a2c, type: 3}
   m_Name: Spring
   m_EditorClassIdentifier: 
-  direction: 0
   name: 4
   cardSprite: {fileID: 0}
+  _isObstacle: 1
   distance: 2

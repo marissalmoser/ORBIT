@@ -4,11 +4,18 @@ public class DeathBox : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        PlayerController player = other.GetComponent<PlayerController>();
-        if (player != null)
+        if(other.CompareTag("Player"))
         {
-            print("DIED");
             GameManager.Instance.ChangeGameState(GameManager.STATE.Death);
+        }
+        else if(other.CompareTag("PlayerGhost"))
+        {
+            PlayerStateMachineBrain psmb = other.gameObject.GetComponentInParent<PlayerStateMachineBrain>(true);
+            while(psmb.GetNextAction() != null) //removes all remaining actions
+            {
+
+            }
+            PlayerController.ReachedDestination?.Invoke();
         }
     }
 }
