@@ -130,11 +130,20 @@ public class MovingWallController : Obstacle
         {
             if (_isMoving)// && !_shovedPlayer) // wall is moving into the player
             {
-                var pc = other.GetComponent<PlayerController>();
+                PlayerController pc = other.GetComponent<PlayerStateMachineBrain>().GetOriginalPlayerController();
                 var tilePCIsOn = pc.GetCurrentTile();
                 GetComponent<BoxCollider>().enabled = false;
                 pc.StartMoveCoroutine(tilePCIsOn.GetPlayerSnapPosition(), TileManager.Instance.GetTileAtLocation(tilePCIsOn, _direction, 1).GetPlayerSnapPosition());
             }
+        }
+        else if (other.CompareTag("PlayerGhost") && _isMoving)
+        {
+            PlayerStateMachineBrain psmb = other.gameObject.GetComponentInParent<PlayerStateMachineBrain>(true);
+            while (psmb.GetNextAction() != null) //removes all remaining actions
+            {
+
+            }
+            PlayerController.ReachedDestination?.Invoke();
         }
     }
 }

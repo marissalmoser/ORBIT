@@ -17,7 +17,6 @@ public class PlayerController : MonoBehaviour
     public static UnityAction<Card> AddCard;
 
     [SerializeField] private int _currentFacingDirection;
-    [SerializeField] private float _checkMoveInterval;
     [SerializeField] private float _jumpArcHeight;
     [SerializeField] private float _checkInterval;
     [SerializeField] private float _rayCastDistance;
@@ -69,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
             if (checkTimeElapsed >= _checkInterval)
             {
-                if (GetTileWithPlayerRaycast() != nextTile && GetTileWithPlayerRaycast() != null)
+                if (GetTileWithPlayerRaycast().GetCoordinates() != nextTile.GetCoordinates() && GetTileWithPlayerRaycast() != null)
                 {
                     nextTile = GetTileWithPlayerRaycast();
                     if (nextTile.IsHole()) //player needs to fall down
@@ -118,7 +117,7 @@ public class PlayerController : MonoBehaviour
     }
     private IEnumerator FallPlayer(Vector3 originTileLoc, Vector3 target)
     {
-        GetComponent<SphereCollider>().enabled = false; 
+        //GetComponent<SphereCollider>().enabled = false; 
         float timeElapsed = 0f;
         float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
 
@@ -142,7 +141,7 @@ public class PlayerController : MonoBehaviour
                 AddCard?.Invoke(card);
             }
         }
-        GetComponent<SphereCollider>().enabled = true;
+        //GetComponent<SphereCollider>().enabled = true;
         ReachedDestination?.Invoke();
     }
 
@@ -348,10 +347,6 @@ public class PlayerController : MonoBehaviour
             SpikeCollision?.Invoke();
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
             StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y + 10, newV.z));
-        }
-        else if (other.gameObject.CompareTag("Wall"))
-        {
-            WallInterruptAnimation?.Invoke();
         }
     }
 

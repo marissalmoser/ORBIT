@@ -36,6 +36,19 @@ public class Tile : MonoBehaviour
     public void Start()
     {
         _playerSnapTo = GetPlayerSnapAnchor();
+        TryMoveObstacle();
+        TryMoveCollectable();
+
+        //sets tile type
+        if (_tileType != _lastTileType)
+        {
+            SetTileType(_tileType);
+            _lastTileType = _tileType;
+        }
+        if (_tileType == TileType.Hole)
+        {
+            _elevation = 0;
+        }
     }
     /// <summary>
     /// Returns a tile's 2D coordinates on the map

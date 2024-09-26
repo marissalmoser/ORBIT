@@ -174,7 +174,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         return _currentState;
     }
-
+    public PlayerController GetOriginalPlayerController()
+    {
+        return _playerControllerOriginal;
+    }
 
     public void HandleCardAdd(Card card)
     {
@@ -218,9 +221,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
         else
         {
             Debug.LogError("Current coroutine was null after hitting wall");
-            FSM(State.PrepareNextAction);
         }
-
+        FSM(State.PrepareNextAction);
     }
     public void HandleSpikeInterruption()
     {
