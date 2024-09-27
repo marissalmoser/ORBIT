@@ -135,15 +135,26 @@ public class MovingWallController : Obstacle
                 GetComponent<BoxCollider>().enabled = false;
                 pc.StartMoveCoroutine(tilePCIsOn.GetPlayerSnapPosition(), TileManager.Instance.GetTileAtLocation(tilePCIsOn, _direction, 1).GetPlayerSnapPosition());
             }
-        }
-        else if (other.CompareTag("PlayerGhost") && _isMoving)
-        {
-            PlayerStateMachineBrain psmb = other.gameObject.GetComponentInParent<PlayerStateMachineBrain>(true);
-            while (psmb.GetNextAction() != null) //removes all remaining actions
+            else
             {
-
+                PlayerController.WallInterruptAnimation?.Invoke();
             }
-            PlayerController.ReachedDestination?.Invoke();
+        }
+        else if (other.CompareTag("PlayerGhost"))
+        {
+            if(_isMoving)
+            {
+                PlayerStateMachineBrain psmb = other.gameObject.GetComponentInParent<PlayerStateMachineBrain>(true);
+                while (psmb.GetNextAction() != null) //removes all remaining actions
+                {
+
+                }
+                PlayerController.ReachedDestination?.Invoke();
+            }
+            else
+            {
+                PlayerController.WallInterruptAnimation?.Invoke();
+            }          
         }
     }
 }

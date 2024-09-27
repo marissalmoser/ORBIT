@@ -216,13 +216,13 @@ public class PlayerStateMachineBrain : MonoBehaviour
         if (_currentPlayerController.GetCurrentMovementCoroutine() != null)
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
-            //_pC.StartFallCoroutine(transform.position, _pC.GetCurrentTile().GetPlayerSnapPosition());
+            _currentPlayerController.StartFallCoroutine(_currentPlayerController.transform.position, _currentPlayerController.GetCurrentTile().GetPlayerSnapPosition());
         }
         else
         {
             Debug.LogError("Current coroutine was null after hitting wall");
         }
-        FSM(State.PrepareNextAction);
+        //FSM(State.PrepareNextAction);
     }
     public void HandleSpikeInterruption()
     {
