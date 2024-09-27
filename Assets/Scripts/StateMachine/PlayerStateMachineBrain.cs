@@ -174,7 +174,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         return _currentState;
     }
-
+    public PlayerController GetOriginalPlayerController()
+    {
+        return _playerControllerOriginal;
+    }
 
     public void HandleCardAdd(Card card)
     {
@@ -213,9 +216,13 @@ public class PlayerStateMachineBrain : MonoBehaviour
         if (_currentPlayerController.GetCurrentMovementCoroutine() != null)
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
-            //_pC.StartFallCoroutine(transform.position, _pC.GetCurrentTile().GetPlayerSnapPosition());
+            _currentPlayerController.StartFallCoroutine(_currentPlayerController.transform.position, _currentPlayerController.GetCurrentTile().GetPlayerSnapPosition());
         }
-        FSM(State.PrepareNextAction);
+        else
+        {
+            Debug.LogError("Current coroutine was null after hitting wall");
+        }
+        //FSM(State.PrepareNextAction);
     }
     public void HandleSpikeInterruption()
     {
@@ -257,7 +264,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     /// <param name="card"></param>
     public void AddCardToList(Card card)
     {
-        if(card != null)
+        if (card != null)
         {
             _actions.Insert(0, card);
         }
@@ -311,7 +318,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 {
                     facingDirection = _currentPlayerController.GetCurrentFacingDirection();
                 }
-                if(_currentAction.name != Card.CardName.Jump)
+                if (_currentAction.name != Card.CardName.Jump)
                 {
                     _currentPlayerController.SetFacingDirection(facingDirection); //turn the player to face where they are going
                 }               
@@ -377,7 +384,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                         }
                         else //block isnt too tall; need to add distance if 0 to actually jump onto the next block
                         {
-                            if(_distance == 0)
+                            if (_distance == 0)
                             {
                                 _distance++;
                             }
@@ -406,14 +413,12 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator TrapFiring()
     {
-        while(_currentState == State.TrapPlayState)
+        while (_currentState == State.TrapPlayState)
         {
-          
-            print("invoked");
             yield return new WaitForSeconds(1);
             GameManager.TrapAction?.Invoke();
             _firedTraps = true;
-            if (_currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass() != null)
+            if (_currentPlayerController.GetTileWithPlayerRaycast() != null && _currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass() != null)
             {
                 AddCardToList(_currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
             }
