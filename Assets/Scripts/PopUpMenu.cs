@@ -12,40 +12,40 @@ using UnityEngine;
 
 public class PopUpMenu : MonoBehaviour
 {
-    [SerializeField] private float _secondsToFade;
-    [SerializeField] private GameObject _popUpMenu;
-    private Animator _animator; 
+    //[SerializeField] private float _secondsToFade;
+    //[SerializeField] private GameObject _popUpMenu;
+    //private Animator _animator; 
 
-    private void Start()
-    {
-        _animator = GetComponent<Animator>();
-        StartCoroutine(StartFadeTimer());
-    }
+    //private void Start()
+    //{
+    //    _animator = GetComponent<Animator>();
+    //    StartCoroutine(StartFadeTimer());
+    //}
 
     /// <summary>
     /// A timer that controls when the pop up menu starts fading
     /// </summary>
     /// <returns></returns>
-    private IEnumerator StartFadeTimer()
-    {
-        float timer = _secondsToFade;
+    //private IEnumerator StartFadeTimer()
+    //{
+    //    float timer = _secondsToFade;
 
-        while (timer > 0)
-        {
-            timer -= Time.deltaTime;
-            yield return null;
-        }
+    //    while (timer > 0)
+    //    {
+    //        timer -= Time.deltaTime;
+    //        yield return null;
+    //    }
 
-        StartFade();
-    }
+    //    StartFade();
+    //}
 
     /// <summary>
     /// Sets an animator trigger 
     /// </summary>
-    private void StartFade()
-    {
-        _animator.SetTrigger("FadeOut");
-    }
+    //private void StartFade()
+    //{
+    //    _animator.SetTrigger("FadeOut");
+    //}
 
     /// <summary>
     /// Sets the pop up menu gameobject to inactive, skipping the popup

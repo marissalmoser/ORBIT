@@ -483,8 +483,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e3eb8c1fea537b4ebd589e22367b0da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _secondsToFade: 5
-  _popUpMenu: {fileID: 5040383193030182439}
 --- !u!95 &2545631271634163228
 Animator:
   serializedVersion: 5
@@ -690,8 +688,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 10.124999}
+  m_SizeDelta: {x: 0, y: 20.250002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4850830320298827622
 CanvasRenderer:
