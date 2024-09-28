@@ -7,11 +7,12 @@
 // +--------------------------------------------------------------+
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class CardDisplay : MonoBehaviour
 {
-    [SerializeField] private Card _card;
+    public Card card;
     [SerializeField] private Image _sprite;
     public int ID;
     public bool IsMouseInCard { get;  private set; }
@@ -23,22 +24,11 @@ public class CardDisplay : MonoBehaviour
     void Start()
     {
         _gameManager = GameManager.Instance;
-        _sprite.sprite = _card.cardSprite;
+        _sprite.sprite = card.cardSprite;
 
         IsMouseInCard = false;
         IsMouseDown = false;
         IsSwapping = false;
-    }
-
-    /// <summary>
-    /// Updates the specified card's image
-    /// </summary>
-    /// <param name="card">The card to be updared</param>
-    public void UpdateCard(Card card)
-    {
-        _card = card;
-
-        _gameManager = GameManager.Instance;
     }
 
     #region Dealt Card Methods
@@ -68,8 +58,11 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MousePressedDealtCard(Image Card)
     {
-        IsMouseDown = true;
-        CardManager.Instance.DealtMousePressedCard(Card);
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            IsMouseDown = true;
+            CardManager.Instance.DealtMousePressedCard(Card);
+        }
     }
 
     /// <summary>
@@ -78,8 +71,11 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MouseReleasedDealtCard(Image Card)
     {
-        IsMouseDown = false;
-        CardManager.Instance.DealtMouseReleasedCard(Card, ID);
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            IsMouseDown = false;
+            CardManager.Instance.DealtMouseReleasedCard(Card, ID);
+        }
     }
 
     /// <summary>
@@ -88,7 +84,10 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void OnDragDealtCard(Image Card)
     {
-        CardManager.Instance.DealtOnDragCard(Card);
+        if (Mouse.current.leftButton.isPressed)
+        {
+            CardManager.Instance.DealtOnDragCard(Card);
+        }
     }
 
     /// <summary>
@@ -96,7 +95,10 @@ public class CardDisplay : MonoBehaviour
     /// </summary>
     public void TurnLeftChosen()
     {
-        CardManager.Instance.PlayedTurnChooseLeft();
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            CardManager.Instance.PlayedTurnChooseLeft();
+        }
     }
 
     /// <summary>
@@ -104,7 +106,10 @@ public class CardDisplay : MonoBehaviour
     /// </summary>
     public void TurnRightChosen()
     {
-        CardManager.Instance.PlayedTurnChooseRight();
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            CardManager.Instance.PlayedTurnChooseRight();
+        }
     }
 
     /// <summary>
@@ -132,8 +137,11 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MousePressedPlayedCard(Image Card)
     {
-        IsMouseDown = true;
-        CardManager.Instance.PlayedMousePressedCard(Card);
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            IsMouseDown = true;
+            CardManager.Instance.PlayedMousePressedCard(Card);
+        }
     }
 
     /// <summary>
@@ -142,12 +150,15 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MouseReleasedPlayedCard(Image Card)
     {
-        IsMouseDown = false;
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            IsMouseDown = false;
 
-        if (_gameManager.isSwitching)
-            IsSwapping = !IsSwapping;
-        if (_gameManager.isClearing)
-            IsClearing = !IsClearing;
+            if (_gameManager.isSwitching)
+                IsSwapping = !IsSwapping;
+            if (_gameManager.isClearing)
+                IsClearing = !IsClearing;
+        }
 
         CardManager.Instance.PlayedMouseReleasedCard(Card);
     }

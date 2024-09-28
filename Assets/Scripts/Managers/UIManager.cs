@@ -190,38 +190,38 @@ public class UIManager : MonoBehaviour
             switch (dealtCards[i].name)
             {
                 case Card.CardName.Move:
-                    card.UpdateCard(_dealtMoveCard);
+                    card.card = _dealtMoveCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _movedTooltip;
                     break;
                 case Card.CardName.Jump:
-                    card.UpdateCard(_dealtJumpCard);
+                    card.card = _dealtJumpCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _jumpTooltip;
                     break;
                 case Card.CardName.Turn:
-                    card.UpdateCard(_dealtTurnCard);
+                    card.card = _dealtTurnCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.TurnLeft: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_dealtTurnLeftCard);
+                    card.card = _dealtTurnLeftCard;
                     break;
                 case Card.CardName.TurnRight: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_dealtTurnRightCard);
+                    card.card = _dealtTurnRightCard;
                     break;
                 case Card.CardName.Clear:
-                    card.UpdateCard(_dealtClearCard);
+                    card.card = _dealtClearCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _clearTooltip;
                     break;
                 case Card.CardName.Switch:
-                    card.UpdateCard(_dealtSwitchCard);
+                    card.card = _dealtSwitchCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _switchTooltip;
                     break;
                 case Card.CardName.BackToIt:
-                    card.UpdateCard(_backToItCard);
+                    card.card = _backToItCard;
                     break;
                 default:
                     print("ERROR: COULD NOT UPDATE CARD IN UI");
@@ -292,38 +292,38 @@ public class UIManager : MonoBehaviour
             switch (playedCards[i].name)
             {
                 case Card.CardName.Move:
-                    card.UpdateCard(_dealtMoveCard);
+                    card.card = _dealtMoveCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _movedTooltip;
                     break;
                 case Card.CardName.Jump:
-                    card.UpdateCard(_dealtJumpCard);
+                    card.card = _dealtJumpCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _jumpTooltip;
                     break;
                 case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_dealtTurnCard);
+                    card.card = _dealtTurnCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.TurnLeft:
-                    card.UpdateCard(_dealtTurnLeftCard);
+                    card.card = _dealtTurnLeftCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.TurnRight:
-                    card.UpdateCard(_dealtTurnRightCard);
+                    card.card = _dealtTurnRightCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT RIGHT.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_dealtClearCard);
+                    card.card = _dealtClearCard;
                     break;
                 case Card.CardName.Switch: //Error Case. Should not be used, but it can be used if needed
-                    card.UpdateCard(_dealtSwitchCard);
+                    card.card = _dealtSwitchCard;
                     break;
                 case Card.CardName.BackToIt:
-                    card.UpdateCard(_backToItCard);
+                    card.card = _backToItCard;
                     break;
                 default:
                     print("ERROR: COULD NOT UPDATE CARD IN UI");
@@ -367,37 +367,37 @@ public class UIManager : MonoBehaviour
             switch (card.name)
             {
                 case Card.CardName.Move:
-                    cardDisplay.UpdateCard(_dealtMoveCard);
+                    cardDisplay.card = _dealtMoveCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
                     break;
                 case Card.CardName.Jump:
-                    cardDisplay.UpdateCard(_dealtJumpCard);
+                    cardDisplay.card = _dealtJumpCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
                     break;
                 case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
-                    cardDisplay.UpdateCard(_dealtTurnCard);
+                    cardDisplay.card = _dealtTurnCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
                     break;
                 case Card.CardName.TurnLeft:
-                    cardDisplay.UpdateCard(_dealtTurnLeftCard);
+                    cardDisplay.card = _dealtTurnLeftCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
                     break;
                 case Card.CardName.TurnRight:
-                    cardDisplay.UpdateCard(_dealtTurnRightCard);
+                    cardDisplay.card = _dealtTurnRightCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                     break;
                 case Card.CardName.Clear:
-                    cardDisplay.UpdateCard(_dealtClearCard);
+                    cardDisplay.card = _dealtClearCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _clearTooltip;
                     break;
                 case Card.CardName.Switch:
-                    cardDisplay.UpdateCard(_dealtSwitchCard);
+                    cardDisplay.card = _dealtSwitchCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
                     //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _switchTooltip;
                     break;
                 case Card.CardName.BackToIt:
-                    cardDisplay.UpdateCard(_backToItCard);
+                    cardDisplay.card = _backToItCard;
                     break;
                 default:
                     print("ERROR: COULD NOT UPDATE CARD IN UI");
@@ -459,12 +459,12 @@ public class UIManager : MonoBehaviour
         _rightImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
         //Uses grabbed data to compare with possible types and convert image to found type
-        leftCard.UpdateCard(_dealtTurnLeftCard);
+        leftCard.card = _dealtTurnLeftCard;
 
         CardDisplay rightCard = _rightImage.GetComponent<CardDisplay>(); //Grabs data from image
 
         //Uses grabbed data to compare with possible types and convert image to found type
-        rightCard.UpdateCard(_dealtTurnRightCard);
+        rightCard.card = _dealtTurnRightCard;
     }
 
     /// <summary>
@@ -566,7 +566,6 @@ public class UIManager : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
         UpdatePlayedCards();
-        UpdateDealtCards();
         _gameManager.PlaySequence();
         DestroyConfirmCard();
     }
