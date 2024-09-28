@@ -158,7 +158,7 @@ public class CardManager : MonoBehaviour
                 }
 
                 //Disables confirmation button
-                _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = false;
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
                 //If the player was choosing a turn card when it got replaced
                 if (_gameManager.gameState == GameManager.STATE.ChooseTurn)
@@ -353,13 +353,13 @@ public class CardManager : MonoBehaviour
 
         if (_gameManager.isClearing && clearCard != null)
         {
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = true;
-            _uiManager.cancelButton.GetComponent<ConfirmationControls>().isActive = true;
+            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
         }
         if (_gameManager.isSwitching && switchCards.Item1 != null && switchCards.Item2 != null)
         {
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = true;
-            _uiManager.cancelButton.GetComponent<ConfirmationControls>().isActive = true;
+            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
         }
 
     }

@@ -55,7 +55,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _collectablesCount;
     [SerializeField] private TextMeshProUGUI _deckCount;
     private Vector2 _deckCountPos;
-    public Image confirmButton, cancelButton;
+    public Button confirmButton, cancelButton;
 
     [Header("Dealt Scriptable Objects")]
     [SerializeField] private Card _dealtMoveCard;
@@ -101,8 +101,8 @@ public class UIManager : MonoBehaviour
         cardHeight = _dealtCardImage.rectTransform.rect.height;
 
         //Disables buttons on start
-        confirmButton.GetComponent<ConfirmationControls>().isActive = false;
-        cancelButton.GetComponent<ConfirmationControls>().isActive = false;
+        confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+        cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
         _upperTextBox.enabled = false;
         _upperTextBox.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
@@ -412,8 +412,8 @@ public class UIManager : MonoBehaviour
     public void DestroyConfirmCard()
     {
         //Disables buttons
-        confirmButton.GetComponent<ConfirmationControls>().isActive = false;
-        cancelButton.GetComponent<ConfirmationControls>().isActive = false;
+        confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+        cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
         if (_confirmationImage != null)
             Destroy(_confirmationImage.gameObject);
