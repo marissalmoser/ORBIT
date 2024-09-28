@@ -174,23 +174,4 @@ public class SfxManager : MonoBehaviour
 
     #endregion
 
-    private void Update()
-    {
-        if (Input.GetKeyUp(KeyCode.K))
-        {
-            SetSfxMixerVolume(0);
-        }
-        if (Input.GetKeyUp(KeyCode.J))
-        {
-            SetSfxMixerVolume(-10);
-        }
-        if (Input.GetKeyUp(KeyCode.H))
-        {
-            SetSfxMixerVolume(-20);
-        }
-        if (Input.GetKeyUp(KeyCode.G))
-        {
-            SetSfxMixerVolume(-40);
-        }
-    }
 }
