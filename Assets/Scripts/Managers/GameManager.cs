@@ -34,9 +34,9 @@ public class GameManager : MonoBehaviour
     #region Variables
     [SerializeField] private List<Card> _dealtCards;
     [SerializeField] private List<Card> _playedCards;
-    [SerializeField] private Image _darken;
     [SerializeField] bool _doDebugMode;
     [SerializeField] private int _deathTimerLength;
+    public Image darken;
 
 
     private DeckManager<Card> _deckManagerCard;
@@ -54,8 +54,8 @@ public class GameManager : MonoBehaviour
     private List<Collectable> collectablesCollected = new List<Collectable>();
     private (Card, int) _lastCardPlayed;
     public Card confirmationCard { get; private set; }
-    public bool isSwitching, isClearing;
-    private bool _isTurning;
+    [NonSerialized] public bool isSwitching, isClearing;
+    [NonSerialized] public bool isTurning;
 
     public bool _isTurningleft {get; private set; }
     #endregion
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     public static Action DeathAction;
     public static Action TrapAction;
 
-    private bool _lowerDarkenIndex;
+    [NonSerialized] public bool lowerDarkenIndex;
     private void Start()
     {
         //Carefully change order if needed. Some managers must be initialzed before others
@@ -74,10 +74,10 @@ public class GameManager : MonoBehaviour
         _uiManager = UIManager.Instance;
         _cardManager = CardManager.Instance;
         _levelDeck = FindObjectOfType<LevelDeck>();
-        _lowerDarkenIndex = false;
+        lowerDarkenIndex = false;
 
         isSwitching = false;
-        _isTurning = false;
+        isTurning = false;
         isClearing = false;
 
         ChangeGameState(STATE.LoadGame);
@@ -129,13 +129,12 @@ public class GameManager : MonoBehaviour
                 gameState = STATE.ChooseCards;
                 DealCards();
                 break;
-            case STATE.RunActionOrder:
-                gameState = STATE.RunActionOrder;
-                RunPlaySequence();
-                break;
             case STATE.ConfirmCards:
                 gameState = STATE.ConfirmCards;
                 PlayDemo();
+                break;
+            case STATE.PlayingActionOrder:
+                gameState = STATE.PlayingActionOrder;
                 break;
             case STATE.ChooseTurn:
                 // Waiting STATE. Game locks in this state until user input
@@ -191,7 +190,7 @@ public class GameManager : MonoBehaviour
     private void SetUpLevel()
     {
         _deck = _levelDeck.deck;
-        _darken.enabled = false;
+        darken.enabled = false;
 
         //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
         ChangeGameState(STATE.ChooseCards);
@@ -245,7 +244,7 @@ public class GameManager : MonoBehaviour
         {
             if (_playedCards.Count > 0)
             {
-                _darken.enabled = true;
+                darken.enabled = true;
                 isClearing = true;
                 _uiManager.UpdateTextBox("SELECT A CARD TO CLEAR.");
             }
@@ -253,7 +252,6 @@ public class GameManager : MonoBehaviour
             {
                 confirmationCard = null;
                 _uiManager.DestroyConfirmCard();
-                ChangeGameState(STATE.ChooseCards);
             }    
         }
 
@@ -263,7 +261,7 @@ public class GameManager : MonoBehaviour
         {
             if (_playedCards.Count > 1)
             {
-                _darken.enabled = true;
+                darken.enabled = true;
                 isSwitching = true;
                 _uiManager.UpdateTextBox("SELECT TWO CARDS TO SWAP.");
             }
@@ -271,22 +269,22 @@ public class GameManager : MonoBehaviour
             {
                 confirmationCard = null;
                 _uiManager.DestroyConfirmCard();
-                ChangeGameState(STATE.ChooseCards);
+
             }
         }
 
         //If Turn Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Turn) //Error check and checks if last card played was a Switch
         {
-            _darken.enabled = true;
-            _darken.transform.SetSiblingIndex(_darken.transform.GetSiblingIndex() + 1);
-            _lowerDarkenIndex = true;
+            darken.enabled = true;
+            darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() + 1);
+            lowerDarkenIndex = true;
             ChangeGameState(STATE.ChooseTurn); //Waits for User Input to Switch two cards
             _uiManager.UpdateTextBox("CHOOSE TO TURN LEFT OR RIGHT.");
             _uiManager.CreateTurnCards();
-            _isTurning = true;
+            isTurning = true;
         }
-        if (!isClearing && !isSwitching && !_isTurning && gameState != STATE.ChooseCards)
+        if (!isClearing && !isSwitching && !isTurning)
         {
             _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = true;
             ChangeGameState(STATE.ConfirmCards);
@@ -379,6 +377,11 @@ public class GameManager : MonoBehaviour
         PlayDemoActionOrder?.Invoke(tempList);
     }
 
+    public void StopDemo()
+    {
+        PlayDemoActionOrder?.Invoke(new List<Card>());
+    }
+
     /// <summary>
     /// Toggles traps on and off
     /// </summary>
@@ -429,7 +432,7 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
-        ChangeGameState(STATE.RunActionOrder);
+        RunPlaySequence();
     }
 
     /// <summary>
@@ -443,6 +446,9 @@ public class GameManager : MonoBehaviour
         // _uiManager.UpdatePlayedCards();
         // _uiManager.UpdateDealtCards();
         // PlaySequence();
+
+        ChangeGameState(STATE.PlayingActionOrder);
+        _cardManager.lastConfirmationCard = null;
 
         //Removes all highlight from cards
         List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
@@ -536,13 +542,18 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void CancelCard()
     {
-        //Removes all highlight from the images
-        List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
+        //Stops Demo
+        StopDemo();
+
+        //Resets CardManager
+        _cardManager.lastConfirmationCard = null;
         _cardManager.clearCard = null;
         _cardManager.switchCards.Item1 = null;
         _cardManager.switchCards.Item2 = null;
-        _uiManager.DestroyTurnCards();
+        _uiManager.DestroyTurnCards(); //Destroys turn cards
 
+        //Removes all highlight from the images
+        List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
         int tempCount = tempPlayedCards.Count;
         for (int i = 0; i < tempCount; i++)
         {
@@ -551,12 +562,12 @@ public class GameManager : MonoBehaviour
         }
 
         //Resets to prior state
-        if (_lowerDarkenIndex)
+        if (lowerDarkenIndex)
         {
-            _darken.transform.SetSiblingIndex(_darken.transform.GetSiblingIndex() - 1);
-            _lowerDarkenIndex = false;
+            darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() - 1);
+            lowerDarkenIndex = false;
         }
-        _darken.enabled = false;
+        darken.enabled = false;
         isClearing = false;
         isSwitching = false;
 
@@ -571,12 +582,12 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void PlaySequence()
     {
-        if (_lowerDarkenIndex)
+        if (lowerDarkenIndex)
         {
-            _darken.transform.SetSiblingIndex(_darken.transform.GetSiblingIndex() - 1);
-            _lowerDarkenIndex = false;
+            darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() - 1);
+            lowerDarkenIndex = false;
         }
-        _darken.enabled = false;
+        darken.enabled = false;
         //Invokes Action that Eli's script is listening to
         PlayActionOrder?.Invoke(_playedCards);
 
@@ -591,9 +602,17 @@ public class GameManager : MonoBehaviour
     public void AddTurnCard(Card card, bool isTurningLeft)
     {
         confirmationCard = card;
-        _isTurning = false;
+        isTurning = false;
         _isTurningleft = isTurningLeft;
-        ChangeGameState(STATE.RunActionOrder);
+
+        if (lowerDarkenIndex)
+        {
+            darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() - 1);
+            lowerDarkenIndex = false;
+        }
+        darken.enabled = false;
+
+        RunPlaySequence();
     }
 
     #region Action Order Card Effects
@@ -689,8 +708,8 @@ public class GameManager : MonoBehaviour
         Menu,
         StartLevel,
         ChooseCards,
-        RunActionOrder,
         ConfirmCards,
+        PlayingActionOrder,
         Trap,
         ChooseTurn,
         Death,

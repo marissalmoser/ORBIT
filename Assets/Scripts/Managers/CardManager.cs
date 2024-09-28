@@ -5,9 +5,11 @@
 // @Description - Manages the dealt cards
 // +-------------------------------------------------------+
 
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 public class CardManager : MonoBehaviour
@@ -38,8 +40,9 @@ public class CardManager : MonoBehaviour
     private Vector3 _imageStartingPosition;
     private BoxCollider2D _imageCollider;
 
-    public Image clearCard;
-    public (Image, Image) switchCards;
+    [NonSerialized] public Image clearCard;
+    [NonSerialized] public (Image, Image) switchCards;
+    [NonSerialized] public Image lastConfirmationCard;
 
     /// <summary>
     /// Initializes variables for DealtCardManager. Called by GameManager
@@ -50,6 +53,7 @@ public class CardManager : MonoBehaviour
         _uiManager = UIManager.Instance;
         _mousePosition = Vector3.zero;
         _imageStartingPosition = Vector3.zero;
+        lastConfirmationCard = null;
     }
 
     public void RemoveAllHighlight(List<Image> cards)
@@ -99,7 +103,8 @@ public class CardManager : MonoBehaviour
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
         //If Game is ready for you to choose another card, allow card movement
-        if (_gameManager.gameState == GameManager.STATE.ChooseCards)
+        if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
+            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
         {
             //Sets where the image originally was
             _imageStartingPosition = cardImage.rectTransform.position;
@@ -129,13 +134,60 @@ public class CardManager : MonoBehaviour
         }
 
         //If Game is ready for you to choose another card, allow card movement
-        if (_gameManager.gameState == GameManager.STATE.ChooseCards)
+        if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
+            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
         {
             _imageCollider = cardImage.GetComponent<BoxCollider2D>();
             //Checks if the image is overlapping with the play area
-            if (_imageCollider.IsTouching(_playArea))
+            if (_imageCollider.IsTouching(_playArea) 
+                && (cardImage.GetComponentInChildren<CardDisplay>().card.name != Card.CardName.Clear || _gameManager.GetPlayedCards().Count != 0)
+                && (cardImage.GetComponentInChildren<CardDisplay>().card.name != Card.CardName.Switch || _gameManager.GetPlayedCards().Count > 1))
             {
-                Destroy(cardImage.gameObject);
+                //Resets GameManager variables ( in case card was replaced with a different one )
+                _gameManager.isClearing = false;
+                _gameManager.isSwitching = false;
+                _gameManager.isTurning = false;
+
+                //Erases switch and clear sprites from playedCards
+                List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
+                int tempCount = tempPlayedCards.Count;
+                for (int i = 0; i < tempCount; i++)
+                {
+                    tempPlayedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+                    tempPlayedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+                }
+
+                //Disables confirmation button
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = false;
+
+                //If the player was choosing a turn card when it got replaced
+                if (_gameManager.gameState == GameManager.STATE.ChooseTurn)
+                {
+                    //Turns off the darken effect
+                    if (_gameManager.lowerDarkenIndex)
+                    {
+                        _gameManager.darken.transform.SetSiblingIndex(_gameManager.darken.transform.GetSiblingIndex() - 1);
+                    }
+                    _gameManager.lowerDarkenIndex = false;
+
+                    //Destroys the turn cards
+                    _uiManager.DestroyTurnCards();
+                }
+
+                //If a card was replaced
+                if (lastConfirmationCard != null)
+                {
+                    //Respawns previous card
+                    lastConfirmationCard.gameObject.SetActive(true);
+                    lastConfirmationCard.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
+                    lastConfirmationCard.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
+                    _gameManager.StopDemo();
+                }
+
+                lastConfirmationCard = cardImage;
+
+                cardImage.gameObject.SetActive(false);
                 _gameManager.PlayCard(ID);
             }
             //Reset card position
@@ -151,7 +203,8 @@ public class CardManager : MonoBehaviour
     public void DealtOnDragCard(Image cardImage)
     {
         //If Game is ready for you to choose another card, allow card movement
-        if (_gameManager.gameState == GameManager.STATE.ChooseCards)
+        if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
+            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
         {
             //Moves card image relative to mouse movements
             cardImage.transform.position = cardImage.transform.position - (_mousePosition - Input.mousePosition);

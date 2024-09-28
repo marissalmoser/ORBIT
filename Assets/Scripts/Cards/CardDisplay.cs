@@ -12,7 +12,7 @@ using UnityEngine.UI;
 
 public class CardDisplay : MonoBehaviour
 {
-    [SerializeField] private Card _card;
+    public Card card;
     [SerializeField] private Image _sprite;
     public int ID;
     public bool IsMouseInCard { get;  private set; }
@@ -24,22 +24,11 @@ public class CardDisplay : MonoBehaviour
     void Start()
     {
         _gameManager = GameManager.Instance;
-        _sprite.sprite = _card.cardSprite;
+        _sprite.sprite = card.cardSprite;
 
         IsMouseInCard = false;
         IsMouseDown = false;
         IsSwapping = false;
-    }
-
-    /// <summary>
-    /// Updates the specified card's image
-    /// </summary>
-    /// <param name="card">The card to be updared</param>
-    public void UpdateCard(Card card)
-    {
-        _card = card;
-
-        _gameManager = GameManager.Instance;
     }
 
     #region Dealt Card Methods
