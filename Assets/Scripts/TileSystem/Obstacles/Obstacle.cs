@@ -30,12 +30,12 @@ public abstract class Obstacle : MonoBehaviour
     private void OnEnable()
     {
         GameManager.DeathAction += SetToDefaultState;
-        GameManager.TrapAction += SwitchActiveState;
+        //GameManager.TrapAction += SwitchActiveState;
     }
     private void OnDisable()
     {
         GameManager.DeathAction -= SetToDefaultState;
-        GameManager.TrapAction -= SwitchActiveState;
+        //GameManager.TrapAction -= SwitchActiveState;
     }
 
     private void Start()

@@ -291,7 +291,9 @@ public class PlayerStateMachineBrain : MonoBehaviour
             }
             else if (_currentAction == null && _isGhost)
             {
+                yield return new WaitForSeconds(.4f);
                 StartCardActions(_actionCopies); //restart the preview until the true cards come in
+
             }
             else
             {
@@ -333,12 +335,16 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator PlayResult()
     {
-        if (!_currentAction.GetIsObstacle())
-        {
-            ActionOrderDisplay.NewActionPlayed?.Invoke();
-        }
         if (_currentState == State.PlayResult)
         {
+            if(_currentAction.GetIsObstacle())
+            {
+                _currentPlayerController.GetCurrentTile().GetObstacleClass().PerformObstacleAnim();
+            }
+            else
+            {
+                ActionOrderDisplay.NewActionPlayed?.Invoke();
+            }
             switch (_currentAction.name)
             {
                 case Card.CardName.TurnLeft:

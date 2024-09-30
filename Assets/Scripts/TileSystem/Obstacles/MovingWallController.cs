@@ -10,6 +10,15 @@ using UnityEngine;
 
 public class MovingWallController : Obstacle
 {
+    private void OnEnable()
+    {
+        GameManager.TrapAction += SwitchActiveState;
+    }
+    private void OnDisable()
+    {
+        GameManager.TrapAction -= SwitchActiveState;
+    }
+
     [SerializeField] private List<GameObject> _tracks = new List<GameObject>();
 
     [SerializeField] private float _wallMoveSpeed;
