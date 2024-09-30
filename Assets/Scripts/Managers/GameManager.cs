@@ -254,7 +254,7 @@ public class GameManager : MonoBehaviour
     private void RunPlaySequence()
     {
         _uiManager.UpdateConfirmCard();
-        _uiManager.cancelButton.GetComponent<ConfirmationControls>().isActive = true;
+        _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
         //If Clear Card was Played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Clear) //Error check and checks if last card played was a Clear
         {
@@ -302,7 +302,7 @@ public class GameManager : MonoBehaviour
         }
         if (!isClearing && !isSwitching && !isTurning)
         {
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = true;
+            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
             ChangeGameState(STATE.ConfirmCards);
         }
     }
