@@ -2,19 +2,20 @@
  *    Author: Marissa 
  *    Contributors: 
  *    Date Created: 9/12/24
- *    Description: Sfx manager singleton. Call to start a sound effect. Also includes 
- *    
+ *    Description: Sfx manager singleton. Call to start a sound effect.
  *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SfxManager : MonoBehaviour
 {
     [SerializeField] private List<SFX> _SFXs = new List<SFX>();
     [SerializeField] private float _fadeInDuration;
     [SerializeField] private float _fadeOutDuration;
+    [SerializeField] private AudioMixer _masterMixer;
     public static SfxManager Instance { get; private set; }
 
     private void Awake()
@@ -80,6 +81,7 @@ public class SfxManager : MonoBehaviour
     }
     #endregion
 
+    #region playing sfx functions
     /// <summary>
     /// Plays the given sound effect. Finds the index of the specific sound effect,
     /// sets the audio clip based on the avaliable clips, and then plays the clip
@@ -156,4 +158,20 @@ public class SfxManager : MonoBehaviour
 
         yield break;
     }
+
+    #endregion
+
+    #region mixer functions
+
+    /// <summary>
+    /// Sets the volume of the SFX mixer input 0 thru -80
+    /// </summary>
+    /// <param name="volume"></param>
+    public void SetSfxMixerVolume(float volume)
+    {
+        _masterMixer.SetFloat("SfxVolume", volume);
+    }
+
+    #endregion
+
 }
