@@ -4,11 +4,11 @@ using UnityEngine.InputSystem;
 public class ConfirmationControls : MonoBehaviour
 {
 
-    private bool isConfirmationPressedDown;
-    private bool mouseInConfirmationButton;
+    //private bool isConfirmationPressedDown;
+    //private bool mouseInConfirmationButton;
 
-    private bool isCancelPressedDown;
-    private bool mouseInCancelButton;
+    //private bool isCancelPressedDown;
+    //private bool mouseInCancelButton;
 
     private GameManager _gameManager;
     private UIManager _uiManager;
@@ -21,19 +21,31 @@ public class ConfirmationControls : MonoBehaviour
     {
         _gameManager = GameManager.Instance;
         _uiManager = UIManager.Instance;
-        isConfirmationPressedDown = false;
-        mouseInConfirmationButton = false;
-        isCancelPressedDown = false;
-        mouseInCancelButton = false;
+        //isConfirmationPressedDown = false;
+        //mouseInConfirmationButton = false;
+        //isCancelPressedDown = false;
+        //mouseInCancelButton = false;
 
-        _anim = GetComponent<Animator>();
     }
 
-    public void SetIsActive(bool isActive)
+    private void Awake()
     {
-        this.isActive = isActive;
+        _anim = GetComponent<Animator>();
+    }
+    //should only trigger anim if state is changing
+    public void SetIsActive(bool input)
+    {
+        //ensures the bool is changing;
+        if (input == isActive)
+        {
+            print("RETURN");
+            return;
+        }
 
-        if(isActive)
+        //sets button to input state
+        isActive = input;
+
+        if(input)
         {
             _anim.SetTrigger("activeAnim");
             return;
@@ -60,13 +72,14 @@ public class ConfirmationControls : MonoBehaviour
     //    }
     //}
 
-    public void ConfirmationReleased()
+    public void ConfirmPressed()
     {
         if (Mouse.current.leftButton.wasReleasedThisFrame && isActive)
         {
             //if (isConfirmationPressedDown && mouseInConfirmationButton && isActive)
             {
-                SetIsActive(false);
+                //SetIsActive(false);
+                //_uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
                 //isConfirmationPressedDown = false;
                 _gameManager.ConfirmCards();
             }
@@ -91,7 +104,7 @@ public class ConfirmationControls : MonoBehaviour
     //    }
     //}
 
-    public void CancelReleased()
+    public void CancelPressed()
     {
         if (Mouse.current.leftButton.wasReleasedThisFrame && isActive)
         {
@@ -100,7 +113,8 @@ public class ConfirmationControls : MonoBehaviour
                 //sound effect call
                 SfxManager.Instance.PlaySFX(8885);
 
-                SetIsActive(false);
+                //SetIsActive(false);
+                //UIManager.Instance.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
                 //isCancelPressedDown = false;
                 _uiManager.DestroyConfirmCard();
                 _gameManager.CancelCard();

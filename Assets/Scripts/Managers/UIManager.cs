@@ -100,7 +100,7 @@ public class UIManager : MonoBehaviour
         cardWidth = _dealtCardImage.rectTransform.rect.width;
         cardHeight = _dealtCardImage.rectTransform.rect.height;
 
-        //Disables buttons on start
+        //Disables buttons on start 
         confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
         cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
@@ -412,6 +412,7 @@ public class UIManager : MonoBehaviour
     public void DestroyConfirmCard()
     {
         //Disables buttons
+        print("disable HERE");
         confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
         cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
