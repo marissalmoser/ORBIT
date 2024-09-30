@@ -81,7 +81,6 @@ public class PlayerController : MonoBehaviour
                     {
                         StopCoroutine(_currentMovementCoroutine);
                         StartFallCoroutine(transform.position, nextTile.GetPlayerSnapPosition());
-                        print(transform.position + " " + nextTile.GetPlayerSnapPosition());
                     }
                     else if (nextTile.GetObstacleClass() != null && nextTile.GetObstacleClass().IsActive())
                     {
@@ -108,7 +107,6 @@ public class PlayerController : MonoBehaviour
             }
             yield return null;
         }
-        print("down here");
         transform.position = targetTileLoc; //double check final position
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
 
@@ -151,7 +149,6 @@ public class PlayerController : MonoBehaviour
     {
         float timeElapsed = 0f;
         float totalDuration = _turnEaseCurve.keys[_turnEaseCurve.length - 1].time;
-        print(_turnEaseCurve.keys[_turnEaseCurve.length - 1].time);
         float startRotationY = transform.eulerAngles.y;
 
         //first calculate the target Y rotation (90 degrees to the left or right)
