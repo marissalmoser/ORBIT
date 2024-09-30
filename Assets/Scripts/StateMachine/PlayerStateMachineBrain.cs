@@ -320,7 +320,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 {
                     facingDirection = _currentPlayerController.GetCurrentFacingDirection();
                 }
-                if (_currentAction.name != Card.CardName.Jump)
+                if (_currentAction.name == Card.CardName.TurnLeft || _currentAction.name == Card.CardName.TurnRight)
                 {
                     _currentPlayerController.SetFacingDirection(facingDirection); //turn the player to face where they are going
                 }               
