@@ -30,6 +30,33 @@ public class CardDisplay : MonoBehaviour
         IsMouseDown = false;
         IsSwapping = false;
     }
+    /// <summary>
+    /// Updates the specified card's image
+    /// </summary>
+    /// <param name="card">The card to be updared</param>
+    public void UpdateCard(Card card)
+    {
+        this.card = card;
+
+        _gameManager = GameManager.Instance;
+    }
+
+
+    #region Deck Methods
+
+    #endregion
+
+    #region Deck Methods
+    public void MousePressedDeck()
+    {
+        CardManager.Instance.MousePressedDeck();
+    }
+
+    public void MouseReleasedDeck()
+    {
+        CardManager.Instance.MouseReleasedDeck();
+    }
+    #endregion
 
     #region Dealt Card Methods
 

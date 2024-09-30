@@ -36,8 +36,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Card> _playedCards;
     [SerializeField] bool _doDebugMode;
     [SerializeField] private int _deathTimerLength;
-    public Image darken;
 
+    public Image darken;
+    public Image deckShownDarken;
 
     private DeckManager<Card> _deckManagerCard;
     private DeckManager<int> _deckManagerInt;
@@ -57,13 +58,16 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public bool isSwitching, isClearing;
     [NonSerialized] public bool isTurning;
 
+    [NonSerialized] public List<Card> _startingDeck;
+
     public bool _isTurningleft {get; private set; }
     #endregion
-
+    #region Actions
     public static Action<List<Card>> PlayActionOrder;
     public static Action<List<Card>> PlayDemoActionOrder;
     public static Action DeathAction;
     public static Action TrapAction;
+    #endregion
 
     [NonSerialized] public bool lowerDarkenIndex;
     private void Start()
@@ -175,6 +179,7 @@ public class GameManager : MonoBehaviour
 
         //Initializes lists.
         _deck = new();
+        _startingDeck = new();
         _dealtCards = new();
         _playedCards = new();
 
@@ -189,8 +194,19 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void SetUpLevel()
     {
+        //Gets the deck
         _deck = _levelDeck.deck;
         darken.enabled = false;
+
+        //Keeps permenent record of the original deck
+        foreach (var card in _deck)
+        {
+            _startingDeck.Add(card);
+        }
+
+        //Disables Darken Effects
+        darken.enabled = false;
+        deckShownDarken.enabled = false;
 
         //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
         ChangeGameState(STATE.ChooseCards);
@@ -675,6 +691,12 @@ public class GameManager : MonoBehaviour
 
     #region Getters
     public int GetCollectableCount() { return collectablesCollected.Count; }
+
+    /// <summary>
+    /// Gets the current played cards
+    /// </summary>
+    /// <returns>A List<Card> Cards that have been played</returns>
+    public List<Card> GetStartingCards() { return _startingDeck; }
 
     /// <summary>
     /// Gets the current dealt cards
