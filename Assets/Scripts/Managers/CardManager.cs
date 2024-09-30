@@ -60,6 +60,12 @@ public class CardManager : MonoBehaviour
         }
     }
 
+    #region Deck Methods
+
+    
+
+    #endregion
+
     #region Dealt Card Methods
 
     /// <summary>
