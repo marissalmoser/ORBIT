@@ -81,24 +81,25 @@ public class PlayerController : MonoBehaviour
                     {
                         StopCoroutine(_currentMovementCoroutine);
                         StartFallCoroutine(transform.position, nextTile.GetPlayerSnapPosition());
-                        print(transform.position + " " + nextTile.GetPlayerSnapPosition());
                     }
                     else if (nextTile.GetObstacleClass() != null && nextTile.GetObstacleClass().IsActive())
                     {
-                        StopCoroutine(_currentMovementCoroutine);
-
+                        var card = TileManager.Instance.GetObstacleWithTileCoordinates(nextTile.GetCoordinates()).GetCard();
                         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(nextTile.GetCoordinates()));
 
-                        nextTile.GetObstacleClass().PerformObstacleAnim();
-                        
-                       
-                        var card = TileManager.Instance.GetObstacleWithTileCoordinates(nextTile.GetCoordinates()).GetCard();
 
-                        if (card != null)
+                        //if not a turntable
+                        if (card != null && (card.name != Card.CardName.TurnLeft && card.name != Card.CardName.TurnRight))
+                        {
+                            StopCoroutine(_currentMovementCoroutine);
+                            AddCard?.Invoke(card);
+                            nextTile.GetObstacleClass().PerformObstacleAnim();
+                            ReachedDestination?.Invoke();
+                        }
+                        else if (card != null)
                         {
                             AddCard?.Invoke(card);
                         }
-                        ReachedDestination?.Invoke();
                     }
                 }
                 // Reset the check timer
@@ -106,7 +107,6 @@ public class PlayerController : MonoBehaviour
             }
             yield return null;
         }
-        print("down here");
         transform.position = targetTileLoc; //double check final position
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
 
@@ -149,7 +149,6 @@ public class PlayerController : MonoBehaviour
     {
         float timeElapsed = 0f;
         float totalDuration = _turnEaseCurve.keys[_turnEaseCurve.length - 1].time;
-
         float startRotationY = transform.eulerAngles.y;
 
         //first calculate the target Y rotation (90 degrees to the left or right)

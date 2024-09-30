@@ -4,13 +4,18 @@
 *    Date Created: September 10, 2024
 *    Description: 
 *******************************************************************/
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Spike : Obstacle
 {
-
+    private void OnEnable()
+    {
+        GameManager.TrapAction += SwitchActiveState;
+    }
+    private void OnDisable()
+    {
+        GameManager.TrapAction -= SwitchActiveState;
+    }
     //spike card being a death card?
 
 
