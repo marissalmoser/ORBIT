@@ -200,6 +200,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
     }
     public void HandleIncomingGhostActions(List<Card> cardList)
     {
+        SfxManager.Instance.SetPlayerSfxVolume(true); //set player sfx to ghost volume
+
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
         _ghostPlayer.SetActive(true);
         _currentPlayerController.StopAllCoroutines();

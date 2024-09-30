@@ -6,7 +6,6 @@
  *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -16,6 +15,11 @@ public class SfxManager : MonoBehaviour
     [SerializeField] private float _fadeInDuration;
     [SerializeField] private float _fadeOutDuration;
     [SerializeField] private AudioMixer _masterMixer;
+
+    private float _sfxCurrentVolume;
+    private float _playerSfxCurrentVolume;
+    [SerializeField] private float _playerGhostVolume;
+
     public static SfxManager Instance { get; private set; }
 
     private void Awake()
@@ -170,6 +174,26 @@ public class SfxManager : MonoBehaviour
     public void SetSfxMixerVolume(float volume)
     {
         _masterMixer.SetFloat("SfxVolume", volume);
+        _sfxCurrentVolume = volume;
+
+        //TODO: would update during the silent ghost player phase, need to check if in ghost state
+        _masterMixer.SetFloat("PlayerSfxVolume", volume); 
+        _playerGhostVolume = volume;
+    }
+
+    /// <summary>
+    /// Sets the player sfx volume for the ghost state. True input will set the volume
+    /// to the ghost's volume and false will set it back to normal.
+    /// </summary>
+    /// <param name="input"></param>
+    public void SetPlayerSfxVolume(bool input)
+    {
+         if(input)
+         {
+            _masterMixer.SetFloat("PlayerSfxVolume", _playerGhostVolume);
+            return;
+         }
+        _masterMixer.SetFloat("PlayerSfxVolume", _playerSfxCurrentVolume);
     }
 
     #endregion
