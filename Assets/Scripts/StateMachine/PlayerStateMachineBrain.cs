@@ -46,13 +46,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
         GameManager.PlayDemoActionOrder += HandleIncomingGhostActions;
         TileManager.Instance.LoadTileList();
         TileManager.Instance.LoadObstacleList();
+        ConfirmationControls.CancelCard += ResetGhost;
         FindPlayer();
         _player.transform.position = _playerControllerOriginal.GetCurrentTile().GetPlayerSnapPosition();
         //TODO: Have something else load the tileList()
-    }
-    public void Update()
-    {
-
     }
 
     /// <summary>
@@ -185,9 +182,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     }
     public void HandleIncomingActions(List<Card> cardList)
     {
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
-        _ghostPlayer.SetActive(false); //turn off the ghost gameobject
-        _currentPlayerController.StopAllCoroutines(); //stop whatever ghost is doing
+        ResetGhost();
 
         SetGhostState(false); //change the selected player script back to player from ghost
         _ghostPlayer.transform.position = Vector3.zero; //make sure the ghost goes back to the parent
@@ -196,6 +191,12 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
         StartCardActions(cardList);
         FSM(State.PrepareNextAction);
+    }
+    private void ResetGhost()
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        _ghostPlayer.SetActive(false); //turn off the ghost gameobject
+        _currentPlayerController.StopAllCoroutines(); //stop whatever ghost is doing
     }
     public void HandleIncomingGhostActions(List<Card> cardList)
     {
@@ -440,5 +441,6 @@ public class PlayerStateMachineBrain : MonoBehaviour
         PlayerController.WallInterruptAnimation -= HandleWallInterruption;
         GameManager.PlayActionOrder -= HandleIncomingActions;
         GameManager.PlayDemoActionOrder -= HandleIncomingGhostActions;
+        ConfirmationControls.CancelCard -= ResetGhost;
     }
 }
