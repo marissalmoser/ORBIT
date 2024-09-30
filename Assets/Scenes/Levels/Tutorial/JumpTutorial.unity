@@ -16599,6 +16599,17 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1551522069}
   m_Mesh: {fileID: 0}
+--- !u!114 &1565805166 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1339564477637426449, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 483538618}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1573966208
 GameObject:
   m_ObjectHideFlags: 0
@@ -22481,6 +22492,10 @@ PrefabInstance:
       propertyPath: _darken
       value: 
       objectReference: {fileID: 483538625}
+    - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: deckShownDarken
+      value: 
+      objectReference: {fileID: 1565805166}
     - target: {fileID: 506377384592549989, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: m_LocalPosition.x
       value: 295.17618

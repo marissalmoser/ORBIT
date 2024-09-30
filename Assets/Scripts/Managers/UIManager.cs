@@ -8,7 +8,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,13 +32,12 @@ public class UIManager : MonoBehaviour
     #endregion
 
     [Header("Cards")]
-    [SerializeField] private Image _cardBack;
-    [SerializeField] private Sprite _cardDeckSprite;
-    [SerializeField] private Sprite _cardBackSprite;
-    [SerializeField] private Image _dealtCardImage, _playedCardImage, _turnLeftImage, _turnRightImage;
+    [SerializeField] private Image _deckImage;
+    [SerializeField] private Image _deckShownImage, _dealtCardImage, _playedCardImage, _turnLeftImage, _turnRightImage;
     [SerializeField] private int _widthPadding, _heightPadding;
     [SerializeField] private int _dealtCardWidthSpacing, _playedCardWidthSpacing, _cardHeightSpacing;
     [SerializeField] private bool doVerticalFormat;
+    [SerializeField] private int numOfUniqueCards = 5;
 
     [Header("Tooltip")]
     [SerializeField] private Sprite _movedTooltip;
@@ -56,6 +54,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _deckCount;
     private Vector2 _deckCountPos;
     public Image confirmButton, cancelButton;
+
+    [Header("Deck Scriptable Objects")]
+    [SerializeField] private Card _deckCardSingle;
+    [SerializeField] private Card _deckCard;
 
     [Header("Dealt Scriptable Objects")]
     [SerializeField] private Card _dealtMoveCard;
@@ -75,9 +77,10 @@ public class UIManager : MonoBehaviour
 
     private GameManager _gameManager;
 
+    private Image _deck;
+    private List<Image> _shownDeck;
     private List<Image> _dealtCardImages;
     private List<Image> _playedCardImages;
-    private Image _deckImage;
 
     private float _screenWidth, _screenHeight;
 
@@ -94,6 +97,7 @@ public class UIManager : MonoBehaviour
         _screenWidth = _canvas.GetComponent<RectTransform>().rect.width;
         _screenHeight = _canvas.GetComponent<RectTransform>().rect.height;
 
+        _shownDeck = new();
         _dealtCardImages = new();
         _playedCardImages = new();
 
@@ -123,8 +127,8 @@ public class UIManager : MonoBehaviour
             if (_dealtCardImages[i] != null)
                 Destroy(_dealtCardImages[i].gameObject);
         }
-        if (_deckImage != null)
-            Destroy(_deckImage.gameObject); //Destroys deck image
+        if (_deck != null)
+            Destroy(_deck.gameObject); //Destroys deck image
 
         //Resets list
         _dealtCardImages = new();
@@ -134,25 +138,27 @@ public class UIManager : MonoBehaviour
         int numOfDealtCards = dealtCards.Count;
 
         //Instantiates Card Back
-        _deckImage = Instantiate(_cardBack, Vector3.zero, Quaternion.identity); //Instantiates new card;
-        _deckImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-        _deckImage.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
+        _deck = Instantiate(_deckImage, Vector2.zero, Quaternion.identity);
+        _deck.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
+        _deck.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
+
+        CardDisplay deckCard = _deck.GetComponentInChildren<CardDisplay>(); //Gets data from image
 
         if (_gameManager._deck.Count > 1)
         {
-            _deckImage.sprite = _cardDeckSprite;
+            deckCard.card = _deckCard;
             _deckCount.enabled = true;
         }
         else if (_gameManager._deck.Count == 1)
         {
-            _deckImage.sprite = _cardBackSprite;
+            deckCard.card = _deckCardSingle;
             _deckCount.enabled = true;
             _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
             _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 40);
         }
         else
         {
-            Destroy(_deckImage.gameObject);
+            Destroy(_deck.gameObject);
             _deckCount.enabled = false;
         }
         
@@ -498,6 +504,139 @@ public class UIManager : MonoBehaviour
             Destroy(_leftImage.gameObject);
         if (_rightImage != null)
             Destroy(_rightImage.gameObject);
+    }
+
+    public void ShowDeck(bool isShowingDeck)
+    {
+        if (isShowingDeck)
+        {
+            //ERROR CHECK - This should already be done
+            foreach (Image image in _shownDeck)
+            {
+                if (image != null)
+                    Destroy(image.gameObject);
+            }
+            _gameManager.deckShownDarken.enabled = true;
+
+            //Gets all dealt cards
+            List<Card> startingCards = _gameManager.GetStartingCards();
+
+            for (int i = 0; i < numOfUniqueCards; i++)
+            {
+                Image newImage = Instantiate(_deckShownImage, Vector3.zero, Quaternion.identity); //Instantiates new card
+                newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
+
+                //Centers Image Horizontally
+                if (numOfUniqueCards % 2 == 0) // Number of Unique Cards is Even
+                {
+                    float x = _screenWidth / 2;
+
+                    if (i < numOfUniqueCards / 2)
+                    {
+                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
+                            -(numOfUniqueCards / 2 - i) + x, 650, 0); //Sets position
+                    }
+                    else
+                    {
+                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
+                            ((i - numOfUniqueCards / 2)) + x, 650, 0); //Sets position
+                    }
+                }
+                else // Number of Unqiue Cards is Odd
+                {
+                    float x = _screenWidth / 2 - cardWidth / 2;
+
+                    if (i < numOfUniqueCards / 2)
+                    {
+                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) * 
+                            -(numOfUniqueCards / 2 - i) + x, 650, 0); //Sets position
+                    }
+                    else if (i > numOfUniqueCards / 2)
+                    {
+                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) * 
+                            ((i - numOfUniqueCards / 2)) + x, 650, 0); //Sets position
+                    }
+                    else
+                    {
+                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) * 0 +
+                            x, 650, 0); //Sets position
+                    }
+                }
+
+                _shownDeck.Add(newImage); //Adds instantiated image to list
+
+                CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
+
+                int numOfInstances = 0;
+                //Finds the name and sets the image to the found data
+                switch (i)
+                {
+                    case 0:
+                        card.card = _dealtMoveCard;
+
+                        foreach (Card cardObject in startingCards)
+                        {
+                            if (cardObject.name == Card.CardName.Move)
+                                numOfInstances++;
+                        }
+                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
+
+                        break;
+                    case 1:
+                        card.card = _dealtJumpCard;
+
+                        foreach (Card cardObject in startingCards)
+                        {
+                            if (cardObject.name == Card.CardName.Jump)
+                                numOfInstances++;
+                        }
+                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
+                        break;
+                    case 2:
+                        card.card = _dealtTurnCard;
+
+                        foreach (Card cardObject in startingCards)
+                        {
+                            if (cardObject.name == Card.CardName.Turn)
+                                numOfInstances++;
+                        }
+                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
+                        break;
+                    case 3:
+                        card.card = _dealtClearCard;
+
+                        foreach (Card cardObject in startingCards)
+                        {
+                            if (cardObject.name == Card.CardName.Clear)
+                                numOfInstances++;
+                        }
+                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
+                        break;
+                    case 4:
+                        card.card = _dealtSwitchCard;
+
+                        foreach (Card cardObject in startingCards)
+                        {
+                            if (cardObject.name == Card.CardName.Switch)
+                                numOfInstances++;
+                        }
+                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
+                        break;
+                    default:
+                        print("ERROR: COULD NOT UPDATE CARD IN UI");
+                        break;
+                }
+            }
+        }
+        else
+        {
+            _gameManager.deckShownDarken.enabled = false;
+            foreach (Image image in _shownDeck)
+            {
+                if (image != null)
+                    Destroy(image.gameObject);
+            }
+        }
     }
 
     /// <summary>

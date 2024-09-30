@@ -29,8 +29,6 @@ public class CardDisplay : MonoBehaviour
         IsMouseDown = false;
         IsSwapping = false;
     }
-
-<<<<<<< Updated upstream
     /// <summary>
     /// Updates the specified card's image
     /// </summary>
@@ -42,7 +40,7 @@ public class CardDisplay : MonoBehaviour
         _gameManager = GameManager.Instance;
     }
 
-=======
+
     #region Deck Methods
 
     public void MousePressedDeck(Image cardImage)
@@ -57,7 +55,18 @@ public class CardDisplay : MonoBehaviour
 
     #endregion
 
->>>>>>> Stashed changes
+    #region Deck Methods
+    public void MousePressedDeck()
+    {
+        CardManager.Instance.MousePressedDeck();
+    }
+
+    public void MouseReleasedDeck()
+    {
+        CardManager.Instance.MouseReleasedDeck();
+    }
+    #endregion
+
     #region Dealt Card Methods
 
     /// <summary>

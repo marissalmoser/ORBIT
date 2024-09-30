@@ -38,8 +38,14 @@ public class CardManager : MonoBehaviour
     private Vector3 _imageStartingPosition;
     private BoxCollider2D _imageCollider;
 
+
     public Image clearCard;
     public (Image, Image) switchCards;
+
+    [NonSerialized] public Image clearCard;
+    [NonSerialized] public (Image, Image) switchCards;
+    [NonSerialized] public Image lastConfirmationCard;
+    [NonSerialized] public bool isShowingDeck;
 
     /// <summary>
     /// Initializes variables for DealtCardManager. Called by GameManager
@@ -50,6 +56,9 @@ public class CardManager : MonoBehaviour
         _uiManager = UIManager.Instance;
         _mousePosition = Vector3.zero;
         _imageStartingPosition = Vector3.zero;
+
+        lastConfirmationCard = null;
+        isShowingDeck = false;
     }
 
     public void RemoveAllHighlight(List<Image> cards)
@@ -62,8 +71,19 @@ public class CardManager : MonoBehaviour
 
     #region Deck Methods
 
-    
+    public void MousePressedDeck()
+    {
 
+    }
+
+    public void MouseReleasedDeck()
+    {
+        //Toggle
+        isShowingDeck = !isShowingDeck;
+        _uiManager.ShowDeck(isShowingDeck);
+        
+
+    }
     #endregion
 
     #region Dealt Card Methods
