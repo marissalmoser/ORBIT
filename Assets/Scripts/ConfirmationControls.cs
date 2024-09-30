@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ConfirmationControls : MonoBehaviour
 {
@@ -35,17 +36,22 @@ public class ConfirmationControls : MonoBehaviour
 
     public void ConfirmationPressed()
     {
-
-        isConfirmationPressedDown = true;
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            isConfirmationPressedDown = true;
+        }
     }
 
     public void ConfirmationReleased()
     {
-        if (isConfirmationPressedDown && mouseInConfirmationButton && isActive)
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
-            isActive = false;
-            isConfirmationPressedDown = false;
-            _gameManager.ConfirmCards();
+            if (isConfirmationPressedDown && mouseInConfirmationButton && isActive)
+            {
+                isActive = false;
+                isConfirmationPressedDown = false;
+                _gameManager.ConfirmCards();
+            }
         }
     }
 
@@ -61,20 +67,26 @@ public class ConfirmationControls : MonoBehaviour
 
     public void CancelPressed()
     {
-        //sound effect call
-        SfxManager.Instance.PlaySFX(8885);
+        if (Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            //sound effect call
+            SfxManager.Instance.PlaySFX(8885);
 
-        isCancelPressedDown = true;
+            isCancelPressedDown = true;
+        }
     }
 
     public void CancelReleased()
     {
-        if (isCancelPressedDown && mouseInCancelButton && isActive)
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
-            isActive = false;
-            isCancelPressedDown = false;
-            _uiManager.DestroyConfirmCard();
-            _gameManager.CancelCard();
+            if (isCancelPressedDown && mouseInCancelButton && isActive)
+            {
+                isActive = false;
+                isCancelPressedDown = false;
+                _uiManager.DestroyConfirmCard();
+                _gameManager.CancelCard();
+            }
         }
     }
 }

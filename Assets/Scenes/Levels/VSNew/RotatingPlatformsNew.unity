@@ -51857,6 +51857,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1486646505}
     m_Modifications:
     - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: darken
+      value: 
+      objectReference: {fileID: 1549683883}
+    - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _darken
       value: 
       objectReference: {fileID: 1549683883}
