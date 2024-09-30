@@ -158,8 +158,7 @@ public class CardManager : MonoBehaviour
                 }
 
                 //Disables confirmation button
-                //_uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);     why is this here? chack for erase/switch/turn functionality
-                print("disable confirm here");
+                //_uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false); 
 
                 //If the player was choosing a turn card when it got replaced
                 if (_gameManager.gameState == GameManager.STATE.ChooseTurn)
