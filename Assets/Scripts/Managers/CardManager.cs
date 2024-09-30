@@ -168,6 +168,9 @@ public class CardManager : MonoBehaviour
                 _gameManager.isClearing = false;
                 _gameManager.isSwitching = false;
                 _gameManager.isTurning = false;
+                switchCards.Item1 = null;
+                switchCards.Item2 = null;
+                clearCard = null;
 
                 //Erases switch and clear sprites from playedCards
                 List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();

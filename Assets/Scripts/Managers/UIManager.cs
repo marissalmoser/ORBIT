@@ -162,8 +162,7 @@ public class UIManager : MonoBehaviour
             _deckCount.enabled = false;
         }
         
-        _deckCount.transform.SetAsFirstSibling();
-        _deckImage.transform.SetAsFirstSibling();
+        _deckCount.transform.SetAsLastSibling();
 
         _deckCount.text = _gameManager._deck.Count.ToString();
 
