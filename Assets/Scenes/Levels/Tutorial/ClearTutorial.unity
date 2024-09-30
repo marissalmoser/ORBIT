@@ -8040,6 +8040,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 793683919}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &427070214 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8561495586578301978, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 2870088648296899361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &429648418
 GameObject:
   m_ObjectHideFlags: 0
@@ -13155,6 +13166,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1973197716}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &714901523 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 441835221110605588, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+  m_PrefabInstance: {fileID: 2870088648296899361}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &717252668
 GameObject:
   m_ObjectHideFlags: 0
@@ -40827,7 +40849,7 @@ PrefabInstance:
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: cancelButton
       value: 
-      objectReference: {fileID: 468937161}
+      objectReference: {fileID: 427070214}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _cancelButton
       value: 
@@ -40839,7 +40861,7 @@ PrefabInstance:
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: confirmButton
       value: 
-      objectReference: {fileID: 1172565358}
+      objectReference: {fileID: 714901523}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _confirmButton
       value: 
