@@ -43,10 +43,6 @@ public class CardManager : MonoBehaviour
     [NonSerialized] public Image clearCard;
     [NonSerialized] public (Image, Image) switchCards;
     [NonSerialized] public Image lastConfirmationCard;
-
-    [NonSerialized] public Image clearCard;
-    [NonSerialized] public (Image, Image) switchCards;
-    [NonSerialized] public Image lastConfirmationCard;
     [NonSerialized] public bool isShowingDeck;
 
     /// <summary>

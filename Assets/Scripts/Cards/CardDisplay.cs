@@ -36,23 +36,13 @@ public class CardDisplay : MonoBehaviour
     /// <param name="card">The card to be updared</param>
     public void UpdateCard(Card card)
     {
-        _card = card;
+        this.card = card;
 
         _gameManager = GameManager.Instance;
     }
 
 
     #region Deck Methods
-
-    public void MousePressedDeck(Image cardImage)
-    {
-
-    }
-
-    public void MouseReleasedDeck(Image cardImage)
-    {
-
-    }
 
     #endregion
 

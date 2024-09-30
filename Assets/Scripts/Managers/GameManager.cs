@@ -36,7 +36,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Card> _playedCards;
     [SerializeField] bool _doDebugMode;
     [SerializeField] private int _deathTimerLength;
-    public Image darken;
 
     public Image darken;
     public Image deckShownDarken;
