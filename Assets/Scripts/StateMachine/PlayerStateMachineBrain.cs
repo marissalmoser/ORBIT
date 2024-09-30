@@ -291,7 +291,9 @@ public class PlayerStateMachineBrain : MonoBehaviour
             }
             else if (_currentAction == null && _isGhost)
             {
+                yield return new WaitForSeconds(.4f);
                 StartCardActions(_actionCopies); //restart the preview until the true cards come in
+
             }
             else
             {
@@ -318,7 +320,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 {
                     facingDirection = _currentPlayerController.GetCurrentFacingDirection();
                 }
-                if (_currentAction.name != Card.CardName.Jump)
+                if (_currentAction.name == Card.CardName.TurnLeft || _currentAction.name == Card.CardName.TurnRight)
                 {
                     _currentPlayerController.SetFacingDirection(facingDirection); //turn the player to face where they are going
                 }               
@@ -333,12 +335,16 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
     private IEnumerator PlayResult()
     {
-        if (!_currentAction.GetIsObstacle())
-        {
-            ActionOrderDisplay.NewActionPlayed?.Invoke();
-        }
         if (_currentState == State.PlayResult)
         {
+            if(_currentAction.GetIsObstacle())
+            {
+                _currentPlayerController.GetCurrentTile().GetObstacleClass().PerformObstacleAnim();
+            }
+            else
+            {
+                ActionOrderDisplay.NewActionPlayed?.Invoke();
+            }
             switch (_currentAction.name)
             {
                 case Card.CardName.TurnLeft:

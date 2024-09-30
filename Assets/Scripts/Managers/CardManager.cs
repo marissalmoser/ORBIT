@@ -43,6 +43,7 @@ public class CardManager : MonoBehaviour
     [NonSerialized] public Image clearCard;
     [NonSerialized] public (Image, Image) switchCards;
     [NonSerialized] public Image lastConfirmationCard;
+    [NonSerialized] public bool isShowingDeck;
 
     /// <summary>
     /// Initializes variables for DealtCardManager. Called by GameManager
@@ -53,6 +54,9 @@ public class CardManager : MonoBehaviour
         _uiManager = UIManager.Instance;
         _mousePosition = Vector3.zero;
         _imageStartingPosition = Vector3.zero;
+
+        lastConfirmationCard = null;
+        isShowingDeck = false;
         lastConfirmationCard = null;
     }
 
@@ -63,6 +67,23 @@ public class CardManager : MonoBehaviour
             card.enabled = false;
         }
     }
+
+    #region Deck Methods
+
+    public void MousePressedDeck()
+    {
+
+    }
+
+    public void MouseReleasedDeck()
+    {
+        //Toggle
+        isShowingDeck = !isShowingDeck;
+        _uiManager.ShowDeck(isShowingDeck);
+        
+
+    }
+    #endregion
 
     #region Dealt Card Methods
 
@@ -147,6 +168,9 @@ public class CardManager : MonoBehaviour
                 _gameManager.isClearing = false;
                 _gameManager.isSwitching = false;
                 _gameManager.isTurning = false;
+                switchCards.Item1 = null;
+                switchCards.Item2 = null;
+                clearCard = null;
 
                 //Erases switch and clear sprites from playedCards
                 List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
@@ -158,7 +182,7 @@ public class CardManager : MonoBehaviour
                 }
 
                 //Disables confirmation button
-                _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = false;
+                //_uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false); 
 
                 //If the player was choosing a turn card when it got replaced
                 if (_gameManager.gameState == GameManager.STATE.ChooseTurn)
@@ -351,15 +375,16 @@ public class CardManager : MonoBehaviour
             _gameManager.SwitchAction();
         }
 
+        //Sets confirm buttons active
         if (_gameManager.isClearing && clearCard != null)
         {
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = true;
-            _uiManager.cancelButton.GetComponent<ConfirmationControls>().isActive = true;
+            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
         }
         if (_gameManager.isSwitching && switchCards.Item1 != null && switchCards.Item2 != null)
         {
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().isActive = true;
-            _uiManager.cancelButton.GetComponent<ConfirmationControls>().isActive = true;
+            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
         }
 
     }
