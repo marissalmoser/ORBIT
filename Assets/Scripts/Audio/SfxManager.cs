@@ -16,9 +16,9 @@ public class SfxManager : MonoBehaviour
     [SerializeField] private float _fadeOutDuration;
     [SerializeField] private AudioMixer _masterMixer;
 
-    private float _sfxCurrentVolume;
-    private float _playerSfxCurrentVolume;
-    [SerializeField] private float _playerGhostVolume;
+    private float _sfxCurrentVolume; //volume set by player in options menu
+    private float _playerSfxCurrentVolume; //volume set by player in oprions menu
+    [SerializeField] private float _playerGhostVolume; //volume for the ghost player. Set to -80 to mute.
 
     public static SfxManager Instance { get; private set; }
 
