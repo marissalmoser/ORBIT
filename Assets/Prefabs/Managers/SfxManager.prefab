@@ -110,7 +110,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 96386992747a1ea4dacb85e357a00018, type: 3}
     clip: {fileID: 0}
-    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
     maxVolume: 0.5
     pitch: 1
     doLoop: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 7d5b61ba9b789f448b9374442c9d4fbb, type: 3}
     clip: {fileID: 0}
-    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
     maxVolume: 0.22
     pitch: 1
     doLoop: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 0cbf4a167a964124cb6d3d6ee80469b2, type: 3}
     clip: {fileID: 0}
-    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
     maxVolume: 0.21
     pitch: 1.5
     doLoop: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: 7c4a2bd695b7712479456f0317de16e3, type: 3}
     clip: {fileID: 0}
-    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
     maxVolume: 0.21
     pitch: 2
     doLoop: 0
@@ -230,7 +230,7 @@ MonoBehaviour:
     clips:
     - {fileID: 8300000, guid: e08d017efabd403489af772d9624fc81, type: 3}
     clip: {fileID: 0}
-    mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
     maxVolume: 0.25
     pitch: 1
     doLoop: 0
@@ -238,3 +238,4 @@ MonoBehaviour:
   _fadeInDuration: 2
   _fadeOutDuration: 5
   _masterMixer: {fileID: 24100000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+  _playerGhostVolume: -80
