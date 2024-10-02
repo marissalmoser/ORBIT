@@ -336,13 +336,20 @@ public class GameManager : MonoBehaviour
             List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
             int instantiatedImagesCount = instantiatedImages.Count;
+
+            int numOfClearedCards = 0;
             for (int i = 0; i < instantiatedImagesCount; i++)
             {
-                //Compares instantiated images' unique ID to the target ID
-                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCard.GetComponentInChildren<CardDisplay>().ID)
+                //Loops over clear list
+                for (int j = 0; j < _cardManager.numOfCardsToClear; j++)
                 {
-                    tempList = _deckManagerCard.RemoveAt(tempList, i); //When IDs match, remove the card from the list
-                    break;
+                    //Compares instantiated images' unique ID to the target ID
+                    if (_cardManager.clearCards[j] != null && instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID 
+                        == _cardManager.clearCards[j].GetComponentInChildren<CardDisplay>().ID)
+                    {
+                        tempList = _deckManagerCard.RemoveAt(tempList, i - numOfClearedCards); //When IDs match, remove the card from the list
+                        numOfClearedCards++; //Since a card is removed, list must be indexed to compensate for lost card
+                    }
                 }
             }
         }
@@ -388,6 +395,11 @@ public class GameManager : MonoBehaviour
             {
                 print("FAILED TO LOCATE CARD IDS");
             }
+        }
+
+        for (int i = 0; i < tempList.Count; i++)
+        {
+            print(tempList[i].name);
         }
 
         PlayDemoActionOrder?.Invoke(tempList);
@@ -497,14 +509,16 @@ public class GameManager : MonoBehaviour
             int instantiatedImagesCount = instantiatedImages.Count;
             for (int i = 0; i < instantiatedImagesCount; i++)
             {
-                print(_cardManager.clearCard);
-                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCard.GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
+                //Loops over clear list
+                for (int j = 0; j < _cardManager.numOfCardsToClear; j++)
                 {
-                    _playedCards = _deckManagerCard.RemoveAt(_playedCards, i); //When IDs match, remove the card from the list
-                    break;
+                    if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCards[j].GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
+                    {
+                        _playedCards = _deckManagerCard.RemoveAt(_playedCards, i); //When IDs match, remove the card from the list
+                    }
                 }
             }
-            _cardManager.clearCard = null;
+            _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         }
 
         //If the confirmed card was a switch card
@@ -563,7 +577,7 @@ public class GameManager : MonoBehaviour
 
         //Resets CardManager
         _cardManager.lastConfirmationCard = null;
-        _cardManager.clearCard = null;
+        _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         _cardManager.switchCards.Item1 = null;
         _cardManager.switchCards.Item2 = null;
         _uiManager.DestroyTurnCards(); //Destroys turn cards
