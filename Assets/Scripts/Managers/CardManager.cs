@@ -176,6 +176,11 @@ public class CardManager : MonoBehaviour
                 switchCards.Item2 = null;
                 clearCards = new Image[numOfCardsToClear];
 
+                //Disables confirmation button if the card needs an extra step before being played
+                Card card = cardImage.GetComponentInChildren<CardDisplay>().card;
+                if (card.name == Card.CardName.Turn || card.name == Card.CardName.Switch || card.name == Card.CardName.Clear)
+                    _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+
                 //Erases switch and clear sprites from playedCards
                 List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
                 int tempCount = tempPlayedCards.Count;
@@ -184,9 +189,6 @@ public class CardManager : MonoBehaviour
                     tempPlayedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
                     tempPlayedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
                 }
-
-                //Disables confirmation button
-                //_uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false); 
 
                 //If the player was choosing a turn card when it got replaced
                 if (_gameManager.gameState == GameManager.STATE.ChooseTurn)
@@ -414,18 +416,32 @@ public class CardManager : MonoBehaviour
             _gameManager.SwitchAction();
         }
 
-        //Sets confirm buttons active
-        if (_gameManager.isClearing && clearCards[0] != null)
+        //Sets confirm buttons state
+        if (_gameManager.isClearing)
         {
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
-            _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            if (clearCards[0] != null) //If at least one card is being cleared
+            {
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+                _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            }
+            else //Disables buttons if no card is being cleared
+            {
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+            }
         }
-        if (_gameManager.isSwitching && switchCards.Item1 != null && switchCards.Item2 != null)
+        
+        if (_gameManager.isSwitching)
         {
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
-            _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            if (switchCards.Item1 != null && switchCards.Item2 != null) //If cards are being switched
+            {
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+                _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            }
+            else //If no cards are being switched
+            {
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+            }
         }
-
     }
 
     /// <summary>
