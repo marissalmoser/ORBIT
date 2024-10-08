@@ -175,6 +175,7 @@ public class CardManager : MonoBehaviour
                 switchCards.Item1 = null;
                 switchCards.Item2 = null;
                 clearCards = new Image[numOfCardsToClear];
+                _gameManager.ResetPlayedDisplay();
 
                 //Disables confirmation button if the card needs an extra step before being played
                 Card card = cardImage.GetComponentInChildren<CardDisplay>().card;
@@ -419,10 +420,21 @@ public class CardManager : MonoBehaviour
         //Sets confirm buttons state
         if (_gameManager.isClearing)
         {
-            if (clearCards[0] != null) //If at least one card is being cleared
+            //If there is at least one card being cleared, enable the confirm button
+            bool canClear = false;
+            int clearLength = clearCards.Length;
+            for (int i = 0; i < clearLength; i++)
+            {
+                if (clearCards[i] != null)
+                {
+                    canClear = true;
+                    break;
+                }
+            }
+
+            if (canClear) //If at least one card is being cleared
             {
                 _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
-                _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
             }
             else //Disables buttons if no card is being cleared
             {
@@ -432,12 +444,11 @@ public class CardManager : MonoBehaviour
         
         if (_gameManager.isSwitching)
         {
-            if (switchCards.Item1 != null && switchCards.Item2 != null) //If cards are being switched
+            if (_gameManager.hasSwitched) //If there has been at least one change in the order, enable the confirm button
             {
                 _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
-                _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
             }
-            else //If no cards are being switched
+            else //If the new deck is identical to the original deck, disable the confirm button
             {
                 _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
             }

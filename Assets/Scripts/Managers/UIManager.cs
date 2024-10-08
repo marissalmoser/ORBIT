@@ -119,7 +119,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Updates the dealt cards in the UI
     /// </summary>
-    public void UpdateDealtCards()
+    public void UpdateDealtCards(List<Card> dealtCards)
     {
         //Destroys all previous instances of dealt card images
         for (int i = 0; i < _dealtCardImages.Count; i++)
@@ -133,8 +133,6 @@ public class UIManager : MonoBehaviour
         //Resets list
         _dealtCardImages = new();
 
-        //Gets all dealt cards
-        List<Card> dealtCards = _gameManager.GetDealtCards();
         int numOfDealtCards = dealtCards.Count;
 
         //Instantiates Card Back
@@ -238,7 +236,7 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// Updates the played cards in the UI
     /// </summary>
-    public void UpdatePlayedCards()
+    public void UpdatePlayedCards(List<Card> playedCards)
     {
         //Destroys all previous instantiations of played cards
         for (int i = 0; i < _playedCardImages.Count; i++)
@@ -249,10 +247,8 @@ public class UIManager : MonoBehaviour
         //Resets list
         _playedCardImages = new();
 
-        //Gets all played cards
-        List<Card> playedCards = _gameManager.GetPlayedCards();
+        //Instantiates card images
         int numOfPlayedCards = playedCards.Count;
-
         for (int i = 0; i < numOfPlayedCards; i++)
         {
             Image newImage = Instantiate(_playedCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
@@ -703,7 +699,7 @@ public class UIManager : MonoBehaviour
 
             yield return new WaitForEndOfFrame();
         }
-        UpdatePlayedCards();
+        UpdatePlayedCards(_gameManager.GetPlayedCards());
         _gameManager.PlaySequence();
         DestroyConfirmCard();
     }
