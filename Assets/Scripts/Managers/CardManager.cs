@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 public class CardManager : MonoBehaviour
@@ -33,14 +32,14 @@ public class CardManager : MonoBehaviour
 
     //Declares Variables
     [SerializeField] private BoxCollider2D _playArea;
-
+    public int numOfCardsToClear;
     private GameManager _gameManager;
     private UIManager _uiManager;
     private Vector3 _mousePosition;
     private Vector3 _imageStartingPosition;
     private BoxCollider2D _imageCollider;
 
-    [NonSerialized] public Image clearCard;
+    [NonSerialized] public Image[] clearCards;
     [NonSerialized] public (Image, Image) switchCards;
     [NonSerialized] public Image lastConfirmationCard;
     [NonSerialized] public bool isShowingDeck;
@@ -55,6 +54,11 @@ public class CardManager : MonoBehaviour
         _mousePosition = Vector3.zero;
         _imageStartingPosition = Vector3.zero;
 
+        //Does not allow clear card to be useless
+        if (numOfCardsToClear == 0)
+            numOfCardsToClear = 1;
+
+        clearCards = new Image[numOfCardsToClear];
         lastConfirmationCard = null;
         isShowingDeck = false;
         lastConfirmationCard = null;
@@ -170,7 +174,7 @@ public class CardManager : MonoBehaviour
                 _gameManager.isTurning = false;
                 switchCards.Item1 = null;
                 switchCards.Item2 = null;
-                clearCard = null;
+                clearCards = new Image[numOfCardsToClear];
 
                 //Erases switch and clear sprites from playedCards
                 List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
@@ -262,20 +266,47 @@ public class CardManager : MonoBehaviour
     public void PlayedMouseReleasedCard(Image cardImage)
     {
         List<Image> playedCards = _uiManager.GetInstantiatedPlayedCardImages();
-        bool isCopy = false;
+        bool isCopySwitch = false;
 
         //Sets the card to clear
         if (_gameManager.isClearing)
-            clearCard = cardImage;
+        {
+            bool isCopyClear = false;
+
+            //Finds if the clear card is already in the list. If it is, remove it
+            for (int i = 0; i < numOfCardsToClear; i++)
+            {
+                if (clearCards[i] == cardImage)
+                {
+                    isCopyClear = true;
+                    clearCards[i] = null;
+                }
+            }
+            
+            //If card is not in list, add it to next available location
+            //Does nothing if list is full
+            if (!isCopyClear)
+            {
+                for (int i = 0; i < numOfCardsToClear; i++)
+                {
+                    if (clearCards[i] == null)
+                    {
+                        clearCards[i] = cardImage;
+                        break;
+                    }
+                }
+            }
+        }
 
         //Sets the cards to switch
         if (_gameManager.isSwitching)
         {
             //Checks if the card is already in item 1, if it is, deletes it from switchCards
-            if (switchCards.Item1 != null && cardImage.GetComponentInChildren<CardDisplay>().ID == switchCards.Item1.GetComponentInChildren<CardDisplay>().ID)
+            if (switchCards.Item1 != null && cardImage.GetComponentInChildren<CardDisplay>().ID 
+                == switchCards.Item1.GetComponentInChildren<CardDisplay>().ID)
             {
                 switchCards.Item1 = null;
-                isCopy = true;
+                isCopySwitch = true;
 
                 //If there was an element in Item2, push it to item1
                 if (switchCards.Item2 != null)
@@ -288,11 +319,11 @@ public class CardManager : MonoBehaviour
             if (switchCards.Item2 != null && cardImage.GetComponentInChildren<CardDisplay>().ID == switchCards.Item2.GetComponentInChildren<CardDisplay>().ID)
             {
                 switchCards.Item2 = null;
-                isCopy = true;
+                isCopySwitch = true;
             }
 
             //If the card was not already in switchCards, adds it in
-            if (!isCopy)
+            if (!isCopySwitch)
             {
                 if (switchCards.Item1 == null)
                     switchCards.Item1 = cardImage;
@@ -334,8 +365,16 @@ public class CardManager : MonoBehaviour
             //Handles which card is being cleared
             if (_gameManager.isClearing)
             {
-                if (playedCards[i].GetComponentInChildren<CardDisplay>().ID != clearCard.GetComponentInChildren<CardDisplay>().ID)
+                bool clearCardFound = false;
+                for (int j = 0; j < numOfCardsToClear; j++)
+                {
+                    if (clearCards[j] != null &&
+                        playedCards[i].GetComponentInChildren<CardDisplay>().ID == clearCards[j].GetComponentInChildren<CardDisplay>().ID)
+                        clearCardFound = true;
+                }
+                if (!clearCardFound)
                     playedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+                
             }
 
             //Handles which card is being swapped
@@ -376,7 +415,7 @@ public class CardManager : MonoBehaviour
         }
 
         //Sets confirm buttons active
-        if (_gameManager.isClearing && clearCard != null)
+        if (_gameManager.isClearing && clearCards[0] != null)
         {
             _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
             _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
@@ -416,18 +455,48 @@ public class CardManager : MonoBehaviour
     public void PlayedMouseExitCard(Image cardImage)
     {
         //Removes clear highlight
+
+        //If clearCard is null, no card has been selected
         if (_gameManager.isClearing)
         {
+            bool inList = false;
+            for (int i = 0; i < numOfCardsToClear; i++)
+            {
+                if (clearCards[i] != null && cardImage.GetComponentInChildren<CardDisplay>().ID
+                    == clearCards[i].GetComponentInChildren<CardDisplay>().ID)
+                    inList = true;
+            }
+            if (!inList)
+                cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+        }
+            /**
             //If clearCard is null, no card has been selected
-            if (clearCard == null)
-                cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
-            //Checks clear card and see if it matches
-            else if (cardImage.GetComponentInChildren<CardDisplay>().ID != clearCard.GetComponentInChildren<CardDisplay>().ID)
-                cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+            for (int i = 0; i < numOfCardsToClear; i++)
+            {
+                if (clearCards[i] == null)
+                    cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+                //Checks clear card and see if it matches
+                else
+                {
+                    bool notInList = false;
+                    for (int j = 0; j < numOfCardsToClear; j++)
+                    {
+                        if (clearCards[j] != null && cardImage.GetComponentInChildren<CardDisplay>().ID 
+                            != clearCards[j].GetComponentInChildren<CardDisplay>().ID)
+                            notInList = true;
+                    }
+                    if (!notInList)
+                        cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+                    else
+                        cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = true;
+                }
+            }
+
         }
         //If game state is not in clearing, remove all highlight
         else
             cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+            */
 
         //Removes swap highlight
         if (_gameManager.isSwitching)

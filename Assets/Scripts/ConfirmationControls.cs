@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,8 @@ public class ConfirmationControls : MonoBehaviour
     public bool isActive;
 
     private Animator _anim;
+
+    public static Action CancelCard;
 
     private void Start()
     {
@@ -31,7 +34,6 @@ public class ConfirmationControls : MonoBehaviour
         //ensures the bool is changing;
         if (input == isActive)
         {
-            print("RETURN");
             return;
         }
 
@@ -52,6 +54,7 @@ public class ConfirmationControls : MonoBehaviour
         if (Mouse.current.leftButton.wasReleasedThisFrame && isActive)
         {
             _gameManager.ConfirmCards();
+            SfxManager.Instance.SetPlayerSfxVolume(false);
         }
     }
 
@@ -64,6 +67,7 @@ public class ConfirmationControls : MonoBehaviour
 
             _uiManager.DestroyConfirmCard();
             _gameManager.CancelCard();
+            CancelCard.Invoke();
         }
     }
 }

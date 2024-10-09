@@ -417,7 +417,6 @@ public class UIManager : MonoBehaviour
     public void DestroyConfirmCard()
     {
         //Disables buttons
-        print("disable HERE");
         confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
         cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
