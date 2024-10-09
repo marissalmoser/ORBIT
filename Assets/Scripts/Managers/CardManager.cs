@@ -129,7 +129,7 @@ public class CardManager : MonoBehaviour
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
-            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
+            || _gameManager.gameState == GameManager.STATE.SelectCard)
         {
             //Sets where the image originally was
             _imageStartingPosition = cardImage.rectTransform.position;
@@ -160,7 +160,7 @@ public class CardManager : MonoBehaviour
 
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
-            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
+            || _gameManager.gameState == GameManager.STATE.SelectCard)
         {
             _imageCollider = cardImage.GetComponent<BoxCollider2D>();
             //Checks if the image is overlapping with the play area
@@ -172,6 +172,7 @@ public class CardManager : MonoBehaviour
                 _gameManager.isClearing = false;
                 _gameManager.isSwitching = false;
                 _gameManager.isTurning = false;
+                _gameManager.isUsingWild = false;
                 switchCards.Item1 = null;
                 switchCards.Item2 = null;
                 clearCards = new Image[numOfCardsToClear];
@@ -179,7 +180,7 @@ public class CardManager : MonoBehaviour
 
                 //Disables confirmation button if the card needs an extra step before being played
                 Card card = cardImage.GetComponentInChildren<CardDisplay>().card;
-                if (card.name == Card.CardName.Turn || card.name == Card.CardName.Switch || card.name == Card.CardName.Clear)
+                if (card.name == Card.CardName.Turn || card.name == Card.CardName.Switch || card.name == Card.CardName.Clear || card.name == Card.CardName.Wild)
                     _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
                 //Erases switch and clear sprites from playedCards
@@ -192,7 +193,7 @@ public class CardManager : MonoBehaviour
                 }
 
                 //If the player was choosing a turn card when it got replaced
-                if (_gameManager.gameState == GameManager.STATE.ChooseTurn)
+                if (_gameManager.gameState == GameManager.STATE.SelectCard)
                 {
                     //Turns off the darken effect
                     if (_gameManager.lowerDarkenIndex)
@@ -235,7 +236,7 @@ public class CardManager : MonoBehaviour
     {
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
-            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
+            || _gameManager.gameState == GameManager.STATE.SelectCard)
         {
             //Moves card image relative to mouse movements
             cardImage.transform.position = cardImage.transform.position - (_mousePosition - Input.mousePosition);

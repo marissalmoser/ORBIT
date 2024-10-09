@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     private DeckManager<int> _deckManagerInt;
     private CardManager _cardManager;
     private UIManager _uiManager;
+    private ArrowControls _arrowControls;
 
     public STATE gameState;
     private bool _gameWon;
@@ -56,7 +57,7 @@ public class GameManager : MonoBehaviour
     private List<Collectable> collectablesCollected = new List<Collectable>();
     private (Card, int) _lastCardPlayed;
     public Card confirmationCard { get; private set; }
-    [NonSerialized] public bool isSwitching, isClearing, isStalling, isUsingWild;
+    [NonSerialized] public bool isSwitching, isClearing, isUsingWild;
     [NonSerialized] public bool isTurning;
 
     [NonSerialized] public List<Card> _startingDeck;
@@ -80,13 +81,13 @@ public class GameManager : MonoBehaviour
         _deckManagerInt = DeckManager<int>.Instance;
         _uiManager = UIManager.Instance;
         _cardManager = CardManager.Instance;
+        _arrowControls = ArrowControls.Instance;
         _levelDeck = FindObjectOfType<LevelDeck>();
         lowerDarkenIndex = false;
 
         isSwitching = false;
         isTurning = false;
         isClearing = false;
-        isStalling = false;
         isUsingWild = false;
         hasSwitched = false;
         _getOriginalDeck = true;
@@ -147,9 +148,9 @@ public class GameManager : MonoBehaviour
             case STATE.PlayingActionOrder:
                 gameState = STATE.PlayingActionOrder;
                 break;
-            case STATE.ChooseTurn:
+            case STATE.SelectCard:
                 // Waiting STATE. Game locks in this state until user input
-                gameState = STATE.ChooseTurn;
+                gameState = STATE.SelectCard;
                 break;
             case STATE.Death:
                 gameState = STATE.Death;
@@ -303,12 +304,22 @@ public class GameManager : MonoBehaviour
             darken.enabled = true;
             darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() + 1);
             lowerDarkenIndex = true;
-            ChangeGameState(STATE.ChooseTurn); //Waits for User Input to Switch two cards
+            ChangeGameState(STATE.SelectCard); //Waits for User Input to choose to turn either left or right
             _uiManager.UpdateTextBox("CHOOSE TO TURN LEFT OR RIGHT.");
+            _arrowControls.UpdateMaxIndex(1);
             _uiManager.CreateTurnCards();
             isTurning = true;
         }
-        if (!isClearing && !isSwitching && !isTurning)
+        //If Wild Card was played
+        if (confirmationCard != null && confirmationCard.name == Card.CardName.Wild) //Error check and checks if last card played was a Wild
+        {
+            ChangeGameState(STATE.SelectCard); //Waits for User Input to choose to play any card
+            _uiManager.UpdateTextBox("CHOOSE WHICH CARD YOU WANT TO PLAY.");
+            _arrowControls.UpdateMaxIndex(_uiManager.numOfUniqueCards - 1);
+            isUsingWild = true;
+        }
+
+        if (!isClearing && !isSwitching && !isTurning && !isUsingWild)
         {
             _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
             ChangeGameState(STATE.ConfirmCards);
@@ -336,7 +347,7 @@ public class GameManager : MonoBehaviour
             }
 
             //Adds the confirmation card to be played in demo
-            if (!isClearing && !isSwitching && !isStalling && !isUsingWild)
+            if (!isClearing && !isSwitching && !isUsingWild)
                 _demoDeck.Add(confirmationCard);
 
             _getOriginalDeck = false;
@@ -752,10 +763,10 @@ public class GameManager : MonoBehaviour
         Menu,
         StartLevel,
         ChooseCards,
+        SelectCard,
         ConfirmCards,
         PlayingActionOrder,
         Trap,
-        ChooseTurn,
         Death,
         OutOfCards,
         End

@@ -37,7 +37,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private int _widthPadding, _heightPadding;
     [SerializeField] private int _dealtCardWidthSpacing, _playedCardWidthSpacing, _cardHeightSpacing;
     [SerializeField] private bool doVerticalFormat;
-    [SerializeField] private int numOfUniqueCards = 7;
+    public int numOfUniqueCards = 7;
 
     [Header("Tooltip")]
     [SerializeField] private Sprite _movedTooltip;
@@ -398,7 +398,7 @@ public class UIManager : MonoBehaviour
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
                     break;
                 case Card.CardName.Wild:
-                    cardDisplay.card = _switchCard;
+                    cardDisplay.card = _wildCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "CHOOSE ANY CARD TO PUT INTO THE ACTION ORDER.";
                     break;
                 default:
@@ -500,6 +500,11 @@ public class UIManager : MonoBehaviour
             Destroy(_leftImage.gameObject);
         if (_rightImage != null)
             Destroy(_rightImage.gameObject);
+    }
+
+    public void CreateWildCards()
+    {
+        //TODO
     }
 
     public void ShowDeck(bool isShowingDeck)
