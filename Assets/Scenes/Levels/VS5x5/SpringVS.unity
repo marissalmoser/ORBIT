@@ -38765,7 +38765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deck:
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
-  - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
+  - {fileID: 11400000, guid: 87cdb0c0c87448e4eb123d3b1fffb6e2, type: 2}
   - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
   - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
@@ -57220,6 +57220,10 @@ PrefabInstance:
       propertyPath: confirmButton
       value: 
       objectReference: {fileID: 2870088648296899367}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: numOfUniqueCards
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _dealtCardsFolder
       value: 

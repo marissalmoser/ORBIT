@@ -41,11 +41,6 @@ public class CardDisplay : MonoBehaviour
         _gameManager = GameManager.Instance;
     }
 
-
-    #region Deck Methods
-
-    #endregion
-
     #region Deck Methods
     public void MousePressedDeck()
     {

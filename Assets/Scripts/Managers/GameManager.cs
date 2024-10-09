@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     private List<Collectable> collectablesCollected = new List<Collectable>();
     private (Card, int) _lastCardPlayed;
     public Card confirmationCard { get; private set; }
-    [NonSerialized] public bool isSwitching, isClearing;
+    [NonSerialized] public bool isSwitching, isClearing, isStalling, isUsingWild;
     [NonSerialized] public bool isTurning;
 
     [NonSerialized] public List<Card> _startingDeck;
@@ -86,6 +86,8 @@ public class GameManager : MonoBehaviour
         isSwitching = false;
         isTurning = false;
         isClearing = false;
+        isStalling = false;
+        isUsingWild = false;
         hasSwitched = false;
         _getOriginalDeck = true;
 
@@ -334,7 +336,7 @@ public class GameManager : MonoBehaviour
             }
 
             //Adds the confirmation card to be played in demo
-            if (!isClearing && !isSwitching)
+            if (!isClearing && !isSwitching && !isStalling && !isUsingWild)
                 _demoDeck.Add(confirmationCard);
 
             _getOriginalDeck = false;
@@ -516,7 +518,8 @@ public class GameManager : MonoBehaviour
         _uiManager.MoveCardToActionOrder();
         _uiManager.DisableTextBox();
         //If the confirmation card is a clear or switch, do not add it into play order
-        if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch)
+        if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch 
+            && confirmationCard.name != Card.CardName.Stall && confirmationCard.name != Card.CardName.Wild)
             _playedCards.Add(confirmationCard);
 
         _dealtCards.Remove(_lastCardPlayed.Item1);
