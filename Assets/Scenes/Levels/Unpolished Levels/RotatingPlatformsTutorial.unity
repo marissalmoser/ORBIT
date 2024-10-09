@@ -4746,11 +4746,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338187378}
   m_Mesh: {fileID: 3921568967233161584, guid: b742bc6025635ad4bac57e7ba741b9e5, type: 3}
---- !u!1 &344985825 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1648065564709692983, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
-  m_PrefabInstance: {fileID: 787655830}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &345230609
 GameObject:
   m_ObjectHideFlags: 0
@@ -5035,7 +5030,7 @@ MonoBehaviour:
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
-  _collectableRef: {fileID: 344985825}
+  _collectableRef: {fileID: 0}
 --- !u!65 &370774454
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9989,7 +9984,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2474780467744116617, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2474780467744116617, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9997,7 +9992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2474780467744116617, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2474780467744116617, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
       propertyPath: m_LocalRotation.w
