@@ -277,8 +277,6 @@ public class PlayerStateMachineBrain : MonoBehaviour
         }
     }
 
-
-
     private IEnumerator PrepareNextAction()
     {
         while (_currentState == State.PrepareNextAction)
@@ -429,7 +427,11 @@ public class PlayerStateMachineBrain : MonoBehaviour
             _firedTraps = true;
             if (_currentPlayerController.GetTileWithPlayerRaycast() != null && _currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass() != null)
             {
-                AddCardToList(_currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
+                //get card and check if its not a turn tables
+                if (_currentAction != null && (_currentAction.name != Card.CardName.TurnLeft && _currentAction.name != Card.CardName.TurnRight))
+                {
+                    AddCardToList(_currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
+                }
             }
             FSM(State.PrepareNextAction);
         }
