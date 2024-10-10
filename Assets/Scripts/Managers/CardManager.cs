@@ -172,9 +172,16 @@ public class CardManager : MonoBehaviour
                 _gameManager.isClearing = false;
                 _gameManager.isSwitching = false;
                 _gameManager.isTurning = false;
+                _gameManager.isStalling = false;
                 switchCards.Item1 = null;
                 switchCards.Item2 = null;
                 clearCards = new Image[numOfCardsToClear];
+                _gameManager.ResetPlayedDisplay();
+
+                //Disables confirmation button if the card needs an extra step before being played
+                Card card = cardImage.GetComponentInChildren<CardDisplay>().card;
+                if (card.name == Card.CardName.Turn || card.name == Card.CardName.Switch || card.name == Card.CardName.Clear)
+                    _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
                 //Erases switch and clear sprites from playedCards
                 List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
@@ -184,9 +191,6 @@ public class CardManager : MonoBehaviour
                     tempPlayedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
                     tempPlayedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
                 }
-
-                //Disables confirmation button
-                //_uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false); 
 
                 //If the player was choosing a turn card when it got replaced
                 if (_gameManager.gameState == GameManager.STATE.ChooseTurn)
@@ -414,18 +418,42 @@ public class CardManager : MonoBehaviour
             _gameManager.SwitchAction();
         }
 
-        //Sets confirm buttons active
-        if (_gameManager.isClearing && clearCards[0] != null)
+        //Sets confirm buttons state
+        if (_gameManager.isClearing)
         {
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
-            _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
-        }
-        if (_gameManager.isSwitching && switchCards.Item1 != null && switchCards.Item2 != null)
-        {
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
-            _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
-        }
+            //If there is at least one card being cleared, enable the confirm button
+            bool canClear = false;
+            int clearLength = clearCards.Length;
+            for (int i = 0; i < clearLength; i++)
+            {
+                if (clearCards[i] != null)
+                {
+                    canClear = true;
+                    break;
+                }
+            }
 
+            if (canClear) //If at least one card is being cleared
+            {
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            }
+            else //Disables buttons if no card is being cleared
+            {
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+            }
+        }
+        
+        if (_gameManager.isSwitching)
+        {
+            if (_gameManager.hasSwitched) //If there has been at least one change in the order, enable the confirm button
+            {
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            }
+            else //If the new deck is identical to the original deck, disable the confirm button
+            {
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+            }
+        }
     }
 
     /// <summary>
@@ -469,34 +497,6 @@ public class CardManager : MonoBehaviour
             if (!inList)
                 cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
         }
-            /**
-            //If clearCard is null, no card has been selected
-            for (int i = 0; i < numOfCardsToClear; i++)
-            {
-                if (clearCards[i] == null)
-                    cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
-                //Checks clear card and see if it matches
-                else
-                {
-                    bool notInList = false;
-                    for (int j = 0; j < numOfCardsToClear; j++)
-                    {
-                        if (clearCards[j] != null && cardImage.GetComponentInChildren<CardDisplay>().ID 
-                            != clearCards[j].GetComponentInChildren<CardDisplay>().ID)
-                            notInList = true;
-                    }
-                    if (!notInList)
-                        cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
-                    else
-                        cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = true;
-                }
-            }
-
-        }
-        //If game state is not in clearing, remove all highlight
-        else
-            cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
-            */
 
         //Removes swap highlight
         if (_gameManager.isSwitching)
@@ -532,9 +532,6 @@ public class CardManager : MonoBehaviour
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
-
-        //cardImage.GetComponentInParent<Canvas>().overrideSorting = true;
-        //cardImage.GetComponentInParent<Canvas>().sortingOrder = 0;
     }
 
     /// <summary>

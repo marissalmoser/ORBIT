@@ -50,17 +50,20 @@ public class GameManager : MonoBehaviour
 
     private LevelDeck _levelDeck;
     public List<Card> _deck;
+    private List<Card> _demoDeck;
 
     private List<int> _collectedSwitchIDs;
     private List<Collectable> collectablesCollected = new List<Collectable>();
     private (Card, int) _lastCardPlayed;
     public Card confirmationCard { get; private set; }
-    [NonSerialized] public bool isSwitching, isClearing;
+    [NonSerialized] public bool isSwitching, isClearing, isStalling, isUsingWild;
     [NonSerialized] public bool isTurning;
 
     [NonSerialized] public List<Card> _startingDeck;
 
-    public bool _isTurningleft {get; private set; }
+    public bool isTurningleft {get; private set; }
+    private bool _getOriginalDeck;
+    public bool hasSwitched { get; private set; }
     #endregion
     #region Actions
     public static Action<List<Card>> PlayActionOrder;
@@ -83,6 +86,10 @@ public class GameManager : MonoBehaviour
         isSwitching = false;
         isTurning = false;
         isClearing = false;
+        isStalling = false;
+        isUsingWild = false;
+        hasSwitched = false;
+        _getOriginalDeck = true;
 
         ChangeGameState(STATE.LoadGame);
     }
@@ -179,6 +186,7 @@ public class GameManager : MonoBehaviour
 
         //Initializes lists.
         _deck = new();
+        _demoDeck = new();
         _startingDeck = new();
         _dealtCards = new();
         _playedCards = new();
@@ -243,7 +251,7 @@ public class GameManager : MonoBehaviour
         else if (!_gameWon)
         {
             _uiManager.UpdateTextBox("DRAG A CARD TO PLAY.");
-            _uiManager.UpdateDealtCards(); //Updates Cards
+            _uiManager.UpdateDealtCards(_dealtCards); //Updates Cards
         }
     }
 
@@ -300,6 +308,11 @@ public class GameManager : MonoBehaviour
             _uiManager.CreateTurnCards();
             isTurning = true;
         }
+        //If Stall Card was played
+        if (confirmationCard != null && confirmationCard.name == Card.CardName.Stall) //Error check and checks if last card played was a Stall
+        {
+            isStalling = true;
+        }
         if (!isClearing && !isSwitching && !isTurning)
         {
             _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
@@ -310,22 +323,29 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Plays a forecast on where the player will move
     /// </summary>
+    /// <param name="editedList">The tempList that was edited. If it was not edited, give the original List</param>
+    /// <param name="originalList">The original List</param>
     private void PlayDemo()
     {
         _uiManager.UpdateTextBox("Confirm / Cancel");
-        List<Card> tempList = new();
 
-        //Adds the confirmation card to be played in demo
-        int tempSize = _playedCards.Count;
-        for (int i = 0; i < tempSize; i++)
+        //Copies played cards to the demo deck
+        //Restores deck when clearing to avoid losing cards
+        if (_getOriginalDeck || isClearing)
         {
-            tempList.Add(_playedCards[i]);
+            _demoDeck = new();
+            int playedCardsCount = _playedCards.Count;
+            for (int i = 0; i < playedCardsCount; i++)
+            {
+                _demoDeck.Add(_playedCards[i]);
+            }
+
+            //Adds the confirmation card to be played in demo
+            if (!isClearing && !isSwitching && !isStalling && !isUsingWild)
+                _demoDeck.Add(confirmationCard);
+
+            _getOriginalDeck = false;
         }
-
-        if (!isClearing && !isSwitching)
-            tempList.Add(confirmationCard);
-
-
 
         //If the confirmed card was a clear card
         if (isClearing)
@@ -347,7 +367,7 @@ public class GameManager : MonoBehaviour
                     if (_cardManager.clearCards[j] != null && instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID 
                         == _cardManager.clearCards[j].GetComponentInChildren<CardDisplay>().ID)
                     {
-                        tempList = _deckManagerCard.RemoveAt(tempList, i - numOfClearedCards); //When IDs match, remove the card from the list
+                        _demoDeck = _deckManagerCard.RemoveAt(_demoDeck, i - numOfClearedCards); //When IDs match, remove the card from the list
                         numOfClearedCards++; //Since a card is removed, list must be indexed to compensate for lost card
                     }
                 }
@@ -389,25 +409,36 @@ public class GameManager : MonoBehaviour
             }
             if (target1Index != -1 && target2Index != -1) //Error check. Does not continue if both cards are not found
             {
-                tempList = _deckManagerCard.Swap(tempList, target1Index, target2Index); //Swaps the two cards
+                _demoDeck = _deckManagerCard.Swap(_demoDeck, target1Index, target2Index); //Swaps the two cards
             }
             else
             {
                 print("FAILED TO LOCATE CARD IDS");
             }
+            _uiManager.UpdatePlayedCards(_demoDeck);
+
+            int demoCount = _demoDeck.Count;
+            hasSwitched = false;
+            for (int i = 0; i < demoCount; i++)
+            {
+                if (_demoDeck[i].name != _playedCards[i].name)
+                {
+                    hasSwitched = true;
+                    break;
+                }
+            }
         }
 
-        for (int i = 0; i < tempList.Count; i++)
-        {
-            print(tempList[i].name);
-        }
-
-        PlayDemoActionOrder?.Invoke(tempList);
+        PlayDemoActionOrder?.Invoke(_demoDeck);
     }
 
+    /// <summary>
+    /// Stops the demo from being played
+    /// </summary>
     public void StopDemo()
     {
         PlayDemoActionOrder?.Invoke(new List<Card>());
+        _getOriginalDeck = true;
     }
 
     /// <summary>
@@ -475,6 +506,7 @@ public class GameManager : MonoBehaviour
         // _uiManager.UpdateDealtCards();
         // PlaySequence();
 
+        _getOriginalDeck = true;
         ChangeGameState(STATE.PlayingActionOrder);
         _cardManager.lastConfirmationCard = null;
 
@@ -491,7 +523,8 @@ public class GameManager : MonoBehaviour
         _uiManager.MoveCardToActionOrder();
         _uiManager.DisableTextBox();
         //If the confirmation card is a clear or switch, do not add it into play order
-        if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch)
+        if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch 
+            && confirmationCard.name != Card.CardName.Stall && confirmationCard.name != Card.CardName.Wild)
             _playedCards.Add(confirmationCard);
 
         _dealtCards.Remove(_lastCardPlayed.Item1);
@@ -526,45 +559,15 @@ public class GameManager : MonoBehaviour
         {
             isSwitching = false;
 
-            List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
-
-            int instantiatedImagesCount = instantiatedImages.Count;
-
-            //Initializes variables
-            int target1Index = -1;
-            int target2Index = -1;
-            (Image, Image) switchCards = _cardManager.switchCards;
-
-            //Finds the first target ID
-            for (int i = 0; i < instantiatedImagesCount; i++)
+            int demoCount = _demoDeck.Count;
+            _playedCards = new();
+            for (int i = 0; i < demoCount; i++)
             {
-                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == switchCards.Item1.GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
-                {
-                    target1Index = i;
-
-                    break;
-                }
-            }
-
-            //Finds the second target ID
-            for (int i = 0; i < instantiatedImagesCount; i++)
-            {
-                if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == switchCards.Item2.GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
-                {
-                    target2Index = i;
-
-                    break;
-                }
-            }
-            if (target1Index != -1 && target2Index != -1) //Error check. Does not continue if both cards are not found
-            {
-                _playedCards = _deckManagerCard.Swap(_playedCards, target1Index, target2Index); //Swaps the two cards
-            }
-            else
-            {
-                print("FAILED TO LOCATE CARD IDS");
+                _playedCards.Add(_demoDeck[i]);
             }
         }
+        isStalling = false;
+        _uiManager.UpdatePlayedCards(_playedCards);
     }
 
     /// <summary>
@@ -600,10 +603,22 @@ public class GameManager : MonoBehaviour
         darken.enabled = false;
         isClearing = false;
         isSwitching = false;
+        isStalling = false;
+        _getOriginalDeck = true;
 
         _cardManager.RemoveAllHighlight(_uiManager.GetInstantiatedPlayedCardImages()); //Removes the highlight
         _collectedSwitchIDs = new(); //Clears the list
+        _uiManager.UpdatePlayedCards(_playedCards);
         ChangeGameState(STATE.ChooseCards);
+    }
+
+    /// <summary>
+    /// Forces UI played cards display to display _playedCards
+    /// This method is to be used if player replaces the Switch or Clear Card with another card
+    /// </summary>
+    public void ResetPlayedDisplay()
+    {
+        _uiManager.UpdatePlayedCards(_playedCards);
     }
 
     /// <summary>
@@ -633,7 +648,7 @@ public class GameManager : MonoBehaviour
     {
         confirmationCard = card;
         isTurning = false;
-        _isTurningleft = isTurningLeft;
+        isTurningleft = isTurningLeft;
 
         if (lowerDarkenIndex)
         {
