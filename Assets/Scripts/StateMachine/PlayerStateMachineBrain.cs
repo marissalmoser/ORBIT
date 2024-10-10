@@ -194,7 +194,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
     }
     private void ResetGhost()
     {
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);  //turn on main player
+        gameObject.transform.GetChild(1).gameObject.SetActive(false); //turn off shadow
         _ghostPlayer.SetActive(false); //turn off the ghost gameobject
         _currentPlayerController.StopAllCoroutines(); //stop whatever ghost is doing
     }
@@ -203,6 +204,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         SfxManager.Instance.SetPlayerSfxVolume(true); //set player sfx to ghost volume
 
         gameObject.transform.GetChild(0).gameObject.SetActive(false);
+        gameObject.transform.GetChild(1).gameObject.SetActive(true);  //turn on shadow
         _ghostPlayer.SetActive(true);
         _currentPlayerController.StopAllCoroutines();
 
@@ -424,7 +426,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         while (_currentState == State.TrapPlayState)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(.75f);
             GameManager.TrapAction?.Invoke();
             _firedTraps = true;
             if (_currentPlayerController.GetTileWithPlayerRaycast() != null && _currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass() != null)
