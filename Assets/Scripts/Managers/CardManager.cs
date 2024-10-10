@@ -172,6 +172,7 @@ public class CardManager : MonoBehaviour
                 _gameManager.isClearing = false;
                 _gameManager.isSwitching = false;
                 _gameManager.isTurning = false;
+                _gameManager.isStalling = false;
                 switchCards.Item1 = null;
                 switchCards.Item2 = null;
                 clearCards = new Image[numOfCardsToClear];
@@ -496,34 +497,6 @@ public class CardManager : MonoBehaviour
             if (!inList)
                 cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
         }
-            /**
-            //If clearCard is null, no card has been selected
-            for (int i = 0; i < numOfCardsToClear; i++)
-            {
-                if (clearCards[i] == null)
-                    cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
-                //Checks clear card and see if it matches
-                else
-                {
-                    bool notInList = false;
-                    for (int j = 0; j < numOfCardsToClear; j++)
-                    {
-                        if (clearCards[j] != null && cardImage.GetComponentInChildren<CardDisplay>().ID 
-                            != clearCards[j].GetComponentInChildren<CardDisplay>().ID)
-                            notInList = true;
-                    }
-                    if (!notInList)
-                        cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
-                    else
-                        cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = true;
-                }
-            }
-
-        }
-        //If game state is not in clearing, remove all highlight
-        else
-            cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
-            */
 
         //Removes swap highlight
         if (_gameManager.isSwitching)
@@ -559,9 +532,6 @@ public class CardManager : MonoBehaviour
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
         cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
-
-        //cardImage.GetComponentInParent<Canvas>().overrideSorting = true;
-        //cardImage.GetComponentInParent<Canvas>().sortingOrder = 0;
     }
 
     /// <summary>

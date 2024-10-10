@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5c99312d572c2f4faa3a6be9bde9a2c, type: 3}
-  m_Name: PlayedTurnLeftCard
+  m_Name: WildCard
   m_EditorClassIdentifier: 
-  name: 2
-  cardSprite: {fileID: 21300000, guid: a28f85c3160102540a6efe73eb2da2a8, type: 3}
-  _desinationTile: {fileID: 0}
+  name: 8
+  cardSprite: {fileID: 21300000, guid: fcbd8dd49f96be34cbc8f6a671b1e880, type: 3}
+  _isObstacle: 0
+  distance: 0

@@ -29,7 +29,8 @@ public class Card : ScriptableObject
         Jump,
         Clear,
         Switch,
-        BackToIt,
+        Stall,
+        Wild,
         Deck
     }
 
