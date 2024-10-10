@@ -25,6 +25,8 @@ public class CameraController : MonoBehaviour
         // Subscribe to input events
         actionMap["PanCamera"].started += PanCamera;
         actionMap["PanCamera"].canceled += PanCameraCanceled;
+
+        actionMap["DragCamera"].performed += DragCamera;
     }
 
     private void OnDisable()
@@ -34,6 +36,8 @@ public class CameraController : MonoBehaviour
         // Unsubscribe from input events
         actionMap["PanCamera"].started -= PanCamera;
         actionMap["PanCamera"].canceled -= PanCameraCanceled;
+
+        actionMap["DragCamera"].performed -= DragCamera;
     }
 
     /// <summary>
@@ -83,5 +87,27 @@ public class CameraController : MonoBehaviour
             yield return null;
         }
         _cameraMovementCoroutine = null; // Clear reference when done
+    }
+
+    /// <summary>
+    /// Initiates camera movement based on mouse input
+    /// </summary>
+    /// <param name="ctx"></param>
+    private void DragCamera(InputAction.CallbackContext ctx)
+    {
+        Vector2 mouseDelta = ctx.ReadValue<Vector2>();
+        MoveCameraWithMouse(mouseDelta.x);
+    }
+
+    /// <summary>
+    /// Moves the camera along the cinemachine dolly
+    /// </summary>
+    /// <param name="deltaX"></param>
+    private void MoveCameraWithMouse(float deltaX)
+    {
+        if (_virtualCamera == null) return;
+
+        CinemachineTrackedDolly dolly = _virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
+        dolly.m_PathPosition += deltaX * _cameraSpeedMult * Time.deltaTime * -1;
     }
 }
