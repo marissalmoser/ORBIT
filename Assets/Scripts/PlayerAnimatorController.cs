@@ -1,7 +1,6 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
-public class AnimationController : MonoBehaviour
+public class PlayerAnimatorController : MonoBehaviour
 {
     [Tooltip("Enter as float value from 0 to 1")][SerializeField] private float BoredPercentChance;
     private Animator animator;
@@ -15,12 +14,13 @@ public class AnimationController : MonoBehaviour
         {
             animator = GetComponentInParent<Animator>();
         }
+
     }
     public void SeeIfBored()
     {
         if (Random.Range(0, 100) <= BoredPercentChance * 100f)
         {
-
+            PlayAnIdleAnim();
         }
     }
     private void PlayAnIdleAnim()
@@ -37,7 +37,7 @@ public class AnimationController : MonoBehaviour
             case 7:
             case 8:
             case 9:
-
+                animator.SetTrigger("Bored1");
                 break;
         }
     }
