@@ -34213,6 +34213,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5090448011150464352, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
+      propertyPath: m_Radius
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 6253370473978591665, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -34253,6 +34257,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8168827051884601629, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
+      propertyPath: animationClips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8168827051884601629, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
+      propertyPath: animationClips.Array.data[0]
+      value: 
+      objectReference: {fileID: 7400000, guid: 71442609c17404e45860bcdd0e58627e, type: 2}
     - target: {fileID: 8526579759844976674, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
       propertyPath: _currentTile
       value: 
