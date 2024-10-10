@@ -394,11 +394,11 @@ public class UIManager : MonoBehaviour
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
                     break;
                 case Card.CardName.Stall:
-                    cardDisplay.card = _switchCard;
+                    cardDisplay.card = _stallCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
                     break;
                 case Card.CardName.Wild:
-                    cardDisplay.card = _switchCard;
+                    cardDisplay.card = _wildCard;
                     _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "CHOOSE ANY CARD TO PUT INTO THE ACTION ORDER.";
                     break;
                 default:

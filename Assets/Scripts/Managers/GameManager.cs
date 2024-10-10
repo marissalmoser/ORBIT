@@ -308,6 +308,11 @@ public class GameManager : MonoBehaviour
             _uiManager.CreateTurnCards();
             isTurning = true;
         }
+        //If Stall Card was played
+        if (confirmationCard != null && confirmationCard.name == Card.CardName.Stall) //Error check and checks if last card played was a Stall
+        {
+            isStalling = true;
+        }
         if (!isClearing && !isSwitching && !isTurning)
         {
             _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
@@ -561,6 +566,7 @@ public class GameManager : MonoBehaviour
                 _playedCards.Add(_demoDeck[i]);
             }
         }
+        isStalling = false;
         _uiManager.UpdatePlayedCards(_playedCards);
     }
 
@@ -597,6 +603,7 @@ public class GameManager : MonoBehaviour
         darken.enabled = false;
         isClearing = false;
         isSwitching = false;
+        isStalling = false;
         _getOriginalDeck = true;
 
         _cardManager.RemoveAllHighlight(_uiManager.GetInstantiatedPlayedCardImages()); //Removes the highlight

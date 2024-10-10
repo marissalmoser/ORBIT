@@ -172,6 +172,7 @@ public class CardManager : MonoBehaviour
                 _gameManager.isClearing = false;
                 _gameManager.isSwitching = false;
                 _gameManager.isTurning = false;
+                _gameManager.isStalling = false;
                 switchCards.Item1 = null;
                 switchCards.Item2 = null;
                 clearCards = new Image[numOfCardsToClear];
