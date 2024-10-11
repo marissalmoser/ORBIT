@@ -52,4 +52,14 @@ public class PauseMenu : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1;
     }
+
+    public void SetSfxVolume(float volume)
+    {
+        SfxManager.Instance.SetSfxMixerVolume(volume);
+    }
+
+    public void SetMusicVolume(float volume)
+    {
+        MusicManager.Instance.SetMusicMixerVolume(volume);
+    }
 }
