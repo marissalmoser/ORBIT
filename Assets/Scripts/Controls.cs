@@ -98,6 +98,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DragCamera"",
+                    ""type"": ""Value"",
+                    ""id"": ""cc74d6f1-bd44-4be9-aa4d-02da8eb9a8da"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -243,6 +252,39 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""34638db2-9135-4d90-b335-65be890ed145"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DragCamera"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""1ed78b37-ae72-4b1d-acfb-d4f45637f57f"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DragCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""90ea7f95-226c-43fa-adad-df7cdb03c0ce"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DragCamera"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -259,6 +301,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_BaseMap_Move = m_BaseMap.FindAction("Move", throwIfNotFound: true);
         m_BaseMap_Jump = m_BaseMap.FindAction("Jump", throwIfNotFound: true);
         m_BaseMap_Pause = m_BaseMap.FindAction("Pause", throwIfNotFound: true);
+        m_BaseMap_DragCamera = m_BaseMap.FindAction("DragCamera", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -328,6 +371,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_BaseMap_Move;
     private readonly InputAction m_BaseMap_Jump;
     private readonly InputAction m_BaseMap_Pause;
+    private readonly InputAction m_BaseMap_DragCamera;
     public struct BaseMapActions
     {
         private @Controls m_Wrapper;
@@ -340,6 +384,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Move => m_Wrapper.m_BaseMap_Move;
         public InputAction @Jump => m_Wrapper.m_BaseMap_Jump;
         public InputAction @Pause => m_Wrapper.m_BaseMap_Pause;
+        public InputAction @DragCamera => m_Wrapper.m_BaseMap_DragCamera;
         public InputActionMap Get() { return m_Wrapper.m_BaseMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -373,6 +418,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
+            @DragCamera.started += instance.OnDragCamera;
+            @DragCamera.performed += instance.OnDragCamera;
+            @DragCamera.canceled += instance.OnDragCamera;
         }
 
         private void UnregisterCallbacks(IBaseMapActions instance)
@@ -401,6 +449,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
+            @DragCamera.started -= instance.OnDragCamera;
+            @DragCamera.performed -= instance.OnDragCamera;
+            @DragCamera.canceled -= instance.OnDragCamera;
         }
 
         public void RemoveCallbacks(IBaseMapActions instance)
@@ -428,5 +479,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnDragCamera(InputAction.CallbackContext context);
     }
 }
