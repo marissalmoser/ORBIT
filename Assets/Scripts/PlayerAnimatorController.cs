@@ -25,20 +25,8 @@ public class PlayerAnimatorController : MonoBehaviour
     }
     private void PlayAnIdleAnim()
     {
-        int val = Random.Range(0, 10);
-        switch (val)
-        {
-            case 0:
-            case 1:
-            case 2:
-            case 4:
-            case 5:
-            case 6:
-            case 7:
-            case 8:
-            case 9:
-                animator.SetTrigger("Bored1");
-                break;
-        }
+        int val = Random.Range(1, 10);
+        animator.SetInteger("Random", val);
+        animator.SetTrigger("Bored");
     }
 }

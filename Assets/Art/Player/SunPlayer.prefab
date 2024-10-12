@@ -48,6 +48,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2002743732692541793}
+  - component: {fileID: 3467260167590756192}
+  - component: {fileID: 6639917279547846907}
   m_Layer: 0
   m_Name: SunPlayer
   m_TagString: Untagged
@@ -77,6 +79,40 @@ Transform:
   - {fileID: 4805407295971392254}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+--- !u!95 &3467260167590756192
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246389312412064881}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d2e285efe208e374285164207709475e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6639917279547846907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 246389312412064881}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dbb92ded8f618549a1a827a69bffc66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BoredPercentChance: 0.5
 --- !u!1 &753831742234268186
 GameObject:
   m_ObjectHideFlags: 0

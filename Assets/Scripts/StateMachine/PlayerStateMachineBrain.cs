@@ -49,6 +49,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         ConfirmationControls.CancelCard += ResetGhost;
         FindPlayer();
         _player.transform.position = _playerControllerOriginal.GetCurrentTile().GetPlayerSnapPosition();
+        ResetGhost(); //Reused this method turn off ghost and shadow on level start
         //TODO: Have something else load the tileList()
     }
 
@@ -166,10 +167,6 @@ public class PlayerStateMachineBrain : MonoBehaviour
             return actionToGive;
         }
         return null;
-    }
-    public State GetState()
-    {
-        return _currentState;
     }
     public PlayerController GetOriginalPlayerController()
     {
@@ -294,9 +291,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
             }
             else if (_currentAction == null && _isGhost)
             {
-                yield return new WaitForSeconds(.4f);
+                yield return new WaitForSeconds(.5f);
                 StartCardActions(_actionCopies); //restart the preview until the true cards come in
-
             }
             else
             {
@@ -352,34 +348,18 @@ public class PlayerStateMachineBrain : MonoBehaviour
             {
                 case Card.CardName.TurnLeft:
                     SfxManager.Instance.PlaySFX(2469);
-                    //_pC.TurnPlayer(true);
-                    //PlayerController.ReachedDestination?.Invoke();
                     _currentPlayerController.StartTurnCoroutine(true);
-                    //TODO: listen for wait for turn player animation event 
                     break;
                 case Card.CardName.TurnRight:
                     SfxManager.Instance.PlaySFX(2469);
-                    //_pC.TurnPlayer(false);
-                    //PlayerController.ReachedDestination?.Invoke();
                     _currentPlayerController.StartTurnCoroutine(false);
-                    //TODO: animation here
                     break;
                 case Card.CardName.Jump:
                     if (_distance > 1) //this is a spring tile
                     {
                         SfxManager.Instance.PlaySFX(1917);
-                        //_distance -= 1;
-                        //uhhhhhh im counting on spring distance being three, because \/`8 = 2.8... almost 3 tiles.Code wise, i need it to be two
-                        // (two up, two across) to work properly
-                        //int[] possibleNumbers = { 0, 2, 6, 8 };
-                        //int randomIndex = Random.Range(0, possibleNumbers.Length);
-
-                        //    _targetTile = TileManager.Instance.GetTileAtLocation //TODO: must change from random to targetdirection or direction of targettile
-                        //(_pC.GetCurrentTile(), possibleNumbers[randomIndex], _distance);
-
                         _currentPlayerController.StartJumpCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
                     }
-
                     else // this is a normal jump
                     {
                         SfxManager.Instance.PlaySFX(3740);
