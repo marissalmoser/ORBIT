@@ -10346,7 +10346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coordinates: {x: 0, y: 2}
-  _tileType: 1
+  _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
   _collectableRef: {fileID: 0}
@@ -10378,7 +10378,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 639279239}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -22348,14 +22348,14 @@ PrefabInstance:
     - target: {fileID: 1692833811926492168, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: _tracks.Array.data[0]
       value: 
-      objectReference: {fileID: 981757780}
+      objectReference: {fileID: 515332075}
     - target: {fileID: 1692833811926492168, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: _tracks.Array.data[1]
       value: 
-      objectReference: {fileID: 515332075}
+      objectReference: {fileID: 981757780}
     - target: {fileID: 5502246892192241812, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5502246892192241812, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_LocalPosition.y
@@ -23112,9 +23112,9 @@ MonoBehaviour:
   deck:
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: 87cdb0c0c87448e4eb123d3b1fffb6e2, type: 2}
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
-  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
-  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: 87cdb0c0c87448e4eb123d3b1fffb6e2, type: 2}
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   originalDeck: []
