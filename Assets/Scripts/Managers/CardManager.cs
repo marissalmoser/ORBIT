@@ -164,6 +164,7 @@ public class CardManager : MonoBehaviour
         {
             _imageCollider = cardImage.GetComponent<BoxCollider2D>();
             //Checks if the image is overlapping with the play area
+            //TODO - Put this in Function
             if (_imageCollider.IsTouching(_playArea) 
                 && (cardImage.GetComponentInChildren<CardDisplay>().card.name != Card.CardName.Clear || _gameManager.GetPlayedCards().Count != 0)
                 && (cardImage.GetComponentInChildren<CardDisplay>().card.name != Card.CardName.Switch || _gameManager.GetPlayedCards().Count > 1))

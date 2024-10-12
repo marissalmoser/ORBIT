@@ -163,7 +163,7 @@ public class UIManager : MonoBehaviour
         {
             Image newImage = Instantiate(_dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
             newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) * i + _widthPadding, 0, 0); //Sets position
+            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) * i + _widthPadding, _heightPadding, 0); //Sets position
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Sets highlight to off
 
@@ -184,6 +184,7 @@ public class UIManager : MonoBehaviour
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
 
+            //TODO - Put in function when you have time - UpdateCard(Card.name)
             //Finds the name and sets the image to the found data
             switch (dealtCards[i].name)
             {
