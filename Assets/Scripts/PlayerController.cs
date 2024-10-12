@@ -33,11 +33,7 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
-        animator = GetComponentInChildren<Animator>();
-        if (animator == null)
-        {
-            Debug.LogError("Player or player ghost needs an animator component");
-        }
+        
     }
     void Update()
     {
@@ -53,7 +49,16 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="animationName"></param>
     public void PlayAnimation(string animationName)
-    {
+    {      
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+            if(animator == null)
+            {
+                Debug.LogError("Player or player ghost needs an animator component");
+            }     
+        }
+
         int ran = Random.Range(1, 10);
         animator.SetInteger("Random", ran);
         animator.SetTrigger(animationName);
@@ -134,7 +139,7 @@ public class PlayerController : MonoBehaviour
               
         ReachedDestination?.Invoke();
     }
-    private IEnumerator FallPlayer(Vector3 originTileLoc, Vector3 target)
+    private IEnumerator FallPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
     {
         //GetComponent<SphereCollider>().enabled = false; 
         float timeElapsed = 0f;
@@ -145,13 +150,13 @@ public class PlayerController : MonoBehaviour
         while (timeElapsed < totalTime)
         {
             float time = timeElapsed / totalTime;
-            transform.position = Vector3.Lerp(originTileLoc, target, time);
+            transform.position = Vector3.Lerp(originTileLoc, targetTileLoc, time);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = target;
-        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)target.x, (int)target.z)));
+        transform.position = targetTileLoc;
+        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
         if (_currentTile.GetObstacleClass() != null && _currentTile.GetObstacleClass().IsActive())
         {
             _currentTile.GetObstacleClass().PerformObstacleAnim();
@@ -164,7 +169,6 @@ public class PlayerController : MonoBehaviour
         //GetComponent<SphereCollider>().enabled = true;
         ReachedDestination?.Invoke();
     }
-
     private IEnumerator TurnPlayer(bool turningLeft)
     {
         float timeElapsed = 0f;
@@ -273,6 +277,23 @@ public class PlayerController : MonoBehaviour
 
         return p;
     }
+
+    private IEnumerator SpikedPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
+    {
+        PlayAnimation("SpikeHit");
+        yield return new WaitForSeconds(.25f); //Delay for beginning of anim to play
+        float timeElapsed = 0f;
+        float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
+
+        while (timeElapsed < totalTime)
+        {
+            float time = timeElapsed / totalTime;
+            transform.position = Vector3.Lerp(originTileLoc, targetTileLoc, time);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        //No reached destination invoke because this spike should send the player into the deathbox
+    }
     #endregion
 
     #region Getters
@@ -334,8 +355,6 @@ public class PlayerController : MonoBehaviour
         }
         transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
     }
-    #endregion
-
     /// <summary>
     /// Updates the facing direction in code only, but also calls SetFacingDir
     /// </summary>
@@ -365,6 +384,9 @@ public class PlayerController : MonoBehaviour
 
         SetFacingDirection(_currentFacingDirection); //updating rotation
     }
+    #endregion
+
+
 
     /// <summary>
     /// Will be using this to detect collisions with walls and spikes
@@ -376,8 +398,7 @@ public class PlayerController : MonoBehaviour
         {
             SpikeCollision?.Invoke();
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
-            StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y + 10, newV.z));
-            //PlayAnimation("SpikeHit");
+            StartSpikedCoroutine(transform.position, new Vector3(newV.x, newV.y + 10, newV.z));
         }
     }
 
@@ -404,6 +425,10 @@ public class PlayerController : MonoBehaviour
     public void StartFallCoroutine(Vector3 origin, Vector3 target)
     {
         _currentMovementCoroutine = StartCoroutine(FallPlayer(origin, target));
+    }
+    public void StartSpikedCoroutine(Vector3 origin, Vector3 target)
+    {
+        _currentMovementCoroutine = StartCoroutine(SpikedPlayer(origin, target));
     }
     #endregion
 }

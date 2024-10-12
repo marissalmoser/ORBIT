@@ -27329,6 +27329,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moving Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -47795,10 +47799,6 @@ PrefabInstance:
       propertyPath: _currentTile
       value: 
       objectReference: {fileID: 1974456662}
-    - target: {fileID: 4986110887689907734, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6253370473978591665, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -47843,10 +47843,6 @@ PrefabInstance:
       propertyPath: _currentTile
       value: 
       objectReference: {fileID: 1974456662}
-    - target: {fileID: 8526579759844976674, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
-      propertyPath: _currentFacingDirection
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8738298236461623606, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
       propertyPath: m_Name
       value: PlayerContainer

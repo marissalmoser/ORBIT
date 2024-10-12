@@ -291,7 +291,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
             }
             else if (_currentAction == null && _isGhost)
             {
-                yield return new WaitForSeconds(.5f);
+                yield return new WaitForSeconds(.75f);
                 StartCardActions(_actionCopies); //restart the preview until the true cards come in
             }
             else
