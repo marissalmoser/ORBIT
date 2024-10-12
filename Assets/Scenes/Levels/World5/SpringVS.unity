@@ -38765,7 +38765,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deck:
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
-  - {fileID: 11400000, guid: 87cdb0c0c87448e4eb123d3b1fffb6e2, type: 2}
+  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
   - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
@@ -54104,7 +54104,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5040383193030182439, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8026650746240964638, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
