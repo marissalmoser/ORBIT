@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpArcHeight;
     [SerializeField] private float _checkInterval;
     [SerializeField] private float _rayCastDistance;
+    [SerializeField] private float _forwardCastDistance;
 
     [SerializeField] private Transform _raycastPoint;
     [SerializeField] private Tile _currentTile;
@@ -28,18 +29,42 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AnimationCurve _jumpEaseCurve;
     [SerializeField] private AnimationCurve _fallEaseCurve;
     [SerializeField] private AnimationCurve _turnEaseCurve;
-    private Tile _previousTile;
     private Coroutine _currentMovementCoroutine;
+    private Animator animator;
 
     public void Start()
     {
-
+        
     }
     void Update()
     {
         
     }
+    /// <summary>
+    /// This method condenses repiticious code into one spot, since animation
+    /// triggers are called with strings they can be passed along no problem.
+    /// Gets a random number from one to ten to allow for many different 
+    /// animations to play for the same type in the animator as a parameter.
+    /// For example, if there are 3 different jump anims to choose from, they 
+    /// could be assigned weights like 1-5, 6-7, 8-9.
+    /// </summary>
+    /// <param name="animationName"></param>
+    public void PlayAnimation(string animationName)
+    {      
+        if (animator == null)
+        {
+            animator = GetComponentInChildren<Animator>();
+            if(animator == null)
+            {
+                Debug.LogError("Player or player ghost needs an animator component");
+            }     
+        }
 
+        int ran = Random.Range(1, 10);
+        animator.SetInteger("Random", ran);
+        animator.SetTrigger(animationName);
+        animator.SetInteger("Random", -1); //ensuring no animation gets called again
+    }
     #region LiteralMovement
     /// <summary>
     /// These are all private because there are public callers below they all 
@@ -55,6 +80,8 @@ public class PlayerController : MonoBehaviour
 
         Tile nextTile = _currentTile;
 
+        PlayAnimation("Forward");
+
         //get the last key in the curve
         while (timeElapsed < _moveEaseCurve.keys[_moveEaseCurve.length - 1].time)
         {
@@ -68,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
             if (checkTimeElapsed >= _checkInterval)
             {
-                if (GetTileWithPlayerRaycast().GetCoordinates() != nextTile.GetCoordinates() && GetTileWithPlayerRaycast() != null)
+                if (GetTileWithPlayerRaycast() != null && GetTileWithPlayerRaycast().GetCoordinates() != nextTile.GetCoordinates())
                 {
                     nextTile = GetTileWithPlayerRaycast();
                     if (nextTile.IsHole()) //player needs to fall down
@@ -77,12 +104,12 @@ public class PlayerController : MonoBehaviour
                         Vector3 newV = nextTile.GetPlayerSnapPosition();
                         StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y - 10, newV.z));
                     }
-                    else if (nextTile.GetElevation() < _currentTile.GetElevation()) // going down
+                    else if (nextTile.GetElevation() < _currentTile.GetElevation()) // going down an elevation level
                     {
                         StopCoroutine(_currentMovementCoroutine);
                         StartFallCoroutine(transform.position, nextTile.GetPlayerSnapPosition());
                     }
-                    else if (nextTile.GetObstacleClass() != null && nextTile.GetObstacleClass().IsActive())
+                    else if (nextTile.GetObstacleClass() != null && nextTile.GetObstacleClass().IsActive()) //runs atop an active obstacle
                     {
                         var card = TileManager.Instance.GetObstacleWithTileCoordinates(nextTile.GetCoordinates()).GetCard();
                         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(nextTile.GetCoordinates()));
@@ -102,36 +129,39 @@ public class PlayerController : MonoBehaviour
                         }
                     }
                 }
+                else if (GetForwardTileWithRaycast() != null && GetForwardTileWithRaycast().GetElevation() > _currentTile.GetElevation())//going to run into a wall
+                {
+                    WallInterruptAnimation?.Invoke();
+                }
                 // Reset the check timer
                 checkTimeElapsed = 0f;
             }
             yield return null;
         }
+
         transform.position = targetTileLoc; //double check final position
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
-
-        if (_currentMovementCoroutine != null)
-        {
-            ReachedDestination?.Invoke();
-        }
+              
+        ReachedDestination?.Invoke();
     }
-    private IEnumerator FallPlayer(Vector3 originTileLoc, Vector3 target)
+    private IEnumerator FallPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
     {
         //GetComponent<SphereCollider>().enabled = false; 
         float timeElapsed = 0f;
         float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
 
-        //Vector3 target = new Vector3(originTileLoc.x, originTileLoc.y + directionMagnitude, originTileLoc.z);
+        PlayAnimation("Fall");
 
         while (timeElapsed < totalTime)
         {
             float time = timeElapsed / totalTime;
-            transform.position = Vector3.Lerp(originTileLoc, target, time);
+            transform.position = Vector3.Lerp(originTileLoc, targetTileLoc, time);
             timeElapsed += Time.deltaTime;
             yield return null;
         }
-        transform.position = target;
-        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)target.x, (int)target.z)));
+
+        transform.position = targetTileLoc;
+        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
         if (_currentTile.GetObstacleClass() != null && _currentTile.GetObstacleClass().IsActive())
         {
             _currentTile.GetObstacleClass().PerformObstacleAnim();
@@ -144,34 +174,41 @@ public class PlayerController : MonoBehaviour
         //GetComponent<SphereCollider>().enabled = true;
         ReachedDestination?.Invoke();
     }
-
     private IEnumerator TurnPlayer(bool turningLeft)
     {
         float timeElapsed = 0f;
         float totalDuration = _turnEaseCurve.keys[_turnEaseCurve.length - 1].time;
-        float startRotationY = transform.eulerAngles.y;
+        if(turningLeft)
+        {
+            PlayAnimation("TurnLeft");
+        }
+        else
+        {
+            PlayAnimation("TurnRight");
+        }
+        //float startRotationY = transform.eulerAngles.y;
 
-        //first calculate the target Y rotation (90 degrees to the left or right)
-        float targetRotationY = turningLeft ? startRotationY - 90f : startRotationY + 90f;
-        //then we need to normalize the angle to prevent values greater than 360 or less than 0
-        if (targetRotationY < 0f)
-            targetRotationY += 360f;
-        else if (targetRotationY >= 360f)
-            targetRotationY -= 360f;
+        ////first calculate the target Y rotation (90 degrees to the left or right)
+        //float targetRotationY = turningLeft ? startRotationY - 90f : startRotationY + 90f;
+        ////then we need to normalize the angle to prevent values greater than 360 or less than 0
+        //if (targetRotationY < 0f)
+        //    targetRotationY += 360f;
+        //else if (targetRotationY >= 360f)
+        //    targetRotationY -= 360f;
 
         while (timeElapsed < totalDuration)
         {
-            float t = _turnEaseCurve.Evaluate(timeElapsed);
+            //float t = _turnEaseCurve.Evaluate(timeElapsed);
 
-            float newRotationY = Mathf.LerpAngle(startRotationY, targetRotationY, t);
+            //float newRotationY = Mathf.LerpAngle(startRotationY, targetRotationY, t);
 
-            transform.eulerAngles = new Vector3(transform.eulerAngles.x, newRotationY, transform.eulerAngles.z);
+            //transform.eulerAngles = new Vector3(transform.eulerAngles.x, newRotationY, transform.eulerAngles.z);
 
             timeElapsed += Time.deltaTime;
 
             yield return null;
         }
-        transform.eulerAngles = new Vector3(transform.eulerAngles.x, targetRotationY, transform.eulerAngles.z);
+        //transform.eulerAngles = new Vector3(transform.eulerAngles.x, targetRotationY, transform.eulerAngles.z);
         UpdateFacingDirection(turningLeft);
         ReachedDestination?.Invoke();
     }
@@ -183,6 +220,9 @@ public class PlayerController : MonoBehaviour
         //calculate the midpoint by using both A and B and getting halfway at the archeight
         Vector3 controlPoint = (originTileLoc + targetTileLoc) / 2 + Vector3.up * _jumpArcHeight;
         float totalDuration = _jumpEaseCurve.keys[_moveEaseCurve.length - 1].time;
+
+
+        PlayAnimation("Jump");
 
         while (timeElapsed < totalDuration)
         {
@@ -197,7 +237,7 @@ public class PlayerController : MonoBehaviour
 
             yield return null;
         }
-        if (GetTileWithPlayerRaycast().IsHole()) //player needs to fall down
+        if (GetTileWithPlayerRaycast() != null && GetTileWithPlayerRaycast().IsHole()) //player needs to fall down
         {
             StopCoroutine(_currentMovementCoroutine);
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
@@ -242,6 +282,23 @@ public class PlayerController : MonoBehaviour
 
         return p;
     }
+
+    private IEnumerator SpikedPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
+    {
+        PlayAnimation("SpikeHit");
+        yield return new WaitForSeconds(.25f); //Delay for beginning of anim to play
+        float timeElapsed = 0f;
+        float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
+
+        while (timeElapsed < totalTime)
+        {
+            float time = timeElapsed / totalTime;
+            transform.position = Vector3.Lerp(originTileLoc, targetTileLoc, time);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        //No reached destination invoke because this spike should send the player into the deathbox
+    }
     #endregion
 
     #region Getters
@@ -249,6 +306,18 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
         if (Physics.Raycast(_raycastPoint.position, -Vector3.up, out hit, _rayCastDistance))
+        {
+            if (hit.collider.GetComponent<Tile>() != null)
+            {
+                return hit.collider.GetComponent<Tile>();
+            }
+        }
+        return null;
+    }
+    public Tile GetForwardTileWithRaycast()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_raycastPoint.position, Vector3.forward, out hit, _forwardCastDistance))
         {
             if (hit.collider.GetComponent<Tile>() != null)
             {
@@ -303,8 +372,6 @@ public class PlayerController : MonoBehaviour
         }
         transform.rotation = Quaternion.Euler(0f, newYRotation, 0f);
     }
-    #endregion
-
     /// <summary>
     /// Updates the facing direction in code only, but also calls SetFacingDir
     /// </summary>
@@ -332,8 +399,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        //SetFacingDirection(_currentFacingDirection); //updating rotation
+        SetFacingDirection(_currentFacingDirection); //updating rotation
     }
+    #endregion
+
+
 
     /// <summary>
     /// Will be using this to detect collisions with walls and spikes
@@ -345,7 +415,7 @@ public class PlayerController : MonoBehaviour
         {
             SpikeCollision?.Invoke();
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
-            StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y + 10, newV.z));
+            StartSpikedCoroutine(transform.position, new Vector3(newV.x, newV.y + 10, newV.z));
         }
     }
 
@@ -354,8 +424,6 @@ public class PlayerController : MonoBehaviour
     /// Below are all the coroutines for moving the playercontainer. We will a
     /// nimate the player itself, not the container. However, we still need to 
     /// move the container, because the animations will be animated in place
-    /// I dont know a better way to stop a coroutine from another script
-    /// without doing string comparison, so thats why there are so many methods
     /// </summary>
     /// <param name="origin"></param>
     /// <param name="target"></param>
@@ -374,6 +442,10 @@ public class PlayerController : MonoBehaviour
     public void StartFallCoroutine(Vector3 origin, Vector3 target)
     {
         _currentMovementCoroutine = StartCoroutine(FallPlayer(origin, target));
+    }
+    public void StartSpikedCoroutine(Vector3 origin, Vector3 target)
+    {
+        _currentMovementCoroutine = StartCoroutine(SpikedPlayer(origin, target));
     }
     #endregion
 }
