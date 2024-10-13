@@ -22,11 +22,11 @@ AnimationClip:
     curve:
     - time: 0
       value: {fileID: 2100000, guid: 4cfc85611b55ec34fb29d550a22eb9ae, type: 2}
-    - time: 0.16666667
-      value: {fileID: 2100000, guid: 4f2db6d4ad123b941878b81795da32b1, type: 2}
-    - time: 0.33333334
-      value: {fileID: 2100000, guid: 4d371c764561f0d4caef45cdd946c797, type: 2}
     - time: 0.5
+      value: {fileID: 2100000, guid: 4f2db6d4ad123b941878b81795da32b1, type: 2}
+    - time: 1
+      value: {fileID: 2100000, guid: 4d371c764561f0d4caef45cdd946c797, type: 2}
+    - time: 1.4833333
       value: {fileID: 2100000, guid: 4cfc85611b55ec34fb29d550a22eb9ae, type: 2}
     attribute: m_Materials.Array.data[0]
     path: Speed_Pad
@@ -59,7 +59,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.51666665
+    m_StopTime: 1.5
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

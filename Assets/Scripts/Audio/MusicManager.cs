@@ -9,6 +9,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class MusicManager : MonoBehaviour
@@ -16,6 +17,9 @@ public class MusicManager : MonoBehaviour
     public static Action ChangeMusic;
 
     [SerializeField] private List<Music> _music = new List<Music>();
+
+    [SerializeField] private AudioMixer _masterMixer;
+    private float _currentMusicVolume = 1;
 
     [SerializeField] private float _fadeInDuration;
     [SerializeField] private float _fadeOutDuration;
@@ -267,4 +271,23 @@ public class MusicManager : MonoBehaviour
             FadeInMusic(_level4MusicID);
         }
     }
+
+    #region mixer functions
+
+    /// <summary>
+    /// Sets the volume of the music mixer input 0 thru -80
+    /// </summary>
+    /// <param name="volume"></param>
+    public void SetMusicMixerVolume(float volume)
+    {
+        _masterMixer.SetFloat("MusicVolume", Mathf.Log(volume) * 20);
+        _currentMusicVolume = volume;
+    }
+
+    public float GetCurrentVolume()
+    {
+        return _currentMusicVolume;
+    }
+
+    #endregion
 }
