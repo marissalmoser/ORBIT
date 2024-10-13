@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _jumpArcHeight;
     [SerializeField] private float _checkInterval;
     [SerializeField] private float _rayCastDistance;
+    [SerializeField] private float _forwardCastDistance;
 
     [SerializeField] private Transform _raycastPoint;
     [SerializeField] private Tile _currentTile;
@@ -94,7 +95,7 @@ public class PlayerController : MonoBehaviour
 
             if (checkTimeElapsed >= _checkInterval)
             {
-                if (GetTileWithPlayerRaycast().GetCoordinates() != nextTile.GetCoordinates() && GetTileWithPlayerRaycast() != null)
+                if (GetTileWithPlayerRaycast() != null && GetTileWithPlayerRaycast().GetCoordinates() != nextTile.GetCoordinates())
                 {
                     nextTile = GetTileWithPlayerRaycast();
                     if (nextTile.IsHole()) //player needs to fall down
@@ -127,6 +128,10 @@ public class PlayerController : MonoBehaviour
                             AddCard?.Invoke(card);
                         }
                     }
+                }
+                else if (GetForwardTileWithRaycast() != null && GetForwardTileWithRaycast().GetElevation() > _currentTile.GetElevation())//going to run into a wall
+                {
+                    WallInterruptAnimation?.Invoke();
                 }
                 // Reset the check timer
                 checkTimeElapsed = 0f;
@@ -232,7 +237,7 @@ public class PlayerController : MonoBehaviour
 
             yield return null;
         }
-        if (GetTileWithPlayerRaycast().IsHole()) //player needs to fall down
+        if (GetTileWithPlayerRaycast() != null && GetTileWithPlayerRaycast().IsHole()) //player needs to fall down
         {
             StopCoroutine(_currentMovementCoroutine);
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
@@ -301,6 +306,18 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit hit;
         if (Physics.Raycast(_raycastPoint.position, -Vector3.up, out hit, _rayCastDistance))
+        {
+            if (hit.collider.GetComponent<Tile>() != null)
+            {
+                return hit.collider.GetComponent<Tile>();
+            }
+        }
+        return null;
+    }
+    public Tile GetForwardTileWithRaycast()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(_raycastPoint.position, Vector3.forward, out hit, _forwardCastDistance))
         {
             if (hit.collider.GetComponent<Tile>() != null)
             {
