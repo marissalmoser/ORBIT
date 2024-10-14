@@ -21,9 +21,14 @@ public class CardDisplay : MonoBehaviour
     public bool IsSwapping { get; private set; }
 
     private GameManager _gameManager;
+
+    private Animator _anim;
+    private bool _isSelected;
+
     void Start()
     {
         _gameManager = GameManager.Instance;
+        _anim = GetComponentInParent<Animator>();
         _sprite.sprite = card.cardSprite;
 
         IsMouseInCard = false;
@@ -63,6 +68,7 @@ public class CardDisplay : MonoBehaviour
     {
         IsMouseInCard = true;
         CardManager.Instance.DealtMouseEnterCard(tooltip);
+        _anim.SetBool("Hover", true);
     }
 
     /// <summary>
@@ -73,6 +79,7 @@ public class CardDisplay : MonoBehaviour
     {
         IsMouseInCard = false;
         CardManager.Instance.DealtMouseExitCard(tooltip);
+        _anim.SetBool("Hover", false);
     }
     /// <summary>
     /// Helper method for Event Trigger Pointer Down for DealtCards
@@ -83,6 +90,8 @@ public class CardDisplay : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             IsMouseDown = true;
+            _anim.SetBool("Select", !_isSelected);  //figure out if shoulf be true/false
+            _isSelected = !_isSelected;
             CardManager.Instance.DealtMousePressedCard(Card);
         }
     }
