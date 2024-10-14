@@ -11,10 +11,10 @@ using UnityEngine;
 
 public class CollectibleStats
 {
-    public string LevelName { get; set; }
-    public int BuildIndex { get; set; }
-    public bool IsCollected { get; private set; }
-    public bool HasCollectible { get; set; }
+    [SerializeField] string LevelName;
+    [SerializeField] int BuildIndex;
+    [SerializeField] bool IsCollected;
+    [SerializeField] bool HasCollectible;
 
     /// <summary>
     /// Initializes a new instance of the CollectibleStats class.
