@@ -17,11 +17,12 @@ public class CollectibleStats
     public bool HasCollectible { get; set; }
 
     /// <summary>
-    /// Contains the necessary information for collectibles
+    /// Initializes a new instance of the CollectibleStats class.
     /// </summary>
-    /// <param name="levelName"></param>
-    /// <param name="buildIndex"></param>
-    /// <param name="hasCollectible"></param>
+    /// <param name="levelName">The name of the level.</param>
+    /// <param name="buildIndex">The build index of the level.</param>
+    /// <param name="hasCollectible">Indicates if there is a collectible present in the level.</param>
+
     public CollectibleStats(string levelName, int buildIndex, bool hasCollectible)
     {
         LevelName = levelName;
@@ -31,9 +32,9 @@ public class CollectibleStats
     }
 
     /// <summary>
-    /// Sets the collectible to collected
+    /// Sets the collectible state to collected or not.
     /// </summary>
-    /// <param name="collected"></param>
+    /// <param name="collected">True if the collectible is collected, false otherwise.</param>
     public void SetIsCollected(bool collected)
     {
         IsCollected = collected;

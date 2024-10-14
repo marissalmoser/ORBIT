@@ -30,6 +30,10 @@ public class CollectibleManager : MonoBehaviour
 
     public List<CollectibleStats> collectableStats;
 
+    /// <summary>
+    /// Initializes a new instance of the CollectibleManager class.
+    /// Sets up the collectableStats list with 30 collectible items.
+    /// </summary>
     private CollectibleManager()
     {
         collectableStats = new List<CollectibleStats>(30);
@@ -37,7 +41,8 @@ public class CollectibleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Initializes collectibleStats list
+    /// Initializes the collectableStats list with 30 collectible items.
+    /// Each collectible corresponds to a level.
     /// </summary>
     private void InitializeCollectibles()
     {
