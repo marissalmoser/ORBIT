@@ -34900,7 +34900,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 08c316a73f652c242ba604546867c323, type: 2}
+  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -35845,28 +35845,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
---- !u!114 &2870088648296899362 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8620803414720076090, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
-  m_PrefabInstance: {fileID: 2870088648296899361}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2870088648296899363 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5230660380579248966, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
-  m_PrefabInstance: {fileID: 2870088648296899361}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2870088648296899364 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1997987859221538088, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
@@ -35968,7 +35946,7 @@ PrefabInstance:
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _cancelButton
       value: 
-      objectReference: {fileID: 2870088648296899362}
+      objectReference: {fileID: 0}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _upperTextBox
       value: 
@@ -35980,7 +35958,7 @@ PrefabInstance:
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _confirmButton
       value: 
-      objectReference: {fileID: 2870088648296899363}
+      objectReference: {fileID: 0}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _turnLeftImage
       value: 

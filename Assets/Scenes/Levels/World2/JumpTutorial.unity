@@ -3526,7 +3526,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 22c9d7c6ebc7ca9489332bfb2a075d5f, type: 2}
+  - {fileID: 2100000, guid: 8a8674e83c355d64a87bb33f179366eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5061,28 +5061,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &483538622 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8620803414720076090, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
-  m_PrefabInstance: {fileID: 483538618}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &483538623 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5230660380579248966, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
-  m_PrefabInstance: {fileID: 483538618}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &483538624 stripped
@@ -15024,7 +15002,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 08c316a73f652c242ba604546867c323, type: 2}
+  - {fileID: 2100000, guid: 8a8674e83c355d64a87bb33f179366eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -15396,7 +15374,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 08c316a73f652c242ba604546867c323, type: 2}
+  - {fileID: 2100000, guid: 8a8674e83c355d64a87bb33f179366eb, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -22581,7 +22559,7 @@ PrefabInstance:
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _cancelButton
       value: 
-      objectReference: {fileID: 483538622}
+      objectReference: {fileID: 0}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _upperTextBox
       value: 
@@ -22593,7 +22571,7 @@ PrefabInstance:
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _confirmButton
       value: 
-      objectReference: {fileID: 483538623}
+      objectReference: {fileID: 0}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _turnLeftImage
       value: 
