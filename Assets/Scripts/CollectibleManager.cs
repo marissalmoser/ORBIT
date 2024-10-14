@@ -1,3 +1,10 @@
+/******************************************************************
+ *    Author: Sky Turner 
+ *    Contributors: Marissa
+ *    Date Created: 9/13/24
+ *    Description: Collectible Manager 
+ *    
+ *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,6 +36,9 @@ public class CollectibleManager : MonoBehaviour
         InitializeCollectibles();
     }
 
+    /// <summary>
+    /// Initializes collectibleStats list
+    /// </summary>
     private void InitializeCollectibles()
     {
         for(int i = 0; i < 30; i++)
