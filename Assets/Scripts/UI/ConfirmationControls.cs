@@ -53,6 +53,7 @@ public class ConfirmationControls : MonoBehaviour
     {
         if (Mouse.current.leftButton.wasReleasedThisFrame && isActive)
         {
+            SetIsActive(false);
             _gameManager.ConfirmCards();
             SfxManager.Instance.SetPlayerSfxVolume(false);
         }

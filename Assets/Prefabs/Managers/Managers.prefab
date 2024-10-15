@@ -104,6 +104,8 @@ MonoBehaviour:
   _cardHeightSpacing: 140
   doVerticalFormat: 1
   numOfUniqueCards: 5
+  _leftButton: {fileID: 0}
+  _rightButton: {fileID: 0}
   _movedTooltip: {fileID: 21300000, guid: dedfcf96b7cfaff428cbf09a3d8c6a77, type: 3}
   _jumpTooltip: {fileID: 21300000, guid: 6ff1fceb985b563439a9a5aa40cd97f8, type: 3}
   _turnTooltip: {fileID: 21300000, guid: 6322b63775b05cf43ad1dc371b0022eb, type: 3}
@@ -128,6 +130,50 @@ MonoBehaviour:
   _clearCard: {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   _stallCard: {fileID: 11400000, guid: 87cdb0c0c87448e4eb123d3b1fffb6e2, type: 2}
   _wildCard: {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
+--- !u!1 &3029668323481007571
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 640263428631878595}
+  - component: {fileID: 6517094183083194834}
+  m_Layer: 0
+  m_Name: ArrowsManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &640263428631878595
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3029668323481007571}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 295.8082, y: 168.57266, z: -37.521793}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 506377384592549989}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6517094183083194834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3029668323481007571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15ec1f12505cd9a4aadc085b7b34b5e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7511067672945292195
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +206,7 @@ Transform:
   - {fileID: 1589773634232040725}
   - {fileID: 5676391447291938184}
   - {fileID: 8512707592439674957}
+  - {fileID: 640263428631878595}
   - {fileID: 5015074587055893854}
   - {fileID: 6256145206189366257}
   m_Father: {fileID: 0}
