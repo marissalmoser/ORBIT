@@ -187,9 +187,10 @@ public class CardDisplay : MonoBehaviour
             IsMouseDown = false;
             CardManager.Instance.DealtMouseReleasedCard(Card, ID);
 
+            //disable animator to allow drag
             if(_anim != null)
             {
-                _anim.SetBool("LockIdle", false);
+                _anim.enabled = true;
             }
         }
     }
@@ -204,9 +205,10 @@ public class CardDisplay : MonoBehaviour
         {
             CardManager.Instance.DealtOnDragCard(Card);
 
+            //disable animator to allow drag
             if (_anim != null)
             {
-                _anim.SetBool("LockIdle", true);
+                _anim.enabled = false;
             }
         }
     }
