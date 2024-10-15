@@ -5928,15 +5928,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3860412782538069040, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.008725818
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3860412782538069040, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3860412782538069040, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.999962
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3860412782538069040, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: m_LocalRotation.z
@@ -5948,7 +5948,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3860412782538069040, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 179
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 3860412782538069040, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -5960,7 +5960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8207134452197085670, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: direction
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20084,6 +20084,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
+  - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   originalDeck: []
 --- !u!1 &1475437054
 GameObject:

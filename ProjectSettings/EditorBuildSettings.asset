@@ -15,30 +15,105 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/FloralLevelSelect.unity
     guid: 49a9e01bd9293594c9bd597425f2cfc9
   - enabled: 1
-    path: Assets/Scenes/Levels/Tutorial/MoveTutorial.unity
+    path: Assets/Scenes/Levels/World1/MoveTutorial.unity
     guid: 21bc1c475483ff442bc473392d733dc6
   - enabled: 1
-    path: Assets/Scenes/Levels/Tutorial/TurnTutorial.unity
-    guid: d9ef944aa1448244aa305db0215b50d6
+    path: Assets/Scenes/Levels/World1/TurnTutorial.unity
+    guid: 8422c0a1598caed459c2316feaa2344c
   - enabled: 1
-    path: Assets/Scenes/Levels/Tutorial/JumpTutorial.unity
+    path: Assets/Scenes/Levels/World1/RotatingPlatformsTutorial.unity
+    guid: 6bc6abf5b5740f246be4fe1d21e7545b
+  - enabled: 1
+    path: Assets/Scenes/Levels/World1/Level1.unity
+    guid: 2d15c09b17174db4b97e232f89612661
+  - enabled: 1
+    path: Assets/Scenes/Levels/World1/Level2.unity
+    guid: afbcf6cf12f04374598df2f2ec09dfb9
+  - enabled: 1
+    path: Assets/Scenes/Levels/World1/Level3.unity
+    guid: fc60d66634e719049afa3dd5bf97b1cb
+  - enabled: 1
+    path: Assets/Scenes/Levels/World1/BackUp.unity
+    guid: 339f6020bcd92fc418516756a20de4b3
+  - enabled: 1
+    path: Assets/Scenes/Menus/IceLevelSelect.unity
+    guid: b33deab5100192443840bd03db80e738
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/JumpTutorial.unity
     guid: 503477bd203d2b34e83cbf54287405d2
   - enabled: 1
-    path: Assets/Scenes/Levels/Tutorial/ClearTutorial.unity
+    path: Assets/Scenes/Levels/World2/StallTutorial.unity
+    guid: c43d6e8b95b730e4e8987cb5df897a3b
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/Level4.unity
+    guid: b4e950a840e9b1f4cabcd5bce32e1f4a
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/Level5.unity
+    guid: 88082347f37e02d4b9e378f82849876e
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/Level6.unity
+    guid: 328fd82c9ec3eed459f3bbaa03bb5d3b
+  - enabled: 1
+    path: Assets/Scenes/Levels/World2/Level7.unity
+    guid: fbfd019fb69250b4c90cdef87e310418
+  - enabled: 1
+    path: Assets/Scenes/Menus/FireLevelSelect.unity
+    guid: 7e56af306944e86448670f2573e262e1
+  - enabled: 1
+    path: Assets/Scenes/Levels/World3/ClearTutorial.unity
     guid: 1c3a1a7193d269d44a1e9d15c073f8e4
   - enabled: 1
-    path: Assets/Scenes/Levels/Tutorial/SwitchTutorial.unity
+    path: Assets/Scenes/Levels/World3/SwitchTutorial.unity
     guid: 65f672d573677b44489a11990998c852
   - enabled: 1
-    path: Assets/Scenes/Levels/VSNew/SpikeNew.unity
+    path: Assets/Scenes/Levels/World3/SpikeTutorial.unity
+    guid: b9b6dfa2d8c3e6a498758a3157749f7f
+  - enabled: 1
+    path: Assets/Scenes/Levels/World3/Level8.unity
     guid: 367e5488bb819954c8b7a965a8311071
   - enabled: 1
-    path: Assets/Scenes/Levels/VSNew/RotatingPlatformsNew.unity
-    guid: 11d9e3ea0817a6e4ebb8f1ebf426cd1b
+    path: Assets/Scenes/Levels/World3/Level9.unity
+    guid: 6a5936d1e9f83bb4eba48faa2b0a1c96
   - enabled: 1
-    path: Assets/Scenes/Levels/VS5x5/SpringVS.unity
-    guid: f06a4df88adf58548965320d5281eb8f
+    path: Assets/Scenes/Levels/World3/Level10.unity
+    guid: 45f5ba94367bc1b43a1491e12387e790
   - enabled: 1
-    path: Assets/Scenes/Levels/VS5x5/RampVS.unity
+    path: Assets/Scenes/Menus/DiscoLevelSelect.unity
+    guid: fae67bb8842128f4481d3e4045c1ab2e
+  - enabled: 1
+    path: Assets/Scenes/Levels/World4/SpeedPadTutorial.unity
+    guid: bff3d6c0843e97542a49f23353068313
+  - enabled: 1
+    path: Assets/Scenes/Levels/World4/Level11.unity
+    guid: f0e018456513c394baf2fe9e9fcc170f
+  - enabled: 1
+    path: Assets/Scenes/Levels/World4/Level12.unity
     guid: 5024d47b9ad418545a352bf6cc21b6a9
+  - enabled: 1
+    path: Assets/Scenes/Levels/World4/Level13.unity
+    guid: 778754858c21718489af0bdfb8ac6c80
+  - enabled: 1
+    path: Assets/Scenes/Levels/World4/Level14.unity
+    guid: 121c610a39473d14595d202b7c75a8ce
+  - enabled: 1
+    path: Assets/Scenes/Menus/PastelLevelSelect.unity
+    guid: 88251d128f6cf974891fb23f72515db7
+  - enabled: 1
+    path: Assets/Scenes/Levels/World5/SpringTutorial.unity
+    guid: 2cd75b17bf31a5242aa1d039a8104e05
+  - enabled: 1
+    path: Assets/Scenes/Levels/World5/Level15.unity
+    guid: 82307eff33fb947489f512f6306f5b4a
+  - enabled: 1
+    path: Assets/Scenes/Levels/World5/Level16.unity
+    guid: 741c410ee13dc2d4f8be3fc43551f702
+  - enabled: 1
+    path: Assets/Scenes/Levels/World5/Level17.unity
+    guid: a3aba9e700f275d4aadb36172a3d1881
+  - enabled: 1
+    path: Assets/Scenes/Levels/World5/Level18.unity
+    guid: 6b9333df808de0e4494b11620c023574
+  - enabled: 1
+    path: Assets/Scenes/Levels/World5/Level19.unity
+    guid: f06a4df88adf58548965320d5281eb8f
   m_configObjects: {}

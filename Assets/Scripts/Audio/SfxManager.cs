@@ -16,9 +16,10 @@ public class SfxManager : MonoBehaviour
     [SerializeField] private float _fadeOutDuration;
     [SerializeField] private AudioMixer _masterMixer;
 
-    private float _sfxCurrentVolume; //volume set by player in options menu
+    private float _sfxCurrentVolume = 1; //volume set by player in options menu
     private float _playerSfxCurrentVolume; //volume set by player in oprions menu
     [SerializeField] private float _playerGhostVolume; //volume for the ghost player. Set to -80 to mute.
+    private bool _ghostPlaying;
 
     public static SfxManager Instance { get; private set; }
 
@@ -173,12 +174,14 @@ public class SfxManager : MonoBehaviour
     /// <param name="volume"></param>
     public void SetSfxMixerVolume(float volume)
     {
-        _masterMixer.SetFloat("SfxVolume", volume);
+        _masterMixer.SetFloat("SfxVolume",  Mathf.Log(volume) * 20);
         _sfxCurrentVolume = volume;
-
-        //TODO: would update during the silent ghost player phase, need to check if in ghost state
-        _masterMixer.SetFloat("PlayerSfxVolume", volume); 
-        _playerGhostVolume = volume;
+        _playerSfxCurrentVolume = volume;
+        print(volume);
+        if (!_ghostPlaying)
+        {
+            _masterMixer.SetFloat("PlayerSfxVolume", Mathf.Log(volume) * 20);
+        }
     }
 
     /// <summary>
@@ -190,10 +193,17 @@ public class SfxManager : MonoBehaviour
     {
          if(input)
          {
-            _masterMixer.SetFloat("PlayerSfxVolume", _playerGhostVolume);
+            _masterMixer.SetFloat("PlayerSfxVolume", Mathf.Log(_playerGhostVolume) * 20);
+            _ghostPlaying = true;
             return;
          }
-        _masterMixer.SetFloat("PlayerSfxVolume", _playerSfxCurrentVolume);
+        _masterMixer.SetFloat("PlayerSfxVolume", Mathf.Log(_playerSfxCurrentVolume) * 20);
+        _ghostPlaying = false;
+    }
+
+    public float GetCurrentVolume()
+    {
+        return _sfxCurrentVolume;
     }
 
     #endregion
