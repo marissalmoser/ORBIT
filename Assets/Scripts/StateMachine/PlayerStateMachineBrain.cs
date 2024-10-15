@@ -15,8 +15,6 @@
 *    6. Gets another card in PrepareNextAction state and repeats, or
 *       goes to waiting for actions state.
 *       
-*       IMPORTANT: AS OF 9/9/24, THERE IS NO HANDLER FOR HITTING 
-*       OBSTACLES OR FALLING INTO HOLES/OFF MAP. WIP. 
 *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -218,7 +216,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         if (_currentPlayerController.GetCurrentMovementCoroutine() != null)
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
-            _currentPlayerController.StartFallCoroutine(_currentPlayerController.transform.position, _currentPlayerController.GetCurrentTile().GetPlayerSnapPosition());
+            _currentPlayerController.StartFallCoroutine(_currentPlayerController.transform.position, _currentPlayerController.GetPreviousTile().GetPlayerSnapPosition());
         }
         else
         {
@@ -240,6 +238,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
         }
+        _currentPlayerController.SetPreviousTile(_currentPlayerController.GetCurrentTile());
 
         FSM(State.PrepareNextAction);
     }
