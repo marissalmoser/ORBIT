@@ -282,7 +282,7 @@ public class GameManager : MonoBehaviour
             }    
         }
 
-
+        //POYO
         //If Switch Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Switch) //Error check and checks if last card played was a Switch
         {
@@ -747,6 +747,14 @@ public class GameManager : MonoBehaviour
                 isUsingWild = true;
                 currentlyOnWild = false;
                 _getOriginalDeck = true;
+
+                //Deactivates Darken Effect
+                if (lowerDarkenIndex)
+                {
+                    darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() - 1);
+                    lowerDarkenIndex = false;
+                }
+                darken.enabled = false;
                 break;
             case Card.CardName.Clear:
                 isClearing = true;
@@ -755,6 +763,15 @@ public class GameManager : MonoBehaviour
                 isUsingWild = false;
                 currentlyOnWild = true;
                 _getOriginalDeck = true;
+
+                //Activates Darken Effect
+                if (_playedCards.Count > 0)
+                {
+                    darken.enabled = true;
+                    _uiManager.UpdateTextBox("SELECT A CARD TO CLEAR.");
+                }
+                else //Disables Darken Effect - Shouldn't ever need this - Failsafe
+                    darken.enabled = false;
 
                 //Deactivates Confirm Button
                 _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
@@ -767,6 +784,15 @@ public class GameManager : MonoBehaviour
                 currentlyOnWild = true;
                 _getOriginalDeck = true;
 
+                //Activates Darken Effect
+                if (_playedCards.Count > 1)
+                {
+                    darken.enabled = true;
+                    _uiManager.UpdateTextBox("SELECT TWO CARDS TO SWAP.");
+                }
+                else //Disables Darken Effect
+                    darken.enabled = false;
+
                 //Deactivates Confirm Button
                 _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
                 break;
@@ -777,6 +803,14 @@ public class GameManager : MonoBehaviour
                 isUsingWild = true;
                 currentlyOnWild = false;
                 _getOriginalDeck = true;
+
+                //Deactivates Darken Effect
+                if (lowerDarkenIndex)
+                {
+                    darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() - 1);
+                    lowerDarkenIndex = false;
+                }
+                darken.enabled = false;
                 break;
         }
     }
@@ -787,6 +821,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewTurn()
     {
+        if (_playedCards.Count == 5)
+            DeathMethod();
         ChangeGameState(STATE.ChooseCards);
     }
 

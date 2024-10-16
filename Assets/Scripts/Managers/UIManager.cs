@@ -40,6 +40,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private bool doVerticalFormat;
     [SerializeField] private int numOfUniqueCards = 7;
 
+    [Header("Card Slots")]
+    [SerializeField] private Image cardSlot1;
+    [SerializeField] private Image cardSlot2, cardSlot3, cardSlot4, cardSlot5;
+
     [Header("Index Buttons")]
     [SerializeField] private Button _leftButton;
     [SerializeField] private Button _rightButton;
@@ -121,6 +125,13 @@ public class UIManager : MonoBehaviour
         _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
 
         _deckCountPos = _deckCount.GetComponent<RectTransform>().anchoredPosition;
+
+        //Sets Card Slot Positions
+        cardSlot1.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
+        cardSlot2.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 1 - _heightPadding);
+        cardSlot3.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 2 - _heightPadding);
+        cardSlot4.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 3 - _heightPadding);
+        cardSlot5.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 4 - _heightPadding);
     }
 
     /// <summary>
@@ -154,17 +165,12 @@ public class UIManager : MonoBehaviour
             deckCard.card = _deckCard;
             _deckCount.enabled = true;
         }
-        else if (_gameManager._deck.Count == 1)
+        else if (_gameManager._deck.Count <= 1)
         {
             deckCard.card = _deckCardSingle;
             _deckCount.enabled = true;
             _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
             _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 40);
-        }
-        else
-        {
-            Destroy(_deck.gameObject);
-            _deckCount.enabled = false;
         }
         
         _deckCount.transform.SetAsLastSibling();
