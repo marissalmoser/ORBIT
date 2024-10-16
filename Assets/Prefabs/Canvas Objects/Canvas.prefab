@@ -427,7 +427,7 @@ GameObject:
   - component: {fileID: 1903070538772104867}
   - component: {fileID: 4976316643684194451}
   m_Layer: 5
-  m_Name: Image (2)
+  m_Name: Card Slot 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -450,9 +450,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 842, y: 226}
+  m_AnchoredPosition: {x: -37.000122, y: 621.5}
   m_SizeDelta: {x: 108, y: 135}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &1903070538772104867
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -937,10 +937,10 @@ RectTransform:
   - {fileID: 1249103386572422498}
   m_Father: {fileID: 2148886458406526825}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0.000061035156, y: -0.099487305}
+  m_SizeDelta: {x: 0.00012207031, y: 0.19897461}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2386417532050950266
 GameObject:
@@ -1164,7 +1164,7 @@ GameObject:
   - component: {fileID: 2936411046399782931}
   - component: {fileID: 1301500894440536198}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Card Slot 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1187,9 +1187,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 842, y: 508}
+  m_AnchoredPosition: {x: -37.000122, y: 932.50006}
   m_SizeDelta: {x: 108, y: 135}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &2936411046399782931
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2383,7 +2383,7 @@ GameObject:
   - component: {fileID: 6662999927931730962}
   - component: {fileID: 4426224359828030644}
   m_Layer: 5
-  m_Name: Image (1)
+  m_Name: Card Slot 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2406,9 +2406,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 842, y: 367}
+  m_AnchoredPosition: {x: -37.000122, y: 774.5}
   m_SizeDelta: {x: 108, y: 135}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &6662999927931730962
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2627,7 +2627,7 @@ GameObject:
   - component: {fileID: 4361276829949713368}
   - component: {fileID: 4901423570273904331}
   m_Layer: 5
-  m_Name: Image (4)
+  m_Name: Card Slot 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2650,9 +2650,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 842, y: -56}
+  m_AnchoredPosition: {x: -37.000122, y: 313.5}
   m_SizeDelta: {x: 108, y: 135}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &4361276829949713368
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2703,7 +2703,7 @@ GameObject:
   - component: {fileID: 7527531641335805731}
   - component: {fileID: 332087334647044047}
   m_Layer: 5
-  m_Name: Image (3)
+  m_Name: Card Slot 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2726,9 +2726,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 842, y: 85}
+  m_AnchoredPosition: {x: -37.000122, y: 472.78998}
   m_SizeDelta: {x: 108, y: 135}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 1, y: 0}
 --- !u!222 &7527531641335805731
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3034,6 +3034,11 @@ MonoBehaviour:
   _cardHeightSpacing: 140
   doVerticalFormat: 1
   numOfUniqueCards: 7
+  cardSlot1: {fileID: 1301500894440536198}
+  cardSlot2: {fileID: 4426224359828030644}
+  cardSlot3: {fileID: 4976316643684194451}
+  cardSlot4: {fileID: 332087334647044047}
+  cardSlot5: {fileID: 4901423570273904331}
   _leftButton: {fileID: 4477332102906128058}
   _rightButton: {fileID: 5405937163566822106}
   _movedTooltip: {fileID: 21300000, guid: dedfcf96b7cfaff428cbf09a3d8c6a77, type: 3}

@@ -816,6 +816,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewTurn()
     {
+        if (_playedCards.Count == 5)
+            DeathMethod();
         ChangeGameState(STATE.ChooseCards);
     }
 
