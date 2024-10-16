@@ -526,6 +526,11 @@ public class GameManager : MonoBehaviour
         ChangeGameState(STATE.PlayingActionOrder);
         _cardManager.lastConfirmationCard = null;
 
+        //Disables Arrows
+        isUsingWild = false;
+        currentlyOnWild = false;
+        _uiManager.UpdateArrows();
+
         //Removes all highlight from cards
         List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
 
