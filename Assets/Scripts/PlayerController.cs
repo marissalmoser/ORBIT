@@ -130,10 +130,6 @@ public class PlayerController : MonoBehaviour
                         //}
                     }
                 }
-                else if (GetForwardTileWithRaycast() != null && GetForwardTileWithRaycast().GetElevation() > _currentTile.GetElevation())//going to run into a wall
-                {
-                    WallInterruptAnimation?.Invoke();
-                }
                 // Reset the check timer
                 checkTimeElapsed = 0f;
             }
@@ -430,6 +426,11 @@ public class PlayerController : MonoBehaviour
             SpikeCollision?.Invoke();
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
             StartSpikedCoroutine(transform.position, new Vector3(newV.x, newV.y + 10, newV.z));
+        }
+        //the player runs into a wall that is NOT a moving wall
+        else if (other.gameObject.CompareTag("Wall") && other.gameObject.GetComponentInParent<MovingWallController>() == null)
+        {
+            WallInterruptAnimation?.Invoke();
         }
     }
 
