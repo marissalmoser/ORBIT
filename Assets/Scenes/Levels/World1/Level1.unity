@@ -22577,6 +22577,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 753764ee05ebb37419eed2a9bad04ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2070978805 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8690691665577939700, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+  m_PrefabInstance: {fileID: 2070978801}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2075242494
 GameObject:
   m_ObjectHideFlags: 0
@@ -23998,6 +24003,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Managers
       objectReference: {fileID: 0}
+    - target: {fileID: 8359509060408853529, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _pauseMenu
+      value: 
+      objectReference: {fileID: 2070978805}
     - target: {fileID: 8659577579625670946, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _playArea
       value: 
