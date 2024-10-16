@@ -56989,6 +56989,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1486646505}
     m_Modifications:
+    - target: {fileID: 885796633223345410, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_text
+      value: '
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 2148886458406526825, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -57069,12 +57075,42 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4477332102906128058, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_Transition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4477332102906128058, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5284036625563039402, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5588813525397495722, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5588813525397495722, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3877c0676aa0f7940acbd42816cd38f6, type: 3}
+    - target: {fileID: 6739532486919396228, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_text
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921464326433331564, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921464326433331564, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 29131160ee33da943b88999d6987d036, type: 3}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7953551262185781458, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+    - {fileID: 5834152280693469789, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}

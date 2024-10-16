@@ -1,7 +1,7 @@
 // +-------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last modified - September 9 2024
+// @Last modified - October 16th 2024
 // @Description - Manages the dealt cards
 // +-------------------------------------------------------+
 
