@@ -154,17 +154,12 @@ public class UIManager : MonoBehaviour
             deckCard.card = _deckCard;
             _deckCount.enabled = true;
         }
-        else if (_gameManager._deck.Count == 1)
+        else if (_gameManager._deck.Count <= 1)
         {
             deckCard.card = _deckCardSingle;
             _deckCount.enabled = true;
             _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
             _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 40);
-        }
-        else
-        {
-            Destroy(_deck.gameObject);
-            _deckCount.enabled = false;
         }
         
         _deckCount.transform.SetAsLastSibling();
