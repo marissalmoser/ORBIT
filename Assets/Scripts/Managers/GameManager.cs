@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
     private DeckManager<int> _deckManagerInt;
     private CardManager _cardManager;
     private UIManager _uiManager;
+    private CollectibleStats _collectibleStats;
 
     public STATE gameState;
     private bool _gameWon;
@@ -694,13 +695,6 @@ public class GameManager : MonoBehaviour
     public void NewTurn()
     {
         ChangeGameState(STATE.ChooseCards);
-    }
-
-
-    public void AddCollectable(Collectable collectable)
-    {
-        collectablesCollected.Add(collectable);
-        _uiManager.UpdateCollectables();
     }
 
     /// <summary>

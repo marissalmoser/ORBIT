@@ -6749,17 +6749,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &483538626 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5140567736073708530, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
-  m_PrefabInstance: {fileID: 483538618}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &483538627 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 374898337913259867, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
@@ -18115,6 +18104,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1907727611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1603029743
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.06417234
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.05964591
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.019220911
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3268780456243543703, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5574250990325201614, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
+      propertyPath: m_Name
+      value: CollectibleManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5f4f3cf810f7b0947b403046841bfc85, type: 3}
 --- !u!1 &1611237568
 GameObject:
   m_ObjectHideFlags: 0
@@ -23328,6 +23374,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1534389678}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2127404777 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1378572164274206737, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+  m_PrefabInstance: {fileID: 2070978801}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2136169496
 GameObject:
   m_ObjectHideFlags: 0
@@ -23928,7 +23985,11 @@ PrefabInstance:
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _collectablesCount
       value: 
-      objectReference: {fileID: 483538626}
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _collectiblesCount
+      value: 
+      objectReference: {fileID: 2127404777}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _playedCardsFolder
       value: 
@@ -23968,3 +24029,4 @@ SceneRoots:
   - {fileID: 1854180880}
   - {fileID: 510941583}
   - {fileID: 1829232703}
+  - {fileID: 1603029743}
