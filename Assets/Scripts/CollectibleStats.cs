@@ -15,7 +15,7 @@ public class CollectibleStats
 {
     [SerializeField] private string _levelName;
     [SerializeField] private int _buildIndex;
-    [SerializeField] public bool isCollected { get;  set; }
+    [SerializeField] public bool isCollected;
     [SerializeField] private bool _hasCollectible;
 
     private CollectibleManager _collectibleManager;

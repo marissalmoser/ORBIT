@@ -39166,6 +39166,11 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2070978804}
   m_SourcePrefab: {fileID: 100100000, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+--- !u!1 &2070978802 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8121270253486656095, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+  m_PrefabInstance: {fileID: 2070978801}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2070978803 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3030558005921941961, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
@@ -41177,6 +41182,10 @@ PrefabInstance:
       propertyPath: _pauseMenu
       value: 
       objectReference: {fileID: 2070978805}
+    - target: {fileID: 8359509060408853529, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _collectibleUI
+      value: 
+      objectReference: {fileID: 2070978802}
     - target: {fileID: 8659577579625670946, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _playArea
       value: 
