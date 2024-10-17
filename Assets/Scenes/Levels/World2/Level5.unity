@@ -15524,7 +15524,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2474780467744116617, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2474780467744116617, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15532,7 +15532,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2474780467744116617, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2474780467744116617, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15567,6 +15567,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
+--- !u!1 &787655831 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1648065564709692983, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
+  m_PrefabInstance: {fileID: 787655830}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &790672644
 GameObject:
   m_ObjectHideFlags: 0
@@ -33190,7 +33195,7 @@ MonoBehaviour:
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
-  _collectableRef: {fileID: 0}
+  _collectableRef: {fileID: 787655831}
 --- !u!65 &1762605787
 BoxCollider:
   m_ObjectHideFlags: 0
