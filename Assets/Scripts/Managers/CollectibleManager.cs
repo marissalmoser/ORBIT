@@ -42,6 +42,18 @@ public class CollectibleManager : MonoBehaviour
         InitializeCollectibles();
     }
 
+    private void Start()
+    {
+        if (collectibleStats.Count > 0)
+        {
+            _collectibleStats = collectibleStats[0]; // or any valid index
+        }
+        else
+        {
+            Debug.Log("No collectibles initialized!");
+        }
+    }
+
     /// <summary>
     /// Initializes the collectibleStats list with 30 collectible items.
     /// Each collectible corresponds to a level.
@@ -54,18 +66,9 @@ public class CollectibleManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        if (collectibleStats.Count > 0)
-        {
-            _collectibleStats = collectibleStats[0]; // or any valid index
-        }
-        else
-        {
-            Debug.Log ("No collectibles initialized!");
-        }
-    }
-
+    /// <summary>
+    /// Collects a collectible based on the build index of the scene
+    /// </summary>
     public void CollectCollectible()
     {
         Scene currentScene = SceneManager.GetActiveScene();
