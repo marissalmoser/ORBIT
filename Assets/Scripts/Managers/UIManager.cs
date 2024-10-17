@@ -135,13 +135,6 @@ public class UIManager : MonoBehaviour
         cardSlot5.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 4 - _heightPadding);
     }
 
-        GameObject textObject = GameObject.Find("Counter");
-        if (textObject != null)
-        {
-            _collectiblesCount = textObject.GetComponent<TextMeshProUGUI>();
-        }
-    }
-
     /// <summary>
     /// Updates the dealt cards in the UI
     /// </summary>
