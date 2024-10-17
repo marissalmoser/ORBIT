@@ -1,7 +1,7 @@
 // +-----------------------------------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last Modified - September 4st 2024
+// @Last Modified - October 16th 2024
 // @Description - The engine of the game which controls and initializes everything else
 // +-----------------------------------------------------------------------------------+
 
@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
     private CardManager _cardManager;
     private UIManager _uiManager;
     private CollectibleStats _collectibleStats;
+    private ArrowsManager _arrowsManager;
 
     public STATE gameState;
     private bool _gameWon;
@@ -56,8 +57,8 @@ public class GameManager : MonoBehaviour
     private List<int> _collectedSwitchIDs;
     private List<Collectable> collectablesCollected = new List<Collectable>();
     private (Card, int) _lastCardPlayed;
-    public Card confirmationCard { get; private set; }
-    [NonSerialized] public bool isSwitching, isClearing, isStalling, isUsingWild;
+    public Card confirmationCard;
+    [NonSerialized] public bool isSwitching, isClearing, isStalling, isUsingWild, currentlyOnWild;
     [NonSerialized] public bool isTurning;
 
     [NonSerialized] public List<Card> _startingDeck;
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
         _deckManagerInt = DeckManager<int>.Instance;
         _uiManager = UIManager.Instance;
         _cardManager = CardManager.Instance;
+        _arrowsManager = ArrowsManager.Instance;
         _levelDeck = FindObjectOfType<LevelDeck>();
         lowerDarkenIndex = false;
 
@@ -89,6 +91,7 @@ public class GameManager : MonoBehaviour
         isClearing = false;
         isStalling = false;
         isUsingWild = false;
+        currentlyOnWild = false;
         hasSwitched = false;
         _getOriginalDeck = true;
 
@@ -260,7 +263,7 @@ public class GameManager : MonoBehaviour
     /// Runs the current action order
     /// Called after a card has been played
     /// </summary>
-    private void RunPlaySequence()
+    public void RunPlaySequence()
     {
         _uiManager.UpdateConfirmCard();
         _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
@@ -280,7 +283,7 @@ public class GameManager : MonoBehaviour
             }    
         }
 
-
+        //POYO
         //If Switch Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Switch) //Error check and checks if last card played was a Switch
         {
@@ -314,7 +317,20 @@ public class GameManager : MonoBehaviour
         {
             isStalling = true;
         }
-        if (!isClearing && !isSwitching && !isTurning)
+
+        //If Wild Card was played
+        if (confirmationCard != null && confirmationCard.name == Card.CardName.Wild) //Error check and checks if last card played was a Stall
+        {
+            isUsingWild = true;
+            currentlyOnWild = true;
+            _arrowsManager.ResetIndex();
+        }
+
+        //Updates the arrows
+        _uiManager.UpdateArrows();
+
+        //If demo is good to go
+        if (!isClearing && !isSwitching && !isTurning && !currentlyOnWild)
         {
             _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
             ChangeGameState(STATE.ConfirmCards);
@@ -342,7 +358,7 @@ public class GameManager : MonoBehaviour
             }
 
             //Adds the confirmation card to be played in demo
-            if (!isClearing && !isSwitching && !isStalling && !isUsingWild)
+            if (!isClearing && !isSwitching && !isStalling && !currentlyOnWild)
                 _demoDeck.Add(confirmationCard);
 
             _getOriginalDeck = false;
@@ -511,6 +527,11 @@ public class GameManager : MonoBehaviour
         ChangeGameState(STATE.PlayingActionOrder);
         _cardManager.lastConfirmationCard = null;
 
+        //Disables Arrows
+        isUsingWild = false;
+        currentlyOnWild = false;
+        _uiManager.UpdateArrows();
+
         //Removes all highlight from cards
         List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
 
@@ -540,17 +561,23 @@ public class GameManager : MonoBehaviour
 
             List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
-            int instantiatedImagesCount = instantiatedImages.Count;
-            for (int i = 0; i < instantiatedImagesCount; i++)
+            //   int instantiatedImagesCount = instantiatedImages.Count;
+            //   for (int i = 0; i < instantiatedImagesCount; i++)
+            //   {
+            //       //Loops over clear list
+            //       for (int j = 0; j < _cardManager.numOfCardsToClear; j++)
+            //       {
+            //           if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCards[j].GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
+            //           {
+            //              _playedCards = _deckManagerCard.RemoveAt(_playedCards, i); //When IDs match, remove the card from the list
+            //           }
+            //       }
+            //   }
+            int demoCount = _demoDeck.Count;
+            _playedCards = new();
+            for (int i = 0; i < demoCount; i++)
             {
-                //Loops over clear list
-                for (int j = 0; j < _cardManager.numOfCardsToClear; j++)
-                {
-                    if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCards[j].GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
-                    {
-                        _playedCards = _deckManagerCard.RemoveAt(_playedCards, i); //When IDs match, remove the card from the list
-                    }
-                }
+                _playedCards.Add(_demoDeck[i]);
             }
             _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         }
@@ -568,7 +595,6 @@ public class GameManager : MonoBehaviour
             }
         }
         isStalling = false;
-        _uiManager.UpdatePlayedCards(_playedCards);
     }
 
     /// <summary>
@@ -605,11 +631,14 @@ public class GameManager : MonoBehaviour
         isClearing = false;
         isSwitching = false;
         isStalling = false;
+        isUsingWild = false;
+        currentlyOnWild = false;
         _getOriginalDeck = true;
 
         _cardManager.RemoveAllHighlight(_uiManager.GetInstantiatedPlayedCardImages()); //Removes the highlight
         _collectedSwitchIDs = new(); //Clears the list
         _uiManager.UpdatePlayedCards(_playedCards);
+        _uiManager.UpdateArrows();
         ChangeGameState(STATE.ChooseCards);
     }
 
@@ -687,6 +716,105 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public void WildAction(Card card)
+    {
+        //Resets state to before card was viewed
+        _getOriginalDeck = true;
+        _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
+        _cardManager.switchCards.Item1 = null;
+        _cardManager.switchCards.Item2 = null;
+        StopDemo();
+
+        //Removes Card Clear and Swap Highlights
+        List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
+        int tempCount = tempPlayedCards.Count;
+        for (int i = 0; i < tempCount; i++)
+        {
+            tempPlayedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+            tempPlayedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
+        }
+
+        //Sets variables based on the switched card
+        switch (card.name)
+        {
+            case Card.CardName.Move:
+            case Card.CardName.Jump:
+            case Card.CardName.TurnRight:
+            case Card.CardName.TurnLeft:
+                isClearing = false;
+                isSwitching = false;
+                isStalling = false;
+                isUsingWild = true;
+                currentlyOnWild = false;
+                _getOriginalDeck = true;
+
+                //Deactivates Darken Effect
+                if (lowerDarkenIndex)
+                {
+                    darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() - 1);
+                    lowerDarkenIndex = false;
+                }
+                darken.enabled = false;
+                break;
+            case Card.CardName.Clear:
+                isClearing = true;
+                isSwitching = false;
+                isStalling = false;
+                isUsingWild = false;
+                currentlyOnWild = true;
+                _getOriginalDeck = true;
+
+                //Activates Darken Effect
+                if (_playedCards.Count > 0)
+                {
+                    darken.enabled = true;
+                    _uiManager.UpdateTextBox("SELECT A CARD TO CLEAR.");
+                }
+                else //Disables Darken Effect - Shouldn't ever need this - Failsafe
+                    darken.enabled = false;
+
+                //Deactivates Confirm Button
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+                break;
+            case Card.CardName.Switch:
+                isClearing = false;
+                isSwitching = true;
+                isStalling = false;
+                isUsingWild = false;
+                currentlyOnWild = true;
+                _getOriginalDeck = true;
+
+                //Activates Darken Effect
+                if (_playedCards.Count > 1)
+                {
+                    darken.enabled = true;
+                    _uiManager.UpdateTextBox("SELECT TWO CARDS TO SWAP.");
+                }
+                else //Disables Darken Effect
+                    darken.enabled = false;
+
+                //Deactivates Confirm Button
+                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+                break;
+            case Card.CardName.Stall:
+                isClearing = false;
+                isSwitching = false;
+                isStalling = true;
+                isUsingWild = true;
+                currentlyOnWild = false;
+                _getOriginalDeck = true;
+
+                //Deactivates Darken Effect
+                if (lowerDarkenIndex)
+                {
+                    darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() - 1);
+                    lowerDarkenIndex = false;
+                }
+                darken.enabled = false;
+                break;
+        }
+    }
     #endregion
 
     /// <summary>
@@ -694,6 +822,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewTurn()
     {
+        if (_playedCards.Count == 5)
+            DeathMethod();
         ChangeGameState(STATE.ChooseCards);
     }
 

@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playArea: {fileID: 0}
   numOfCardsToClear: 0
---- !u!1 &1761539288698486440
+--- !u!1 &3029668323481007571
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -54,80 +54,42 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5676391447291938184}
-  - component: {fileID: 4929266328727077511}
+  - component: {fileID: 640263428631878595}
+  - component: {fileID: 6517094183083194834}
   m_Layer: 0
-  m_Name: UI Manager
+  m_Name: ArrowsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5676391447291938184
+--- !u!4 &640263428631878595
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761539288698486440}
+  m_GameObject: {fileID: 3029668323481007571}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 295.8082, y: 168.57266, z: -37.521793}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 506377384592549989}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4929266328727077511
+--- !u!114 &6517094183083194834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1761539288698486440}
+  m_GameObject: {fileID: 3029668323481007571}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41d2cdeff13d9c2448a8bba17471dd20, type: 3}
+  m_Script: {fileID: 11500000, guid: 15ec1f12505cd9a4aadc085b7b34b5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deckImage: {fileID: 2211793318461686019, guid: 74a6c20f270ecf84f9925163439608cd, type: 3}
-  _deckShownImage: {fileID: 2211793318461686019, guid: 197619ebeb120214fa8b7b807b5e1081, type: 3}
-  _dealtCardImage: {fileID: 467321719107628408, guid: ce88ebcf69adff140a574ffa7be2e77b, type: 3}
-  _playedCardImage: {fileID: 467321719107628408, guid: d8df8885ceb9a8246897892c8dfb8f16, type: 3}
-  _confirmCardImage: {fileID: 467321719107628408, guid: 0433859cce276fc468870efca671b346, type: 3}
-  _turnLeftImage: {fileID: 2630411302793006820, guid: 2bbbabf94a7d05044a503f9dd98dc445, type: 3}
-  _turnRightImage: {fileID: 467321719107628408, guid: 847185c60c41a58408e04bd519147210, type: 3}
-  _widthPadding: 15
-  _heightPadding: 15
-  _dealtCardWidthSpacing: 10
-  _playedCardWidthSpacing: 10
-  _cardHeightSpacing: 140
-  doVerticalFormat: 1
-  numOfUniqueCards: 5
-  _movedTooltip: {fileID: 21300000, guid: dedfcf96b7cfaff428cbf09a3d8c6a77, type: 3}
-  _jumpTooltip: {fileID: 21300000, guid: 6ff1fceb985b563439a9a5aa40cd97f8, type: 3}
-  _turnTooltip: {fileID: 21300000, guid: 6322b63775b05cf43ad1dc371b0022eb, type: 3}
-  _switchTooltip: {fileID: 21300000, guid: 77fad54395bec0b44b960bf42ac081bd, type: 3}
-  _clearTooltip: {fileID: 21300000, guid: e0288865a1280a94cabe9bc372fda055, type: 3}
-  _upperTextBox: {fileID: 0}
-  _dealtCardsFolder: {fileID: 0}
-  _playedCardsFolder: {fileID: 0}
-  _canvas: {fileID: 0}
-  _collectablesCount: {fileID: 0}
-  _deckCount: {fileID: 0}
-  confirmButton: {fileID: 0}
-  cancelButton: {fileID: 0}
-  _deckCardSingle: {fileID: 11400000, guid: db76b8e18f217c64db5db360b4698239, type: 2}
-  _deckCard: {fileID: 11400000, guid: a4977be7231243d4ca1f92db1a85be67, type: 2}
-  _moveCard: {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
-  _jumpCard: {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
-  _turnCard: {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
-  _turnLeftCard: {fileID: 11400000, guid: 05ad4f276b683884f87edaa9a30dee09, type: 2}
-  _turnRightCard: {fileID: 11400000, guid: 97568e1732e7d4a46b63a91c7d5206c6, type: 2}
-  _switchCard: {fileID: 11400000, guid: 1d5bf802da7e41b4980953489bfb2940, type: 2}
-  _clearCard: {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
-  _stallCard: {fileID: 11400000, guid: 87cdb0c0c87448e4eb123d3b1fffb6e2, type: 2}
-  _wildCard: {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
 --- !u!1 &7511067672945292195
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,8 +120,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1589773634232040725}
-  - {fileID: 5676391447291938184}
   - {fileID: 8512707592439674957}
+  - {fileID: 640263428631878595}
   - {fileID: 5015074587055893854}
   - {fileID: 6256145206189366257}
   m_Father: {fileID: 0}
@@ -216,6 +178,7 @@ MonoBehaviour:
   deckShownDarken: {fileID: 0}
   gameState: 0
   _deck: []
+  confirmationCard: {fileID: 0}
 --- !u!1001 &7137433597594294173
 PrefabInstance:
   m_ObjectHideFlags: 0
