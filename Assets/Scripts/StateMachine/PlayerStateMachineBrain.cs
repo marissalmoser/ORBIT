@@ -15,8 +15,6 @@
 *    6. Gets another card in PrepareNextAction state and repeats, or
 *       goes to waiting for actions state.
 *       
-*       IMPORTANT: AS OF 9/9/24, THERE IS NO HANDLER FOR HITTING 
-*       OBSTACLES OR FALLING INTO HOLES/OFF MAP. WIP. 
 *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
@@ -218,7 +216,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
         if (_currentPlayerController.GetCurrentMovementCoroutine() != null)
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
-            _currentPlayerController.StartFallCoroutine(_currentPlayerController.transform.position, _currentPlayerController.GetCurrentTile().GetPlayerSnapPosition());
+            _currentPlayerController.SetPreviousTile(_currentPlayerController.GetTileWithPlayerRaycast());
+            _currentPlayerController.StartFallCoroutine(_currentPlayerController.transform.position, _currentPlayerController.GetPreviousTile().GetPlayerSnapPosition());
         }
         else
         {
@@ -240,6 +239,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
         }
+        _currentPlayerController.SetPreviousTile(_currentPlayerController.GetTileWithPlayerRaycast());
 
         FSM(State.PrepareNextAction);
     }
@@ -311,10 +311,10 @@ public class PlayerStateMachineBrain : MonoBehaviour
             _distance = _currentAction.GetDistance(); //main focus of this state
 
             int facingDirection = _currentPlayerController.GetCurrentFacingDirection();
-            if (_currentPlayerController.GetCurrentTile().GetObstacleClass() != null) //If youre standing on an obstacle that sends you in a direction
+            if (currentTile.GetObstacleClass() != null && currentTile.GetObstacleClass().IsActive()) //If youre standing on an obstacle that sends you in a direction
             {
                
-                facingDirection = _currentPlayerController.GetCurrentTile().GetObstacleClass().GetDirection();
+                facingDirection = currentTile.GetObstacleClass().GetDirection();
                 if(facingDirection == 4) //IF the tile doesnt have a facing direction, use the player's current FD
                 {
                     facingDirection = _currentPlayerController.GetCurrentFacingDirection();
