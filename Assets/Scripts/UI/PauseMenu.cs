@@ -24,6 +24,7 @@ public class PauseMenu : MonoBehaviour
         // Subscribe to input events
         _playerInput.currentActionMap["Pause"].performed += ctx =>
             TogglePause();
+        StartCoroutine(DisableCollectibleOnStart());
     }
     
     /// <summary>
@@ -64,5 +65,12 @@ public class PauseMenu : MonoBehaviour
     public void SetMusicVolume(float volume)
     {
         MusicManager.Instance.SetMusicMixerVolume(volume);
+    }
+
+    private IEnumerator DisableCollectibleOnStart()
+    {
+        yield return new WaitForSeconds(0.01f);
+
+        _collectibleUI.SetActive(false);
     }
 }
