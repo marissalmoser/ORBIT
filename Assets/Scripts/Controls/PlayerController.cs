@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform _raycastPoint;
     [SerializeField] private Tile _currentTile;
+    private Tile _previousTile; 
 
     [SerializeField] private AnimationCurve _moveEaseCurve;
     [SerializeField] private AnimationCurve _jumpEaseCurve;
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
-        
+        _previousTile = GetTileWithPlayerRaycast();
     }
     void Update()
     {
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour
         int ran = Random.Range(1, 10);
         animator.SetInteger("Random", ran);
         animator.SetTrigger(animationName);
-        animator.SetInteger("Random", -1); //ensuring no animation gets called again
+        //animator.SetInteger("Random", -1); //ensuring no animation gets called again
     }
     #region LiteralMovement
     /// <summary>
@@ -123,15 +124,11 @@ public class PlayerController : MonoBehaviour
                             nextTile.GetObstacleClass().PerformObstacleAnim();
                             ReachedDestination?.Invoke();
                         }
-                        else if (card != null)
-                        {
-                            AddCard?.Invoke(card);
-                        }
+                        //else if (card != null)
+                        //{
+                        //    AddCard?.Invoke(card);
+                        //}
                     }
-                }
-                else if (GetForwardTileWithRaycast() != null && GetForwardTileWithRaycast().GetElevation() > _currentTile.GetElevation())//going to run into a wall
-                {
-                    WallInterruptAnimation?.Invoke();
                 }
                 // Reset the check timer
                 checkTimeElapsed = 0f;
@@ -335,6 +332,15 @@ public class PlayerController : MonoBehaviour
         Debug.LogError("Player controller's reference to the tile it is on is null");
         return null;
     }
+    public Tile GetPreviousTile()
+    {
+        if (_previousTile != null)
+        {
+            return _previousTile;
+        }
+        Debug.LogError("Player controller's reference to the previous tile it was on is null");
+        return null;
+    }
     public int GetCurrentFacingDirection()
     {
         return _currentFacingDirection;
@@ -349,6 +355,10 @@ public class PlayerController : MonoBehaviour
     public void SetCurrentTile(Tile tileToBeAt)
     {
         _currentTile = tileToBeAt;
+    }
+    public void SetPreviousTile(Tile tileWasAt)
+    {
+        _previousTile = tileWasAt;
     }
     /// <summary>
     /// Literally updates the playerobject rotation
@@ -416,6 +426,11 @@ public class PlayerController : MonoBehaviour
             SpikeCollision?.Invoke();
             Vector3 newV = GetTileWithPlayerRaycast().GetPlayerSnapPosition();
             StartSpikedCoroutine(transform.position, new Vector3(newV.x, newV.y + 10, newV.z));
+        }
+        //the player runs into a wall that is NOT a moving wall
+        else if (other.gameObject.CompareTag("Wall") && other.gameObject.GetComponentInParent<MovingWallController>() == null)
+        {
+            WallInterruptAnimation?.Invoke();
         }
     }
 

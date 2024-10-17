@@ -4,33 +4,50 @@ using UnityEngine;
 public class FinishFlag : Collectable
 {
     private PlayerStateMachineBrain _PSMB;
+    private PlayerController _pc;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-        {
+        {           
             //sound effect caller
             SfxManager.Instance.PlaySFX(1566);
 
-            _PSMB = other.GetComponent<PlayerStateMachineBrain>();
-            StartCoroutine(WaitCoroutine());
-        }
-        else if (other.CompareTag("PlayerGhost"))
-        {
-            PlayerStateMachineBrain psmb = other.gameObject.GetComponentInParent<PlayerStateMachineBrain>(true);
-            while (psmb.GetNextAction() != null) //removes all remaining actions
+            _PSMB = other.gameObject.GetComponent<PlayerStateMachineBrain>();
+            _pc = other.GetComponent<PlayerController>();
+
+            while (_PSMB.GetNextAction() != null) //removes all remaining actions
             {
 
             }
-            PlayerController.ReachedDestination?.Invoke();
+            StartCoroutine(WaitCoroutine());
+
+        }
+        else if (other.CompareTag("PlayerGhost"))
+        {
+            _PSMB = other.gameObject.GetComponentInParent<PlayerStateMachineBrain>(true);
+
+            while (_PSMB.GetNextAction() != null) //removes all remaining actions
+            {
+
+            }
+            StartCoroutine(GhostWaitCoroutine());
         }
     }
     private IEnumerator WaitCoroutine()
     {
-        //_PSMB.SetCardList(null);
-        _PSMB.StartCardActions(null);
-        yield return new WaitForSeconds(.75f);
+        yield return new WaitForSeconds(.1f);
+
+        _pc.StopCoroutine(_pc.GetCurrentMovementCoroutine());
+        _pc.SetCurrentTile(_pc.GetTileWithPlayerRaycast());
+
+        yield return new WaitForSeconds(.25f);
         GameManager.Instance.ChangeGameState(GameManager.STATE.End);
         print("WIN");
+    }
+    private IEnumerator GhostWaitCoroutine()
+    {
+        yield return new WaitForSeconds(0.1f);
+        PlayerController.ReachedDestination?.Invoke();
     }
 }
