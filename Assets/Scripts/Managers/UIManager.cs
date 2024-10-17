@@ -133,6 +133,12 @@ public class UIManager : MonoBehaviour
         cardSlot3.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 2 - _heightPadding);
         cardSlot4.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 3 - _heightPadding);
         cardSlot5.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 4 - _heightPadding);
+
+        GameObject textObject = GameObject.Find("Counter");
+        if (textObject != null)
+        {
+            _collectiblesCount = textObject.GetComponent<TextMeshProUGUI>();
+        }
     }
 
     /// <summary>
