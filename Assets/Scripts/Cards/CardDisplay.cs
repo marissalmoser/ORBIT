@@ -1,7 +1,7 @@
 // +--------------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last modified - September 9 2024
+// @Last modified - October 16th 2024
 // @Description - Displays the card onto an instantiated image.
 //                Also holds helper methods for an Event Trigger
 // +--------------------------------------------------------------+
@@ -68,7 +68,7 @@ public class CardDisplay : MonoBehaviour
     public void MouseEnterDealtCard(Image tooltip)
     {
         IsMouseInCard = true;
-        CardManager.Instance.DealtMouseEnterCard(tooltip);
+        CardManager.Instance.MouseEnterDealtCard(tooltip);
 
         //plays pop up animation if card is playable
         if (_anim != null && CardIsPlayable())
@@ -84,7 +84,7 @@ public class CardDisplay : MonoBehaviour
     public void MouseExitDealtCard(Image tooltip)
     {
         IsMouseInCard = false;
-        CardManager.Instance.DealtMouseExitCard(tooltip);
+        CardManager.Instance.MouseExitDealtCard(tooltip);
 
         //plays pop up animation if card is playable
         if (_anim != null && CardIsPlayable())
@@ -101,7 +101,7 @@ public class CardDisplay : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             IsMouseDown = true;
-            CardManager.Instance.DealtMousePressedCard(Card);
+            CardManager.Instance.MousePressedDealtCard(Card);
 
             //double click to play functionality if the card is playable.
             if(CardIsPlayable())
@@ -185,7 +185,7 @@ public class CardDisplay : MonoBehaviour
         if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
             IsMouseDown = false;
-            CardManager.Instance.DealtMouseReleasedCard(Card, ID);
+            CardManager.Instance.MouseReleasedDealtCard(Card, ID);
 
             //disable animator to allow drag
             if(_anim != null)
@@ -203,7 +203,7 @@ public class CardDisplay : MonoBehaviour
     {
         if (Mouse.current.leftButton.isPressed && CardIsPlayable())
         {
-            CardManager.Instance.DealtOnDragCard(Card);
+            CardManager.Instance.OnDragDealtCard(Card);
 
             //disable animator to allow drag
             if (_anim != null)
@@ -263,7 +263,7 @@ public class CardDisplay : MonoBehaviour
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
             IsMouseDown = true;
-            CardManager.Instance.PlayedMousePressedCard(Card);
+            CardManager.Instance.MousePressedPlayedCard(Card);
         }
     }
 
@@ -283,7 +283,7 @@ public class CardDisplay : MonoBehaviour
                 IsClearing = !IsClearing;
         }
 
-        CardManager.Instance.PlayedMouseReleasedCard(Card);
+        CardManager.Instance.MouseReleasedPlayedCard(Card);
     }
 
     /// <summary>
@@ -293,7 +293,7 @@ public class CardDisplay : MonoBehaviour
     public void OnMouseEnterPlayedCard(Image card)
     {
         IsMouseInCard = true;
-        CardManager.Instance.PlayedMouseEnterCard(card);
+        CardManager.Instance.MouseEnterPlayedCard(card);
     }
 
     /// <summary>
@@ -303,7 +303,7 @@ public class CardDisplay : MonoBehaviour
     public void OnMouseExitPlayedCard(Image card)
     {
         IsMouseInCard = false;
-        CardManager.Instance.PlayedMouseExitCard(card);
+        CardManager.Instance.MouseExitPlayedCard(card);
     }
     #endregion
 }

@@ -1,7 +1,7 @@
 // +-------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last modified - September 9 2024
+// @Last modified - October 16th 2024
 // @Description - Manages the dealt cards
 // +-------------------------------------------------------+
 
@@ -95,7 +95,7 @@ public class CardManager : MonoBehaviour
     /// Called when the mouse enters a dealt card
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
-    public void DealtMouseEnterCard(Image toolTip)
+    public void MouseEnterDealtCard(Image toolTip)
     {
         //Makes tooltip visible
         if (!toolTip.GetComponentInParent<BoxCollider2D>().GetComponentInChildren<CardDisplay>().IsMouseDown) //Guaranteed to find parent with unique component
@@ -109,7 +109,7 @@ public class CardManager : MonoBehaviour
     /// Called when the mouse exits a dealt card
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
-    public void DealtMouseExitCard(Image toolTip)
+    public void MouseExitDealtCard(Image toolTip)
     {
         //Makes tooltip invisible
         toolTip.enabled = false;
@@ -120,7 +120,7 @@ public class CardManager : MonoBehaviour
     /// Called when the mouse is pressed on a dealt card
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
-    public void DealtMousePressedCard(Image cardImage)
+    public void MousePressedDealtCard(Image cardImage)
     {
         //Makes tooltip invisible
         cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
@@ -146,7 +146,7 @@ public class CardManager : MonoBehaviour
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
     /// <param name="ID">The ID of the card</param>
-    public void DealtMouseReleasedCard(Image cardImage, int ID)
+    public void MouseReleasedDealtCard(Image cardImage, int ID)
     {
         //Makes tooltip visible
         if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
@@ -242,7 +242,7 @@ public class CardManager : MonoBehaviour
     /// Called when the mouse is pressed down and then moved on a dealt card
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
-    public void DealtOnDragCard(Image cardImage)
+    public void OnDragDealtCard(Image cardImage)
     {
         //If Game is ready for you to choose another card, allow card movement
         if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
@@ -261,7 +261,7 @@ public class CardManager : MonoBehaviour
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
     /// <param name="ID">The ID of the card</param>
-    public void PlayedMousePressedCard(Image cardImage)
+    public void MousePressedPlayedCard(Image cardImage)
     {
         //sound effect call
         SfxManager.Instance.PlaySFX(8885);
@@ -277,7 +277,7 @@ public class CardManager : MonoBehaviour
     /// Called when the mouse is released on a played card
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
-    public void PlayedMouseReleasedCard(Image cardImage)
+    public void MouseReleasedPlayedCard(Image cardImage)
     {
         List<Image> playedCards = _uiManager.GetInstantiatedPlayedCardImages();
         bool isCopySwitch = false;
@@ -470,7 +470,7 @@ public class CardManager : MonoBehaviour
     /// Called when the mouse enters the card's bounds
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
-    public void PlayedMouseEnterCard(Image cardImage)
+    public void MouseEnterPlayedCard(Image cardImage)
     {
         if (_gameManager.isClearing)
             cardImage.gameObject.transform.Find("Clear").GetComponent<Image>().enabled = true;
@@ -490,7 +490,7 @@ public class CardManager : MonoBehaviour
     /// Called when the mouse leaves the card's bounds
     /// </summary>
     /// <param name="cardImage">The image of the card</param>
-    public void PlayedMouseExitCard(Image cardImage)
+    public void MouseExitPlayedCard(Image cardImage)
     {
         //Removes clear highlight
 
