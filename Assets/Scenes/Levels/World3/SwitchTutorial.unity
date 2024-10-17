@@ -36218,6 +36218,10 @@ PrefabInstance:
       propertyPath: _playArea
       value: 
       objectReference: {fileID: 694418660}
+    - target: {fileID: 2389245948912837720, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: numOfCardsToClear
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _canvas
       value: 
