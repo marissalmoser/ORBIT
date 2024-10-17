@@ -28177,7 +28177,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deck:
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
-  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
+  - {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
+  - {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
+  - {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
+  - {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
+  - {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
+  - {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
+  - {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
   originalDeck: []
 --- !u!1 &1486646504
 GameObject:
@@ -39316,6 +39323,10 @@ PrefabInstance:
       value: Sound_Caller, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
@@ -41278,6 +41289,10 @@ PrefabInstance:
       propertyPath: _playArea
       value: 
       objectReference: {fileID: 1457631357}
+    - target: {fileID: 2389245948912837720, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: numOfCardsToClear
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4929266328727077511, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _canvas
       value: 
