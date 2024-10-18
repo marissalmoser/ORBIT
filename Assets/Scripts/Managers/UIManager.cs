@@ -153,7 +153,7 @@ public class UIManager : MonoBehaviour
 
         int numOfDealtCards = dealtCards.Count;
 
-        //Instantiates Card Back
+        //Instantiates Deck Back
         _deck = Instantiate(_deckImage, Vector2.zero, Quaternion.identity);
         _deck.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
         _deck.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
@@ -177,6 +177,7 @@ public class UIManager : MonoBehaviour
 
         _deckCount.text = _gameManager._deck.Count.ToString();
 
+        //Instantiates and sets up Cards
         for (int i = 0; i < numOfDealtCards; i++)
         {
             Image newImage = Instantiate(_dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
@@ -245,6 +246,8 @@ public class UIManager : MonoBehaviour
                     break;
             }
         }
+
+
     }
 
     /// <summary>
