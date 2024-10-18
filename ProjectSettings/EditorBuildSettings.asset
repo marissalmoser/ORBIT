@@ -12,8 +12,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Menus/PlanetSelect.unity
     guid: 0c9ff813dad80a64894d2170f2353285
   - enabled: 1
-    path: Assets/Scenes/Menus/World Menus/FloralLevelSelect.unity
-    guid: 49a9e01bd9293594c9bd597425f2cfc9
+    path: Assets/Scenes/Menus/new_FloralLevelSelect.unity
+    guid: 01a4101d400d3b748a45f8082ed8824b
   - enabled: 1
     path: Assets/Scenes/Levels/World1/MoveTutorial.unity
     guid: 21bc1c475483ff442bc473392d733dc6
@@ -24,20 +24,20 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World1/RotatingPlatformsTutorial.unity
     guid: 6bc6abf5b5740f246be4fe1d21e7545b
   - enabled: 1
-    path: Assets/Scenes/Levels/World1/Level3.unity
-    guid: 2d15c09b17174db4b97e232f89612661
+    path: Assets/Scenes/Levels/World1/Level1.unity
+    guid: fc60d66634e719049afa3dd5bf97b1cb
   - enabled: 1
     path: Assets/Scenes/Levels/World1/Level2.unity
     guid: afbcf6cf12f04374598df2f2ec09dfb9
   - enabled: 1
-    path: Assets/Scenes/Levels/World1/Level1.unity
-    guid: fc60d66634e719049afa3dd5bf97b1cb
+    path: Assets/Scenes/Levels/World1/Level3.unity
+    guid: 2d15c09b17174db4b97e232f89612661
   - enabled: 1
     path: Assets/Scenes/Levels/World1/BackUp.unity
     guid: 339f6020bcd92fc418516756a20de4b3
   - enabled: 1
-    path: Assets/Scenes/Menus/World Menus/IceLevelSelect.unity
-    guid: b33deab5100192443840bd03db80e738
+    path: Assets/Scenes/Menus/new_IceLevelSelect.unity
+    guid: d3dca5deef812d54ba05c3adbfe2deef
   - enabled: 1
     path: Assets/Scenes/Levels/World2/JumpTutorial.unity
     guid: 503477bd203d2b34e83cbf54287405d2
@@ -57,8 +57,8 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World2/Level7.unity
     guid: fbfd019fb69250b4c90cdef87e310418
   - enabled: 1
-    path: Assets/Scenes/Menus/World Menus/FireLevelSelect.unity
-    guid: 7e56af306944e86448670f2573e262e1
+    path: Assets/Scenes/Menus/new_LavaLevelSelect.unity
+    guid: 541283cf1ffcfd748ad5771b5245a973
   - enabled: 1
     path: Assets/Scenes/Levels/World3/ClearTutorial.unity
     guid: 1c3a1a7193d269d44a1e9d15c073f8e4
@@ -78,14 +78,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World3/Level10.unity
     guid: 45f5ba94367bc1b43a1491e12387e790
   - enabled: 1
-    path: Assets/Scenes/Menus/World Menus/DiscoLevelSelect.unity
-    guid: fae67bb8842128f4481d3e4045c1ab2e
+    path: Assets/Scenes/Menus/new_DiscoLevelSelect.unity
+    guid: 0659269715b92084cbf7b28579182791
+  - enabled: 1
+    path: Assets/Scenes/Levels/World4/WildCardTutorial.unity
+    guid: c9127637f8b68d540b648f5dce68237b
   - enabled: 1
     path: Assets/Scenes/Levels/World4/SpeedPadTutorial.unity
     guid: bff3d6c0843e97542a49f23353068313
-  - enabled: 1
-    path: Assets/Scenes/Levels/World4/Level13.unity
-    guid: f0e018456513c394baf2fe9e9fcc170f
   - enabled: 1
     path: Assets/Scenes/Levels/World4/Level11.unity
     guid: 5024d47b9ad418545a352bf6cc21b6a9
@@ -93,11 +93,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World4/Level12.unity
     guid: 778754858c21718489af0bdfb8ac6c80
   - enabled: 1
+    path: Assets/Scenes/Levels/World4/Level13.unity
+    guid: f0e018456513c394baf2fe9e9fcc170f
+  - enabled: 1
     path: Assets/Scenes/Levels/World4/Level14.unity
     guid: 121c610a39473d14595d202b7c75a8ce
   - enabled: 1
-    path: Assets/Scenes/Menus/World Menus/PastelLevelSelect.unity
-    guid: 88251d128f6cf974891fb23f72515db7
+    path: Assets/Scenes/Menus/new_PastelLevelSelect.unity
+    guid: 3a63130149733d34ba7f8faadeed2101
   - enabled: 1
     path: Assets/Scenes/Levels/World5/SpringTutorial.unity
     guid: 2cd75b17bf31a5242aa1d039a8104e05
@@ -116,19 +119,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/World5/Level19.unity
     guid: f06a4df88adf58548965320d5281eb8f
-  - enabled: 1
-    path: Assets/Scenes/Menus/new_FloralLevelSelect.unity
-    guid: 01a4101d400d3b748a45f8082ed8824b
-  - enabled: 1
-    path: Assets/Scenes/Menus/new_IceLevelSelect.unity
-    guid: d3dca5deef812d54ba05c3adbfe2deef
-  - enabled: 1
-    path: Assets/Scenes/Menus/new_LavaLevelSelect.unity
-    guid: 541283cf1ffcfd748ad5771b5245a973
-  - enabled: 1
-    path: Assets/Scenes/Menus/new_DiscoLevelSelect.unity
-    guid: 0659269715b92084cbf7b28579182791
-  - enabled: 1
-    path: Assets/Scenes/Menus/new_PastelLevelSelect.unity
-    guid: 3a63130149733d34ba7f8faadeed2101
   m_configObjects: {}
