@@ -21,9 +21,7 @@ public class PauseMenu : MonoBehaviour
     private void Start()
     {
         // Subscribe to input events
-        _playerInput.currentActionMap["Pause"].performed += ctx =>
-            TogglePause();
-        //StartCoroutine(DisableCollectibleOnStart());
+        _playerInput.currentActionMap["Pause"].performed += ctx => TogglePause();
     }
     
     /// <summary>
@@ -54,6 +52,16 @@ public class PauseMenu : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    /// <summary>
+    /// This function loads a scene based on the int passed through
+    /// </summary>
+    /// <param name="levelNumber">The build index for the scene</param>
+    public void LoadLevel(int levelNumber)
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(levelNumber);
+    }
+
     public void SetSfxVolume(float volume)
     {
         SfxManager.Instance.SetSfxMixerVolume(volume);
@@ -63,11 +71,4 @@ public class PauseMenu : MonoBehaviour
     {
         MusicManager.Instance.SetMusicMixerVolume(volume);
     }
-
-    //private IEnumerator DisableCollectibleOnStart()
-    //{
-    //    yield return new WaitForSeconds(0.01f);
-
-    //    _collectibleUI.SetActive(false);
-    //}
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2779950011537291971}
   - component: {fileID: 1661743848052724612}
   - component: {fileID: 4477091761690174937}
+  - component: {fileID: 8068723310573700403}
   m_Layer: 0
   m_Name: PauseManager
   m_TagString: Untagged
@@ -77,3 +78,15 @@ MonoBehaviour:
   m_DefaultActionMap: BaseMap
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &8068723310573700403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1252194060790224787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753764ee05ebb37419eed2a9bad04ccc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
