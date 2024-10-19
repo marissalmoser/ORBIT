@@ -16,7 +16,6 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private GameObject _pauseMenu;
-    private bool _isPaused = false;
 
     private void Start()
     {
@@ -29,14 +28,12 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     public void TogglePause()
     {
-        _isPaused = !_isPaused;
-
-        if (_isPaused && _pauseMenu != null)
+        if (!_pauseMenu.activeInHierarchy && _pauseMenu != null)
         {
             _pauseMenu.SetActive(true);
             Time.timeScale = 0f;
         }
-        else if(!_isPaused && _pauseMenu != null)
+        else if(_pauseMenu.activeInHierarchy && _pauseMenu != null)
         {
             _pauseMenu.SetActive(false);
             Time.timeScale = 1f;

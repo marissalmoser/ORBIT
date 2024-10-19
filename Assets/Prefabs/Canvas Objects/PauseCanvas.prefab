@@ -194,6 +194,8 @@ GameObject:
   - component: {fileID: 612081022997660595}
   - component: {fileID: 4845796196897771787}
   - component: {fileID: 2653241378504376596}
+  - component: {fileID: 6375439604090281664}
+  - component: {fileID: 5641835970767044430}
   m_Layer: 5
   m_Name: PauseCanvas
   m_TagString: Untagged
@@ -297,6 +299,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 753764ee05ebb37419eed2a9bad04ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6375439604090281664
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3030558005921941961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 287740a442f6afc41acf0d0ef18c9db3, type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: BaseMap
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!114 &5641835970767044430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3030558005921941961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95e5b90a4d785aa4faba92b44b60e5c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerInput: {fileID: 6375439604090281664}
+  _pauseMenu: {fileID: 1912033430396935256}
 --- !u!1 &5040383193030182439
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,6 +800,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 753764ee05ebb37419eed2a9bad04ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1912033430396935256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3081774495871585737, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+  m_PrefabInstance: {fileID: 3480228995959869841}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &7541321548327988137 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6405356905570859576, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
