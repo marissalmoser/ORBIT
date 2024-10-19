@@ -59,15 +59,23 @@ public class CollectibleManager : MonoBehaviour
     /// </summary>
     public void CollectCollectible()
     {
-        //update list
+        //update list if that level has a collectable
         int scene = SceneManager.GetActiveScene().buildIndex;
-        collectibleStats[scene].CollectCollectible();
-        print(scene);
+        if (collectibleStats[scene].HasCollectible())
+        {
+            collectibleStats[scene].CollectCollectible();
+        }
     }
 
     public bool GetIsCollected()
     {
         int scene = SceneManager.GetActiveScene().buildIndex;
         return collectibleStats[scene].GetIsCollected();
+    }
+
+    public bool HasCollectable()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        return collectibleStats[scene].HasCollectible();
     }
 }

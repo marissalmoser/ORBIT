@@ -11,7 +11,7 @@ public class CollectableTabLevelSelect : MonoBehaviour
 
     private CollectibleManager _cm;
 
-    private void OnEnable()
+    private void Start()
     {
         int levelsWithCollectable = 0;
         int levelsCollected = 0;
