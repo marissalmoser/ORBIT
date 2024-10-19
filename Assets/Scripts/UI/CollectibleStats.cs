@@ -15,7 +15,7 @@ public class CollectibleStats
 {
     [SerializeField] private string _levelName;
     [SerializeField] private int _buildIndex;
-    [SerializeField] public bool isCollected;
+    [SerializeField] private bool _isCollected;
     [SerializeField] private bool _hasCollectible;
 
     private CollectibleManager _collectibleManager;
@@ -32,15 +32,20 @@ public class CollectibleStats
         _levelName = levelName;
         _buildIndex = buildIndex;
         _hasCollectible = hasCollectible;
-        isCollected = false;
+        _isCollected = false;
     }
 
     /// <summary>
-    /// Sets the isCollected stat to true for a collectible based on index
+    /// Sets the isCollected stat to true
     /// </summary>
     /// <param name="index"></param>
-    public void CollectCollectible(int index)
+    public void CollectCollectible()
     {
-        CollectibleManager.Instance.collectibleStats[index].isCollected = true;
+        _isCollected = true;
+    }
+
+    public bool GetIsCollected()
+    {
+        return _isCollected;
     }
 }

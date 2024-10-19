@@ -16,7 +16,6 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private GameObject _pauseMenu;
-    [SerializeField] private GameObject _collectibleUI;
     private bool _isPaused = false;
 
     private void Start()
@@ -24,7 +23,7 @@ public class PauseMenu : MonoBehaviour
         // Subscribe to input events
         _playerInput.currentActionMap["Pause"].performed += ctx =>
             TogglePause();
-        StartCoroutine(DisableCollectibleOnStart());
+        //StartCoroutine(DisableCollectibleOnStart());
     }
     
     /// <summary>
@@ -37,13 +36,11 @@ public class PauseMenu : MonoBehaviour
         if (_isPaused && _pauseMenu != null)
         {
             _pauseMenu.SetActive(true);
-            _collectibleUI.SetActive(true);
             Time.timeScale = 0f;
         }
         else if(!_isPaused && _pauseMenu != null)
         {
             _pauseMenu.SetActive(false);
-            _collectibleUI.SetActive(false);
             Time.timeScale = 1f;
         }
     }
@@ -67,10 +64,10 @@ public class PauseMenu : MonoBehaviour
         MusicManager.Instance.SetMusicMixerVolume(volume);
     }
 
-    private IEnumerator DisableCollectibleOnStart()
-    {
-        yield return new WaitForSeconds(0.01f);
+    //private IEnumerator DisableCollectibleOnStart()
+    //{
+    //    yield return new WaitForSeconds(0.01f);
 
-        _collectibleUI.SetActive(false);
-    }
+    //    _collectibleUI.SetActive(false);
+    //}
 }

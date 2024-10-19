@@ -21,8 +21,8 @@ public class Planet : Collectable
             //sound effect caller
             SfxManager.Instance.PlaySFX(8346);
 
+            //collect
             _collectibleManager.CollectCollectible();
-            _uiManager.UpdateLevelCollectibles();
             Destroy(gameObject);
         }
     }
