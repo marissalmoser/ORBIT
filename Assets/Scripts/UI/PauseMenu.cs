@@ -16,13 +16,11 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private GameObject _pauseMenu;
-    private bool _isPaused = false;
 
     private void Start()
     {
         // Subscribe to input events
-        _playerInput.currentActionMap["Pause"].performed += ctx =>
-            TogglePause();
+        _playerInput.currentActionMap["Pause"].performed += ctx => TogglePause();
     }
     
     /// <summary>
@@ -30,14 +28,12 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     public void TogglePause()
     {
-        _isPaused = !_isPaused;
-
-        if (_isPaused && _pauseMenu != null)
+        if (_pauseMenu != null && !_pauseMenu.activeInHierarchy)
         {
             _pauseMenu.SetActive(true);
             Time.timeScale = 0f;
         }
-        else if(!_isPaused && _pauseMenu != null)
+        else if (_pauseMenu != null && _pauseMenu.activeInHierarchy)
         {
             _pauseMenu.SetActive(false);
             Time.timeScale = 1f;
@@ -51,6 +47,16 @@ public class PauseMenu : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1;
+    }
+
+    /// <summary>
+    /// This function loads a scene based on the int passed through
+    /// </summary>
+    /// <param name="levelNumber">The build index for the scene</param>
+    public void LoadLevel(int levelNumber)
+    {
+        Time.timeScale = 1.0f;
+        SceneManager.LoadScene(levelNumber);
     }
 
     public void SetSfxVolume(float volume)

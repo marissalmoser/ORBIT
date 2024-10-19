@@ -1,12 +1,24 @@
+/******************************************************************
+ *    Author:  
+ *    Contributors: 
+ *    Date Created: 
+ *    Description: Contains functionality for the planet collectable
+ *******************************************************************/
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Planet : Collectable
 {
     GameManager gameManager;
+    private CollectibleManager _collectibleManager;
+    private UIManager _uiManager;
+
 
     private void Start()
     {
         gameManager = GameManager.Instance;
+        _collectibleManager = CollectibleManager.Instance;
+        _uiManager = UIManager.Instance;
     }
     public void OnTriggerEnter(Collider other)
     {
@@ -15,7 +27,8 @@ public class Planet : Collectable
             //sound effect caller
             SfxManager.Instance.PlaySFX(8346);
 
-            GameManager.Instance.AddCollectable(this);
+            //collect
+            _collectibleManager.CollectCollectible();
             Destroy(gameObject);
         }
     }

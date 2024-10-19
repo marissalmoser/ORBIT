@@ -1,17 +1,19 @@
 /******************************************************************
  *    Author: Sky Turner 
- *    Contributors: Marissa
- *    Date Created: 9/13/24
+ *    Contributors:
+ *    Date Created: 10/13/24
  *    Description: Collectible Manager 
  *    
  *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CollectibleManager : MonoBehaviour
 {
     public static CollectibleManager Instance { get; private set; }
+    private CollectibleStats _collectibleStats;
 
     #region singleton
     private void Awake()
@@ -28,27 +30,52 @@ public class CollectibleManager : MonoBehaviour
     }
     #endregion
 
-    public List<CollectibleStats> collectableStats;
+    public List<CollectibleStats> collectibleStats;
 
     /// <summary>
     /// Initializes a new instance of the CollectibleManager class.
-    /// Sets up the collectableStats list with 30 collectible items.
+    /// Sets up the collectibleStats list with 30 collectible items.
     /// </summary>
     private CollectibleManager()
     {
-        collectableStats = new List<CollectibleStats>(30);
+        collectibleStats = new List<CollectibleStats>(30);
         InitializeCollectibles();
     }
 
     /// <summary>
-    /// Initializes the collectableStats list with 30 collectible items.
+    /// Initializes the collectibleStats list with 30 collectible items.
     /// Each collectible corresponds to a level.
     /// </summary>
     private void InitializeCollectibles()
     {
         for(int i = 0; i < 30; i++)
         {
-            collectableStats.Add(new CollectibleStats($"Level {i + 1}", i, true));
+            collectibleStats.Add(new CollectibleStats($"Level {i + 1}", i, true));
         }
+    }
+
+    /// <summary>
+    /// Collects a collectible based on the build index of the scene
+    /// </summary>
+    public void CollectCollectible()
+    {
+        //update list if that level has a collectable
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        if (collectibleStats[scene].HasCollectible())
+        {
+            collectibleStats[scene].CollectCollectible();
+        }
+    }
+
+    public bool GetIsCollected()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        return collectibleStats[scene].GetIsCollected();
+    }
+
+    public bool HasCollectable()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        return collectibleStats[scene].HasCollectible();
     }
 }
