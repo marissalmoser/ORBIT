@@ -105,7 +105,7 @@ public class PlayerController : MonoBehaviour
                         Vector3 newV = nextTile.GetPlayerSnapPosition();
                         StartFallCoroutine(transform.position, new Vector3(newV.x, newV.y - 10, newV.z));
                     }
-                    else if (nextTile.GetElevation() < _currentTile.GetElevation()) // going down an elevation level
+                    else if (nextTile.GetElevation() < _currentTile.GetElevation() && !nextTile.IsHole()) // going down an elevation level
                     {
                         StopCoroutine(_currentMovementCoroutine);
                         StartFallCoroutine(transform.position, nextTile.GetPlayerSnapPosition());
