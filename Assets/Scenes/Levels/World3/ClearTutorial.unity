@@ -8549,6 +8549,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1486646505}
     m_Modifications:
+    - target: {fileID: 2924195812671290854, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
+      propertyPath: _checkInterval
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 6253370473978591665, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.57
@@ -8593,6 +8597,10 @@ PrefabInstance:
       propertyPath: _currentTile
       value: 
       objectReference: {fileID: 1635169847}
+    - target: {fileID: 8526579759844976674, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
+      propertyPath: _checkInterval
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 8526579759844976674, guid: 48b933e8dd1de824eb4e55a02550e2f0, type: 3}
       propertyPath: _currentFacingDirection
       value: 1
