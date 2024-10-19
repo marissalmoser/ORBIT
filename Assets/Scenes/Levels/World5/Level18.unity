@@ -4408,7 +4408,7 @@ MonoBehaviour:
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
-  _collectableRef: {fileID: 550300429}
+  _collectableRef: {fileID: 0}
 --- !u!65 &288548568
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -8724,7 +8724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1165674788100413769, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20830,10 +20830,11 @@ MonoBehaviour:
   deck:
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
-  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
   - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   - {fileID: 11400000, guid: 21f3337bdb3e25c40a8038a4ed84242d, type: 2}
   - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
+  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   originalDeck: []
 --- !u!1 &1476247425
 GameObject:
@@ -22184,7 +22185,7 @@ MonoBehaviour:
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
-  _collectableRef: {fileID: 0}
+  _collectableRef: {fileID: 550300429}
 --- !u!65 &1617625346
 BoxCollider:
   m_ObjectHideFlags: 0
