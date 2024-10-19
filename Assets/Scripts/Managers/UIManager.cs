@@ -11,6 +11,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -59,7 +60,6 @@ public class UIManager : MonoBehaviour
 
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
-    [SerializeField] private TextMeshProUGUI _collectablesCount;
     [SerializeField] private TextMeshProUGUI _deckCount;
     private Vector2 _deckCountPos;
     public Button confirmButton, cancelButton;
@@ -599,14 +599,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Updates how many collectables the player has attained
-    /// </summary>
-    public void UpdateCollectables()
-    {
-        int numOfCollectables = _gameManager.GetCollectableCount();
-        _collectablesCount.text = numOfCollectables.ToString();
-    }
 
     //Initialzes helper variable
     private Image _leftImage, _rightImage;
