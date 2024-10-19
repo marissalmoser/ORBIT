@@ -48,4 +48,9 @@ public class CollectibleStats
     {
         return _isCollected;
     }
+
+    public bool HasCollectible()
+    {
+        return _hasCollectible;
+    }
 }
