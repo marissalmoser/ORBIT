@@ -1,3 +1,9 @@
+/******************************************************************
+ *    Author:  
+ *    Contributors: 
+ *    Date Created: 
+ *    Description: Contains functionality for the planet collectable
+ *******************************************************************/
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

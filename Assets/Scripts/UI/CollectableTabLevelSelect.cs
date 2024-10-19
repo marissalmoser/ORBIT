@@ -1,3 +1,10 @@
+/******************************************************************
+ *    Author: Marissa 
+ *    Contributors: 
+ *    Date Created: 10/19/24
+ *    Description: Contains functionality for the ratio of collectables
+ *      collected per world in the level select.
+ *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +24,7 @@ public class CollectableTabLevelSelect : MonoBehaviour
         int levelsCollected = 0;
         _cm = CollectibleManager.Instance;
 
-        //set ints
+        // loop thru levels in this world and set ints for ratio
         foreach (int level in _levelsInWorld )
         {
             if (_cm.collectibleStats[level].HasCollectible())
