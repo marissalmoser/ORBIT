@@ -78,7 +78,7 @@ public class PlayerController : MonoBehaviour
     {
         float timeElapsed = 0f;
         float checkTimeElapsed = 0f;
-
+        Card cardOnTile = null;
         Tile nextTile = _currentTile;
 
         PlayAnimation("Forward");
@@ -112,22 +112,12 @@ public class PlayerController : MonoBehaviour
                     }
                     else if (nextTile.GetObstacleClass() != null && nextTile.GetObstacleClass().IsActive()) //runs atop an active obstacle
                     {
-                        var card = TileManager.Instance.GetObstacleWithTileCoordinates(nextTile.GetCoordinates()).GetCard();
-                        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(nextTile.GetCoordinates()));
-
-
+                        
+                        //SetCurrentTile(TileManager.Instance.GetTileByCoordinates(nextTile.GetCoordinates()));
+                        targetTileLoc = nextTile.GetPlayerSnapPosition();
+                        cardOnTile = TileManager.Instance.GetObstacleWithTileCoordinates(nextTile.GetCoordinates()).GetCard();
                         //if not a turntable
-                        if (card != null && (card.name != Card.CardName.TurnLeft && card.name != Card.CardName.TurnRight))
-                        {
-                            StopCoroutine(_currentMovementCoroutine);
-                            AddCard?.Invoke(card);
-                            nextTile.GetObstacleClass().PerformObstacleAnim();
-                            ReachedDestination?.Invoke();
-                        }
-                        //else if (card != null)
-                        //{
-                        //    AddCard?.Invoke(card);
-                        //}
+
                     }
                 }
                 // Reset the check timer
@@ -138,7 +128,14 @@ public class PlayerController : MonoBehaviour
 
         transform.position = targetTileLoc; //double check final position
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
-              
+       
+        if (cardOnTile != null) //if we found an obstacle card under our path during this movement coroutine
+        {
+            StopCoroutine(_currentMovementCoroutine);
+            AddCard?.Invoke(cardOnTile);
+            nextTile.GetObstacleClass().PerformObstacleAnim();
+            //ReachedDestination?.Invoke();
+        }
         ReachedDestination?.Invoke();
     }
     private IEnumerator FallPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
