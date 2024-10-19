@@ -28,12 +28,12 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     public void TogglePause()
     {
-        if (!_pauseMenu.activeInHierarchy && _pauseMenu != null)
+        if (_pauseMenu != null && !_pauseMenu.activeInHierarchy)
         {
             _pauseMenu.SetActive(true);
             Time.timeScale = 0f;
         }
-        else if(_pauseMenu.activeInHierarchy && _pauseMenu != null)
+        else if (_pauseMenu != null && _pauseMenu.activeInHierarchy)
         {
             _pauseMenu.SetActive(false);
             Time.timeScale = 1f;
