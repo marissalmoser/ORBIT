@@ -7933,6 +7933,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2694929945312175784, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5284036625563039402, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -31965,6 +31969,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spring
       objectReference: {fileID: 0}
+    - target: {fileID: 2248161427277120283, guid: 412156d1be978ea4992167acc678bd00, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2248161427277120283, guid: 412156d1be978ea4992167acc678bd00, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a0d42fcefffd3f54aadce5da5cc88853, type: 2}
     - target: {fileID: 2406064733847103930, guid: 412156d1be978ea4992167acc678bd00, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4
@@ -32009,6 +32021,14 @@ PrefabInstance:
       propertyPath: direction
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5957023533686486036, guid: 412156d1be978ea4992167acc678bd00, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5957023533686486036, guid: 412156d1be978ea4992167acc678bd00, type: 3}
+      propertyPath: m_Materials.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: a0d42fcefffd3f54aadce5da5cc88853, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

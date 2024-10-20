@@ -1,6 +1,6 @@
 // +-----------------------------------------------------------------------------------+
 // @author - Ryan Herwig
-// @Contributers - 
+// @Contributers - Elijah Vroman
 // @Last Modified - October 16th 2024
 // @Description - The engine of the game which controls and initializes everything else
 // +-----------------------------------------------------------------------------------+
@@ -839,7 +839,8 @@ public class GameManager : MonoBehaviour
 
     private void LoadLevelSelect()
     {
-        SceneManager.LoadScene(2);
+        LevelSelect ls = FindObjectOfType<LevelSelect>(false);
+        ls.LoadLevel(ls.GetSceneToGoOnWin());
     }
 
     #region Getters
