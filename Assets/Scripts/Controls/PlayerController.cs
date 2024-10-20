@@ -128,13 +128,24 @@ public class PlayerController : MonoBehaviour
 
         transform.position = targetTileLoc; //double check final position
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
-       
-        if (cardOnTile != null) //if we found an obstacle card under our path during this movement coroutine
+
+        //if we found an obstacle card under our path during this movement coroutine
+        //  and checks if obstacle should fire
+        if (cardOnTile != null)
         {
-            StopCoroutine(_currentMovementCoroutine);
-            AddCard?.Invoke(cardOnTile);
-            nextTile.GetObstacleClass().PerformObstacleAnim();
-            //ReachedDestination?.Invoke();
+            if(cardOnTile.name != Card.CardName.Jump && nextTile.GetObstacleClass().IsActive())
+            {
+                StopCoroutine(_currentMovementCoroutine);
+                AddCard?.Invoke(cardOnTile);
+                nextTile.GetObstacleClass().PerformObstacleAnim();
+            }
+            //special case for the annoying springs >:)
+            else if (cardOnTile.name == Card.CardName.Jump && !nextTile.GetObstacleClass().IsActive())
+            {
+                StopCoroutine(_currentMovementCoroutine);
+                AddCard?.Invoke(cardOnTile);
+                nextTile.GetObstacleClass().PerformObstacleAnim();
+            }
         }
         ReachedDestination?.Invoke();
     }
