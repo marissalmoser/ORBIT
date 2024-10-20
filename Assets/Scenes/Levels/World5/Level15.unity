@@ -34824,6 +34824,10 @@ PrefabInstance:
       propertyPath: _playedCardsFolder
       value: 
       objectReference: {fileID: 483538624}
+    - target: {fileID: 5426104964226214690, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: sceneIndexOnWin
+      value: 34
+      objectReference: {fileID: 0}
     - target: {fileID: 7511067672945292195, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: m_Name
       value: Managers
