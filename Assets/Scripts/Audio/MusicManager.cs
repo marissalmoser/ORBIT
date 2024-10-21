@@ -8,6 +8,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -24,22 +25,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private float _fadeInDuration;
     [SerializeField] private float _fadeOutDuration;
 
-    #region Level Music IDs
-    
-    [Header("Level Music IDs")]
-    
-    [SerializeField] private int _mainMenuMusicID;
-    [SerializeField] private int _levelSelectMusicID;
-    [SerializeField] private int _levelMoveMusicID;
-    [SerializeField] private int _levelTurnMusicID;
-    [SerializeField] private int _levelJumpMusicID;
-    [SerializeField] private int _levelClearMusicID;
-    [SerializeField] private int _levelSwitchMusicID;
-    [SerializeField] private int _level1MusicID;
-    [SerializeField] private int _level2MusicID;
-    [SerializeField] private int _level3MusicID;
-    [SerializeField] private int _level4MusicID;
-    #endregion
+    private int _currentWorld = 0;
+    private int _newWorld = 0;
 
     public static MusicManager Instance { get; private set; }
 
@@ -69,7 +56,17 @@ public class MusicManager : MonoBehaviour
             _music[i].source.loop = _music[i].doLoop;
         }
 
-        PlayLevelMusic();
+        FadeInMusic(0);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnChangeMusic;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnChangeMusic;
     }
 
     #region Setting ID in editor
@@ -109,6 +106,7 @@ public class MusicManager : MonoBehaviour
     }
     #endregion
 
+    #region Playing/Fading/Stopping music
     /// <summary>
     /// Plays the given music clip. Finds the index of the specific sound effect,
     /// sets the audio clip based on the avaliable clips, and then plays the clip
@@ -116,7 +114,7 @@ public class MusicManager : MonoBehaviour
     /// <param name="name"></param>
     public void PlayMusic(int id)
     {
-        Music music = _music[_music.FindIndex(i => i.id == id)];
+        Music music = _music[id];
         music.source.clip = music.clips[UnityEngine.Random.Range(0, music.clips.Length)];
         music.source.volume = music.maxVolume;
         music.source.Play();
@@ -129,7 +127,7 @@ public class MusicManager : MonoBehaviour
     /// <param name="id"></param>
     public void StopMusic(int id)
     {
-        Music music = _music[_music.FindIndex(i => i.id == id)];
+        Music music = _music[id];
         music.source.Stop();
     }
 
@@ -140,7 +138,7 @@ public class MusicManager : MonoBehaviour
     /// <param name="id"></param>
     public void FadeInMusic(int id)
     {
-        Music music = _music[_music.FindIndex(i => i.id == id)];
+        Music music = _music[id];
         music.source.clip = music.clips[UnityEngine.Random.Range(0, music.clips.Length)];
         music.source.volume = 0;
         music.source.Play();
@@ -168,7 +166,7 @@ public class MusicManager : MonoBehaviour
         {
             if(music.source.isPlaying)
             {
-                music.source.Stop();
+                FadeOutMusic(music.id);
             }
         }
     }
@@ -199,78 +197,110 @@ public class MusicManager : MonoBehaviour
 
         yield break;
     }
+    #endregion
 
-    private void OnEnable()
-    {
-        MusicManager.ChangeMusic += OnChangeMusic;
-    }
-
-    private void OnDisable()
-    {
-        MusicManager.ChangeMusic -= OnChangeMusic;
-    }
-
+    #region Changing music
     /// <summary>
-    /// Plays the levels music for the scene when it is loaded
+    /// Invoked when a new scene is loaded, checks which music should be playing
     /// </summary>
     /// <param name="scene"></param>
     /// <param name="mode"></param>
-    private void OnChangeMusic()
+    private void OnChangeMusic(Scene scene, LoadSceneMode mode)
     {
-        PlayLevelMusic();
+        PlayLevelMusic(GetWorld(scene.buildIndex));
+    }
+
+    /// <summary>
+    /// Gets which world should be playing based on the build index.
+    /// </summary>
+    /// <returns></returns>
+    private int GetWorld(int scene)
+    {
+        switch (scene)
+        {
+            case 0:
+            case 1:
+            case 2:
+                _newWorld = 0;
+                break;
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+                _newWorld = 1;
+                break;
+            case 10:
+                _newWorld = 0;
+                break;
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+                _newWorld = 2;
+                break;
+            case 17:
+                _newWorld = 0;
+                break;
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+                _newWorld = 3;
+                break;
+            case 24:
+                _newWorld = 0;
+                break;
+            case 25:
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+            case 30:
+                _newWorld = 4;
+                break;
+            case 31:
+                _newWorld = 0;
+                break;
+            case 32:
+            case 33:
+            case 34:
+            case 35:
+            case 36:
+            case 37:
+                _newWorld = 5;
+                break;
+            default:
+                _newWorld = 0;
+                break;
+        }
+        return _newWorld;
     }
 
     /// <summary>
     /// Uses the serialized fields for level music IDs to play the song based
     /// on what level is loaded.
     /// </summary>
-    private void PlayLevelMusic()
+    private void PlayLevelMusic(int newWorld)
     {
-        Scene scene = SceneManager.GetActiveScene();
-        
-        StopAllMusic();
+        //if the player is in the same world, don't change the music.
+        if(_newWorld == _currentWorld)
+        {
+            return;
+        }
 
-        if (scene.buildIndex == 0) // Level Select
-        {
-            FadeInMusic(_levelSelectMusicID);
-        }
-        else if (scene.buildIndex == 1) // Move Level
-        {
-            FadeInMusic(_levelMoveMusicID);
-        }
-        else if (scene.buildIndex == 2) // Turn Level
-        {
-            FadeInMusic(_levelTurnMusicID);
-        }
-        else if (scene.buildIndex == 3) // Jump Level
-        {
-            FadeInMusic(_levelJumpMusicID);
-        }
-        else if (scene.buildIndex == 4) // Clear Level
-        {
-            FadeInMusic(_levelClearMusicID);
-        }
-        else if (scene.buildIndex == 5) // Switch Level
-        {
-            FadeInMusic(_levelSwitchMusicID);
-        }
-        else if (scene.buildIndex == 6) 
-        {
-            FadeInMusic(_level1MusicID);
-        }
-        else if (scene.buildIndex == 7)
-        {
-            FadeInMusic(_level2MusicID);
-        }
-        else if (scene.buildIndex == 8)
-        {
-            FadeInMusic(_level3MusicID);
-        }
-        else if (scene.buildIndex == 9)
-        {
-            FadeInMusic(_level4MusicID);
-        }
+        //play new music track
+        StopAllMusic();
+        FadeInMusic(_music[newWorld].id);
+        _currentWorld = newWorld;
     }
+    #endregion
 
     #region mixer functions
 

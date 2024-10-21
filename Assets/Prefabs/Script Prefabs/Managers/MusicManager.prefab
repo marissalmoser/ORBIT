@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _music:
   - name: LevelMusic
-    id: 7524
+    id: 0
     clips:
     - {fileID: 8300000, guid: 873492e45133d30418727433590d6529, type: 3}
     clip: {fileID: 0}
@@ -55,17 +55,56 @@ MonoBehaviour:
     pitch: 1
     doLoop: 1
     source: {fileID: 0}
+  - name: Floral
+    id: 1
+    clips:
+    - {fileID: 8300000, guid: a536634659c6cd84fb976b5ddd6a9888, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -4068618683814513292, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.5
+    pitch: 1
+    doLoop: 1
+    source: {fileID: 0}
+  - name: Ice
+    id: 2
+    clips:
+    - {fileID: 8300000, guid: a382f68dcaf788845979d5eea8036b6a, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -4068618683814513292, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.5
+    pitch: 1
+    doLoop: 1
+    source: {fileID: 0}
+  - name: Fire
+    id: 3
+    clips:
+    - {fileID: 8300000, guid: 1067302257e902645adac1d0c889645f, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -4068618683814513292, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.5
+    pitch: 1
+    doLoop: 1
+    source: {fileID: 0}
+  - name: Disco
+    id: 4
+    clips:
+    - {fileID: 8300000, guid: d5c13519c5f44a544b3b61b2ee2b44b1, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -4068618683814513292, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.5
+    pitch: 1
+    doLoop: 1
+    source: {fileID: 0}
+  - name: Pastel
+    id: 5
+    clips:
+    - {fileID: 8300000, guid: 7287f89786589014298dbd1eeaf35da4, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -4068618683814513292, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.5
+    pitch: 1
+    doLoop: 1
+    source: {fileID: 0}
   _masterMixer: {fileID: 24100000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-  _fadeInDuration: 2
-  _fadeOutDuration: 3
-  _mainMenuMusicID: 7524
-  _levelSelectMusicID: 7524
-  _levelMoveMusicID: 7524
-  _levelTurnMusicID: 7524
-  _levelJumpMusicID: 7524
-  _levelClearMusicID: 7524
-  _levelSwitchMusicID: 7524
-  _level1MusicID: 7524
-  _level2MusicID: 7524
-  _level3MusicID: 7524
-  _level4MusicID: 7524
+  _fadeInDuration: 1
+  _fadeOutDuration: 1
