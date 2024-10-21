@@ -73,18 +73,23 @@ public class CardManager : MonoBehaviour
     }
 
     #region Deck Methods
-
-    public void MousePressedDeck()
-    {
-
-    }
-
-    public void MouseReleasedDeck()
+    public void MouseReleasedDeck(Image cardImage)
     {
         //Toggle
         isShowingDeck = !isShowingDeck;
         _uiManager.ShowDeck(isShowingDeck);
-        
+
+        if (isShowingDeck)
+        {
+            cardImage.transform.parent.transform.SetAsLastSibling();
+            cardImage.transform.parent.transform.parent.Find("DeckCount").transform.SetAsLastSibling();
+        }
+
+        else
+        {
+            cardImage.transform.parent.transform.SetSiblingIndex(8);
+            cardImage.transform.parent.transform.parent.Find("DeckCount").transform.SetSiblingIndex(9);
+        }
 
     }
     #endregion

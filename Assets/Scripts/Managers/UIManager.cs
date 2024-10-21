@@ -172,8 +172,8 @@ public class UIManager : MonoBehaviour
             _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
             _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 40);
         }
-        
-        _deckCount.transform.SetAsLastSibling();
+        _deck.transform.SetSiblingIndex(8);
+        _deckCount.transform.SetSiblingIndex(9);
 
         _deckCount.text = _gameManager._deck.Count.ToString();
 
