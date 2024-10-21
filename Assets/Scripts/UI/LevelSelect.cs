@@ -11,6 +11,7 @@ using UnityEngine.SceneManagement;
 public class LevelSelect : MonoBehaviour
 {
     [SerializeField] private int sceneIndexOnWin;
+
     /// <summary>
     /// This function loads a scene based on the int passed through
     /// </summary>

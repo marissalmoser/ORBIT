@@ -18169,15 +18169,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2185706889468418295, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.71
+      value: 3.05
       objectReference: {fileID: 0}
     - target: {fileID: 2185706889468418295, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5
+      value: 3.3
       objectReference: {fileID: 0}
     - target: {fileID: 2185706889468418295, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.98
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 2185706889468418295, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20904,7 +20904,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1576643090}
-  m_Mesh: {fileID: 3921568967233161584, guid: 75daa60a6efa3f04ea55b61af9ea6dc6, type: 3}
+  m_Mesh: {fileID: -6063781499868939591, guid: b9184d35f36c98a4bb512bf784d0b095, type: 3}
 --- !u!1 &1580130413
 GameObject:
   m_ObjectHideFlags: 0
@@ -28863,6 +28863,10 @@ PrefabInstance:
       propertyPath: _playedCardsFolder
       value: 
       objectReference: {fileID: 483538624}
+    - target: {fileID: 5426104964226214690, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: sceneIndexOnWin
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7511067672945292195, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: m_Name
       value: Managers
