@@ -14,4 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: 3
   cardSprite: {fileID: 21300000, guid: ead55e8be2d818f4a84f998ccd9e840c, type: 3}
-  _desinationTile: {fileID: 0}
+  darkenVariantSprite: {fileID: 21300000, guid: 745f61f1932cd0540a6c147571cc9a95, type: 3}
+  wildVariantSprite: {fileID: 21300000, guid: 71e7df7ff3cae864fb24ef0e75a839c9, type: 3}
+  wildDarkenVariantSprite: {fileID: 21300000, guid: 39e4e0a426d3f2543889c77c23df8bf0, type: 3}
+  _isObstacle: 0
+  distance: 0
