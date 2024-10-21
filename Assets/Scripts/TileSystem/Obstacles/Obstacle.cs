@@ -45,7 +45,7 @@ public abstract class Obstacle : MonoBehaviour
         SetToDefaultState();
     }
 
-    public bool IsActive()
+    public virtual bool IsActive()
     {
         return _isActive;
     }
@@ -73,7 +73,7 @@ public abstract class Obstacle : MonoBehaviour
 
     }
 
-    public void SwitchActiveState()
+    public virtual void SwitchActiveState()
     {
         _isActive = !_isActive;
         PerformObstacleAnim();
