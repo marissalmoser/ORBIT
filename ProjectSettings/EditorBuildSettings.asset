@@ -27,13 +27,13 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/World1/RotatingPlatformsTutorial.unity
     guid: 6bc6abf5b5740f246be4fe1d21e7545b
   - enabled: 1
-    path: Assets/Scenes/Levels/World1/Level3.unity
+    path: Assets/Scenes/Levels/World1/Level1.unity
     guid: 2d15c09b17174db4b97e232f89612661
   - enabled: 1
     path: Assets/Scenes/Levels/World1/Level2.unity
     guid: afbcf6cf12f04374598df2f2ec09dfb9
   - enabled: 1
-    path: Assets/Scenes/Levels/World1/Level1.unity
+    path: Assets/Scenes/Levels/World1/Level3.unity
     guid: fc60d66634e719049afa3dd5bf97b1cb
   - enabled: 1
     path: Assets/Scenes/Levels/World1/BackUp.unity
@@ -127,11 +127,14 @@ EditorBuildSettings:
     guid: fe45b6f9a1ca5ec4e910d9fd7d378803
   - enabled: 1
     path: Assets/Scenes/Levels/World5/Level17.unity
-    guid: a3aba9e700f275d4aadb36172a3d1881
-  - enabled: 1
-    path: Assets/Scenes/Levels/World5/Level18.unity
     guid: 6b9333df808de0e4494b11620c023574
   - enabled: 1
-    path: Assets/Scenes/Levels/World5/Level19.unity
+    path: Assets/Scenes/Levels/World5/Level18.unity
     guid: f06a4df88adf58548965320d5281eb8f
+  - enabled: 1
+    path: Assets/Scenes/Levels/World5/Level19.unity
+    guid: a3aba9e700f275d4aadb36172a3d1881
+  - enabled: 1
+    path: Assets/Scenes/Menus/WinScreen.unity
+    guid: c94f73ae9d1e3604fac19fb88312ff48
   m_configObjects: {}
