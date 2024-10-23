@@ -38,7 +38,6 @@ public class CardDisplay : MonoBehaviour
         IsMouseDown = false;
         IsSwapping = false;
 
-        print(isFromWild);
         //Sets image
         SetImage();
     }
@@ -72,12 +71,10 @@ public class CardDisplay : MonoBehaviour
         {
             if (isDarken)
             {
-                print("WILD DARKEN");
                 _sprite.sprite = card.wildDarkenVariantSprite;
             }
             else //If card is not darkened and from a wild card
             {
-                print("WILD NORMAL");
                 _sprite.sprite = card.wildVariantSprite;
             }
         }
@@ -85,12 +82,10 @@ public class CardDisplay : MonoBehaviour
         {
             if (isDarken) //If card is darkened and a normal card
             {
-                print("REGULAR DARKEN");
                 _sprite.sprite = card.darkenVariantSprite;
             }
             else //If card is not darkened and a normal card
             {
-                print("REGULAR NORMAL");
                 _sprite.sprite = card.cardSprite;
             }
         }
