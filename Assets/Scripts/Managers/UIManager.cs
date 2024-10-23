@@ -803,7 +803,7 @@ public class UIManager : MonoBehaviour
                         else
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) * 0 +
-                                x, 650, 0); //Sets position
+                                x, 550, 0); //Sets position
                         }
                     }
 
