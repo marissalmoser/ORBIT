@@ -39,7 +39,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private int _widthPadding, _heightPadding;
     [SerializeField] private int _dealtCardWidthSpacing, _playedCardWidthSpacing, _cardHeightSpacing;
     [SerializeField] private bool doVerticalFormat;
-    [SerializeField] private int numOfUniqueCards = 7;
+    public int numOfUniqueCards = 7;
 
     [Header("Card Slots")]
     [SerializeField] private Image cardSlot1;
@@ -362,7 +362,10 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void UpdateConfirmCard()
     {
-        _arrowsManager.ChangeMaxIndex(numOfUniqueCards);
+        if (_gameManager.isTurning)
+            _arrowsManager.ChangeMaxIndex(2);
+        else
+            _arrowsManager.ChangeMaxIndex(numOfUniqueCards);
         //Makes sure a clear or switch card was not played when it wasn't supposed to be played
         if (_gameManager.confirmationCard != null)
         {
@@ -464,106 +467,142 @@ public class UIManager : MonoBehaviour
                         _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
 
             _confirmationDisplay = _confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
-            switch (index)
+            if (_gameManager.isTurning)
             {
-                case 0:
-                    //Sets the confirm card
-                    _confirmationDisplay.card = _moveCard;
-                    _gameManager.confirmationCard = _moveCard;
-                    _confirmCard = _moveCard;
+                switch (index)
+                {
+                    case 0:
+                        //Sets the confirm card
+                        _confirmationDisplay.card = _turnLeftCard;
+                        _gameManager.confirmationCard = _turnLeftCard;
+                        _confirmCard = _turnLeftCard;
 
-                    //Sets gamestate to accomodate the new card
-                    _gameManager.WildAction(_confirmCard);
-                    _gameManager.RunPlaySequence();
+                        //Sets the gamestate to accomodate the new card
+                        _gameManager.TurnAction(_confirmCard);
+                        _gameManager.RunPlaySequence();
 
-                    //Updates UI
-                    UpdatePlayedCards(_gameManager.GetPlayedCards());
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
-                    break;
-                case 1:
-                    //Sets the confirm card
-                    _confirmationDisplay.card = _jumpCard;
-                    _gameManager.confirmationCard = _jumpCard;
-                    _confirmCard = _jumpCard;
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
+                        break;
+                    case 1:
+                        //Sets the confirm card
+                        _confirmationDisplay.card = _turnRightCard;
+                        _gameManager.confirmationCard = _turnRightCard;
+                        _confirmCard = _turnRightCard;
+                        //Sets gamestate to accomodate the new card
+                        _gameManager.TurnAction(_confirmCard);
+                        _gameManager.RunPlaySequence();
 
-                    //Sets gamestate to accomodate the new card
-                    _gameManager.WildAction(_confirmCard);
-                    _gameManager.RunPlaySequence();
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
+                        break;
+                }
+            }
+            else
+            {
+                switch (index)
+                {
+                    case 0:
+                        //Sets the confirm card
+                        _confirmationDisplay.card = _moveCard;
+                        _gameManager.confirmationCard = _moveCard;
+                        _confirmCard = _moveCard;
 
-                    //Updates UI
-                    UpdatePlayedCards(_gameManager.GetPlayedCards());
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
-                    break;
-                case 2:
-                    //Sets the confirm card
-                    _confirmationDisplay.card = _turnLeftCard;
-                    _gameManager.confirmationCard = _turnLeftCard;
-                    _confirmCard = _turnLeftCard;
+                        //Sets gamestate to accomodate the new card
+                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.RunPlaySequence();
 
-                    //Sets the gamestate to accomodate the new card
-                    _gameManager.WildAction(_confirmCard);
-                    _gameManager.RunPlaySequence();
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
+                        break;
+                    case 1:
+                        //Sets the confirm card
+                        _confirmationDisplay.card = _jumpCard;
+                        _gameManager.confirmationCard = _jumpCard;
+                        _confirmCard = _jumpCard;
 
-                    //Updates UI
-                    UpdatePlayedCards(_gameManager.GetPlayedCards());
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
-                    break;
-                case 3:
-                    //Sets the confirm card
-                    _confirmationDisplay.card = _turnRightCard;
-                    _gameManager.confirmationCard = _turnRightCard;
-                    _confirmCard = _turnRightCard;
-                    //Sets gamestate to accomodate the new card
-                    _gameManager.WildAction(_confirmCard);
-                    _gameManager.RunPlaySequence();
+                        //Sets gamestate to accomodate the new card
+                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.RunPlaySequence();
 
-                    //Updates UI
-                    UpdatePlayedCards(_gameManager.GetPlayedCards());
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
-                    break;
-                case 4:
-                    //Sets the confirm card
-                    _confirmationDisplay.card = _clearCard;
-                    _gameManager.confirmationCard = _clearCard;
-                    _confirmCard = _clearCard;
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
+                        break;
+                    case 2:
+                        //Sets the confirm card
+                        _confirmationDisplay.card = _turnLeftCard;
+                        _gameManager.confirmationCard = _turnLeftCard;
+                        _confirmCard = _turnLeftCard;
 
-                    //Sets gamestate to accomodate the new card
-                    _gameManager.WildAction(_confirmCard);
+                        //Sets the gamestate to accomodate the new card
+                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.RunPlaySequence();
 
-                    //Updates UI
-                    UpdatePlayedCards(_gameManager.GetPlayedCards());
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
-                    break;
-                case 5:
-                    //Sets the confirm card
-                    _confirmationDisplay.card = _switchCard;
-                    _gameManager.confirmationCard = _switchCard;
-                    _confirmCard = _switchCard;
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
+                        break;
+                    case 3:
+                        //Sets the confirm card
+                        _confirmationDisplay.card = _turnRightCard;
+                        _gameManager.confirmationCard = _turnRightCard;
+                        _confirmCard = _turnRightCard;
+                        //Sets gamestate to accomodate the new card
+                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.RunPlaySequence();
 
-                    ////Sets gamestate to accomodate the new card
-                    _gameManager.WildAction(_confirmCard);
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
+                        break;
+                    case 4:
+                        //Sets the confirm card
+                        _confirmationDisplay.card = _clearCard;
+                        _gameManager.confirmationCard = _clearCard;
+                        _confirmCard = _clearCard;
 
-                    //Updates UI
-                    UpdatePlayedCards(_gameManager.GetPlayedCards());
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
-                    break;
-                case 6:
-                    //Sets the confirm card
-                    _confirmationDisplay.card = _stallCard;
-                    _gameManager.confirmationCard = _stallCard;
-                    _confirmCard = _stallCard;
+                        //Sets gamestate to accomodate the new card
+                        _gameManager.WildAction(_confirmCard);
 
-                    //Sets gamestate to accomodate the new card
-                    _gameManager.WildAction(_confirmCard);
-                    _gameManager.RunPlaySequence();
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
+                        break;
+                    case 5:
+                        //Sets the confirm card
+                        _confirmationDisplay.card = _switchCard;
+                        _gameManager.confirmationCard = _switchCard;
+                        _confirmCard = _switchCard;
 
-                    //Updates UI
-                    UpdatePlayedCards(_gameManager.GetPlayedCards());
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
-                    break;
-                default:
-                    print("ERROR: COULD NOT UPDATE CARD IN UI");
-                    break;
+                        ////Sets gamestate to accomodate the new card
+                        _gameManager.WildAction(_confirmCard);
+
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
+                        break;
+                    case 6:
+                        //Sets the confirm card
+                        _confirmationDisplay.card = _stallCard;
+                        _gameManager.confirmationCard = _stallCard;
+                        _confirmCard = _stallCard;
+
+                        //Sets gamestate to accomodate the new card
+                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.RunPlaySequence();
+
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
+                        break;
+                    default:
+                        print("ERROR: COULD NOT UPDATE CARD IN UI");
+                        break;
+                }
             }
         }
     }
@@ -587,7 +626,7 @@ public class UIManager : MonoBehaviour
     public void UpdateArrows()
     {
         //If the gamestate is on wild, show the arrows
-        if (_gameManager.isUsingWild)
+        if (_gameManager.isUsingWild || _gameManager.isTurning)
         {
             _leftButton.gameObject.SetActive(true);
             _rightButton.gameObject.SetActive(true);
@@ -599,7 +638,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
-
+    /**
     //Initialzes helper variable
     private Image _leftImage, _rightImage;
     /// <summary>
@@ -673,6 +712,7 @@ public class UIManager : MonoBehaviour
         if (_rightImage != null)
             Destroy(_rightImage.gameObject);
     }
+    */
 
     public void ShowDeck(bool isShowingDeck)
     {

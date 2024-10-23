@@ -186,7 +186,7 @@ public class CardManager : MonoBehaviour
         //Resets GameManager variables ( in case card was replaced with a different one )
         _gameManager.isClearing = false;
         _gameManager.isSwitching = false;
-        _gameManager.isTurning = false;
+        _gameManager.currentlyOnTurn = false;
         _gameManager.isStalling = false;
         switchCards.Item1 = null;
         switchCards.Item2 = null;
@@ -218,7 +218,7 @@ public class CardManager : MonoBehaviour
             _gameManager.lowerDarkenIndex = false;
 
             //Destroys the turn cards
-            _uiManager.DestroyTurnCards();
+            //_uiManager.DestroyTurnCards();
         }
 
         //If a card was replaced
@@ -551,7 +551,6 @@ public class CardManager : MonoBehaviour
     {
         //sound effect call
         SfxManager.Instance.PlaySFX(8885);
-        _uiManager.DestroyTurnCards(true);
     }
 
     /// <summary>
@@ -561,7 +560,6 @@ public class CardManager : MonoBehaviour
     {
         //sound effect call
         SfxManager.Instance.PlaySFX(8885);
-        _uiManager.DestroyTurnCards(false);
     }
 
     /// <summary>

@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
     private (Card, int) _lastCardPlayed;
     public Card confirmationCard;
     [NonSerialized] public bool isSwitching, isClearing, isStalling, isUsingWild, currentlyOnWild;
-    [NonSerialized] public bool isTurning;
+    [NonSerialized] public bool currentlyOnTurn, isTurning;
 
     [NonSerialized] public List<Card> _startingDeck;
 
@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
         lowerDarkenIndex = false;
 
         isSwitching = false;
+        currentlyOnTurn = false;
         isTurning = false;
         isClearing = false;
         isStalling = false;
@@ -283,7 +284,6 @@ public class GameManager : MonoBehaviour
             }    
         }
 
-        //POYO
         //If Switch Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Switch) //Error check and checks if last card played was a Switch
         {
@@ -309,8 +309,10 @@ public class GameManager : MonoBehaviour
             lowerDarkenIndex = true;
             ChangeGameState(STATE.ChooseTurn); //Waits for User Input to Switch two cards
             _uiManager.UpdateTextBox("CHOOSE TO TURN LEFT OR RIGHT.");
-            _uiManager.CreateTurnCards();
+            currentlyOnTurn = true;
             isTurning = true;
+            _arrowsManager.ChangeMaxIndex(2);
+            _arrowsManager.ResetIndex();
         }
         //If Stall Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Stall) //Error check and checks if last card played was a Stall
@@ -321,8 +323,12 @@ public class GameManager : MonoBehaviour
         //If Wild Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Wild) //Error check and checks if last card played was a Stall
         {
+            darken.enabled = true;
+            darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() + 1);
+            lowerDarkenIndex = true;
             isUsingWild = true;
             currentlyOnWild = true;
+            _arrowsManager.ChangeMaxIndex(_uiManager.numOfUniqueCards);
             _arrowsManager.ResetIndex();
         }
 
@@ -330,7 +336,7 @@ public class GameManager : MonoBehaviour
         _uiManager.UpdateArrows();
 
         //If demo is good to go
-        if (!isClearing && !isSwitching && !isTurning && !currentlyOnWild)
+        if (!isClearing && !isSwitching && !currentlyOnTurn && !currentlyOnWild)
         {
             _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
             ChangeGameState(STATE.ConfirmCards);
@@ -530,6 +536,7 @@ public class GameManager : MonoBehaviour
         //Disables Arrows
         isUsingWild = false;
         currentlyOnWild = false;
+        isTurning = false;
         _uiManager.UpdateArrows();
 
         //Removes all highlight from cards
@@ -610,7 +617,7 @@ public class GameManager : MonoBehaviour
         _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         _cardManager.switchCards.Item1 = null;
         _cardManager.switchCards.Item2 = null;
-        _uiManager.DestroyTurnCards(); //Destroys turn cards
+        //_uiManager.DestroyTurnCards(); //Destroys turn cards
 
         //Removes all highlight from the images
         List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
@@ -632,6 +639,8 @@ public class GameManager : MonoBehaviour
         isSwitching = false;
         isStalling = false;
         isUsingWild = false;
+        isTurning = false;
+        currentlyOnTurn = false;
         currentlyOnWild = false;
         _getOriginalDeck = true;
 
@@ -639,6 +648,7 @@ public class GameManager : MonoBehaviour
         _collectedSwitchIDs = new(); //Clears the list
         _uiManager.UpdatePlayedCards(_playedCards);
         _uiManager.UpdateArrows();
+        _arrowsManager.ResetIndex();
         ChangeGameState(STATE.ChooseCards);
     }
 
@@ -668,26 +678,6 @@ public class GameManager : MonoBehaviour
 
         if (_doDebugMode)
             ChangeGameState(STATE.ChooseCards);
-    }
-
-    /// <summary>
-    /// Adds a card at the bottom of the action order
-    /// </summary>
-    /// <param name="card">The Card to add</param>
-    public void AddTurnCard(Card card, bool isTurningLeft)
-    {
-        confirmationCard = card;
-        isTurning = false;
-        isTurningleft = isTurningLeft;
-
-        if (lowerDarkenIndex)
-        {
-            darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() - 1);
-            lowerDarkenIndex = false;
-        }
-        darken.enabled = false;
-
-        RunPlaySequence();
     }
 
     #region Action Order Card Effects
@@ -814,6 +804,25 @@ public class GameManager : MonoBehaviour
                 darken.enabled = false;
                 break;
         }
+    }
+
+    public void TurnAction(Card card)
+    {
+        isClearing = false;
+        isSwitching = false;
+        isStalling = false;
+        isUsingWild = true;
+        currentlyOnWild = false;
+        currentlyOnTurn = false;
+        _getOriginalDeck = true;
+
+        //Deactivates Darken Effect
+        if (lowerDarkenIndex)
+        {
+            darken.transform.SetSiblingIndex(darken.transform.GetSiblingIndex() - 1);
+            lowerDarkenIndex = false;
+        }
+        darken.enabled = false;
     }
     #endregion
 
