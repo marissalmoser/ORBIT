@@ -777,13 +777,13 @@ public class UIManager : MonoBehaviour
                         if (indexPosition < numOfCardsToShow / 2)
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                                -(numOfCardsToShow / 2 - indexPosition) + x, 650, 0); //Sets position
+                                -(numOfCardsToShow / 2 - indexPosition) + x, 550, 0); //Sets position
                             
                         }
                         else
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                                ((indexPosition - numOfCardsToShow / 2)) + x, 650, 0); //Sets position
+                                ((indexPosition - numOfCardsToShow / 2)) + x, 550, 0); //Sets position
                         }
                     }
                     else // Number of Cards To Show is Odd
@@ -793,12 +793,12 @@ public class UIManager : MonoBehaviour
                         if (i < numOfCardsToShow / 2)
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                                -(numOfCardsToShow / 2 - indexPosition) + x, 650, 0); //Sets position
+                                -(numOfCardsToShow / 2 - indexPosition) + x, 550, 0); //Sets position
                         }
                         else if (indexPosition > numOfCardsToShow / 2)
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                                ((indexPosition - numOfCardsToShow / 2)) + x, 650, 0); //Sets position
+                                ((indexPosition - numOfCardsToShow / 2)) + x, 550, 0); //Sets position
                         }
                         else
                         {
@@ -810,6 +810,8 @@ public class UIManager : MonoBehaviour
                     _shownDeck.Add(newImage); //Adds instantiated image to list
 
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = instances[i].ToString();
+                    newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+                    newImage.transform.Find("Tooltip").GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
                     //Shows Card Sprite
                     CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
@@ -817,24 +819,31 @@ public class UIManager : MonoBehaviour
                     {
                         case 0: //Move
                             card.card = _moveCard;
+                            newImage.transform.Find("Tooltip").GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
                             break;
                         case 1: //Turn
                             card.card = _turnCard;
+                            newImage.transform.Find("Tooltip").GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
                             break;
                         case 2: //Jump
                             card.card = _jumpCard;
+                            newImage.transform.Find("Tooltip").GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
                             break;
                         case 3: //Replay
                             card.card = _stallCard;
+                            newImage.transform.Find("Tooltip").GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
                             break;
                         case 4: //Clear
                             card.card = _clearCard;
+                            newImage.transform.Find("Tooltip").GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
                             break;
                         case 5: //Switch
                             card.card = _switchCard;
+                            newImage.transform.Find("Tooltip").GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
                             break;
                         case 6: //Wild
                             card.card = _wildCard;
+                            newImage.transform.Find("Tooltip").GetComponentInChildren<TextMeshProUGUI>().text = "CHOOSE ANY CARD TO PUT INTO THE ACTION ORDER.";
                             break;
                         default:
                             print("ERROR: COULD NOT UPDATE CARD IN UI");

@@ -74,9 +74,16 @@ public class CardManager : MonoBehaviour
 
     #region Deck Methods
 
-    public void MousePressedDeck()
+    public void MouseEnterShownDeckCard(Image toolTip)
     {
+        toolTip.enabled = true;
+        toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+    }
 
+    public void MouseExitShownDeckCard(Image toolTip)
+    {
+        toolTip.enabled = false;
+        toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
     }
 
     public void MouseReleasedDeck()
