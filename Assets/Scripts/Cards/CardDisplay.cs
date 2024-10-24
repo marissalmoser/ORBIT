@@ -99,14 +99,9 @@ public class CardDisplay : MonoBehaviour
     #endregion
 
     #region Deck Methods
-    public void MousePressedDeck()
+    public void MouseReleasedDeck(Image cardImage)
     {
-        CardManager.Instance.MousePressedDeck();
-    }
-
-    public void MouseReleasedDeck()
-    {
-        CardManager.Instance.MouseReleasedDeck();
+        CardManager.Instance.MouseReleasedDeck(cardImage);
     }
     #endregion
 
