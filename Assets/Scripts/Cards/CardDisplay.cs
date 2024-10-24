@@ -108,10 +108,9 @@ public class CardDisplay : MonoBehaviour
     {
         CardManager.Instance.MouseExitShownDeckCard(toolTip);
     }
-
-    public void MouseReleasedDeck()
+    public void MouseReleasedDeck(Image cardImage)
     {
-        CardManager.Instance.MouseReleasedDeck();
+        CardManager.Instance.MouseReleasedDeck(cardImage);
     }
     #endregion
 
