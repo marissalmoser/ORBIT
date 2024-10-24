@@ -15,6 +15,10 @@ public class Card : ScriptableObject
 
     public new CardName name;
     public Sprite cardSprite;
+    public Sprite darkenVariantSprite;
+    public Sprite wildVariantSprite;
+    public Sprite wildDarkenVariantSprite;
+
     [SerializeField] private bool _isObstacle;
 
     [SerializeField] private int distance;

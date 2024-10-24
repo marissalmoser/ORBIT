@@ -143,8 +143,11 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < _dealtCardImages.Count; i++)
         {
             if (_dealtCardImages[i] != null)
+            {
                 Destroy(_dealtCardImages[i].gameObject);
+            }
         }
+
         if (_deck != null)
             Destroy(_deck.gameObject); //Destroys deck image
 
@@ -172,8 +175,8 @@ public class UIManager : MonoBehaviour
             _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
             _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 40);
         }
-        
-        _deckCount.transform.SetAsLastSibling();
+        _deck.transform.SetSiblingIndex(8);
+        _deckCount.transform.SetSiblingIndex(9);
 
         _deckCount.text = _gameManager._deck.Count.ToString();
 
@@ -198,6 +201,8 @@ public class UIManager : MonoBehaviour
 
             //Adds card into folder
             newImage.gameObject.transform.SetParent(_dealtCardsFolder);
+
+            //newImage.GetComponentInChildren<CardDisplay>().isDarken = isDarkenList[i];
 
             _dealtCardImages.Add(newImage); //Adds instantiated image to list
 
@@ -256,16 +261,33 @@ public class UIManager : MonoBehaviour
     public void UpdatePlayedCards(List<Card> playedCards)
     {
         //Destroys all previous instantiations of played cards
+        List<bool> tempIsWildList = new();
+
         for (int i = 0; i < _playedCardImages.Count; i++)
         {
             if (_playedCardImages[i] != null)
+            {
+                tempIsWildList.Add(_playedCardImages[i].GetComponentInChildren<CardDisplay>().isFromWild);
                 Destroy(_playedCardImages[i].gameObject);
+            }
+            else
+            {
+                tempIsWildList.Add(false);
+            }
         }
+
+        //Adds confirm card into list
+        if (_confirmationDisplay != null)
+        {
+            tempIsWildList.Add(_confirmationDisplay.isFromWild);
+        }
+
         //Resets list
         _playedCardImages = new();
 
         //Instantiates card images
         int numOfPlayedCards = playedCards.Count;
+
         for (int i = 0; i < numOfPlayedCards; i++)
         {
             Image newImage = Instantiate(_playedCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
@@ -306,33 +328,29 @@ public class UIManager : MonoBehaviour
             _playedCardImages.Add(newImage); //Adds image to list
 
             CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
-                                                                               //Uses grabbed data to compare with possible types and convert image to found typ
+                                                                               //Uses grabbed data to compare with possible types and convert image to found type
+            card.isFromWild = tempIsWildList[i];
             switch (playedCards[i].name)
             {
                 case Card.CardName.Move:
                     card.card = _moveCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
-                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _movedTooltip;
                     break;
                 case Card.CardName.Jump:
                     card.card = _jumpCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
-                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _jumpTooltip;
                     break;
                 case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
                     card.card = _turnCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
-                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.TurnLeft:
                     card.card = _turnLeftCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
-                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.TurnRight:
                     card.card = _turnRightCard;
                     newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT RIGHT.";
-                    //newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().sprite = _turnTooltip;
                     break;
                 case Card.CardName.Clear: //Error Case. Should not be used, but it can be used if needed
                     card.card = _clearCard;
@@ -371,9 +389,13 @@ public class UIManager : MonoBehaviour
         {
             _confirmCard = _gameManager.GetLastPlayedCard();
 
+            bool tempIsWild = false;
             //ERROR CHECK - They should already be deleted. If they haven't for whatever reason, delete them
             if (_confirmationImage != null)
+            {
+                tempIsWild = _confirmationImage.GetComponentInChildren<CardDisplay>().isFromWild;
                 Destroy(_confirmationImage.gameObject);
+            }
 
             _confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
             _confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
@@ -391,6 +413,8 @@ public class UIManager : MonoBehaviour
                         _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
 
             _confirmationDisplay = _confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
+
+            _confirmationDisplay.isFromWild = tempIsWild;
             switch (_confirmCard.name)
             {
                 case Card.CardName.Move:
@@ -468,6 +492,10 @@ public class UIManager : MonoBehaviour
 
             _confirmationDisplay = _confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
             if (_gameManager.isTurning)
+
+            _confirmationDisplay.isDarken = false;
+            _confirmationDisplay.isFromWild = true;
+            switch (index)
             {
                 switch (index)
                 {
@@ -722,7 +750,6 @@ public class UIManager : MonoBehaviour
         //Make new indexer for switch statement
         if (isShowingDeck)
         {
-
             //ERROR CHECK - This should already be done
             foreach (Image image in _shownDeck)
             {
@@ -862,135 +889,6 @@ public class UIManager : MonoBehaviour
                 }
                 indexPosition++;
             }
-
-            /**
-            for (int i = 0; i < numOfCardsToShowInDeck; i++)
-            {
-                Image newImage = Instantiate(_deckShownImage, Vector3.zero, Quaternion.identity); //Instantiates new card
-                newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-
-                //Centers Image Horizontally
-                if (numOfCardsToShowInDeck % 2 == 0) // Number of Unique Cards is Even
-                {
-                    float x = _screenWidth / 2;
-
-                    if (i < numOfCardsToShowInDeck / 2)
-                    {
-                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                            -(numOfCardsToShowInDeck / 2 - i) + x, 650, 0); //Sets position
-                    }
-                    else
-                    {
-                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                            ((i - numOfCardsToShowInDeck / 2)) + x, 650, 0); //Sets position
-                    }
-                }
-                else // Number of Unqiue Cards is Odd
-                {
-                    float x = _screenWidth / 2 - cardWidth / 2;
-
-                    if (i < numOfCardsToShowInDeck / 2)
-                    {
-                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) * 
-                            -(numOfCardsToShowInDeck / 2 - i) + x, 650, 0); //Sets position
-                    }
-                    else if (i > numOfCardsToShowInDeck / 2)
-                    {
-                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) * 
-                            ((i - numOfCardsToShowInDeck / 2)) + x, 650, 0); //Sets position
-                    }
-                    else
-                    {
-                        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) * 0 +
-                            x, 650, 0); //Sets position
-                    }
-                }
-
-                _shownDeck.Add(newImage); //Adds instantiated image to list
-
-                CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
-
-                int numOfInstances = 0;
-                //Finds the name and sets the image to the found data
-
-                switch (i)
-                {
-                    case 0: //Move
-                        card.card = _moveCard;
-
-                        foreach (Card cardObject in startingCards)
-                        {
-                            if (cardObject.name == Card.CardName.Move)
-                                numOfInstances++;
-                        }
-                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
-                        break;
-                    case 1: //Turn
-                        card.card = _turnCard;
-
-                        foreach (Card cardObject in startingCards)
-                        {
-                            if (cardObject.name == Card.CardName.Turn)
-                                numOfInstances++;
-                        }
-                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
-                        break;
-                    case 2: //Jump
-                        card.card = _jumpCard;
-
-                        foreach (Card cardObject in startingCards)
-                        {
-                            if (cardObject.name == Card.CardName.Jump)
-                                numOfInstances++;
-                        }
-                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
-                        break;
-                    case 3: //Replay
-                        card.card = _stallCard;
-
-                        foreach (Card cardObject in startingCards)
-                        {
-                            if (cardObject.name == Card.CardName.Stall)
-                                numOfInstances++;
-                        }
-                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
-                        break;
-                    case 4: //Clear
-                        card.card = _clearCard;
-
-                        foreach (Card cardObject in startingCards)
-                        {
-                            if (cardObject.name == Card.CardName.Clear)
-                                numOfInstances++;
-                        }
-                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
-                        break;
-                    case 5: //Switch
-                        card.card = _switchCard;
-
-                        foreach (Card cardObject in startingCards)
-                        {
-                            if (cardObject.name == Card.CardName.Switch)
-                                numOfInstances++;
-                        }
-                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
-                        break;
-                    case 6: //Wild
-                        card.card = _wildCard;
-
-                        foreach (Card cardObject in startingCards)
-                        {
-                            if (cardObject.name == Card.CardName.Wild)
-                                numOfInstances++;
-                        }
-                        newImage.GetComponentInChildren<TextMeshProUGUI>().text = numOfInstances.ToString();
-                        break;
-                    default:
-                        print("ERROR: COULD NOT UPDATE CARD IN UI");
-                        break;
-                }
-            }
-        */
         }
         else
         {
