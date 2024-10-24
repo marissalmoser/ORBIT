@@ -492,11 +492,9 @@ public class UIManager : MonoBehaviour
 
             _confirmationDisplay = _confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
             if (_gameManager.isTurning)
-
-            _confirmationDisplay.isDarken = false;
-            _confirmationDisplay.isFromWild = true;
-            switch (index)
             {
+                _confirmationDisplay.isDarken = false;
+                _confirmationDisplay.isFromWild = false;
                 switch (index)
                 {
                     case 0:
@@ -530,6 +528,7 @@ public class UIManager : MonoBehaviour
             }
             else
             {
+                _confirmationDisplay.isFromWild = true;
                 switch (index)
                 {
                     case 0:
@@ -666,88 +665,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    /**
-    //Initialzes helper variable
-    private Image _leftImage, _rightImage;
-    /// <summary>
-    /// Creates interactable Turn Cards to select which direction the player will turn
-    /// </summary>
-    public void CreateTurnCards()
-    {
-        _arrowsManager.ChangeMaxIndex(2);
-        //ERROR CHECK - They should already be deleted. If they haven't for whatever reason, delete them
-
-        if (_leftImage != null)
-            Destroy(_leftImage.gameObject);
-        if (_rightImage != null)
-            Destroy(_rightImage.gameObject);
-
-        _leftImage = Instantiate(_turnLeftImage, Vector3.zero, Quaternion.identity); //Instantiates new card
-        _leftImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-        _leftImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - cardWidth * 4 - _dealtCardWidthSpacing, 0); //Sets position
-        _rightImage = Instantiate(_turnRightImage, Vector3.zero, Quaternion.identity); //Instantiates new card
-        _rightImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-        _rightImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - cardWidth * 3, 0); //Sets position
-
-        CardDisplay leftCard = _leftImage.GetComponent<CardDisplay>(); //Grabs data from image
-
-        //Disables tooltips
-
-        _leftImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
-        _leftImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
-
-        _rightImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
-        _rightImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
-
-        //Uses grabbed data to compare with possible types and convert image to found type
-        leftCard.card = _turnLeftCard;
-
-        CardDisplay rightCard = _rightImage.GetComponent<CardDisplay>(); //Grabs data from image
-
-        //Uses grabbed data to compare with possible types and convert image to found type
-        rightCard.card = _turnRightCard;
-    }
-
-    /// <summary>
-    /// Destroys the turn cards after one is selected
-    /// </summary>
-    /// <param name="wasTurnLeftChosen">If the left turn card was selected or not</param>
-    public void DestroyTurnCards(bool wasTurnLeftChosen)
-    {
-        //Destroys game objects
-        if (_leftImage != null)
-            Destroy(_leftImage.gameObject);
-        if (_rightImage != null)
-            Destroy(_rightImage.gameObject);
-
-        //Player is turning left
-        if (wasTurnLeftChosen)
-        {
-            _gameManager.AddTurnCard(_turnLeftCard, true);
-        }
-        //Player is turning right
-        else
-        {
-            _gameManager.AddTurnCard(_turnRightCard, false);
-        }
-    }
-
-    public void DestroyTurnCards()
-    {
-        //Destroys game objects
-        if (_leftImage != null)
-            Destroy(_leftImage.gameObject);
-        if (_rightImage != null)
-            Destroy(_rightImage.gameObject);
-    }
-    */
-
     public void ShowDeck(bool isShowingDeck)
     {
-        //TODO - Switch Order. Figure out how many instances are in the deck, THEN instantiate the images.
-        //Set numOfCardsToShowInDeck to equal the number of cards with 0 instances
-        //If number of instances == 0, decrease i
-        //Make new indexer for switch statement
         if (isShowingDeck)
         {
             //ERROR CHECK - This should already be done
