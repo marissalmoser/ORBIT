@@ -723,7 +723,6 @@ public class UIManager : MonoBehaviour
             int indexPosition = 0;
             for (int i = 0; i < numOfUniqueCards; i++)
             {
-                print(numOfCardsToShow);
                 if (instances[i] > 0)
                 {
                     Image newImage = Instantiate(_deckShownImage, Vector3.zero, Quaternion.identity); //Instantiates new card
@@ -737,13 +736,13 @@ public class UIManager : MonoBehaviour
                         if (indexPosition < numOfCardsToShow / 2)
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                                -(numOfCardsToShow / 2 - indexPosition) + x, 550, 0); //Sets position
+                                -(numOfCardsToShow / 2 - indexPosition) + x, 575, 0); //Sets position
                             
                         }
                         else
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                                ((indexPosition - numOfCardsToShow / 2)) + x, 550, 0); //Sets position
+                                ((indexPosition - numOfCardsToShow / 2)) + x, 575, 0); //Sets position
                         }
                     }
                     else // Number of Cards To Show is Odd
@@ -753,17 +752,25 @@ public class UIManager : MonoBehaviour
                         if (i < numOfCardsToShow / 2)
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                                -(numOfCardsToShow / 2 - indexPosition) + x, 550, 0); //Sets position
+                                -(numOfCardsToShow / 2 - indexPosition) + x, 575, 0); //Sets position
+                            if (i == 0 && numOfCardsToShow == 7) //Pushes tooltip onto screen
+                                newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
+                                    new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x + 25,
+                                    newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
                         }
                         else if (indexPosition > numOfCardsToShow / 2)
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) *
-                                ((indexPosition - numOfCardsToShow / 2)) + x, 550, 0); //Sets position
+                                ((indexPosition - numOfCardsToShow / 2)) + x, 575, 0); //Sets position
+                            if (i == 6 && numOfCardsToShow == 7) //Pushes tooltip onto screen
+                                newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
+                                    new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 25,
+                                    newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
                         }
                         else
                         {
                             newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing + 50) * 0 +
-                                x, 550, 0); //Sets position
+                                x, 575, 0); //Sets position
                         }
                     }
 
