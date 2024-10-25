@@ -162,6 +162,7 @@ public class GameManager : MonoBehaviour
             case STATE.ConfirmCards:
                 gameState = STATE.ConfirmCards;
                 PlayDemo();
+                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 break;
             case STATE.PlayingActionOrder:
                 gameState = STATE.PlayingActionOrder;
