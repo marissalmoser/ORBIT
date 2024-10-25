@@ -28561,6 +28561,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 483538625}
     - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _clearCursor
+      value: 
+      objectReference: {fileID: 2800000, guid: 948f9153990992548921b26bf8591ae3, type: 3}
+    - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _switchCursor
+      value: 
+      objectReference: {fileID: 2800000, guid: 50aede89d9b654446ad28070bb50c63c, type: 3}
+    - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: deckShownDarken
       value: 
       objectReference: {fileID: 1565805166}
