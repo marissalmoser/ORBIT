@@ -74,17 +74,35 @@ public class CardManager : MonoBehaviour
 
     #region Deck Methods
 
-    public void MousePressedDeck()
+    public void MouseEnterShownDeckCard(Image toolTip)
     {
-
+        toolTip.enabled = true;
+        toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
     }
 
-    public void MouseReleasedDeck()
+    public void MouseExitShownDeckCard(Image toolTip)
+    {
+        toolTip.enabled = false;
+        toolTip.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+    }
+
+    public void MouseReleasedDeck(Image cardImage)
     {
         //Toggle
         isShowingDeck = !isShowingDeck;
         _uiManager.ShowDeck(isShowingDeck);
-        
+
+        if (isShowingDeck)
+        {
+            cardImage.transform.parent.transform.SetAsLastSibling();
+            cardImage.transform.parent.transform.parent.Find("DeckCount").transform.SetAsLastSibling();
+        }
+
+        else
+        {
+            cardImage.transform.parent.transform.SetSiblingIndex(8);
+            cardImage.transform.parent.transform.parent.Find("DeckCount").transform.SetSiblingIndex(9);
+        }
 
     }
     #endregion
@@ -186,7 +204,7 @@ public class CardManager : MonoBehaviour
         //Resets GameManager variables ( in case card was replaced with a different one )
         _gameManager.isClearing = false;
         _gameManager.isSwitching = false;
-        _gameManager.isTurning = false;
+        _gameManager.currentlyOnTurn = false;
         _gameManager.isStalling = false;
         switchCards.Item1 = null;
         switchCards.Item2 = null;
@@ -218,7 +236,7 @@ public class CardManager : MonoBehaviour
             _gameManager.lowerDarkenIndex = false;
 
             //Destroys the turn cards
-            _uiManager.DestroyTurnCards();
+            //_uiManager.DestroyTurnCards();
         }
 
         //If a card was replaced
@@ -551,7 +569,6 @@ public class CardManager : MonoBehaviour
     {
         //sound effect call
         SfxManager.Instance.PlaySFX(8885);
-        _uiManager.DestroyTurnCards(true);
     }
 
     /// <summary>
@@ -561,7 +578,6 @@ public class CardManager : MonoBehaviour
     {
         //sound effect call
         SfxManager.Instance.PlaySFX(8885);
-        _uiManager.DestroyTurnCards(false);
     }
 
     /// <summary>

@@ -168,6 +168,8 @@ MonoBehaviour:
   card: {fileID: 0}
   _sprite: {fileID: 6816511504424599638}
   ID: 0
+  isDarken: 0
+  isFromWild: 0
 --- !u!114 &4942155017394489592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,22 +183,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 2
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1136014952598278113}
-          m_TargetAssemblyTypeName: CardDisplay, Assembly-CSharp
-          m_MethodName: MousePressedDeck
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - eventID: 3
     callback:
       m_PersistentCalls:
@@ -204,10 +190,10 @@ MonoBehaviour:
         - m_Target: {fileID: 1136014952598278113}
           m_TargetAssemblyTypeName: CardDisplay, Assembly-CSharp
           m_MethodName: MouseReleasedDeck
-          m_Mode: 1
+          m_Mode: 2
           m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_ObjectArgument: {fileID: 6816511504424599638}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Image, UnityEngine.UI
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
