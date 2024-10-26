@@ -20,6 +20,9 @@ public class CardDisplay : MonoBehaviour
     public bool IsClearing { get; private set; }
     public bool IsSwapping { get; private set; }
 
+    public bool isDarken;
+    public bool isFromWild;
+
     private GameManager _gameManager;
 
     private Animator _anim;
@@ -30,22 +33,70 @@ public class CardDisplay : MonoBehaviour
     {
         _gameManager = GameManager.Instance;
         _anim = GetComponentInParent<Animator>();
-        _sprite.sprite = card.cardSprite;
 
         IsMouseInCard = false;
         IsMouseDown = false;
         IsSwapping = false;
+
+        //Sets image
+        SetImage();
     }
+
+    #region Card Getter and Setter
+    /**
     /// <summary>
     /// Updates the specified card's image
     /// </summary>
     /// <param name="card">The card to be updared</param>
-    public void UpdateCard(Card card)
+    public void UpdateCard(Card card, bool isFromWild)
     {
+        this.isFromWild = isFromWild;
+        //Updates card
         this.card = card;
 
-        _gameManager = GameManager.Instance;
+        SetImage();
     }
+
+    public void UpdateCard(Card card)
+    {
+        //Updates card
+        this.card = card;
+        SetImage();
+    }
+    */
+
+    public void SetImage()
+    {
+        if (isFromWild)
+        {
+            if (isDarken)
+            {
+                _sprite.sprite = card.wildDarkenVariantSprite;
+            }
+            else //If card is not darkened and from a wild card
+            {
+                _sprite.sprite = card.wildVariantSprite;
+            }
+        }
+        else //If it is a normal card (not from wild)
+        {
+            if (isDarken) //If card is darkened and a normal card
+            {
+                _sprite.sprite = card.darkenVariantSprite;
+            }
+            else //If card is not darkened and a normal card
+            {
+                _sprite.sprite = card.cardSprite;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Gets the current card
+    /// </summary>
+    /// <returns>Card object stored inside the card</returns>
+    // public Card GetCard() {  return card; }
+    #endregion
 
     #region Deck Methods
     public void MousePressedDeck()
@@ -75,6 +126,8 @@ public class CardDisplay : MonoBehaviour
         {
             _anim.SetBool("Hover", true);
         }
+        isDarken = true;
+        SetImage();
     }
 
     /// <summary>
@@ -91,6 +144,8 @@ public class CardDisplay : MonoBehaviour
         {
             _anim.SetBool("Hover", false);
         }
+        isDarken = false;
+        SetImage();
     }
     /// <summary>
     /// Helper method for Event Trigger Pointer Down for DealtCards
