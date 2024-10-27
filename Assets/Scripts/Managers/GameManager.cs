@@ -875,6 +875,12 @@ public class GameManager : MonoBehaviour
     public List<Card> GetPlayedCards() { return _playedCards; }
 
     /// <summary>
+    /// Gets the current deck of the level. 
+    /// </summary>
+    /// <returns>Returns the cards left in the deck</returns>
+    public List<Card> GetDeck() { return _deck;  }
+
+    /// <summary>
     /// Gets the last played card
     /// </summary>
     /// <returns>A Card - the last card played, waiting to be confirmed</returns>
