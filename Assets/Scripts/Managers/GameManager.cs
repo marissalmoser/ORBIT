@@ -49,6 +49,7 @@ public class GameManager : MonoBehaviour
 
     public STATE gameState;
     private bool _gameWon;
+    private bool _collectableCollected;
 
     private LevelDeck _levelDeck;
     public List<Card> _deck;
@@ -168,6 +169,10 @@ public class GameManager : MonoBehaviour
                 gameState = STATE.End;
                 //Add method here if needed
                 _gameWon = true;
+                if(_collectableCollected)
+                {
+                    CollectibleManager.Instance.CollectCollectible();
+                }
                 Invoke("LoadLevelSelect", 1);
                 break;
             default:
@@ -850,6 +855,10 @@ public class GameManager : MonoBehaviour
     {
         LevelSelect ls = FindObjectOfType<LevelSelect>(false);
         ls.LoadLevel(ls.GetSceneToGoOnWin());
+    }
+    public void SetCollectableCollected(bool state)
+    {
+        _collectableCollected = state;
     }
 
     #region Getters
