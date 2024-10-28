@@ -168,6 +168,19 @@ public class CardDisplay : MonoBehaviour
         {
             IsMouseDown = true;
             CardManager.Instance.MousePressedDealtCard(Card);
+
+            //disable animator to allow drag
+            if (_anim != null)
+            {
+                _anim.enabled = true;
+            }
+            //double click to play functionality if the card is playable.
+            if (CardIsPlayable())
+            {
+                SelectCard(Card);
+            }
+            if (!canDoubleClick)
+                StartCoroutine(DoubleClick());
         }
     }
 
@@ -181,19 +194,6 @@ public class CardDisplay : MonoBehaviour
         {
             IsMouseDown = false;
             CardManager.Instance.MouseReleasedDealtCard(Card, ID);
-
-            //disable animator to allow drag
-            if (_anim != null)
-            {
-                _anim.enabled = true;
-            }
-            //double click to play functionality if the card is playable.
-            if (CardIsPlayable())
-            {
-                SelectCard(Card);
-            }
-            if (!canDoubleClick)
-            StartCoroutine(DoubleClick());
         }
     }
 
