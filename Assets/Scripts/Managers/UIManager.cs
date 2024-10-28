@@ -499,6 +499,19 @@ public class UIManager : MonoBehaviour
                 {
                     case 0:
                         //Sets the confirm card
+                        _confirmationDisplay.card = _turnRightCard;
+                        _gameManager.confirmationCard = _turnRightCard;
+                        _confirmCard = _turnRightCard;
+                        //Sets gamestate to accomodate the new card
+                        _gameManager.TurnAction(_confirmCard);
+                        _gameManager.RunPlaySequence();
+
+                        //Updates UI
+                        UpdatePlayedCards(_gameManager.GetPlayedCards());
+                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
+                        break;
+                    case 1:
+                        //Sets the confirm card
                         _confirmationDisplay.card = _turnLeftCard;
                         _gameManager.confirmationCard = _turnLeftCard;
                         _confirmCard = _turnLeftCard;
@@ -510,19 +523,6 @@ public class UIManager : MonoBehaviour
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
                         _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
-                        break;
-                    case 1:
-                        //Sets the confirm card
-                        _confirmationDisplay.card = _turnRightCard;
-                        _gameManager.confirmationCard = _turnRightCard;
-                        _confirmCard = _turnRightCard;
-                        //Sets gamestate to accomodate the new card
-                        _gameManager.TurnAction(_confirmCard);
-                        _gameManager.RunPlaySequence();
-
-                        //Updates UI
-                        UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                         break;
                 }
             }
