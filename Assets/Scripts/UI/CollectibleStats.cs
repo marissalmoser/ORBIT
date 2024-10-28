@@ -6,17 +6,21 @@
  *    
  *******************************************************************/
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class CollectibleStats
 {
+    public enum SceneType
+    {
+        None, Menu, Level, Screen
+    }
     [SerializeField] private string _levelName;
     [SerializeField] private int _buildIndex;
     [SerializeField] private bool _isCollected;
     [SerializeField] private bool _hasCollectible;
+    [SerializeField] private bool _IsLocked;
+    [SerializeField] private SceneType _sceneType;
 
     private CollectibleManager _collectibleManager;
 
@@ -52,5 +56,21 @@ public class CollectibleStats
     public bool HasCollectible()
     {
         return _hasCollectible;
+    }
+    public SceneType GetSceneType()
+    {
+        return _sceneType;
+    }
+    public bool GetIsLocked()
+    {
+        return _IsLocked;
+    }
+    public void SetIsLocked(bool isLocked)
+    {
+        _IsLocked = isLocked;
+    }
+    public void SetSceneType(SceneType type)
+    {
+        _sceneType = type;
     }
 }
