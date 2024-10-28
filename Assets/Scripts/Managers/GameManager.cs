@@ -340,6 +340,7 @@ public class GameManager : MonoBehaviour
             isTurning = true;
             _arrowsManager.ChangeMaxIndex(2);
             _arrowsManager.ResetIndex();
+            Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
         }
         //If Stall Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Stall) //Error check and checks if last card played was a Stall
