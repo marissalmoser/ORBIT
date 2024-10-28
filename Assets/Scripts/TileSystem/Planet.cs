@@ -28,7 +28,7 @@ public class Planet : Collectable
             SfxManager.Instance.PlaySFX(8346);
 
             //collect
-            _collectibleManager.CollectCollectible();
+            GameManager.Instance.SetCollectableCollected(true);
             Destroy(gameObject);
         }
     }
