@@ -48,8 +48,23 @@ public class SaveLoadManager : MonoBehaviour
     {
         currentSaveSelected = toSelect;
     }
+    public void HandleLevelWin()
+    {
+        SaveDataToFile(currentSaveSelected);
+    }
+    public void OnEnable()
+    {
+        //GameManager.WinAction += HandleLevelWin;
+    }
 
+    public void OnDisable()
+    {
+        //GameManager.WinAction -= HandleLevelWin;
+    }
 
+    /// <summary>
+    /// Gathers the current data from CollectibleManager and makes a newData to hold it
+    /// </summary>
     private void CollectLevelSaveData()
     {
         newData = new SaveData();
@@ -63,6 +78,10 @@ public class SaveLoadManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Actually saves the newData to JSON
+    /// </summary>
+    /// <param name="fileToSaveTo"></param>
     public void SaveDataToFile(int fileToSaveTo)
     {
         string dir = Application.persistentDataPath + directory;
@@ -82,6 +101,11 @@ public class SaveLoadManager : MonoBehaviour
         Debug.Log("Saved to savefile " + fileToSaveTo);
     }
 
+    /// <summary>
+    /// Reads a JSON file into a saveData
+    /// </summary>
+    /// <param name="fileToLoad"></param>
+    /// <returns></returns>
     public SaveData LoadDataFromFile(int fileToLoad)
     {
         if (DoesSaveFileExist(fileToLoad))
@@ -103,6 +127,10 @@ public class SaveLoadManager : MonoBehaviour
         return newData;
     }
 
+    /// <summary>
+    /// Actually rewrites collectiblemanager list to update the save data
+    /// </summary>
+    /// <param name="save"></param>
     public void AssignLoadedData(SaveData save)
     {
         for (int i = 0; i < CollectibleManager.Instance.collectibleStats.Count; i++)
