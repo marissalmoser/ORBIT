@@ -28,10 +28,10 @@ public class CardDisplay : MonoBehaviour
     private GameManager _gameManager;
 
     private Animator _anim;
-    private bool _isSelected;
+    public bool isSelected;
     private bool _isDragging;
     public float doubleClickTimer;
-    private bool canDoubleClick;
+    public bool canDoubleClick;
 
     void Start()
     {
@@ -50,28 +50,6 @@ public class CardDisplay : MonoBehaviour
     }
 
     #region Card Getter and Setter
-    /**
-    /// <summary>
-    /// Updates the specified card's image
-    /// </summary>
-    /// <param name="card">The card to be updared</param>
-    public void UpdateCard(Card card, bool isFromWild)
-    {
-        this.isFromWild = isFromWild;
-        //Updates card
-        this.card = card;
-
-        SetImage();
-    }
-
-    public void UpdateCard(Card card)
-    {
-        //Updates card
-        this.card = card;
-        SetImage();
-    }
-    */
-
     public void SetImage()
     {
         if (isFromWild)
@@ -97,12 +75,6 @@ public class CardDisplay : MonoBehaviour
             }
         }
     }
-
-    /// <summary>
-    /// Gets the current card
-    /// </summary>
-    /// <returns>Card object stored inside the card</returns>
-    // public Card GetCard() {  return card; }
     #endregion
 
     #region Deck Methods
@@ -204,17 +176,6 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card"></param>
     private void SelectCard(Image Card)
     {
-        if (canDoubleClick)
-        {
-            //play card and sound
-            CardManager.Instance.PlayCard(Card, ID);
-            SfxManager.Instance.PlaySFX(4295);
-
-            //TODO: move card to play area
-
-            return;
-        }
-
         //if card is not active yet, deselect any other active dealt cards
         //and make this one active and play anim and sound.
         if(CardIsPlayable())
@@ -223,8 +184,16 @@ public class CardDisplay : MonoBehaviour
             {
                 dealtCard.GetComponentInChildren<CardDisplay>().SetIsSelected(false);
             }
-            _isSelected = true;
+            isSelected = true;
+
             SfxManager.Instance.PlaySFX(1092);
+        }
+
+        if (canDoubleClick)
+        {
+            //play card and sound
+            CardManager.Instance.PlayCard(Card, ID);
+            SfxManager.Instance.PlaySFX(4295);
         }
     }
 
@@ -262,15 +231,20 @@ public class CardDisplay : MonoBehaviour
     /// <param name="input"></param>
     public void SetIsSelected(bool input)
     {
-        if(_isSelected && !input)
+        if(isSelected && !input)
         {
             _anim.SetBool("Select", false);
         }
-        if(!_isSelected && input)
+        if(!isSelected && input)
         {
             _anim.SetBool("Select", true);
         }
-        _isSelected = input;
+        isSelected = input;
+    }
+
+    public void SetAnim(string var, bool input)
+    {
+        _anim.SetBool(var, input);
     }
 
     /// <summary>

@@ -84,6 +84,7 @@ public class UIManager : MonoBehaviour
     private CardManager _cardManager;
 
     private Image _deck;
+    public Image confirmationImage;
     private List<Image> _shownDeck;
     private List<Image> _dealtCardImages;
     private List<Image> _playedCardImages;
@@ -372,7 +373,6 @@ public class UIManager : MonoBehaviour
     }
 
     //Initializes helper variable
-    Image _confirmationImage;
     CardDisplay _confirmationDisplay;
     Card _confirmCard;
     /// <summary>
@@ -391,67 +391,67 @@ public class UIManager : MonoBehaviour
 
             bool tempIsWild = false;
             //ERROR CHECK - They should already be deleted. If they haven't for whatever reason, delete them
-            if (_confirmationImage != null)
+            if (confirmationImage != null)
             {
-                tempIsWild = _confirmationImage.GetComponentInChildren<CardDisplay>().isFromWild;
-                Destroy(_confirmationImage.gameObject);
+                tempIsWild = confirmationImage.GetComponentInChildren<CardDisplay>().isFromWild;
+                Destroy(confirmationImage.gameObject);
             }
 
-            _confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
-            _confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
+            confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
+            confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
-            _confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
+            confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
 
-            _confirmationImage.enabled = false; //Turns off highlight
+            confirmationImage.enabled = false; //Turns off highlight
 
             //Makes tooltip invisible
-            _confirmationImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
-            _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+            confirmationImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+            confirmationImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
-            _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
-                        new Vector2(_confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 25,
-                        _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
+            confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
+                        new Vector2(confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 25,
+                        confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
 
-            _confirmationDisplay = _confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
+            _confirmationDisplay = confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
 
             _confirmationDisplay.isFromWild = tempIsWild;
             switch (_confirmCard.name)
             {
                 case Card.CardName.Move:
                     _confirmationDisplay.card = _moveCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
                     break;
                 case Card.CardName.Jump:
                     _confirmationDisplay.card = _jumpCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
                     break;
                 case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
                     _confirmationDisplay.card = _turnCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
                     break;
                 case Card.CardName.TurnLeft:
                     _confirmationDisplay.card = _turnLeftCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
                     break;
                 case Card.CardName.TurnRight:
                     _confirmationDisplay.card = _turnRightCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                     break;
                 case Card.CardName.Clear:
                     _confirmationDisplay.card = _clearCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
                     break;
                 case Card.CardName.Switch:
                     _confirmationDisplay.card = _switchCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
                     break;
                 case Card.CardName.Stall:
                     _confirmationDisplay.card = _stallCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
                     break;
                 case Card.CardName.Wild:
                     _confirmationDisplay.card = _wildCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "CHOOSE ANY CARD TO PUT INTO THE ACTION ORDER.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "CHOOSE ANY CARD TO PUT INTO THE ACTION ORDER.";
                     break;
                 default:
                     print("ERROR: COULD NOT UPDATE CARD IN UI");
@@ -472,25 +472,25 @@ public class UIManager : MonoBehaviour
         {
             Card card = _gameManager.GetLastPlayedCard();
             //ERROR CHECK - They should already be deleted. If they haven't for whatever reason, delete them
-            if (_confirmationImage != null)
-                Destroy(_confirmationImage.gameObject);
+            if (confirmationImage != null)
+                Destroy(confirmationImage.gameObject);
 
-            _confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
-            _confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
+            confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
+            confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
-            _confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
+            confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
 
-            _confirmationImage.enabled = false; //Turns off highlight
+            confirmationImage.enabled = false; //Turns off highlight
 
             //Makes tooltip invisible
-            _confirmationImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
-            _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+            confirmationImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+            confirmationImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
-            _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
-                        new Vector2(_confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 25,
-                        _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
+            confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
+                        new Vector2(confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 25,
+                        confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
 
-            _confirmationDisplay = _confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
+            _confirmationDisplay = confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
             if (_gameManager.isTurning)
             {
                 _confirmationDisplay.isDarken = false;
@@ -508,7 +508,7 @@ public class UIManager : MonoBehaviour
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                         break;
                     case 1:
                         //Sets the confirm card
@@ -522,7 +522,7 @@ public class UIManager : MonoBehaviour
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
                         break;
                 }
             }
@@ -543,7 +543,7 @@ public class UIManager : MonoBehaviour
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
                         break;
                     case 1:
                         //Sets the confirm card
@@ -557,7 +557,7 @@ public class UIManager : MonoBehaviour
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
                         break;
                     case 2:
                         //Sets the confirm card
@@ -571,7 +571,7 @@ public class UIManager : MonoBehaviour
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
                         break;
                     case 3:
                         //Sets the confirm card
@@ -584,7 +584,7 @@ public class UIManager : MonoBehaviour
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                         break;
                     case 4:
                         //Sets the confirm card
@@ -597,7 +597,7 @@ public class UIManager : MonoBehaviour
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
                         break;
                     case 5:
                         //Sets the confirm card
@@ -610,7 +610,7 @@ public class UIManager : MonoBehaviour
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
                         break;
                     case 6:
                         //Sets the confirm card
@@ -624,7 +624,7 @@ public class UIManager : MonoBehaviour
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
                         break;
                     default:
                         print("ERROR: COULD NOT UPDATE CARD IN UI");
@@ -643,8 +643,8 @@ public class UIManager : MonoBehaviour
         confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
         cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
-        if (_confirmationImage != null)
-            Destroy(_confirmationImage.gameObject);
+        if (confirmationImage != null)
+            Destroy(confirmationImage.gameObject);
     }
 
     /// <summary>
@@ -841,7 +841,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void MoveCardToActionOrder()
     {
-        StartCoroutine(MoveCard(_confirmationImage, _nextPlayCardPosition.y));
+        StartCoroutine(MoveCard(confirmationImage, _nextPlayCardPosition.y));
     }
 
     /// <summary>
@@ -905,5 +905,4 @@ public class UIManager : MonoBehaviour
         _gameManager.PlaySequence();
         DestroyConfirmCard();
     }
-
 }
