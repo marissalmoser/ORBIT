@@ -73,4 +73,8 @@ public class CollectibleStats
     {
         _sceneType = type;
     }
+    public string GetLevelName()
+    {
+        return _levelName;
+    }
 }

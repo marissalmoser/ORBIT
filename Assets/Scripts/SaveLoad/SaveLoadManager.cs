@@ -38,26 +38,28 @@ public class SaveLoadManager : MonoBehaviour
 
     private SaveData newData = new SaveData();
 
-    public void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            SaveDataToFile(1);
-            
-        }
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            DeleteSaveData(1);
+    private int currentSaveSelected = 1;
 
-        }
+    public int GetCurrentSaveSelected()
+    {
+        return currentSaveSelected;
     }
+    public void SetCurrentSaveSelected(int toSelect)
+    {
+        currentSaveSelected = toSelect;
+    }
+
 
     private void CollectLevelSaveData()
     {
         newData = new SaveData();
         foreach (CollectibleStats entry in CollectibleManager.Instance.collectibleStats)
         {
-            newData.levelInformation.Add(entry);
+            LevelData newLevelData = new LevelData();
+            newLevelData.SetLockedStatus(entry.GetIsLocked());
+            newLevelData.SetCollectedStatus(entry.GetIsCollected());
+            newLevelData.SetName(entry.GetLevelName());
+            newData.levelInformation.Add(newLevelData);
         }
     }
 
@@ -82,8 +84,35 @@ public class SaveLoadManager : MonoBehaviour
 
     public SaveData LoadDataFromFile(int fileToLoad)
     {
-        Debug.Log("File " + GetFileNameByInt(fileToLoad) +  " saved");
+        if (DoesSaveFileExist(fileToLoad))
+        {
+            string dir = Application.persistentDataPath + directory;
+            SaveData temp = new SaveData();
+            string jsonString = File.ReadAllText(dir + GetFileNameByInt(fileToLoad));
+            temp = JsonUtility.FromJson<SaveData>(jsonString);
+            AssignLoadedData(temp);
+            Debug.Log("File " + GetFileNameByInt(fileToLoad) + " loaded");
+            //OnLoadData?.Invoke(temp);
+            newData = temp;
+        }
+        else // couldnt find the file, making a new one...
+        {
+            Debug.Log("File " + GetFileNameByInt(fileToLoad) + " does not exist when trying to load it, making a new one...");
+            SaveDataToFile(fileToLoad);
+        }
         return newData;
+    }
+
+    public void AssignLoadedData(SaveData save)
+    {
+        for (int i = 0; i < CollectibleManager.Instance.collectibleStats.Count; i++)
+        {
+            CollectibleManager.Instance.collectibleStats[i].SetIsLocked(save.levelInformation[i].GetIsLocked());
+            if(save.levelInformation[i].GetIsCollected())
+            {
+                CollectibleManager.Instance.collectibleStats[i].CollectCollectible();
+            }            
+        }
     }
     /// <summary>
     /// Used by external scripts to confirm if saved data exists
