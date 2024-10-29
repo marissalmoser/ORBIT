@@ -54,12 +54,12 @@ public class SaveLoadManager : MonoBehaviour
     }
     public void OnEnable()
     {
-        //GameManager.WinAction += HandleLevelWin;
+        GameManager.WinAction += HandleLevelWin;
     }
 
     public void OnDisable()
     {
-        //GameManager.WinAction -= HandleLevelWin;
+        GameManager.WinAction -= HandleLevelWin;
     }
 
     /// <summary>
