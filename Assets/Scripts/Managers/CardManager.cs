@@ -251,12 +251,18 @@ public class CardManager : MonoBehaviour
         //If a card was replaced
         if (lastConfirmationCard != null)
         {
+            if (_gameManager.lowerDarkenIndex)
+            {
+                _gameManager.darken.transform.SetSiblingIndex(_gameManager.darken.transform.GetSiblingIndex() - 1);
+                _gameManager.lowerDarkenIndex = false;
+            }
+            _gameManager.darken.enabled = false;
+
             //Respawns previous card
             lastConfirmationCard.gameObject.SetActive(true);
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().isSelected = true;
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetIsSelected(false);
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetAnim("Hover", false);
             lastConfirmationCard.GetComponentInChildren<CardDisplay>().isSelected = false;
+            lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetAnim("Hover", false);
+            lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetAnim("Select", false);
             lastConfirmationCard.GetComponentInChildren<CardDisplay>().canDoubleClick = false;
             lastConfirmationCard.GetComponentInChildren<CardDisplay>().isDarken = false;
             lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetImage();
