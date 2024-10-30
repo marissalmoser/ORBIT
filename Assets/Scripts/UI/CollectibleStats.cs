@@ -1,6 +1,6 @@
 /******************************************************************
  *    Author: Sky Turner 
- *    Contributors: Marissa
+ *    Contributors: Marissa, Elijah
  *    Date Created: 10/14/24
  *    Description: Collectible Stats Class
  *    
@@ -69,8 +69,16 @@ public class CollectibleStats
     {
         _IsLocked = isLocked;
     }
+    public void SetIsCollected(bool status)
+    {
+        _isCollected = status;
+    }
     public void SetSceneType(SceneType type)
     {
         _sceneType = type;
+    }
+    public string GetLevelName()
+    {
+        return _levelName;
     }
 }
