@@ -90,15 +90,15 @@ public class SaveLoadManager : MonoBehaviour
         if (!Directory.Exists(dir))
         {
             Directory.CreateDirectory(dir);
-            Debug.Log("Directory Created");
+            //Debug.Log("Directory Created");
         }
 
         CollectLevelSaveData();
         string jsonString = JsonUtility.ToJson(newData, true);
 
         File.WriteAllText(dir + GetFileNameByInt(fileToSaveTo), jsonString);
-        GUIUtility.systemCopyBuffer = dir;
-        Debug.Log("Saved to savefile " + fileToSaveTo);
+        //GUIUtility.systemCopyBuffer = dir;
+        //Debug.Log("Saved to savefile " + fileToSaveTo);
     }
 
     /// <summary>
@@ -116,13 +116,13 @@ public class SaveLoadManager : MonoBehaviour
             string jsonString = File.ReadAllText(dir + GetFileNameByInt(fileToLoad));
             temp = JsonUtility.FromJson<SaveData>(jsonString);
             AssignLoadedData(temp);
-            Debug.Log("File " + GetFileNameByInt(fileToLoad) + " loaded");
+            //Debug.Log("File " + GetFileNameByInt(fileToLoad) + " loaded");
             //OnLoadData?.Invoke(temp);
             newData = temp;
         }
         else // couldnt find the file, making a new one...
         {
-            Debug.Log("File " + GetFileNameByInt(fileToLoad) + " does not exist when trying to load it, making a new one...");
+            //Debug.Log("File " + GetFileNameByInt(fileToLoad) + " does not exist when trying to load it, making a new one...");
             UnAssignLoadedData(temp);
             SaveDataToFile(fileToLoad);
         }
@@ -164,13 +164,13 @@ public class SaveLoadManager : MonoBehaviour
 
         if (File.Exists(fullPath))
         {
-            Debug.Log("File " + GetFileNameByInt(fileToCheck) + " found");
+            //Debug.Log("File " + GetFileNameByInt(fileToCheck) + " found");
             return true;
         }
             
         else
         {
-            Debug.Log("File " + GetFileNameByInt(fileToCheck) + " NOT found");
+            //Debug.Log("File " + GetFileNameByInt(fileToCheck) + " NOT found");
             return false;
         }
 
@@ -183,12 +183,12 @@ public class SaveLoadManager : MonoBehaviour
         string fullPath = Application.persistentDataPath + directory + GetFileNameByInt(fileToDelete);
         if (File.Exists(fullPath))//if a file exists at this path
         {
-            Debug.Log("File " + GetFileNameByInt(fileToDelete) + " deleted");
+            //Debug.Log("File " + GetFileNameByInt(fileToDelete) + " deleted");
             File.Delete(fullPath);
         }
         else
         {
-            Debug.Log("File " + GetFileNameByInt(fileToDelete) + "NOT deleted; could not be found");
+            //Debug.Log("File " + GetFileNameByInt(fileToDelete) + "NOT deleted; could not be found");
         }
     }
     /// <summary>
