@@ -136,23 +136,28 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MousePressedDealtCard(Image Card)
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (_gameManager.gameState == GameManager.STATE.ChooseCards
+            || _gameManager.gameState == GameManager.STATE.ConfirmCards
+            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
         {
-            IsMouseDown = true;
-            CardManager.Instance.MousePressedDealtCard(Card);
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                IsMouseDown = true;
+                CardManager.Instance.MousePressedDealtCard(Card);
 
-            //disable animator to allow drag
-            if (_anim != null)
-            {
-                _anim.enabled = true;
+                //disable animator to allow drag
+                if (_anim != null)
+                {
+                    _anim.enabled = true;
+                }
+                //double click to play functionality if the card is playable.
+                if (CardIsPlayable())
+                {
+                    SelectCard(Card);
+                }
+                if (!canDoubleClick)
+                    StartCoroutine(DoubleClick());
             }
-            //double click to play functionality if the card is playable.
-            if (CardIsPlayable())
-            {
-                SelectCard(Card);
-            }
-            if (!canDoubleClick)
-                StartCoroutine(DoubleClick());
         }
     }
 
@@ -195,6 +200,11 @@ public class CardDisplay : MonoBehaviour
             CardManager.Instance.PlayCard(Card, ID);
             SfxManager.Instance.PlaySFX(4295);
         }
+    }
+
+    public void SetAnimActive(bool isActive)
+    {
+        _anim.enabled = isActive;
     }
 
     /// <summary>
@@ -245,6 +255,7 @@ public class CardDisplay : MonoBehaviour
     public void SetAnim(string var, bool input)
     {
         _anim.SetBool(var, input);
+        isSelected = input;
     }
 
     /// <summary>
