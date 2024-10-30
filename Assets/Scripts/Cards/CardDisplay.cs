@@ -396,12 +396,12 @@ public class CardDisplay : MonoBehaviour
 
     IEnumerator MoveAnimation(int delay)
     {
-        yield return new WaitForSeconds(delay * 0.05f);
+        yield return new WaitForSeconds(delay * 0.1f);
         Vector2 targetPosition = _cardImage.rectTransform.anchoredPosition - new Vector2(120, 0);
 
         while (_cardImage.rectTransform.anchoredPosition.x != targetPosition.x)
         {
-            _cardImage.rectTransform.anchoredPosition = Vector2.MoveTowards(_cardImage.rectTransform.anchoredPosition, targetPosition, 12f);
+            _cardImage.rectTransform.anchoredPosition = Vector2.MoveTowards(_cardImage.rectTransform.anchoredPosition, targetPosition, 7f);
             yield return new WaitForEndOfFrame();
         }
 
