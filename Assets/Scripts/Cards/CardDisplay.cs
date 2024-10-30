@@ -27,6 +27,7 @@ public class CardDisplay : MonoBehaviour
 
     private GameManager _gameManager;
 
+    private Image _cardImage;
     private Animator _anim;
     private bool _isSelected;
     private bool _isDragging;
@@ -37,7 +38,7 @@ public class CardDisplay : MonoBehaviour
     {
         _gameManager = GameManager.Instance;
         _anim = GetComponentInParent<Animator>();
-
+        _cardImage = GetComponent<Image>();
         IsMouseInCard = false;
         IsMouseDown = false;
         IsSwapping = false;
@@ -384,4 +385,26 @@ public class CardDisplay : MonoBehaviour
         CardManager.Instance.MouseExitPlayedCard(card);
     }
     #endregion
+
+    /// <summary>
+    /// Does the animation to move the cards to the left when confirming a card
+    /// </summary>
+    public void MoveCards(int delay)
+    {
+            StartCoroutine(MoveAnimation(delay));
+    }
+
+    IEnumerator MoveAnimation(int delay)
+    {
+        yield return new WaitForSeconds(delay * 0.05f);
+        Vector2 targetPosition = _cardImage.rectTransform.anchoredPosition - new Vector2(120, 0);
+
+        while (_cardImage.rectTransform.anchoredPosition.x != targetPosition.x)
+        {
+            _cardImage.rectTransform.anchoredPosition = Vector2.MoveTowards(_cardImage.rectTransform.anchoredPosition, targetPosition, 12f);
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return null;
+    }
 }

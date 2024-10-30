@@ -16,10 +16,10 @@ using UnityEngine.UI;
 
 public class ActionOrderDisplay : MonoBehaviour
 {
+    [SerializeField] private RectTransform _canvas;
     public static Action NewActionPlayed;
     public static Action ActionOrderComplete;
 
-    [SerializeField] private Vector2 _startingPos; //-141
     [SerializeField] private float _moveSpeed;
 
     RectTransform _rt;
@@ -29,6 +29,7 @@ public class ActionOrderDisplay : MonoBehaviour
     {
         _rt = GetComponent<RectTransform>();
         _image = GetComponent<Image>();
+        _rt.anchoredPosition = new Vector2(-GameManager.Instance.GetPlayedCards().Count * 120 + 60, -185);
     }
 
     private void OnEnable()
@@ -77,8 +78,8 @@ public class ActionOrderDisplay : MonoBehaviour
         float timeElapsed = 0f;
         float totalTime = _moveSpeed;
         Vector3 originalPos = _rt.anchoredPosition;
-        Vector3 targetPos = new Vector3(_rt.anchoredPosition.x, _rt.anchoredPosition.y - 141);
-
+        Vector3 targetPos = new Vector3(_rt.anchoredPosition.x + 120, _rt.anchoredPosition.y);
+        print("PRINT");
         while (timeElapsed < totalTime)
         {
             float time = timeElapsed / totalTime;
@@ -86,7 +87,6 @@ public class ActionOrderDisplay : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
-
         _rt.anchoredPosition = targetPos;
     }
 
@@ -96,6 +96,9 @@ public class ActionOrderDisplay : MonoBehaviour
     private void ClearIcon()
     {
         _image.enabled = false;
-        _rt.anchoredPosition = _startingPos;
+        if (GameManager.Instance.isConfirmCardThere)
+            _rt.anchoredPosition = new Vector2(-(GameManager.Instance.GetPlayedCards().Count + 1) * 120 + 60, -185);
+        else
+            _rt.anchoredPosition = new Vector2(-GameManager.Instance.GetPlayedCards().Count * 120 + 60, -185);
     }
 }

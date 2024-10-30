@@ -8,10 +8,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -40,10 +40,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private int _dealtCardWidthSpacing, _playedCardWidthSpacing, _cardHeightSpacing;
     [SerializeField] private bool doVerticalFormat;
     public int numOfUniqueCards = 7;
-
-    [Header("Card Slots")]
-    [SerializeField] private Image cardSlot1;
-    [SerializeField] private Image cardSlot2, cardSlot3, cardSlot4, cardSlot5;
 
     [Header("Index Buttons")]
     [SerializeField] private Button _leftButton;
@@ -93,6 +89,9 @@ public class UIManager : MonoBehaviour
     private float cardWidth, cardHeight;
 
     private Vector2 _nextPlayCardPosition;
+
+    [NonSerialized] public Card confirmCard;
+
     /// <summary>
     /// Initializes variables for UIManager. Called by GameManager
     /// </summary>
@@ -125,13 +124,6 @@ public class UIManager : MonoBehaviour
         _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
 
         _deckCountPos = _deckCount.GetComponent<RectTransform>().anchoredPosition;
-
-        //Sets Card Slot Positions
-        cardSlot1.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
-        cardSlot2.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 1 - _heightPadding);
-        cardSlot3.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 2 - _heightPadding);
-        cardSlot4.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 3 - _heightPadding);
-        cardSlot5.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 4 - _heightPadding);
     }
 
     /// <summary>
@@ -293,8 +285,10 @@ public class UIManager : MonoBehaviour
             Image newImage = Instantiate(_playedCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
             newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
+            //newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 -_cardHeightSpacing * i - _heightPadding);
             if (doVerticalFormat)
-                newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 -_cardHeightSpacing * i - _heightPadding); //Sets position - Vertical Format
+                newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding - _playedCardWidthSpacing * 
+                    (playedCards.Count - (i + 1)), _screenHeight - cardHeight / 2 - _heightPadding); //Sets position - Vertical Format
             else
                 newImage.rectTransform.anchoredPosition = new Vector2((-_screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2) 
                     + (_playedCardWidthSpacing * i + _widthPadding), -_heightPadding); //Sets position - Horizontal Format
@@ -374,7 +368,6 @@ public class UIManager : MonoBehaviour
     //Initializes helper variable
     Image _confirmationImage;
     CardDisplay _confirmationDisplay;
-    Card _confirmCard;
     /// <summary>
     /// Creates a new instance of a card when a card is placed into the play area
     /// </summary>
@@ -387,7 +380,7 @@ public class UIManager : MonoBehaviour
         //Makes sure a clear or switch card was not played when it wasn't supposed to be played
         if (_gameManager.confirmationCard != null)
         {
-            _confirmCard = _gameManager.GetLastPlayedCard();
+            confirmCard = _gameManager.GetLastPlayedCard();
 
             bool tempIsWild = false;
             //ERROR CHECK - They should already be deleted. If they haven't for whatever reason, delete them
@@ -415,7 +408,7 @@ public class UIManager : MonoBehaviour
             _confirmationDisplay = _confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
 
             _confirmationDisplay.isFromWild = tempIsWild;
-            switch (_confirmCard.name)
+            switch (confirmCard.name)
             {
                 case Card.CardName.Move:
                     _confirmationDisplay.card = _moveCard;
@@ -501,9 +494,9 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _turnRightCard;
                         _gameManager.confirmationCard = _turnRightCard;
-                        _confirmCard = _turnRightCard;
+                        confirmCard = _turnRightCard;
                         //Sets gamestate to accomodate the new card
-                        _gameManager.TurnAction(_confirmCard);
+                        _gameManager.TurnAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
@@ -514,10 +507,10 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _turnLeftCard;
                         _gameManager.confirmationCard = _turnLeftCard;
-                        _confirmCard = _turnLeftCard;
+                        confirmCard = _turnLeftCard;
 
                         //Sets the gamestate to accomodate the new card
-                        _gameManager.TurnAction(_confirmCard);
+                        _gameManager.TurnAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
@@ -535,10 +528,10 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _moveCard;
                         _gameManager.confirmationCard = _moveCard;
-                        _confirmCard = _moveCard;
+                        confirmCard = _moveCard;
 
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
@@ -549,10 +542,10 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _jumpCard;
                         _gameManager.confirmationCard = _jumpCard;
-                        _confirmCard = _jumpCard;
+                        confirmCard = _jumpCard;
 
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
@@ -563,10 +556,10 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _turnLeftCard;
                         _gameManager.confirmationCard = _turnLeftCard;
-                        _confirmCard = _turnLeftCard;
+                        confirmCard = _turnLeftCard;
 
                         //Sets the gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
@@ -577,9 +570,9 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _turnRightCard;
                         _gameManager.confirmationCard = _turnRightCard;
-                        _confirmCard = _turnRightCard;
+                        confirmCard = _turnRightCard;
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
@@ -590,10 +583,10 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _clearCard;
                         _gameManager.confirmationCard = _clearCard;
-                        _confirmCard = _clearCard;
+                        confirmCard = _clearCard;
 
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
@@ -603,10 +596,10 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _switchCard;
                         _gameManager.confirmationCard = _switchCard;
-                        _confirmCard = _switchCard;
+                        confirmCard = _switchCard;
 
                         ////Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
@@ -616,10 +609,10 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _stallCard;
                         _gameManager.confirmationCard = _stallCard;
-                        _confirmCard = _stallCard;
+                        confirmCard = _stallCard;
 
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
@@ -841,7 +834,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void MoveCardToActionOrder()
     {
-        StartCoroutine(MoveCard(_confirmationImage, _nextPlayCardPosition.y));
+        StartCoroutine(MoveCard(_confirmationImage));
     }
 
     /// <summary>
@@ -872,12 +865,13 @@ public class UIManager : MonoBehaviour
 
     public List<Image> GetInstantiatedPlayedCardImages() {  return _playedCardImages; }
 
-    public IEnumerator MoveCard(Image image, float targetYPosition)
+    public IEnumerator MoveCard(Image image)
     {
-        while (image.rectTransform.anchoredPosition.y != targetYPosition)
+        Vector2 targetPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
+        while (image.rectTransform.anchoredPosition.y != targetPosition.y)
         {
             //Moves card
-            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetYPosition), 12f);
+            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetPosition.y), 12f);
 
             //Shrinks x value
             if(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x > _playedCardImage.rectTransform.sizeDelta.x)
@@ -905,5 +899,4 @@ public class UIManager : MonoBehaviour
         _gameManager.PlaySequence();
         DestroyConfirmCard();
     }
-
 }

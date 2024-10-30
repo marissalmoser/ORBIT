@@ -44,6 +44,7 @@ public class GameManager : MonoBehaviour
 
     public Image darken;
     public Image deckShownDarken;
+    [NonSerialized] public bool isConfirmCardThere;
 
     private DeckManager<Card> _deckManagerCard;
     private DeckManager<int> _deckManagerInt;
@@ -101,6 +102,7 @@ public class GameManager : MonoBehaviour
         currentlyOnWild = false;
         hasSwitched = false;
         _getOriginalDeck = true;
+        isConfirmCardThere = false;
 
         if (_clearCursor != null)
         {
@@ -371,6 +373,7 @@ public class GameManager : MonoBehaviour
         //If demo is good to go
         if (!isClearing && !isSwitching && !currentlyOnTurn && !currentlyOnWild)
         {
+            isConfirmCardThere = true;
             _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
             ChangeGameState(STATE.ConfirmCards);
         }
@@ -520,7 +523,6 @@ public class GameManager : MonoBehaviour
     private void OutOfCards()
     {
         ChangeGameState(STATE.Death);
-        print("Skill Issue."); //TODO - Replace this with actual functionality
     }
 
     #endregion
@@ -555,13 +557,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ConfirmCards()
     {
-        //NOTE:
-        //If Clear and Switch do not want to play animation, check if _isClearing and _isSwitching is false
-        //If they are both false, do _uiManager.MoveCardToActionOrder() AND do the following at end of method
-        // _uiManager.UpdatePlayedCards();
-        // _uiManager.UpdateDealtCards();
-        // PlaySequence();
-
+        isConfirmCardThere = false;
         _getOriginalDeck = true;
         ChangeGameState(STATE.PlayingActionOrder);
         _cardManager.lastConfirmationCard = null;
@@ -584,6 +580,19 @@ public class GameManager : MonoBehaviour
 
         _uiManager.MoveCardToActionOrder();
         _uiManager.DisableTextBox();
+
+        //Moves Cards if the Card is added into the Action Order (Example: if the card is not a Clear Card)
+        if (confirmationCard.name != Card.CardName.Clear
+            && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
+        {
+            List<Image> playedCardImages = _uiManager.GetInstantiatedPlayedCardImages();
+            int playedCardsCount = playedCardImages.Count;
+            for (int i = 0; i < playedCardsCount; i++)
+            {
+                playedCardImages[i].GetComponentInChildren<CardDisplay>().MoveCards(i);
+            }
+        }
+
         //If the confirmation card is a clear or switch, do not add it into play order
         if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch 
             && confirmationCard.name != Card.CardName.Stall && confirmationCard.name != Card.CardName.Wild)
@@ -601,18 +610,6 @@ public class GameManager : MonoBehaviour
 
             List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
-            //   int instantiatedImagesCount = instantiatedImages.Count;
-            //   for (int i = 0; i < instantiatedImagesCount; i++)
-            //   {
-            //       //Loops over clear list
-            //       for (int j = 0; j < _cardManager.numOfCardsToClear; j++)
-            //       {
-            //           if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCards[j].GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
-            //           {
-            //              _playedCards = _deckManagerCard.RemoveAt(_playedCards, i); //When IDs match, remove the card from the list
-            //           }
-            //       }
-            //   }
             int demoCount = _demoDeck.Count;
             _playedCards = new();
             for (int i = 0; i < demoCount; i++)
@@ -646,6 +643,7 @@ public class GameManager : MonoBehaviour
         StopDemo();
 
         //Resets CardManager
+        isConfirmCardThere = false;
         _cardManager.lastConfirmationCard = null;
         _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         _cardManager.switchCards.Item1 = null;
@@ -864,8 +862,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewTurn()
     {
-        if (_playedCards.Count == 5)
-            DeathMethod();
         ChangeGameState(STATE.ChooseCards);
     }
 
