@@ -862,7 +862,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewTurn()
     {
-        print("YO");
         //Moves Cards if the Card is added into the Action Order (Example: if the card is not a Clear Card)
 
         if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
@@ -875,7 +874,6 @@ public class GameManager : MonoBehaviour
             }
             _uiManager.shiftIndex++;
         }
-        print(_uiManager.shiftIndex);
         ChangeGameState(STATE.ChooseCards);
     }
 
