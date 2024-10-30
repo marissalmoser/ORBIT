@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
     public static Action<List<Card>> PlayDemoActionOrder;
     public static Action DeathAction;
     public static Action TrapAction;
+    public static Action WinAction;
     #endregion
 
     [NonSerialized] public bool lowerDarkenIndex;
@@ -191,6 +192,7 @@ public class GameManager : MonoBehaviour
                 {
                     CollectibleManager.Instance.CollectCollectible();
                 }
+                WinAction?.Invoke();
                 Invoke("LoadLevelSelect", 1);
                 break;
             default:
