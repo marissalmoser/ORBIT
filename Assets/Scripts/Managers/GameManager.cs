@@ -36,6 +36,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Card> _playedCards;
     [SerializeField] bool _doDebugMode;
     [SerializeField] private int _deathTimerLength;
+    [SerializeField] private Texture2D _clearCursor;
+    [SerializeField] private Texture2D _switchCursor;
+    private Vector2 _clearCursorHotspot;
+    private Vector2 _switchCursorHotspot;
+    private Vector2 _sunnnyCursorHotspot = new Vector2(16, 16);
 
     public Image darken;
     public Image deckShownDarken;
@@ -73,6 +78,7 @@ public class GameManager : MonoBehaviour
     public static Action<List<Card>> PlayDemoActionOrder;
     public static Action DeathAction;
     public static Action TrapAction;
+    public static Action WinAction;
     #endregion
 
     [NonSerialized] public bool lowerDarkenIndex;
@@ -97,6 +103,14 @@ public class GameManager : MonoBehaviour
         hasSwitched = false;
         _getOriginalDeck = true;
 
+        if (_clearCursor != null)
+        {
+            _clearCursorHotspot = new Vector2(_clearCursor.width / 2, _clearCursor.height / 2);
+        }
+        if (_switchCursor != null)
+        {
+            _switchCursorHotspot = new Vector2(_switchCursor.width / 2, _switchCursor.height / 2);
+        }
         ChangeGameState(STATE.LoadGame);
     }
 
@@ -144,14 +158,17 @@ public class GameManager : MonoBehaviour
             case STATE.ChooseCards:
                 //Choose Cards methods called
                 gameState = STATE.ChooseCards;
+                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 DealCards();
                 break;
             case STATE.ConfirmCards:
                 gameState = STATE.ConfirmCards;
                 PlayDemo();
+                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 break;
             case STATE.PlayingActionOrder:
                 gameState = STATE.PlayingActionOrder;
+                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 break;
             case STATE.ChooseTurn:
                 // Waiting STATE. Game locks in this state until user input
@@ -173,6 +190,7 @@ public class GameManager : MonoBehaviour
                 {
                     CollectibleManager.Instance.CollectCollectible();
                 }
+                WinAction?.Invoke();
                 Invoke("LoadLevelSelect", 1);
                 break;
             default:
@@ -281,6 +299,11 @@ public class GameManager : MonoBehaviour
                 darken.enabled = true;
                 isClearing = true;
                 _uiManager.UpdateTextBox("SELECT A CARD TO CLEAR.");
+
+                if (_clearCursor != null)
+                { 
+                    Cursor.SetCursor(_clearCursor, _clearCursorHotspot, CursorMode.Auto);
+                } 
             }
             else
             {
@@ -297,7 +320,13 @@ public class GameManager : MonoBehaviour
                 darken.enabled = true;
                 isSwitching = true;
                 _uiManager.UpdateTextBox("SELECT TWO CARDS TO SWAP.");
+
+                if (_switchCursor != null)
+                { 
+                    Cursor.SetCursor(_switchCursor, _switchCursorHotspot, CursorMode.Auto);
+                } 
             }
+
             else
             {
                 confirmationCard = null;
@@ -318,6 +347,7 @@ public class GameManager : MonoBehaviour
             isTurning = true;
             _arrowsManager.ChangeMaxIndex(2);
             _arrowsManager.ResetIndex();
+            Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
         }
         //If Stall Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Stall) //Error check and checks if last card played was a Stall

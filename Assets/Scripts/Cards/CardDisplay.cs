@@ -6,6 +6,7 @@
 //                Also holds helper methods for an Event Trigger
 // +--------------------------------------------------------------+
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -22,12 +23,15 @@ public class CardDisplay : MonoBehaviour
 
     public bool isDarken;
     public bool isFromWild;
+    public float doubleClickLength = 0.6f;
 
     private GameManager _gameManager;
 
     private Animator _anim;
     private bool _isSelected;
     private bool _isDragging;
+    public float doubleClickTimer;
+    private bool canDoubleClick;
 
     void Start()
     {
@@ -37,6 +41,9 @@ public class CardDisplay : MonoBehaviour
         IsMouseInCard = false;
         IsMouseDown = false;
         IsSwapping = false;
+
+        doubleClickTimer = 0;
+        canDoubleClick = false;
 
         //Sets image
         SetImage();
@@ -162,11 +169,31 @@ public class CardDisplay : MonoBehaviour
             IsMouseDown = true;
             CardManager.Instance.MousePressedDealtCard(Card);
 
+            //disable animator to allow drag
+            if (_anim != null)
+            {
+                _anim.enabled = true;
+            }
             //double click to play functionality if the card is playable.
-            if(CardIsPlayable())
+            if (CardIsPlayable())
             {
                 SelectCard(Card);
             }
+            if (!canDoubleClick)
+                StartCoroutine(DoubleClick());
+        }
+    }
+
+    /// <summary>
+    /// Helper method for Event Trigger Pointer Up for Dealt Cards
+    /// </summary>
+    /// <param name="Card">Image object for the card</param>
+    public void MouseReleasedDealtCard(Image Card)
+    {
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            IsMouseDown = false;
+            CardManager.Instance.MouseReleasedDealtCard(Card, ID);
         }
     }
 
@@ -177,7 +204,7 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card"></param>
     private void SelectCard(Image Card)
     {
-        if (_isSelected)
+        if (canDoubleClick)
         {
             //play card and sound
             CardManager.Instance.PlayCard(Card, ID);
@@ -196,28 +223,9 @@ public class CardDisplay : MonoBehaviour
             {
                 dealtCard.GetComponentInChildren<CardDisplay>().SetIsSelected(false);
             }
-            if(!_isDragging)
-                _anim.SetBool("Select", true);
             _isSelected = true;
             SfxManager.Instance.PlaySFX(1092);
         }
-    }
-
-    /// <summary>
-    /// Sets the dealt card display and animation for the double click to play functionality.
-    /// </summary>
-    /// <param name="input"></param>
-    public void SetIsSelected(bool input)
-    {
-        if(_isSelected && !input)
-        {
-            _anim.SetBool("Select", false);
-        }
-        if(!_isSelected && input)
-        {
-            _anim.SetBool("Select", true);
-        }
-        _isSelected = input;
     }
 
     /// <summary>
@@ -235,23 +243,34 @@ public class CardDisplay : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// Helper method for Event Trigger Pointer Up for Dealt Cards
-    /// </summary>
-    /// <param name="Card">Image object for the card</param>
-    public void MouseReleasedDealtCard(Image Card)
+    public IEnumerator DoubleClick()
     {
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        canDoubleClick = true;
+        doubleClickTimer = doubleClickLength;
+        while (doubleClickTimer > 0)
         {
-            IsMouseDown = false;
-            CardManager.Instance.MouseReleasedDealtCard(Card, ID);
-
-            //disable animator to allow drag
-            if(_anim != null)
-            {
-                _anim.enabled = true;
-            }
+            doubleClickTimer -= Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
         }
+        canDoubleClick = false;
+        yield return null;
+    }
+
+    /// <summary>
+    /// Sets the dealt card display and animation for the double click to play functionality.
+    /// </summary>
+    /// <param name="input"></param>
+    public void SetIsSelected(bool input)
+    {
+        if(_isSelected && !input)
+        {
+            _anim.SetBool("Select", false);
+        }
+        if(!_isSelected && input)
+        {
+            _anim.SetBool("Select", true);
+        }
+        _isSelected = input;
     }
 
     /// <summary>
