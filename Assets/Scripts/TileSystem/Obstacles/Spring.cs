@@ -45,6 +45,7 @@ public class Spring : Obstacle
 
     public override void SetToDefaultState()
     {
+        _active = _defaultState;
         _isActive = _defaultState;
         _anim.SetTrigger("SpringReady");
     }

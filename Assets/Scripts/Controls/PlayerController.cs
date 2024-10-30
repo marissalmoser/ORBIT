@@ -86,14 +86,15 @@ public class PlayerController : MonoBehaviour
         //get the last key in the curve
         while (timeElapsed < _moveEaseCurve.keys[_moveEaseCurve.length - 1].time)
         {
+            timeElapsed += Time.deltaTime;
+            checkTimeElapsed += Time.deltaTime;
+
             float curvePosition = _moveEaseCurve.Evaluate(timeElapsed);
 
             // Interpolate the player's position based on the curve's output
             transform.position = Vector3.Lerp(originTileLoc, targetTileLoc, curvePosition);
 
-            timeElapsed += Time.deltaTime;
-            checkTimeElapsed += Time.deltaTime;
-
+            
             if (checkTimeElapsed >= _checkInterval)
             {
                 if (GetTileWithPlayerRaycast() != null && GetTileWithPlayerRaycast().GetCoordinates() != nextTile.GetCoordinates())
@@ -123,7 +124,7 @@ public class PlayerController : MonoBehaviour
                 // Reset the check timer
                 checkTimeElapsed = 0f;
             }
-            yield return null;
+            yield return null;           
         }
 
         transform.position = targetTileLoc; //double check final position
@@ -133,19 +134,19 @@ public class PlayerController : MonoBehaviour
         //  and checks if obstacle should fire
         if (cardOnTile != null)
         {
-            if(cardOnTile.name != Card.CardName.Jump && nextTile.GetObstacleClass().IsActive())
+            if (nextTile.GetObstacleClass().IsActive()) //&& cardOnTile.name != Card.CardName.Jump)
             {
                 StopCoroutine(_currentMovementCoroutine);
                 AddCard?.Invoke(cardOnTile);
                 nextTile.GetObstacleClass().PerformObstacleAnim();
             }
             //special case for the annoying springs >:)
-            else if (cardOnTile.name == Card.CardName.Jump && !nextTile.GetObstacleClass().IsActive())
-            {
-                StopCoroutine(_currentMovementCoroutine);
-                AddCard?.Invoke(cardOnTile);
-                nextTile.GetObstacleClass().PerformObstacleAnim();
-            }
+            //else if (cardOnTile.name == Card.CardName.Jump && !nextTile.GetObstacleClass().IsActive())
+            //{
+            //    StopCoroutine(_currentMovementCoroutine);
+            //    AddCard?.Invoke(cardOnTile);
+            //    nextTile.GetObstacleClass().PerformObstacleAnim();
+            //}
         }
         ReachedDestination?.Invoke();
     }
