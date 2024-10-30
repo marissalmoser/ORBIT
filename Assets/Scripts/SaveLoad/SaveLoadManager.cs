@@ -108,10 +108,11 @@ public class SaveLoadManager : MonoBehaviour
     /// <returns></returns>
     public SaveData LoadDataFromFile(int fileToLoad)
     {
+        SaveData temp = new SaveData();
         if (DoesSaveFileExist(fileToLoad))
         {
             string dir = Application.persistentDataPath + directory;
-            SaveData temp = new SaveData();
+            
             string jsonString = File.ReadAllText(dir + GetFileNameByInt(fileToLoad));
             temp = JsonUtility.FromJson<SaveData>(jsonString);
             AssignLoadedData(temp);
@@ -122,6 +123,7 @@ public class SaveLoadManager : MonoBehaviour
         else // couldnt find the file, making a new one...
         {
             Debug.Log("File " + GetFileNameByInt(fileToLoad) + " does not exist when trying to load it, making a new one...");
+            UnAssignLoadedData(temp);
             SaveDataToFile(fileToLoad);
         }
         return newData;
@@ -142,6 +144,16 @@ public class SaveLoadManager : MonoBehaviour
             }            
         }
     }
+
+    public void UnAssignLoadedData(SaveData save)
+    {
+        for(int i = 0; i<CollectibleManager.Instance.collectibleStats.Count; i++)
+        {
+            CollectibleManager.Instance.collectibleStats[i].SetIsLocked(true);
+            CollectibleManager.Instance.collectibleStats[i].SetIsCollected(false);
+        }
+    }
+
     /// <summary>
     /// Used by external scripts to confirm if saved data exists
     /// </summary>
