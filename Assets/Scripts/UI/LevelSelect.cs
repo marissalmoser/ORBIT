@@ -19,7 +19,8 @@ public class LevelSelect : MonoBehaviour
     public void LoadLevel(int levelNumber)
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene(levelNumber);
+        SceneTransitionManager.Instance.LoadNewScene(levelNumber);
+        //SceneManager.LoadScene(levelNumber);
     }
 
 

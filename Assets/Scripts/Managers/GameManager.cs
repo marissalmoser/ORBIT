@@ -115,7 +115,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DeathMethod()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneTransitionManager.Instance.ResetLevelOnDeath();
     }
 
     /// <summary>
