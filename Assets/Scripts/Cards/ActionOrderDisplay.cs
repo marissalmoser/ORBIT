@@ -19,6 +19,7 @@ public class ActionOrderDisplay : MonoBehaviour
     [SerializeField] private RectTransform _canvas;
     public static Action NewActionPlayed;
     public static Action ActionOrderComplete;
+    public static Action ResetIndicator;
 
     [SerializeField] private float _moveSpeed;
 
@@ -29,13 +30,14 @@ public class ActionOrderDisplay : MonoBehaviour
     {
         _rt = GetComponent<RectTransform>();
         _image = GetComponent<Image>();
-        _rt.anchoredPosition = new Vector2(-GameManager.Instance.GetPlayedCards().Count * 120 + 60, -185);
+        _rt.anchoredPosition = new Vector2(-GameManager.Instance.GetPlayedCards().Count * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
     }
 
     private void OnEnable()
     {
         NewActionPlayed += OnNewActionPlayed;
         ActionOrderComplete += ClearIcon;
+        ResetIndicator += ResetIndicatorPosition;
         GameManager.PlayActionOrder += SetActionOrder;
         GameManager.PlayDemoActionOrder += SetDemoActionOrder;
     }
@@ -97,8 +99,16 @@ public class ActionOrderDisplay : MonoBehaviour
     {
         _image.enabled = false;
         if (GameManager.Instance.isConfirmCardThere)
-            _rt.anchoredPosition = new Vector2(-(GameManager.Instance.GetPlayedCards().Count + 1) * 120 + 60, -185);
+            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
         else
-            _rt.anchoredPosition = new Vector2(-GameManager.Instance.GetPlayedCards().Count * 120 + 60, -185);
+            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+    }
+
+    private void ResetIndicatorPosition()
+    {
+        if (GameManager.Instance.isConfirmCardThere)
+            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+        else
+            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
     }
 }

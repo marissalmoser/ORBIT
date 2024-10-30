@@ -583,18 +583,6 @@ public class GameManager : MonoBehaviour
         _uiManager.MoveCardToActionOrder();
         _uiManager.DisableTextBox();
 
-        //Moves Cards if the Card is added into the Action Order (Example: if the card is not a Clear Card)
-        if (confirmationCard.name != Card.CardName.Clear
-            && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
-        {
-            List<Image> playedCardImages = _uiManager.GetInstantiatedPlayedCardImages();
-            int playedCardsCount = playedCardImages.Count;
-            for (int i = 0; i < playedCardsCount; i++)
-            {
-                playedCardImages[i].GetComponentInChildren<CardDisplay>().MoveCards(i);
-            }
-        }
-
         //If the confirmation card is a clear or switch, do not add it into play order
         if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch 
             && confirmationCard.name != Card.CardName.Stall && confirmationCard.name != Card.CardName.Wild)
@@ -618,6 +606,15 @@ public class GameManager : MonoBehaviour
             {
                 _playedCards.Add(_demoDeck[i]);
             }
+
+            //Repositions shift index on clear
+            int clearCardsLength = _cardManager.clearCards.Length;
+            foreach (Image clearCard in _cardManager.clearCards)
+            {
+                if (clearCard != null)
+                    _uiManager.shiftIndex--;
+            }
+
             _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         }
 
@@ -633,6 +630,7 @@ public class GameManager : MonoBehaviour
                 _playedCards.Add(_demoDeck[i]);
             }
         }
+        ActionOrderDisplay.ResetIndicator?.Invoke();
         isStalling = false;
     }
 
@@ -864,6 +862,20 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewTurn()
     {
+        print("YO");
+        //Moves Cards if the Card is added into the Action Order (Example: if the card is not a Clear Card)
+
+        if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
+        {
+            List<Image> playedCardImages = _uiManager.GetInstantiatedPlayedCardImages();
+            int playedCardsCount = playedCardImages.Count;
+            for (int i = 0; i < playedCardsCount; i++)
+            {
+                playedCardImages[i].GetComponentInChildren<CardDisplay>().MoveCards(i);
+            }
+            _uiManager.shiftIndex++;
+        }
+        print(_uiManager.shiftIndex);
         ChangeGameState(STATE.ChooseCards);
     }
 

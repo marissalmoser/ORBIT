@@ -57,6 +57,7 @@ public class UIManager : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
     [SerializeField] private TextMeshProUGUI _deckCount;
+    [SerializeField] private RectTransform cardSlot;
     private Vector2 _deckCountPos;
     public Button confirmButton, cancelButton;
 
@@ -86,11 +87,14 @@ public class UIManager : MonoBehaviour
 
     private float _screenWidth, _screenHeight;
 
-    private float cardWidth, cardHeight;
+    [NonSerialized] public float cardWidth;
+    private float _cardHeight;
 
     private Vector2 _nextPlayCardPosition;
 
     [NonSerialized] public Card confirmCard;
+
+    public int shiftIndex;
 
     /// <summary>
     /// Initializes variables for UIManager. Called by GameManager
@@ -109,7 +113,7 @@ public class UIManager : MonoBehaviour
         _playedCardImages = new();
 
         cardWidth = _dealtCardImage.rectTransform.rect.width;
-        cardHeight = _dealtCardImage.rectTransform.rect.height;
+        _cardHeight = _dealtCardImage.rectTransform.rect.height;
 
         //Disables buttons on start 
         confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
@@ -121,9 +125,12 @@ public class UIManager : MonoBehaviour
         _upperTextBox.enabled = false;
         _upperTextBox.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
-        _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
+        _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - _cardHeight / 2 - _heightPadding);
 
         _deckCountPos = _deckCount.GetComponent<RectTransform>().anchoredPosition;
+        cardSlot.anchoredPosition = new Vector2(-_widthPadding, -_heightPadding);
+
+        shiftIndex = 0;
     }
 
     /// <summary>
@@ -151,7 +158,7 @@ public class UIManager : MonoBehaviour
         //Instantiates Deck Back
         _deck = Instantiate(_deckImage, Vector2.zero, Quaternion.identity);
         _deck.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-        _deck.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
+        _deck.rectTransform.anchoredPosition = new Vector3(_widthPadding, _heightPadding, 0); //Sets position
 
         CardDisplay deckCard = _deck.GetComponentInChildren<CardDisplay>(); //Gets data from image
 
@@ -177,7 +184,8 @@ public class UIManager : MonoBehaviour
         {
             Image newImage = Instantiate(_dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
             newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) * i + _widthPadding, _heightPadding, 0); //Sets position
+            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) 
+                * (i + 1) + _widthPadding, _heightPadding, 0); //Sets position
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Sets highlight to off
 
@@ -287,16 +295,16 @@ public class UIManager : MonoBehaviour
 
             //newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 -_cardHeightSpacing * i - _heightPadding);
             if (doVerticalFormat)
-                newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding - _playedCardWidthSpacing * 
-                    (playedCards.Count - (i + 1)), _screenHeight - cardHeight / 2 - _heightPadding); //Sets position - Vertical Format
+                newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding - _playedCardWidthSpacing *
+                    (shiftIndex - i), _screenHeight - _cardHeight / 2 - _heightPadding); //Sets position - Vertical Format
             else
-                newImage.rectTransform.anchoredPosition = new Vector2((-_screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2) 
+                newImage.rectTransform.anchoredPosition = new Vector2((-_screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2)
                     + (_playedCardWidthSpacing * i + _widthPadding), -_heightPadding); //Sets position - Horizontal Format
             
             if (i == numOfPlayedCards - 1)
             {
                 //Gets next card position
-                _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * (i + 1) - _heightPadding);
+                _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - _cardHeight / 2 - _cardHeightSpacing * (i + 1) - _heightPadding);
             }
 
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
@@ -867,7 +875,7 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator MoveCard(Image image)
     {
-        Vector2 targetPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
+        Vector2 targetPosition = new Vector2(-_widthPadding, _screenHeight - _cardHeight / 2 - _heightPadding);
         while (image.rectTransform.anchoredPosition.y != targetPosition.y)
         {
             //Moves card
