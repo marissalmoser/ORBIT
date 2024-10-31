@@ -843,7 +843,7 @@ public class UIManager : MonoBehaviour
     public void MoveCardToActionOrder()
     {
         //StartCoroutine(MoveCard(confirmationImage, _nextPlayCardPosition.y));
-        StartCoroutine(MoveCard(_confirmationImage));
+        StartCoroutine(MoveCard(confirmationImage));
     }
 
     /// <summary>
