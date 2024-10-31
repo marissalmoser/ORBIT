@@ -14,8 +14,8 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: 10BitStudios
   productName: ORBIT
-  defaultCursor: {fileID: 2800000, guid: 1ecb69aa2ebe9a84d9c91e80005e84a6, type: 3}
-  cursorHotspot: {x: 16, y: 16}
+  defaultCursor: {fileID: 2800000, guid: 368fc96a7ac32d64596b495c4934c120, type: 3}
+  cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
   m_ShowUnitySplashScreen: 1
   m_ShowUnitySplashLogo: 1
@@ -287,7 +287,7 @@ PlayerSettings:
   - m_BuildTarget: Standalone
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 837e5b8d025370b49bbb30bcc3ab8ebe, type: 3}
+      m_Icon: {fileID: 2800000, guid: 1ecb69aa2ebe9a84d9c91e80005e84a6, type: 3}
       m_Width: 1024
       m_Height: 1024
       m_Kind: 0
@@ -325,6 +325,13 @@ PlayerSettings:
       m_Icon: {fileID: 0}
       m_Width: 16
       m_Height: 16
+      m_Kind: 0
+  - m_BuildTarget: 
+    m_Icons:
+    - serializedVersion: 2
+      m_Icon: {fileID: 0}
+      m_Width: 128
+      m_Height: 128
       m_Kind: 0
   m_BuildTargetPlatformIcons: []
   m_BuildTargetBatching:
