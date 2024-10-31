@@ -148,7 +148,8 @@ public class CardDisplay : MonoBehaviour
                 //disable animator to allow drag
                 if (_anim != null)
                 {
-                    _anim.enabled = true;
+                    _anim.SetBool("Hover", false);
+                    _anim.enabled = false;
                 }
                 //double click to play functionality if the card is playable.
                 if (CardIsPlayable())
@@ -171,40 +172,41 @@ public class CardDisplay : MonoBehaviour
         {
             IsMouseDown = false;
             CardManager.Instance.MouseReleasedDealtCard(Card, ID);
+
+            UnSetHover();
         }
     }
 
     /// <summary>
-    /// Called when the player clicks on a dealt card that can be played. If it is selected,
-    /// playes tha card, it it is not already selected, selects it.
+    /// Called when the player clicks on a dealt card that can be played. If it was 
+    /// double clicked on, it plays ir
     /// </summary>
     /// <param name="Card"></param>
     private void SelectCard(Image Card)
     {
-        //if card is not active yet, deselect any other active dealt cards
-        //and make this one active and play anim and sound.
-        if(CardIsPlayable())
-        {
-            foreach (Image dealtCard in UIManager.Instance.GetInstantiatedDealtCardImages())
-            {
-                dealtCard.GetComponentInChildren<CardDisplay>().SetIsSelected(false);
-            }
-            isSelected = true;
-
-            SfxManager.Instance.PlaySFX(1092);
-        }
-
         if (canDoubleClick)
         {
             //play card and sound
             CardManager.Instance.PlayCard(Card, ID);
             SfxManager.Instance.PlaySFX(4295);
+
+            //loops thru all the cards and makes them not hover for the case the player
+            //double clicks a card when there's already one in the play area.
+            foreach (Image dealtCard in UIManager.Instance.GetInstantiatedDealtCardImages())
+            {
+                dealtCard.GetComponentInChildren<CardDisplay>().UnSetHover();
+            }
         }
     }
 
-    public void SetAnimActive(bool isActive)
+    public void UnSetHover()
     {
-        _anim.enabled = isActive;
+        //lets the card fall back into place and not stay stuck in hover
+        if (_anim != null)
+        {
+            _anim.enabled = true;
+            _anim.SetBool("Hover", false);
+        }
     }
 
     /// <summary>
@@ -236,29 +238,6 @@ public class CardDisplay : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the dealt card display and animation for the double click to play functionality.
-    /// </summary>
-    /// <param name="input"></param>
-    public void SetIsSelected(bool input)
-    {
-        if(isSelected && !input)
-        {
-            _anim.SetBool("Select", false);
-        }
-        if(!isSelected && input)
-        {
-            _anim.SetBool("Select", true);
-        }
-        isSelected = input;
-    }
-
-    public void SetAnim(string var, bool input)
-    {
-        _anim.SetBool(var, input);
-        isSelected = input;
-    }
-
-    /// <summary>
     /// Helper method for Event Trigger Drag for Dealt Cards
     /// </summary>
     /// <param name="Card">Image object for the card</param>
@@ -271,6 +250,7 @@ public class CardDisplay : MonoBehaviour
             //disable animator to allow drag
             if (_anim != null)
             {
+                _anim.SetBool("Hover", false);
                 _anim.enabled = false;
             }
         }

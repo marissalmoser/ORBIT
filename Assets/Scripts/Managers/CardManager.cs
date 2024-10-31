@@ -260,10 +260,6 @@ public class CardManager : MonoBehaviour
 
             //Respawns previous card
             lastConfirmationCard.gameObject.SetActive(true);
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().isSelected = false;
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetAnimActive(true);
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetAnim("Hover", false);
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetAnim("Select", false);
             lastConfirmationCard.GetComponentInChildren<CardDisplay>().canDoubleClick = false;
             lastConfirmationCard.GetComponentInChildren<CardDisplay>().isDarken = false;
             lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetImage();
