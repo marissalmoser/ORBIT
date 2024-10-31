@@ -8,8 +8,10 @@ using UnityEngine;
 
 public class Spring : Obstacle
 {
-    //dummy bool for springs cus they were acting up smth silly
+    //dummy bool for springs cus they were acting up smth silly - i checked again :(
     [SerializeField] private bool _active;
+
+    private bool _hasFired;
 
     private void OnEnable()
     {
@@ -30,23 +32,34 @@ public class Spring : Obstacle
         if (_active)
         {
             _anim.SetTrigger("SpringUp");
-        }
-        else
-        {
-            _anim.SetTrigger("SpringReady");
+            _hasFired = true;
         }
     }
 
     public override void SwitchActiveState()
     {
         _active = !_active;
-        PerformObstacleAnim();
+        if (_active)
+        {
+            _anim.SetBool("IsActive", true);
+        }
+        else
+        {
+            if(!_hasFired)
+            {
+                _anim.SetTrigger("SpringUp");
+            }
+            _anim.SetBool("IsActive", false);
+        }
+        _hasFired = false;
     }
 
     public override void SetToDefaultState()
     {
         _active = _defaultState;
-        _isActive = _defaultState;
-        _anim.SetTrigger("SpringReady");
+        if(_active )
+        {
+            _anim.SetBool("IsActive", true);
+        }
     }
 }
