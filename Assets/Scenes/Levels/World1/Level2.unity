@@ -13360,7 +13360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _coordinates: {x: 3, y: 1}
-  _tileType: 0
+  _tileType: 1
   _elevation: 0
   _obstacleRef: {fileID: 0}
   _collectableRef: {fileID: 0}
@@ -13392,7 +13392,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920187398}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
