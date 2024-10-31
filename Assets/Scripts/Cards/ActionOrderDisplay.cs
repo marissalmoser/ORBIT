@@ -81,7 +81,6 @@ public class ActionOrderDisplay : MonoBehaviour
         float totalTime = _moveSpeed;
         Vector3 originalPos = _rt.anchoredPosition;
         Vector3 targetPos = new Vector3(_rt.anchoredPosition.x + 120, _rt.anchoredPosition.y);
-        print("PRINT");
         while (timeElapsed < totalTime)
         {
             float time = timeElapsed / totalTime;
@@ -106,9 +105,12 @@ public class ActionOrderDisplay : MonoBehaviour
 
     private void ResetIndicatorPosition()
     {
-        if (GameManager.Instance.isConfirmCardThere)
-            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
-        else
-            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+        if (_rt != null)
+        {
+            if (GameManager.Instance.isConfirmCardThere)
+                _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+            else
+                _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+        }
     }
 }
