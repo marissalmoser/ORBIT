@@ -268,6 +268,12 @@ public class CardManager : MonoBehaviour
             lastConfirmationCard.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
             _gameManager.StopDemo();
+
+
+            foreach (Image dealtCard in UIManager.Instance.GetInstantiatedDealtCardImages())
+            {
+                dealtCard.GetComponentInChildren<CardDisplay>().UnSetHover();
+            }
         }
 
         lastConfirmationCard = cardImage;

@@ -179,7 +179,7 @@ public class CardDisplay : MonoBehaviour
 
     /// <summary>
     /// Called when the player clicks on a dealt card that can be played. If it was 
-    /// double clicked on, it plays ir
+    /// double clicked on, it plays it
     /// </summary>
     /// <param name="Card"></param>
     private void SelectCard(Image Card)
