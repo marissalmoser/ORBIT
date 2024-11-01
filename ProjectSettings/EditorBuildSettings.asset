@@ -28,12 +28,12 @@ EditorBuildSettings:
     guid: 8422c0a1598caed459c2316feaa2344c
   - enabled: 1
     path: Assets/Scenes/Levels/World1/Level1.unity
-    guid: 2d15c09b17174db4b97e232f89612661
+    guid: 339f6020bcd92fc418516756a20de4b3
   - enabled: 1
     path: Assets/Scenes/Levels/World1/Level2.unity
     guid: afbcf6cf12f04374598df2f2ec09dfb9
   - enabled: 1
-    path: Assets/Scenes/Levels/World1/RotatingPlatformsTutorial.unity
+    path: Assets/Scenes/Levels/Replaced Levels/RotatingPlatformsTutorial.unity
     guid: 6bc6abf5b5740f246be4fe1d21e7545b
   - enabled: 1
     path: Assets/Scenes/Levels/Replaced Levels/Level3.unity
@@ -101,9 +101,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/World4/WildCardTutorial.unity
     guid: c9127637f8b68d540b648f5dce68237b
-  - enabled: 1
-    path: Assets/Scenes/Levels/World4/SpeedPadTutorial.unity
+  - enabled: 0
+    path: Assets/Scenes/Levels/Replaced Levels/SpeedPadTutorial.unity
     guid: bff3d6c0843e97542a49f23353068313
+  - enabled: 1
+    path: Assets/Scenes/Levels/World4/SpeedPadAlt.unity
+    guid: b18b0f6198da97846a33947e4a337916
   - enabled: 1
     path: Assets/Scenes/Levels/World4/Level14.unity
     guid: 121c610a39473d14595d202b7c75a8ce
