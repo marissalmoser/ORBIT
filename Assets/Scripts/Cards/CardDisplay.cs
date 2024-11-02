@@ -6,6 +6,7 @@
 //                Also holds helper methods for an Event Trigger
 // +--------------------------------------------------------------+
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -22,49 +23,34 @@ public class CardDisplay : MonoBehaviour
 
     public bool isDarken;
     public bool isFromWild;
+    public float doubleClickLength = 0.6f;
 
     private GameManager _gameManager;
 
+    private Image _cardImage;
     private Animator _anim;
-    private bool _isSelected;
+    public bool isSelected;
     private bool _isDragging;
+    public float doubleClickTimer;
+    public bool canDoubleClick;
 
     void Start()
     {
         _gameManager = GameManager.Instance;
         _anim = GetComponentInParent<Animator>();
-
+        _cardImage = GetComponent<Image>();
         IsMouseInCard = false;
         IsMouseDown = false;
         IsSwapping = false;
+
+        doubleClickTimer = 0;
+        canDoubleClick = false;
 
         //Sets image
         SetImage();
     }
 
     #region Card Getter and Setter
-    /**
-    /// <summary>
-    /// Updates the specified card's image
-    /// </summary>
-    /// <param name="card">The card to be updared</param>
-    public void UpdateCard(Card card, bool isFromWild)
-    {
-        this.isFromWild = isFromWild;
-        //Updates card
-        this.card = card;
-
-        SetImage();
-    }
-
-    public void UpdateCard(Card card)
-    {
-        //Updates card
-        this.card = card;
-        SetImage();
-    }
-    */
-
     public void SetImage()
     {
         if (isFromWild)
@@ -90,12 +76,6 @@ public class CardDisplay : MonoBehaviour
             }
         }
     }
-
-    /// <summary>
-    /// Gets the current card
-    /// </summary>
-    /// <returns>Card object stored inside the card</returns>
-    // public Card GetCard() {  return card; }
     #endregion
 
     #region Deck Methods
@@ -157,67 +137,77 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MousePressedDealtCard(Image Card)
     {
-        if (Mouse.current.leftButton.wasPressedThisFrame)
+        if (_gameManager.gameState == GameManager.STATE.ChooseCards
+            || _gameManager.gameState == GameManager.STATE.ConfirmCards
+            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
         {
-            IsMouseDown = true;
-            CardManager.Instance.MousePressedDealtCard(Card);
-
-            //double click to play functionality if the card is playable.
-            if(CardIsPlayable())
+            if (Mouse.current.leftButton.wasPressedThisFrame)
             {
-                SelectCard(Card);
+                IsMouseDown = true;
+                CardManager.Instance.MousePressedDealtCard(Card);
+
+                //disable animator to allow drag
+                if (_anim != null)
+                {
+                    _anim.SetBool("Hover", false);
+                    _anim.enabled = false;
+                }
+                //double click to play functionality if the card is playable.
+                if (CardIsPlayable())
+                {
+                    SelectCard(Card);
+                }
+                if (!canDoubleClick)
+                    StartCoroutine(DoubleClick());
             }
         }
     }
 
     /// <summary>
-    /// Called when the player clicks on a dealt card that can be played. If it is selected,
-    /// playes tha card, it it is not already selected, selects it.
+    /// Helper method for Event Trigger Pointer Up for Dealt Cards
+    /// </summary>
+    /// <param name="Card">Image object for the card</param>
+    public void MouseReleasedDealtCard(Image Card)
+    {
+        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        {
+            IsMouseDown = false;
+            CardManager.Instance.MouseReleasedDealtCard(Card, ID);
+
+            UnSetHover();
+        }
+    }
+
+    /// <summary>
+    /// Called when the player clicks on a dealt card that can be played. If it was 
+    /// double clicked on, it plays it
     /// </summary>
     /// <param name="Card"></param>
     private void SelectCard(Image Card)
     {
-        if (_isSelected)
+        if (canDoubleClick)
         {
             //play card and sound
             CardManager.Instance.PlayCard(Card, ID);
             SfxManager.Instance.PlaySFX(4295);
 
-            //TODO: move card to play area
-
-            return;
-        }
-
-        //if card is not active yet, deselect any other active dealt cards
-        //and make this one active and play anim and sound.
-        if(CardIsPlayable())
-        {
+            //loops thru all the cards and makes them not hover for the case the player
+            //double clicks a card when there's already one in the play area.
             foreach (Image dealtCard in UIManager.Instance.GetInstantiatedDealtCardImages())
             {
-                dealtCard.GetComponentInChildren<CardDisplay>().SetIsSelected(false);
+                dealtCard.GetComponentInChildren<CardDisplay>().UnSetHover();
             }
-            if(!_isDragging)
-                _anim.SetBool("Select", true);
-            _isSelected = true;
-            SfxManager.Instance.PlaySFX(1092);
         }
     }
 
-    /// <summary>
-    /// Sets the dealt card display and animation for the double click to play functionality.
-    /// </summary>
-    /// <param name="input"></param>
-    public void SetIsSelected(bool input)
+    public void UnSetHover()
     {
-        if(_isSelected && !input)
+        //lets the card fall back into place and not stay stuck in hover
+        if (_anim != null)
         {
-            _anim.SetBool("Select", false);
+            _anim.enabled = true;
+            _anim.SetBool("Hover", false);
         }
-        if(!_isSelected && input)
-        {
-            _anim.SetBool("Select", true);
-        }
-        _isSelected = input;
     }
 
     /// <summary>
@@ -235,23 +225,17 @@ public class CardDisplay : MonoBehaviour
         return true;
     }
 
-    /// <summary>
-    /// Helper method for Event Trigger Pointer Up for Dealt Cards
-    /// </summary>
-    /// <param name="Card">Image object for the card</param>
-    public void MouseReleasedDealtCard(Image Card)
+    public IEnumerator DoubleClick()
     {
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        canDoubleClick = true;
+        doubleClickTimer = doubleClickLength;
+        while (doubleClickTimer > 0)
         {
-            IsMouseDown = false;
-            CardManager.Instance.MouseReleasedDealtCard(Card, ID);
-
-            //disable animator to allow drag
-            if(_anim != null)
-            {
-                _anim.enabled = true;
-            }
+            doubleClickTimer -= Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
         }
+        canDoubleClick = false;
+        yield return null;
     }
 
     /// <summary>
@@ -267,6 +251,7 @@ public class CardDisplay : MonoBehaviour
             //disable animator to allow drag
             if (_anim != null)
             {
+                _anim.SetBool("Hover", false);
                 _anim.enabled = false;
             }
         }
@@ -365,4 +350,26 @@ public class CardDisplay : MonoBehaviour
         CardManager.Instance.MouseExitPlayedCard(card);
     }
     #endregion
+
+    /// <summary>
+    /// Does the animation to move the cards to the left when confirming a card
+    /// </summary>
+    public void MoveCards(int delay)
+    {
+            StartCoroutine(MoveAnimation(delay));
+    }
+
+    IEnumerator MoveAnimation(int delay)
+    {
+        yield return new WaitForSeconds(delay * 0.1f);
+        Vector2 targetPosition = _cardImage.rectTransform.anchoredPosition - new Vector2(120, 0);
+
+        while (_cardImage.rectTransform.anchoredPosition.x != targetPosition.x)
+        {
+            _cardImage.rectTransform.anchoredPosition = Vector2.MoveTowards(_cardImage.rectTransform.anchoredPosition, targetPosition, 7f);
+            yield return new WaitForEndOfFrame();
+        }
+
+        yield return null;
+    }
 }

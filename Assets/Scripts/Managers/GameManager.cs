@@ -36,9 +36,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Card> _playedCards;
     [SerializeField] bool _doDebugMode;
     [SerializeField] private int _deathTimerLength;
+    [SerializeField] private Texture2D _clearCursor;
+    [SerializeField] private Texture2D _switchCursor;
+    private Vector2 _clearCursorHotspot;
+    private Vector2 _switchCursorHotspot;
+    private Vector2 _sunnnyCursorHotspot = new Vector2(16, 16);
 
     public Image darken;
     public Image deckShownDarken;
+    [NonSerialized] public bool isConfirmCardThere;
 
     private DeckManager<Card> _deckManagerCard;
     private DeckManager<int> _deckManagerInt;
@@ -73,6 +79,7 @@ public class GameManager : MonoBehaviour
     public static Action<List<Card>> PlayDemoActionOrder;
     public static Action DeathAction;
     public static Action TrapAction;
+    public static Action WinAction;
     #endregion
 
     [NonSerialized] public bool lowerDarkenIndex;
@@ -96,7 +103,16 @@ public class GameManager : MonoBehaviour
         currentlyOnWild = false;
         hasSwitched = false;
         _getOriginalDeck = true;
+        isConfirmCardThere = false;
 
+        if (_clearCursor != null)
+        {
+            _clearCursorHotspot = new Vector2(_clearCursor.width / 2, _clearCursor.height / 2);
+        }
+        if (_switchCursor != null)
+        {
+            _switchCursorHotspot = new Vector2(_switchCursor.width / 2, _switchCursor.height / 2);
+        }
         ChangeGameState(STATE.LoadGame);
     }
 
@@ -145,14 +161,17 @@ public class GameManager : MonoBehaviour
             case STATE.ChooseCards:
                 //Choose Cards methods called
                 gameState = STATE.ChooseCards;
+                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 DealCards();
                 break;
             case STATE.ConfirmCards:
                 gameState = STATE.ConfirmCards;
                 PlayDemo();
+                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 break;
             case STATE.PlayingActionOrder:
                 gameState = STATE.PlayingActionOrder;
+                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 break;
             case STATE.ChooseTurn:
                 // Waiting STATE. Game locks in this state until user input
@@ -174,6 +193,7 @@ public class GameManager : MonoBehaviour
                 {
                     CollectibleManager.Instance.CollectCollectible();
                 }
+                WinAction?.Invoke();
                 Invoke("LoadLevelSelect", 1);
                 break;
             default:
@@ -282,6 +302,11 @@ public class GameManager : MonoBehaviour
                 darken.enabled = true;
                 isClearing = true;
                 _uiManager.UpdateTextBox("SELECT A CARD TO CLEAR.");
+
+                if (_clearCursor != null)
+                { 
+                    Cursor.SetCursor(_clearCursor, _clearCursorHotspot, CursorMode.Auto);
+                } 
             }
             else
             {
@@ -298,7 +323,13 @@ public class GameManager : MonoBehaviour
                 darken.enabled = true;
                 isSwitching = true;
                 _uiManager.UpdateTextBox("SELECT TWO CARDS TO SWAP.");
+
+                if (_switchCursor != null)
+                { 
+                    Cursor.SetCursor(_switchCursor, _switchCursorHotspot, CursorMode.Auto);
+                } 
             }
+
             else
             {
                 confirmationCard = null;
@@ -319,6 +350,7 @@ public class GameManager : MonoBehaviour
             isTurning = true;
             _arrowsManager.ChangeMaxIndex(2);
             _arrowsManager.ResetIndex();
+            Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
         }
         //If Stall Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Stall) //Error check and checks if last card played was a Stall
@@ -344,6 +376,7 @@ public class GameManager : MonoBehaviour
         //If demo is good to go
         if (!isClearing && !isSwitching && !currentlyOnTurn && !currentlyOnWild)
         {
+            isConfirmCardThere = true;
             _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
             ChangeGameState(STATE.ConfirmCards);
         }
@@ -493,7 +526,6 @@ public class GameManager : MonoBehaviour
     private void OutOfCards()
     {
         ChangeGameState(STATE.Death);
-        print("Skill Issue."); //TODO - Replace this with actual functionality
     }
 
     #endregion
@@ -528,13 +560,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ConfirmCards()
     {
-        //NOTE:
-        //If Clear and Switch do not want to play animation, check if _isClearing and _isSwitching is false
-        //If they are both false, do _uiManager.MoveCardToActionOrder() AND do the following at end of method
-        // _uiManager.UpdatePlayedCards();
-        // _uiManager.UpdateDealtCards();
-        // PlaySequence();
-
+        isConfirmCardThere = false;
         _getOriginalDeck = true;
         ChangeGameState(STATE.PlayingActionOrder);
         _cardManager.lastConfirmationCard = null;
@@ -557,6 +583,7 @@ public class GameManager : MonoBehaviour
 
         _uiManager.MoveCardToActionOrder();
         _uiManager.DisableTextBox();
+
         //If the confirmation card is a clear or switch, do not add it into play order
         if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch 
             && confirmationCard.name != Card.CardName.Stall && confirmationCard.name != Card.CardName.Wild)
@@ -574,24 +601,21 @@ public class GameManager : MonoBehaviour
 
             List<Image> instantiatedImages = _uiManager.GetInstantiatedPlayedCardImages(); //Gets the instantiated played cards images
 
-            //   int instantiatedImagesCount = instantiatedImages.Count;
-            //   for (int i = 0; i < instantiatedImagesCount; i++)
-            //   {
-            //       //Loops over clear list
-            //       for (int j = 0; j < _cardManager.numOfCardsToClear; j++)
-            //       {
-            //           if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == _cardManager.clearCards[j].GetComponentInChildren<CardDisplay>().ID) //Compares instantiated images' unique ID to the target ID
-            //           {
-            //              _playedCards = _deckManagerCard.RemoveAt(_playedCards, i); //When IDs match, remove the card from the list
-            //           }
-            //       }
-            //   }
             int demoCount = _demoDeck.Count;
             _playedCards = new();
             for (int i = 0; i < demoCount; i++)
             {
                 _playedCards.Add(_demoDeck[i]);
             }
+
+            //Repositions shift index on clear
+            int clearCardsLength = _cardManager.clearCards.Length;
+            foreach (Image clearCard in _cardManager.clearCards)
+            {
+                if (clearCard != null)
+                    _uiManager.shiftIndex--;
+            }
+
             _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         }
 
@@ -607,6 +631,7 @@ public class GameManager : MonoBehaviour
                 _playedCards.Add(_demoDeck[i]);
             }
         }
+        ActionOrderDisplay.ResetIndicator?.Invoke();
         isStalling = false;
     }
 
@@ -619,6 +644,7 @@ public class GameManager : MonoBehaviour
         StopDemo();
 
         //Resets CardManager
+        isConfirmCardThere = false;
         _cardManager.lastConfirmationCard = null;
         _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         _cardManager.switchCards.Item1 = null;
@@ -837,8 +863,18 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void NewTurn()
     {
-        if (_playedCards.Count == 5)
-            DeathMethod();
+        //Moves Cards if the Card is added into the Action Order (Example: if the card is not a Clear Card)
+
+        if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
+        {
+            List<Image> playedCardImages = _uiManager.GetInstantiatedPlayedCardImages();
+            int playedCardsCount = playedCardImages.Count;
+            for (int i = 0; i < playedCardsCount; i++)
+            {
+                playedCardImages[i].GetComponentInChildren<CardDisplay>().MoveCards(i);
+            }
+            _uiManager.shiftIndex++;
+        }
         ChangeGameState(STATE.ChooseCards);
     }
 

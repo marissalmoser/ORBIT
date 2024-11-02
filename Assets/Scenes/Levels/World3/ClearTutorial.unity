@@ -38906,7 +38906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
-      value: 17
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -40924,6 +40924,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1549683883}
     - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _clearCursor
+      value: 
+      objectReference: {fileID: 2800000, guid: 948f9153990992548921b26bf8591ae3, type: 3}
+    - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
+      propertyPath: _switchCursor
+      value: 
+      objectReference: {fileID: 2800000, guid: 50aede89d9b654446ad28070bb50c63c, type: 3}
+    - target: {fileID: 298451447222220874, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: deckShownDarken
       value: 
       objectReference: {fileID: 2870088648296899366}
@@ -41025,7 +41033,7 @@ PrefabInstance:
       objectReference: {fileID: 2870088648296899362}
     - target: {fileID: 5426104964226214690, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: sceneIndexOnWin
-      value: 19
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7511067672945292195, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: m_Name

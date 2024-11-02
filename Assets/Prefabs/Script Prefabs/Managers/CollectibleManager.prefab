@@ -49,151 +49,209 @@ MonoBehaviour:
     _buildIndex: 0
     _isCollected: 0
     _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 1
   - _levelName: Planet Select
     _buildIndex: 1
     _isCollected: 0
     _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 1
   - _levelName: Floral Level Select
     _buildIndex: 2
     _isCollected: 0
     _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 1
   - _levelName: Move Tutorial
     _buildIndex: 3
     _isCollected: 0
     _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 2
   - _levelName: Turn Tutorial
     _buildIndex: 4
     _isCollected: 0
     _hasCollectible: 0
-  - _levelName: Rotating Platforms Tutorial
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: simple 1
     _buildIndex: 5
     _isCollected: 0
     _hasCollectible: 1
-  - _levelName: Level 1
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: complex 1
     _buildIndex: 6
     _isCollected: 0
     _hasCollectible: 1
-  - _levelName: Level 2
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: unique 1
     _buildIndex: 7
     _isCollected: 0
     _hasCollectible: 1
-  - _levelName: Level 3
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: Challenge 1
     _buildIndex: 8
     _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Backup
+    _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: Ice Level Select
     _buildIndex: 9
     _isCollected: 0
     _hasCollectible: 0
-  - _levelName: Ice Level Select
+    _IsLocked: 0
+    _sceneType: 1
+  - _levelName: Jump Tutorial
     _buildIndex: 10
     _isCollected: 0
     _hasCollectible: 0
-  - _levelName: Jump Tutorial
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: Stall Tutorial
     _buildIndex: 11
     _isCollected: 0
     _hasCollectible: 0
-  - _levelName: Stall Tutorial
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: simple 2
     _buildIndex: 12
     _isCollected: 0
-    _hasCollectible: 0
-  - _levelName: Level 4
+    _hasCollectible: 1
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: complex 2
     _buildIndex: 13
     _isCollected: 0
     _hasCollectible: 1
-  - _levelName: Level 5
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: unique 2
     _buildIndex: 14
     _isCollected: 0
     _hasCollectible: 1
-  - _levelName: Level 6
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: challenge 2
     _buildIndex: 15
     _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Level 7
+    _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: Fire Level Select
     _buildIndex: 16
     _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Fire Level Select
+    _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 1
+  - _levelName: Clear Tutorial
     _buildIndex: 17
     _isCollected: 0
     _hasCollectible: 0
-  - _levelName: Clear Tutorial
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: Switch Tutorial
     _buildIndex: 18
     _isCollected: 0
     _hasCollectible: 0
-  - _levelName: Switch Tutorial
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: simple 3
     _buildIndex: 19
     _isCollected: 0
-    _hasCollectible: 0
-  - _levelName: Spike Tutorial
+    _hasCollectible: 1
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: complex 3
     _buildIndex: 20
     _isCollected: 0
-    _hasCollectible: 0
-  - _levelName: Level 8
+    _hasCollectible: 1
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: unique 3
     _buildIndex: 21
     _isCollected: 0
     _hasCollectible: 1
-  - _levelName: Level 9
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: challenge 3
     _buildIndex: 22
     _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Level 10
+    _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: Disco Level Select
     _buildIndex: 23
     _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Disco Level Select
+    _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 1
+  - _levelName: Wild Card Tutorial
     _buildIndex: 24
     _isCollected: 0
     _hasCollectible: 0
-  - _levelName: Speed Pad Tutorial
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: simple 4
     _buildIndex: 25
     _isCollected: 0
-    _hasCollectible: 0
-  - _levelName: Wild Card Tutorial
+    _hasCollectible: 1
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: complex 4
     _buildIndex: 26
     _isCollected: 0
-    _hasCollectible: 0
-  - _levelName: Level 11
+    _hasCollectible: 1
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: unique 4
     _buildIndex: 27
     _isCollected: 0
     _hasCollectible: 1
-  - _levelName: Level 12
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: challenge 4
     _buildIndex: 28
     _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Level 13
+    _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: PastelLevelSelect
     _buildIndex: 29
     _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Level 14
+    _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 1
+  - _levelName: simple 5
     _buildIndex: 30
     _isCollected: 0
     _hasCollectible: 1
-  - _levelName: PastelLevelSelect
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: complex 5
     _buildIndex: 31
     _isCollected: 0
     _hasCollectible: 1
-  - _levelName: Spring Tutorial
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: unique 5
     _buildIndex: 32
     _isCollected: 0
-    _hasCollectible: 0
-  - _levelName: Level 15
+    _hasCollectible: 1
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: challenge 5
     _buildIndex: 33
     _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Level 16
+    _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 2
+  - _levelName: WinScreen
     _buildIndex: 34
     _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Level 17
-    _buildIndex: 35
-    _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Level 18
-    _buildIndex: 36
-    _isCollected: 0
-    _hasCollectible: 1
-  - _levelName: Level 19
-    _buildIndex: 37
-    _isCollected: 0
-    _hasCollectible: 1
+    _hasCollectible: 0
+    _IsLocked: 0
+    _sceneType: 1

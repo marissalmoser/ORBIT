@@ -65,6 +65,7 @@ public class ConfirmationControls : MonoBehaviour
         {
             //sound effect call
             SfxManager.Instance.PlaySFX(8885);
+            SfxManager.Instance.PlaySFX(4295);
 
             _uiManager.DestroyConfirmCard();
             _gameManager.CancelCard();
