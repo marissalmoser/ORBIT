@@ -313,8 +313,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
             int facingDirection = _currentPlayerController.GetCurrentFacingDirection();
             if (currentTile.GetObstacleClass() != null && currentTile.GetObstacleClass().IsActive()) //If youre standing on an obstacle that sends you in a direction
             {
-               
                 facingDirection = currentTile.GetObstacleClass().GetDirection();
+                
                 if(facingDirection == 4) //IF the tile doesnt have a facing direction, use the player's current FD
                 {
                     facingDirection = _currentPlayerController.GetCurrentFacingDirection();
@@ -325,7 +325,25 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 }               
             }
 
-            _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, facingDirection, _distance);
+            if (_currentAction.name == Card.CardName.Move && _distance == 3)
+            {
+                Tile[] tiles = TileManager.Instance.GetTilesInLine
+                    (currentTile, TileManager.Instance.GetTileAtLocation(currentTile, facingDirection, _distance));
+                
+                for(int i = tiles.Length - 1; i > -1; i--)
+                {
+                    if (!tiles[i].GetComponent<Tile>().IsHole())
+                    {
+                        _targetTile = tiles[i];
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, facingDirection, _distance);
+            }
+            
 
             FSM(State.PlayResult);
             yield return null;
