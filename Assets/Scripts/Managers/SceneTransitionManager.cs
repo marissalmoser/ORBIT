@@ -32,6 +32,8 @@ public class SceneTransitionManager : MonoBehaviour
     private bool _animHasPlayed;
     private static bool _isloading;
 
+    [SerializeField] private GameObject _buttons;
+
     private void Start()
     {
         _cm = CollectibleManager.Instance;
@@ -58,25 +60,25 @@ public class SceneTransitionManager : MonoBehaviour
         CollectibleStats.SceneType currentType = _cm.collectibleStats[_currentSceneIndex].GetSceneType();
         CollectibleStats.SceneType nextType = _cm.collectibleStats[sceneToLoad].GetSceneType();
 
-        //level to level
+        //level to level, should only be called on win (death uses ResetLevelOnDeath() )
         if(currentType == CollectibleStats.SceneType.Level && currentType == nextType)
         {
-            StartCoroutine(LoadAndUnloadScene(sceneToLoad));
+            StartCoroutine(LoadAndUnloadScene(true, sceneToLoad));
         }
         //menu to menu 
         else if(currentType == CollectibleStats.SceneType.Menu && currentType == nextType)
         {
-            StartCoroutine(LoadAndUnloadScene(sceneToLoad));      
+            StartCoroutine(LoadAndUnloadScene(false, sceneToLoad));      
         }
         //level to menu
         else if(currentType == CollectibleStats.SceneType.Level && nextType == CollectibleStats.SceneType.Menu)
         {
-            StartCoroutine(LoadAndUnloadScene(sceneToLoad));
+            StartCoroutine(LoadAndUnloadScene(false, sceneToLoad));
         }
         //menu to level
         else if (currentType == CollectibleStats.SceneType.Menu && nextType == CollectibleStats.SceneType.Level)
         {
-            StartCoroutine(LoadAndUnloadScene(sceneToLoad));
+            StartCoroutine(LoadAndUnloadScene(true, sceneToLoad));
         }
         //default
         else
@@ -90,9 +92,12 @@ public class SceneTransitionManager : MonoBehaviour
     /// <summary>
     /// Call this function when the player dies, and the scene needs to be reset.
     /// </summary>
-    public void ResetLevelOnDeath()
+    public void ResetLevel()
     {
-        StartCoroutine(LoadAndUnloadScene(SceneManager.GetActiveScene().buildIndex));
+        if(!_isloading)
+        {
+            StartCoroutine(ReloadScene());
+        }
     }
 
 
@@ -102,7 +107,7 @@ public class SceneTransitionManager : MonoBehaviour
     /// <param name="sceneToLoad"></param>
     /// <param name="animBoolName"></param>
     /// <returns></returns>
-    private IEnumerator LoadAndUnloadScene(int sceneToLoad = 0, string animBoolName = "TestSwipe")
+    private IEnumerator LoadAndUnloadScene(bool loadLevel, int sceneToLoad = 0, string animBoolName = "TestSwipe")
     {
         //play animation
         _anim.SetBool(animBoolName, true);
@@ -112,6 +117,8 @@ public class SceneTransitionManager : MonoBehaviour
         {
             yield return null;
         }
+        
+        _animHasPlayed = false;
 
         //disable current scene's event system
         GameObject es = GameObject.FindAnyObjectByType<EventSystem>().gameObject;
@@ -147,11 +154,62 @@ public class SceneTransitionManager : MonoBehaviour
 
         _anim.SetBool(animBoolName, false);
         _isloading = false;
+
+        if(loadLevel)
+        {
+            Invoke("StartLevel", 1);
+        }
+    }
+
+    /// <summary>
+    /// Used for player death and restating level
+    /// </summary>
+    /// <param name="animBoolName"></param>
+    /// <returns></returns>
+    private IEnumerator ReloadScene(string animBoolName = "TestSwipe")
+    {
+        _isloading = true;
+        _currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        //play animation
+        _anim.SetBool(animBoolName, true);
+
+        //wait until animation is completed
+        while (!_animHasPlayed)
+        {
+            yield return null;
+        }
+        _animHasPlayed = false;
+
+        //start loading scene
+        var nextScene = SceneManager.LoadSceneAsync(_currentSceneIndex, LoadSceneMode.Single);
+        //nextScene.allowSceneActivation = false;
+
+        //wait for scene to finish loading
+        while (!nextScene.isDone)
+        {
+            yield return null;
+        }
+
+        //nextScene.allowSceneActivation = true;
+
+        _anim.SetBool(animBoolName, false);
+        _isloading = false;
+        Invoke("StartLevel", 1);
     }
 
     public void SetAnimHasPlayed()
     {
         _animHasPlayed = true;
+    }
+
+    private void StartLevel()
+    {
+        if(GameManager.Instance != null)
+        {
+            print("start level");
+            GameManager.Instance.EnableGM();
+        }
     }
 
 }

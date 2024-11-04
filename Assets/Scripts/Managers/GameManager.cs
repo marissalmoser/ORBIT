@@ -85,6 +85,40 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public bool lowerDarkenIndex;
     private void Start()
     {
+        ////Carefully change order if needed. Some managers must be initialzed before others
+        //_deckManagerCard = DeckManager<Card>.Instance;
+        //_deckManagerInt = DeckManager<int>.Instance;
+        //_uiManager = UIManager.Instance;
+        //_cardManager = CardManager.Instance;
+        //_arrowsManager = ArrowsManager.Instance;
+        //_levelDeck = FindObjectOfType<LevelDeck>();
+        //lowerDarkenIndex = false;
+
+        //isSwitching = false;
+        //currentlyOnTurn = false;
+        //isTurning = false;
+        //isClearing = false;
+        //isStalling = false;
+        //isUsingWild = false;
+        //currentlyOnWild = false;
+        //hasSwitched = false;
+        //_getOriginalDeck = true;
+        //isConfirmCardThere = false;
+
+        //if (_clearCursor != null)
+        //{
+        //    _clearCursorHotspot = new Vector2(_clearCursor.width / 2, _clearCursor.height / 2);
+        //}
+        //if (_switchCursor != null)
+        //{
+        //    _switchCursorHotspot = new Vector2(_switchCursor.width / 2, _switchCursor.height / 2);
+        //}
+        //ChangeGameState(STATE.LoadGame);
+    }
+
+    public void EnableGM()
+    {
+        print("in gm");
         //Carefully change order if needed. Some managers must be initialzed before others
         _deckManagerCard = DeckManager<Card>.Instance;
         _deckManagerInt = DeckManager<int>.Instance;
@@ -116,24 +150,6 @@ public class GameManager : MonoBehaviour
         ChangeGameState(STATE.LoadGame);
     }
 
-    public void OnEnable()
-    {
-        DeathAction += DeathMethod;
-    }
-
-    public void OnDisable()
-    {
-        DeathAction -= DeathMethod;
-    }
-
-    /// <summary>
-    /// Method that is listening to the DeathAction being invoked.
-    /// </summary>
-    private void DeathMethod()
-    {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        SceneTransitionManager.Instance.ResetLevelOnDeath();
-    }
 
     /// <summary>
     /// Controls the current game state.
@@ -884,7 +900,7 @@ public class GameManager : MonoBehaviour
     IEnumerator DeathTimer()
     {
         yield return new WaitForSeconds(_deathTimerLength);
-        ChangeGameState(STATE.StartLevel);
+        SceneTransitionManager.Instance.ResetLevel();
         yield return null;
     }
 
