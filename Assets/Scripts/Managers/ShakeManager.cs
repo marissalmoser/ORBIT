@@ -10,7 +10,7 @@ public class ShakeManager : MonoBehaviour
     // Toggle for enabling/disabling camera shake
     public bool isCameraShakeEnabled = true;
 
-    private CinemachineBasicMultiChannelPerlin perlinNoise;
+    private CinemachineBasicMultiChannelPerlin _perlinNoise;
 
     private void Awake()
     {
@@ -18,7 +18,7 @@ public class ShakeManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            perlinNoise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            _perlinNoise = virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
         }
         else
         {
@@ -33,13 +33,17 @@ public class ShakeManager : MonoBehaviour
         {
             Instance.StartCoroutine(Instance.Shake(amplitude, frequency, duration));
         }
+        if(Instance != null && !Instance.isCameraShakeEnabled)
+        {
+            Instance.StartCoroutine(Instance.Shake(0, 0, 0));
+        }
     }
 
     private IEnumerator Shake(float amplitude, float frequency, float duration)
     {
         // Set the noise parameters
-        perlinNoise.m_AmplitudeGain = amplitude;
-        perlinNoise.m_FrequencyGain = frequency;
+        _perlinNoise.m_AmplitudeGain = amplitude;
+        _perlinNoise.m_FrequencyGain = frequency;
 
         float elapsed = 0.0f;
 
@@ -50,12 +54,22 @@ public class ShakeManager : MonoBehaviour
         }
 
         // Reset noise parameters
-        perlinNoise.m_AmplitudeGain = 0f;
-        perlinNoise.m_FrequencyGain = 0f;
+        _perlinNoise.m_AmplitudeGain = 0f;
+        _perlinNoise.m_FrequencyGain = 0f;
     }
 
     public static void ToggleShake()
     {
         Instance.isCameraShakeEnabled = !Instance.isCameraShakeEnabled;
+
+        if(!Instance.isCameraShakeEnabled)
+        {
+            ShakeCamera(0, 0, 0); // disables shake if currently shaking
+        }
+    }
+
+    public bool GetCurrentToggle()
+    {
+        return isCameraShakeEnabled;
     }
 }

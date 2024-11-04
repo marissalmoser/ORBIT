@@ -640,6 +640,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 3081774495871585737, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5729922413057514778, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -720,6 +724,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6823927860540212040, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: _shakeToggle
+      value: 
+      objectReference: {fileID: 4778364070002975290}
     - target: {fileID: 6856771692558207375, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -729,34 +737,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2653241378504376596}
     - target: {fileID: 8222562585316668331, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8222562585316668331, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8222562585316668331, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 11500000, guid: 99d3e40a7c86a5a49a111add0d1a2f8a, type: 3}
-    - target: {fileID: 8222562585316668331, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5635956456787327568}
     - target: {fileID: 8222562585316668331, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: set_name
+      value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 8222562585316668331, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 8222562585316668331, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
-      propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1655998218861103640, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -764,6 +753,22 @@ PrefabInstance:
 --- !u!1 &1912033430396935256 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3081774495871585737, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+  m_PrefabInstance: {fileID: 3480228995959869841}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4778364070002975290 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8222562585316668331, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+  m_PrefabInstance: {fileID: 3480228995959869841}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &5635956456787327568 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9113791805728713665, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
   m_PrefabInstance: {fileID: 3480228995959869841}
   m_PrefabAsset: {fileID: 0}
 --- !u!224 &9207758725683891339 stripped
