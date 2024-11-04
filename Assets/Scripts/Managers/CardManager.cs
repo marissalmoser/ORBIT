@@ -205,9 +205,18 @@ public class CardManager : MonoBehaviour
         _gameManager.isClearing = false;
         _gameManager.isSwitching = false;
         _gameManager.currentlyOnTurn = false;
+        _gameManager.isTurning = false;
+        _gameManager.isUsingWild = false;
+        _gameManager.currentlyOnWild = false;
         _gameManager.isStalling = false;
+        _uiManager.UpdateArrows();
         switchCards.Item1 = null;
         switchCards.Item2 = null;
+
+        Image tempImage = _uiManager.confirmationImage;
+        if (tempImage != null)
+            tempImage.GetComponentInChildren<CardDisplay>().isFromWild = false;
+
         clearCards = new Image[numOfCardsToClear];
         _gameManager.ResetPlayedDisplay();
 
@@ -242,12 +251,29 @@ public class CardManager : MonoBehaviour
         //If a card was replaced
         if (lastConfirmationCard != null)
         {
+            if (_gameManager.lowerDarkenIndex)
+            {
+                _gameManager.darken.transform.SetSiblingIndex(_gameManager.darken.transform.GetSiblingIndex() - 1);
+                _gameManager.lowerDarkenIndex = false;
+            }
+            _gameManager.darken.enabled = false;
+
             //Respawns previous card
             lastConfirmationCard.gameObject.SetActive(true);
+            lastConfirmationCard.GetComponentInChildren<CardDisplay>().canDoubleClick = false;
+            lastConfirmationCard.GetComponentInChildren<CardDisplay>().isDarken = false;
+            lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetImage();
+            lastConfirmationCard.enabled = false;
             lastConfirmationCard.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
             lastConfirmationCard.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
             _gameManager.StopDemo();
+
+
+            foreach (Image dealtCard in UIManager.Instance.GetInstantiatedDealtCardImages())
+            {
+                dealtCard.GetComponentInChildren<CardDisplay>().UnSetHover();
+            }
         }
 
         lastConfirmationCard = cardImage;

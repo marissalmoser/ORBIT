@@ -8,10 +8,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 
 public class UIManager : MonoBehaviour
 {
@@ -41,10 +41,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private bool doVerticalFormat;
     public int numOfUniqueCards = 7;
 
-    [Header("Card Slots")]
-    [SerializeField] private Image cardSlot1;
-    [SerializeField] private Image cardSlot2, cardSlot3, cardSlot4, cardSlot5;
-
     [Header("Index Buttons")]
     [SerializeField] private Button _leftButton;
     [SerializeField] private Button _rightButton;
@@ -61,6 +57,7 @@ public class UIManager : MonoBehaviour
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
     [SerializeField] private TextMeshProUGUI _deckCount;
+    [SerializeField] private RectTransform cardSlot;
     private Vector2 _deckCountPos;
     public Button confirmButton, cancelButton;
 
@@ -84,15 +81,22 @@ public class UIManager : MonoBehaviour
     private CardManager _cardManager;
 
     private Image _deck;
+    public Image confirmationImage;
     private List<Image> _shownDeck;
     private List<Image> _dealtCardImages;
     private List<Image> _playedCardImages;
 
     private float _screenWidth, _screenHeight;
 
-    private float cardWidth, cardHeight;
+    [NonSerialized] public float cardWidth;
+    private float _cardHeight;
 
     private Vector2 _nextPlayCardPosition;
+
+    [NonSerialized] public Card confirmCard;
+
+    public int shiftIndex;
+
     /// <summary>
     /// Initializes variables for UIManager. Called by GameManager
     /// </summary>
@@ -110,7 +114,7 @@ public class UIManager : MonoBehaviour
         _playedCardImages = new();
 
         cardWidth = _dealtCardImage.rectTransform.rect.width;
-        cardHeight = _dealtCardImage.rectTransform.rect.height;
+        _cardHeight = _dealtCardImage.rectTransform.rect.height;
 
         //Disables buttons on start 
         confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
@@ -122,16 +126,12 @@ public class UIManager : MonoBehaviour
         _upperTextBox.enabled = false;
         _upperTextBox.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
-        _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
+        _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - _cardHeight / 2 - _heightPadding);
 
         _deckCountPos = _deckCount.GetComponent<RectTransform>().anchoredPosition;
+        cardSlot.anchoredPosition = new Vector2(-_widthPadding, -_heightPadding);
 
-        //Sets Card Slot Positions
-        cardSlot1.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _heightPadding);
-        cardSlot2.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 1 - _heightPadding);
-        cardSlot3.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 2 - _heightPadding);
-        cardSlot4.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 3 - _heightPadding);
-        cardSlot5.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * 4 - _heightPadding);
+        shiftIndex = 0;
     }
 
     /// <summary>
@@ -159,7 +159,7 @@ public class UIManager : MonoBehaviour
         //Instantiates Deck Back
         _deck = Instantiate(_deckImage, Vector2.zero, Quaternion.identity);
         _deck.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-        _deck.rectTransform.anchoredPosition = new Vector3(_widthPadding, cardHeight + 20, 0); //Sets position
+        _deck.rectTransform.anchoredPosition = new Vector3(_widthPadding, _heightPadding, 0); //Sets position
 
         CardDisplay deckCard = _deck.GetComponentInChildren<CardDisplay>(); //Gets data from image
 
@@ -185,7 +185,8 @@ public class UIManager : MonoBehaviour
         {
             Image newImage = Instantiate(_dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
             newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) * i + _widthPadding, _heightPadding, 0); //Sets position
+            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) 
+                * (i + 1) + _widthPadding, _heightPadding, 0); //Sets position
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
             newImage.enabled = false; //Sets highlight to off
 
@@ -293,16 +294,18 @@ public class UIManager : MonoBehaviour
             Image newImage = Instantiate(_playedCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
             newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
+            //newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 -_cardHeightSpacing * i - _heightPadding);
             if (doVerticalFormat)
-                newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 -_cardHeightSpacing * i - _heightPadding); //Sets position - Vertical Format
+                newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding - _playedCardWidthSpacing *
+                    (shiftIndex - i), _screenHeight - _cardHeight / 2 - _heightPadding); //Sets position - Vertical Format
             else
-                newImage.rectTransform.anchoredPosition = new Vector2((-_screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2) 
+                newImage.rectTransform.anchoredPosition = new Vector2((-_screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2)
                     + (_playedCardWidthSpacing * i + _widthPadding), -_heightPadding); //Sets position - Horizontal Format
             
             if (i == numOfPlayedCards - 1)
             {
                 //Gets next card position
-                _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 - _cardHeightSpacing * (i + 1) - _heightPadding);
+                _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - _cardHeight / 2 - _cardHeightSpacing * (i + 1) - _heightPadding);
             }
 
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
@@ -372,9 +375,7 @@ public class UIManager : MonoBehaviour
     }
 
     //Initializes helper variable
-    Image _confirmationImage;
     CardDisplay _confirmationDisplay;
-    Card _confirmCard;
     /// <summary>
     /// Creates a new instance of a card when a card is placed into the play area
     /// </summary>
@@ -387,71 +388,71 @@ public class UIManager : MonoBehaviour
         //Makes sure a clear or switch card was not played when it wasn't supposed to be played
         if (_gameManager.confirmationCard != null)
         {
-            _confirmCard = _gameManager.GetLastPlayedCard();
+            confirmCard = _gameManager.GetLastPlayedCard();
 
             bool tempIsWild = false;
             //ERROR CHECK - They should already be deleted. If they haven't for whatever reason, delete them
-            if (_confirmationImage != null)
+            if (confirmationImage != null)
             {
-                tempIsWild = _confirmationImage.GetComponentInChildren<CardDisplay>().isFromWild;
-                Destroy(_confirmationImage.gameObject);
+                tempIsWild = confirmationImage.GetComponentInChildren<CardDisplay>().isFromWild;
+                Destroy(confirmationImage.gameObject);
             }
 
-            _confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
-            _confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
+            confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
+            confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
-            _confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
+            confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
 
-            _confirmationImage.enabled = false; //Turns off highlight
+            confirmationImage.enabled = false; //Turns off highlight
 
             //Makes tooltip invisible
-            _confirmationImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
-            _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+            confirmationImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+            confirmationImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
-            _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
-                        new Vector2(_confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 25,
-                        _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
+            confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
+                        new Vector2(confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 25,
+                        confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
 
-            _confirmationDisplay = _confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
+            _confirmationDisplay = confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
 
             _confirmationDisplay.isFromWild = tempIsWild;
-            switch (_confirmCard.name)
+            switch (confirmCard.name)
             {
                 case Card.CardName.Move:
                     _confirmationDisplay.card = _moveCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
                     break;
                 case Card.CardName.Jump:
                     _confirmationDisplay.card = _jumpCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
                     break;
                 case Card.CardName.Turn: //Error Case. Should not be used, but it can be used if needed
                     _confirmationDisplay.card = _turnCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
                     break;
                 case Card.CardName.TurnLeft:
                     _confirmationDisplay.card = _turnLeftCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
                     break;
                 case Card.CardName.TurnRight:
                     _confirmationDisplay.card = _turnRightCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                     break;
                 case Card.CardName.Clear:
                     _confirmationDisplay.card = _clearCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
                     break;
                 case Card.CardName.Switch:
                     _confirmationDisplay.card = _switchCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
                     break;
                 case Card.CardName.Stall:
                     _confirmationDisplay.card = _stallCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
                     break;
                 case Card.CardName.Wild:
                     _confirmationDisplay.card = _wildCard;
-                    _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "CHOOSE ANY CARD TO PUT INTO THE ACTION ORDER.";
+                    confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "CHOOSE ANY CARD TO PUT INTO THE ACTION ORDER.";
                     break;
                 default:
                     print("ERROR: COULD NOT UPDATE CARD IN UI");
@@ -472,25 +473,25 @@ public class UIManager : MonoBehaviour
         {
             Card card = _gameManager.GetLastPlayedCard();
             //ERROR CHECK - They should already be deleted. If they haven't for whatever reason, delete them
-            if (_confirmationImage != null)
-                Destroy(_confirmationImage.gameObject);
+            if (confirmationImage != null)
+                Destroy(confirmationImage.gameObject);
 
-            _confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
-            _confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
+            confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
+            confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
-            _confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
+            confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
 
-            _confirmationImage.enabled = false; //Turns off highlight
+            confirmationImage.enabled = false; //Turns off highlight
 
             //Makes tooltip invisible
-            _confirmationImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
-            _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+            confirmationImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+            confirmationImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
-            _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
-                        new Vector2(_confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 25,
-                        _confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
+            confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
+                        new Vector2(confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 25,
+                        confirmationImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
 
-            _confirmationDisplay = _confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
+            _confirmationDisplay = confirmationImage.GetComponentInChildren<CardDisplay>(); //Grabs data from image
             if (_gameManager.isTurning)
             {
                 _confirmationDisplay.isDarken = false;
@@ -501,28 +502,28 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _turnRightCard;
                         _gameManager.confirmationCard = _turnRightCard;
-                        _confirmCard = _turnRightCard;
+                        confirmCard = _turnRightCard;
                         //Sets gamestate to accomodate the new card
-                        _gameManager.TurnAction(_confirmCard);
+                        _gameManager.TurnAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                         break;
                     case 1:
                         //Sets the confirm card
                         _confirmationDisplay.card = _turnLeftCard;
                         _gameManager.confirmationCard = _turnLeftCard;
-                        _confirmCard = _turnLeftCard;
+                        confirmCard = _turnLeftCard;
 
                         //Sets the gamestate to accomodate the new card
-                        _gameManager.TurnAction(_confirmCard);
+                        _gameManager.TurnAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
                         break;
                 }
             }
@@ -535,96 +536,96 @@ public class UIManager : MonoBehaviour
                         //Sets the confirm card
                         _confirmationDisplay.card = _moveCard;
                         _gameManager.confirmationCard = _moveCard;
-                        _confirmCard = _moveCard;
+                        confirmCard = _moveCard;
 
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
                         break;
                     case 1:
                         //Sets the confirm card
                         _confirmationDisplay.card = _jumpCard;
                         _gameManager.confirmationCard = _jumpCard;
-                        _confirmCard = _jumpCard;
+                        confirmCard = _jumpCard;
 
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
                         break;
                     case 2:
                         //Sets the confirm card
                         _confirmationDisplay.card = _turnLeftCard;
                         _gameManager.confirmationCard = _turnLeftCard;
-                        _confirmCard = _turnLeftCard;
+                        confirmCard = _turnLeftCard;
 
                         //Sets the gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT";
                         break;
                     case 3:
                         //Sets the confirm card
                         _confirmationDisplay.card = _turnRightCard;
                         _gameManager.confirmationCard = _turnRightCard;
-                        _confirmCard = _turnRightCard;
+                        confirmCard = _turnRightCard;
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS RIGHT.";
                         break;
                     case 4:
                         //Sets the confirm card
                         _confirmationDisplay.card = _clearCard;
                         _gameManager.confirmationCard = _clearCard;
-                        _confirmCard = _clearCard;
+                        confirmCard = _clearCard;
 
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
                         break;
                     case 5:
                         //Sets the confirm card
                         _confirmationDisplay.card = _switchCard;
                         _gameManager.confirmationCard = _switchCard;
-                        _confirmCard = _switchCard;
+                        confirmCard = _switchCard;
 
                         ////Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
                         break;
                     case 6:
                         //Sets the confirm card
                         _confirmationDisplay.card = _stallCard;
                         _gameManager.confirmationCard = _stallCard;
-                        _confirmCard = _stallCard;
+                        confirmCard = _stallCard;
 
                         //Sets gamestate to accomodate the new card
-                        _gameManager.WildAction(_confirmCard);
+                        _gameManager.WildAction(confirmCard);
                         _gameManager.RunPlaySequence();
 
                         //Updates UI
                         UpdatePlayedCards(_gameManager.GetPlayedCards());
-                        _confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
+                        confirmationImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
                         break;
                     default:
                         print("ERROR: COULD NOT UPDATE CARD IN UI");
@@ -643,8 +644,8 @@ public class UIManager : MonoBehaviour
         confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
         cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
 
-        if (_confirmationImage != null)
-            Destroy(_confirmationImage.gameObject);
+        if (confirmationImage != null)
+            Destroy(confirmationImage.gameObject);
     }
 
     /// <summary>
@@ -841,7 +842,8 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void MoveCardToActionOrder()
     {
-        StartCoroutine(MoveCard(_confirmationImage, _nextPlayCardPosition.y));
+        //StartCoroutine(MoveCard(confirmationImage, _nextPlayCardPosition.y));
+        StartCoroutine(MoveCard(confirmationImage));
     }
 
     /// <summary>
@@ -872,12 +874,13 @@ public class UIManager : MonoBehaviour
 
     public List<Image> GetInstantiatedPlayedCardImages() {  return _playedCardImages; }
 
-    public IEnumerator MoveCard(Image image, float targetYPosition)
+    public IEnumerator MoveCard(Image image)
     {
-        while (image.rectTransform.anchoredPosition.y != targetYPosition)
+        Vector2 targetPosition = new Vector2(-_widthPadding, _screenHeight - _cardHeight / 2 - _heightPadding);
+        while (image.rectTransform.anchoredPosition.y != targetPosition.y)
         {
             //Moves card
-            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetYPosition), 12f);
+            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetPosition.y), 12f);
 
             //Shrinks x value
             if(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x > _playedCardImage.rectTransform.sizeDelta.x)
@@ -905,5 +908,4 @@ public class UIManager : MonoBehaviour
         _gameManager.PlaySequence();
         DestroyConfirmCard();
     }
-
 }
