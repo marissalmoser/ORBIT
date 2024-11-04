@@ -332,9 +332,17 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 
                 for(int i = tiles.Length - 1; i > -1; i--)
                 {
-                    if (!tiles[i].GetComponent<Tile>().IsHole())
+                    if(i > 0)
                     {
-                        _targetTile = tiles[i];
+                        if (!tiles[i].GetComponent<Tile>().IsHole())
+                        {
+                            _targetTile = tiles[i];
+                            break;
+                        }
+                    }                    
+                    else
+                    {
+                        _targetTile = tiles[0];
                         break;
                     }
                 }
