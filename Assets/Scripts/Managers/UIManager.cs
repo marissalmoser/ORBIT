@@ -117,8 +117,8 @@ public class UIManager : MonoBehaviour
         _cardHeight = _dealtCardImage.rectTransform.rect.height;
 
         //Disables buttons on start 
-        confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
-        cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+        confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
+        cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
 
         _leftButton.gameObject.SetActive(false);
         _rightButton.gameObject.SetActive(false);
@@ -641,8 +641,8 @@ public class UIManager : MonoBehaviour
     public void DestroyConfirmCard()
     {
         //Disables buttons
-        confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
-        cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+        confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
+        cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
 
         if (confirmationImage != null)
             Destroy(confirmationImage.gameObject);

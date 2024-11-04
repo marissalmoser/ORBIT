@@ -292,7 +292,7 @@ public class GameManager : MonoBehaviour
     public void RunPlaySequence()
     {
         _uiManager.UpdateConfirmCard();
-        _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+        _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(true);
         //If Clear Card was Played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Clear) //Error check and checks if last card played was a Clear
         {
@@ -376,7 +376,7 @@ public class GameManager : MonoBehaviour
         if (!isClearing && !isSwitching && !currentlyOnTurn && !currentlyOnWild)
         {
             isConfirmCardThere = true;
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+            _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(true);
             ChangeGameState(STATE.ConfirmCards);
         }
     }
@@ -796,7 +796,7 @@ public class GameManager : MonoBehaviour
                     darken.enabled = false;
 
                 //Deactivates Confirm Button
-                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+                _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
                 break;
             case Card.CardName.Switch:
                 isClearing = false;
@@ -816,7 +816,7 @@ public class GameManager : MonoBehaviour
                     darken.enabled = false;
 
                 //Deactivates Confirm Button
-                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+                _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
                 break;
             case Card.CardName.Stall:
                 isClearing = false;
