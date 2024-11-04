@@ -173,12 +173,18 @@ public class UIManager : MonoBehaviour
             deckCard.card = _deckCardSingle;
             _deckCount.enabled = true;
             _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
-            _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 40);
+            _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 39.4f);
+
+            if (_gameManager._deck.Count == 0)
+                _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(10.9f, 0f);
         }
         _deck.transform.SetSiblingIndex(8);
         _deckCount.transform.SetSiblingIndex(9);
 
-        _deckCount.text = _gameManager._deck.Count.ToString();
+        if (_gameManager._deck.Count > 0)
+            _deckCount.text = _gameManager._deck.Count.ToString();
+        else
+            _deckCount.text = "O"; //The 0 in the font doesn't look good. Changes it to a capital O
 
         //Instantiates and sets up Cards
         for (int i = 0; i < numOfDealtCards; i++)
@@ -294,7 +300,6 @@ public class UIManager : MonoBehaviour
             Image newImage = Instantiate(_playedCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
             newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
-            //newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding, _screenHeight - cardHeight / 2 -_cardHeightSpacing * i - _heightPadding);
             if (doVerticalFormat)
                 newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding - _playedCardWidthSpacing *
                     (shiftIndex - i), _screenHeight - _cardHeight / 2 - _heightPadding); //Sets position - Vertical Format
@@ -320,10 +325,10 @@ public class UIManager : MonoBehaviour
             newImage.gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
 
             //If it is the first tooltip, off center it to keep it on screen
-            if (i == 0)
+            if (i == numOfPlayedCards - 1)
                 newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
-                    new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x,
-                    newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y - 20);
+                   new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x - 50,
+                   newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
 
             //Adds card to folder
             newImage.gameObject.transform.SetParent(_playedCardsFolder);
