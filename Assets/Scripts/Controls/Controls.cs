@@ -107,6 +107,15 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Value"",
+                    ""id"": ""c42d7d4f-9322-4729-ae8e-7fb1a694add3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -285,6 +294,17 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""DragCamera"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1e3ee952-d255-4640-8fba-735d5495bd51"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -302,6 +322,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_BaseMap_Jump = m_BaseMap.FindAction("Jump", throwIfNotFound: true);
         m_BaseMap_Pause = m_BaseMap.FindAction("Pause", throwIfNotFound: true);
         m_BaseMap_DragCamera = m_BaseMap.FindAction("DragCamera", throwIfNotFound: true);
+        m_BaseMap_Click = m_BaseMap.FindAction("Click", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -372,6 +393,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_BaseMap_Jump;
     private readonly InputAction m_BaseMap_Pause;
     private readonly InputAction m_BaseMap_DragCamera;
+    private readonly InputAction m_BaseMap_Click;
     public struct BaseMapActions
     {
         private @Controls m_Wrapper;
@@ -385,6 +407,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         public InputAction @Jump => m_Wrapper.m_BaseMap_Jump;
         public InputAction @Pause => m_Wrapper.m_BaseMap_Pause;
         public InputAction @DragCamera => m_Wrapper.m_BaseMap_DragCamera;
+        public InputAction @Click => m_Wrapper.m_BaseMap_Click;
         public InputActionMap Get() { return m_Wrapper.m_BaseMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -421,6 +444,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @DragCamera.started += instance.OnDragCamera;
             @DragCamera.performed += instance.OnDragCamera;
             @DragCamera.canceled += instance.OnDragCamera;
+            @Click.started += instance.OnClick;
+            @Click.performed += instance.OnClick;
+            @Click.canceled += instance.OnClick;
         }
 
         private void UnregisterCallbacks(IBaseMapActions instance)
@@ -452,6 +478,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @DragCamera.started -= instance.OnDragCamera;
             @DragCamera.performed -= instance.OnDragCamera;
             @DragCamera.canceled -= instance.OnDragCamera;
+            @Click.started -= instance.OnClick;
+            @Click.performed -= instance.OnClick;
+            @Click.canceled -= instance.OnClick;
         }
 
         public void RemoveCallbacks(IBaseMapActions instance)
@@ -480,5 +509,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         void OnJump(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnDragCamera(InputAction.CallbackContext context);
+        void OnClick(InputAction.CallbackContext context);
     }
 }
