@@ -367,6 +367,8 @@ public class CardDisplay : MonoBehaviour
         while (_cardImage.rectTransform.anchoredPosition.x != targetPosition.x)
         {
             _cardImage.rectTransform.anchoredPosition = Vector2.MoveTowards(_cardImage.rectTransform.anchoredPosition, targetPosition, 7f);
+            RectTransform tooltip = _cardImage.gameObject.transform.parent.Find("Tooltip").GetComponent<RectTransform>();
+            tooltip.anchoredPosition = Vector2.MoveTowards(tooltip.anchoredPosition, new Vector2(targetPosition.x, tooltip.anchoredPosition.y), 7f);
             yield return new WaitForEndOfFrame();
         }
 
