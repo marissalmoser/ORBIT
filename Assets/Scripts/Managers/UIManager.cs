@@ -833,7 +833,8 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            _gameManager.deckShownDarken.enabled = false;
+            if (_gameManager.deckShownDarken != null)
+                _gameManager.deckShownDarken.enabled = false;
             foreach (Image image in _shownDeck)
             {
                 if (image != null)
