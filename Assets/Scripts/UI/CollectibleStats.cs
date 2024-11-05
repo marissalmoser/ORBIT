@@ -20,6 +20,7 @@ public class CollectibleStats
     [SerializeField] private bool _isCollected;
     [SerializeField] private bool _hasCollectible;
     [SerializeField] private bool _IsLocked;
+    [SerializeField] private bool _IsCompleted;
     [SerializeField] private SceneType _sceneType;
 
     private CollectibleManager _collectibleManager;
@@ -80,5 +81,15 @@ public class CollectibleStats
     public string GetLevelName()
     {
         return _levelName;
+    }
+
+    public bool GetIsCompleted()
+    {
+        return _IsCompleted;
+    }
+
+    public void SetIsCompleted(bool input)
+    {
+        _IsCompleted = input;
     }
 }

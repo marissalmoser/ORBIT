@@ -78,4 +78,21 @@ public class CollectibleManager : MonoBehaviour
         int scene = SceneManager.GetActiveScene().buildIndex;
         return collectibleStats[scene].HasCollectible();
     }
+
+    public void UnlockNextLevel(int LevelToUnlock)
+    {
+        //if the next scene is a level and not a challenge level, unlock it
+        if(collectibleStats[LevelToUnlock].GetSceneType() == CollectibleStats.SceneType.Level &&
+            (LevelToUnlock != 8 || LevelToUnlock != 15 || LevelToUnlock != 22 || LevelToUnlock != 28 || LevelToUnlock != 33))
+        {
+            collectibleStats[LevelToUnlock].SetIsLocked(false);
+            return;
+        }
+    }
+
+    public void SetLevelCompleted()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        collectibleStats[scene].SetIsCompleted(true);
+    }
 }

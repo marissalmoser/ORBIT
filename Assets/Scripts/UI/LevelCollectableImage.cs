@@ -15,19 +15,30 @@ public class LevelCollectableImage : MonoBehaviour
     [SerializeField] int _buildIndex;
     [SerializeField] GameObject _collectableAsset;
     [SerializeField] GameObject _collectableCollectedAsset;
+    [SerializeField] Sprite _UnlockedButtonSprite;
+
+    private CollectibleStats _thisLevel;
 
     private void Start()
     {
-        //if the level has a collectable, enable the has a collectable asset
-        if (CollectibleManager.Instance.collectibleStats[_buildIndex].HasCollectible())
-        {
-            _collectableAsset.SetActive(true);
-        }
+        _thisLevel = CollectibleManager.Instance.collectibleStats[_buildIndex];
 
-        //if the level's collectable has been collected, anable the colleted asset
-        if (CollectibleManager.Instance.collectibleStats[_buildIndex].GetIsCollected())
+        //if the level is unlocked, switch button sprite
+        if (!_thisLevel.GetIsLocked())
         {
-            _collectableCollectedAsset.SetActive(true);
+            GetComponent<Image>().sprite = _UnlockedButtonSprite;
+
+            //if the level has a collectable, enable the has a collectable asset
+            if (_thisLevel.HasCollectible())
+            {
+                _collectableAsset.SetActive(true);
+            }
+
+            //if the level's collectable has been collected, anable the colleted asset
+            if (_thisLevel.GetIsCollected())
+            {
+                _collectableCollectedAsset.SetActive(true);
+            }
         }
     }
 }
