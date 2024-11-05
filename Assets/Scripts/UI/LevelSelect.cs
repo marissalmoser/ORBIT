@@ -33,7 +33,7 @@ public class LevelSelect : MonoBehaviour
     /// <param name="levelNumber"></param>
     public void LoadLevelOnWin(int levelNumber)
     {
-        CollectibleManager.Instance.SetLevelCompleted();
+        CollectibleManager.Instance.SetActiveLevelCompleted();
         Time.timeScale = 1.0f;
         CollectibleManager.Instance.UnlockNextLevel(levelNumber);
         SceneManager.LoadScene(levelNumber);

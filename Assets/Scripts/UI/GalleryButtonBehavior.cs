@@ -1,3 +1,9 @@
+/******************************************************************
+ *    Author: Marissa 
+ *    Contributors: 
+ *    Date Created: 11/3/24
+ *    Description: Contains functionality for the gallery on the planet select
+ *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +20,7 @@ public class GalleryButtonBehavior : MonoBehaviour
         CollectibleManager cm = CollectibleManager.Instance;
         for(int i = 0;  i < _challengeLevels.Count; i++)
         {
-            if (!cm.collectibleStats[i].GetIsCompleted())
+            if (!cm.collectibleStats[_challengeLevels[i]].GetIsCompleted())
             {
                 return;
             }

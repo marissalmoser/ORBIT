@@ -58,11 +58,5 @@ public class CollectableTabLevelSelect : MonoBehaviour
             //unlock collectable manager
             _cm.collectibleStats[_challengeLevelIndex].SetIsLocked(false);
         }
-
-        //check to unlock next planet select
-        //if (!CollectibleManager.Instance.collectibleStats[_uniqueLevelIndex].GetIsLocked())
-        //{
-        //    CollectibleManager.Instance.collectibleStats[_uniqueLevelIndex + 2].SetIsLocked(false);
-        //}
     }
 }

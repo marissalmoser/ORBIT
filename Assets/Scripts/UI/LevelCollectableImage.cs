@@ -2,12 +2,13 @@
  *    Author: Marissa 
  *    Contributors: 
  *    Date Created: 10/19/24
- *    Description: Contains functionality for the collectable images 
- *      per level on the collectable manager.
+ *    Description: Contains functionality for the level and planet buttons to set 
+ *      their locked/collectible status.
  *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LevelCollectableImage : MonoBehaviour
@@ -19,12 +20,42 @@ public class LevelCollectableImage : MonoBehaviour
 
     private CollectibleStats _thisLevel;
 
+    [SerializeField] bool _isPlanet;
+    [SerializeField] int _planetID;
+    private static int NEW_WORLD = 1;
+
+    private void Awake()
+    {
+        //new icon functionality
+        if (_isPlanet && CollectibleManager.Instance.collectibleStats[_buildIndex].GetIsCompleted()
+            && _planetID >= NEW_WORLD)
+        {
+            NEW_WORLD = _planetID;
+        }
+    }
+
     private void Start()
     {
         _thisLevel = CollectibleManager.Instance.collectibleStats[_buildIndex];
 
+        //if this is a planet and build index is completed, switch sprite and unlock
+        if (_isPlanet && _thisLevel.GetIsCompleted())
+        {
+            GetComponent<Image>().sprite = _UnlockedButtonSprite;
+            CollectibleManager.Instance.collectibleStats[_buildIndex].SetIsLocked(false);
+
+            if(NEW_WORLD == _planetID)
+            {
+                //enable the new image on child
+                Image[] children = GetComponentsInChildren<Image>();
+                for(int i = 0; i < children.Length; i++)
+                {
+                    children[i].enabled = true;
+                }
+            }
+        }
         //if the level is unlocked, switch button sprite
-        if (!_thisLevel.GetIsLocked())
+        else if (!_thisLevel.GetIsLocked() && !_isPlanet)
         {
             GetComponent<Image>().sprite = _UnlockedButtonSprite;
 

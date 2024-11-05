@@ -1,6 +1,6 @@
 /******************************************************************
  *    Author: Sky Turner 
- *    Contributors:
+ *    Contributors: Marissa
  *    Date Created: 10/13/24
  *    Description: Collectible Manager 
  *    
@@ -79,6 +79,11 @@ public class CollectibleManager : MonoBehaviour
         return collectibleStats[scene].HasCollectible();
     }
 
+    /// <summary>
+    /// Called when a level is won, if the next scene is a level and not a challenge
+    /// level, unlocks it
+    /// </summary>
+    /// <param name="LevelToUnlock"></param>
     public void UnlockNextLevel(int LevelToUnlock)
     {
         //if the next scene is a level and not a challenge level, unlock it
@@ -90,7 +95,10 @@ public class CollectibleManager : MonoBehaviour
         }
     }
 
-    public void SetLevelCompleted()
+    /// <summary>
+    /// Gets the active scene and sets it to completed.
+    /// </summary>
+    public void SetActiveLevelCompleted()
     {
         int scene = SceneManager.GetActiveScene().buildIndex;
         collectibleStats[scene].SetIsCompleted(true);
