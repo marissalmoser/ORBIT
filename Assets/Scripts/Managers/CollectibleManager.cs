@@ -5,17 +5,15 @@
  *    Description: Collectible Manager 
  *    
  *******************************************************************/
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CollectibleManager : MonoBehaviour
 {
-    public static CollectibleManager Instance { get; private set; }
-    private CollectibleStats _collectibleStats;
-
     #region singleton
+    public static CollectibleManager Instance { get; private set; }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,11 +24,23 @@ public class CollectibleManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(Instance);
+            _defaultList = collectibleStats.Select(item => item.Clone()).ToList();
         }
     }
     #endregion
 
     public List<CollectibleStats> collectibleStats;
+    private List<CollectibleStats> _defaultList = new List<CollectibleStats>(); //copy list to hold default values
+
+    public List<CollectibleStats> GetDefaultCollectibleList()
+    {
+        return _defaultList;
+    }
+    public List<CollectibleStats> GetEditedCollectibleList()
+    {
+        return collectibleStats;
+    }
+
 
     /// <summary>
     /// Initializes a new instance of the CollectibleManager class.
@@ -48,7 +58,7 @@ public class CollectibleManager : MonoBehaviour
     /// </summary>
     private void InitializeCollectibles()
     {
-        for(int i = 0; i < 30; i++)
+        for (int i = 0; i < 30; i++)
         {
             collectibleStats.Add(new CollectibleStats($"Level {i + 1}", i, true));
         }
