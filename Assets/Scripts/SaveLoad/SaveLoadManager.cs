@@ -72,6 +72,7 @@ public class SaveLoadManager : MonoBehaviour
         foreach (CollectibleStats entry in CollectibleManager.Instance.collectibleStats)
         {
             LevelData newLevelData = new LevelData();
+            newLevelData.SetCompletedStatus(entry.GetIsCompleted());
             newLevelData.SetLockedStatus(entry.GetIsLocked());
             newLevelData.SetCollectedStatus(entry.GetIsCollected());
             newLevelData.SetName(entry.GetLevelName());
@@ -138,6 +139,7 @@ public class SaveLoadManager : MonoBehaviour
     {
         for (int i = 0; i < CollectibleManager.Instance.collectibleStats.Count; i++)
         {
+            CollectibleManager.Instance.collectibleStats[i].SetIsCompleted(save.levelInformation[i].GetIsCompleted());
             CollectibleManager.Instance.collectibleStats[i].SetIsLocked(save.levelInformation[i].GetIsLocked());
             if (save.levelInformation[i].GetIsCollected())
             {

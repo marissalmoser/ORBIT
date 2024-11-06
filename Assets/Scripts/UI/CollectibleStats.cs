@@ -25,20 +25,6 @@ public class CollectibleStats
 
     private CollectibleManager _collectibleManager;
 
-    /// <summary>
-    /// Initializes a new instance of the CollectibleStats class.
-    /// </summary>
-    /// <param name="levelName">The name of the level.</param>
-    /// <param name="buildIndex">The build index of the level.</param>
-    /// <param name="hasCollectible">Indicates if there is a collectible present in the level.</param>
-
-    public CollectibleStats(string levelName, int buildIndex, bool hasCollectible)
-    {
-        _levelName = levelName;
-        _buildIndex = buildIndex;
-        _hasCollectible = hasCollectible;
-        _isCollected = false;
-    }
 
     /// <summary>
     /// A method for LINQ to access and make a deep copy of our custom class
@@ -46,10 +32,15 @@ public class CollectibleStats
     /// <returns></returns>
     public CollectibleStats Clone()
     {
-        return new CollectibleStats(_levelName, _buildIndex, _hasCollectible)
+        return new CollectibleStats()
         {
             _isCollected = this._isCollected,
-            _sceneType = this._sceneType
+            _sceneType = this._sceneType,
+            _IsLocked = this._IsLocked,
+            _IsCompleted = this._IsCompleted,
+            _levelName = this._levelName,
+            _buildIndex = this._buildIndex,
+            _hasCollectible = this._hasCollectible
         };
     }
 

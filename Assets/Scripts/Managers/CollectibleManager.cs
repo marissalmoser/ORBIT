@@ -41,29 +41,6 @@ public class CollectibleManager : MonoBehaviour
         return collectibleStats;
     }
 
-
-    /// <summary>
-    /// Initializes a new instance of the CollectibleManager class.
-    /// Sets up the collectibleStats list with 30 collectible items.
-    /// </summary>
-    private CollectibleManager()
-    {
-        collectibleStats = new List<CollectibleStats>(30);
-        InitializeCollectibles();
-    }
-
-    /// <summary>
-    /// Initializes the collectibleStats list with 30 collectible items.
-    /// Each collectible corresponds to a level.
-    /// </summary>
-    private void InitializeCollectibles()
-    {
-        for (int i = 0; i < 30; i++)
-        {
-            collectibleStats.Add(new CollectibleStats($"Level {i + 1}", i, true));
-        }
-    }
-
     /// <summary>
     /// Collects a collectible based on the build index of the scene
     /// </summary>
