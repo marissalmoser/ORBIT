@@ -36,6 +36,7 @@ public class LevelSelect : MonoBehaviour
         CollectibleManager.Instance.SetActiveLevelCompleted();
         Time.timeScale = 1.0f;
         CollectibleManager.Instance.UnlockNextLevel(levelNumber);
+        SaveLoadManager.Instance.HandleLevelWin();
         SceneManager.LoadScene(levelNumber);
     }
 

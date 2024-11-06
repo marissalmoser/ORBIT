@@ -44,4 +44,20 @@ public class SaveLoadUIButtons : MonoBehaviour
         }
         SaveLoadManager.Instance.SetCurrentSaveSelected(saveSelectedByPlayer);
     }
+
+    /// <summary>
+    /// Sets all is collected, is completed, and is locked bools to be collected, 
+    /// unlocked, and completed. Makes the whole game playable.
+    /// </summary>
+    public void UnlockAllLevels()
+    {
+        CollectibleManager cm = CollectibleManager.Instance;
+        for(int i = 0; i < cm.collectibleStats.Count; i++)
+        {
+            cm.collectibleStats[i].SetIsCollected(true);
+            cm.collectibleStats[i].SetIsCompleted(true);
+            cm.collectibleStats[i].SetIsLocked(false);
+        }
+        SaveLoadManager.Instance.HandleLevelWin();
+    }
 }
