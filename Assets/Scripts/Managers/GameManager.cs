@@ -85,35 +85,35 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public bool lowerDarkenIndex;
     private void Start()
     {
-        ////Carefully change order if needed. Some managers must be initialzed before others
-        //_deckManagerCard = DeckManager<Card>.Instance;
-        //_deckManagerInt = DeckManager<int>.Instance;
-        //_uiManager = UIManager.Instance;
-        //_cardManager = CardManager.Instance;
-        //_arrowsManager = ArrowsManager.Instance;
-        //_levelDeck = FindObjectOfType<LevelDeck>();
-        //lowerDarkenIndex = false;
+        //Carefully change order if needed. Some managers must be initialzed before others
+        _deckManagerCard = DeckManager<Card>.Instance;
+        _deckManagerInt = DeckManager<int>.Instance;
+        _uiManager = UIManager.Instance;
+        _cardManager = CardManager.Instance;
+        _arrowsManager = ArrowsManager.Instance;
+        _levelDeck = FindObjectOfType<LevelDeck>();
+        lowerDarkenIndex = false;
 
-        //isSwitching = false;
-        //currentlyOnTurn = false;
-        //isTurning = false;
-        //isClearing = false;
-        //isStalling = false;
-        //isUsingWild = false;
-        //currentlyOnWild = false;
-        //hasSwitched = false;
-        //_getOriginalDeck = true;
-        //isConfirmCardThere = false;
+        isSwitching = false;
+        currentlyOnTurn = false;
+        isTurning = false;
+        isClearing = false;
+        isStalling = false;
+        isUsingWild = false;
+        currentlyOnWild = false;
+        hasSwitched = false;
+        _getOriginalDeck = true;
+        isConfirmCardThere = false;
 
-        //if (_clearCursor != null)
-        //{
-        //    _clearCursorHotspot = new Vector2(_clearCursor.width / 2, _clearCursor.height / 2);
-        //}
-        //if (_switchCursor != null)
-        //{
-        //    _switchCursorHotspot = new Vector2(_switchCursor.width / 2, _switchCursor.height / 2);
-        //}
-        //ChangeGameState(STATE.LoadGame);
+        if (_clearCursor != null)
+        {
+            _clearCursorHotspot = new Vector2(_clearCursor.width / 2, _clearCursor.height / 2);
+        }
+        if (_switchCursor != null)
+        {
+            _switchCursorHotspot = new Vector2(_switchCursor.width / 2, _switchCursor.height / 2);
+        }
+        ChangeGameState(STATE.LoadGame);
     }
 
     public void EnableGM()
@@ -210,7 +210,8 @@ public class GameManager : MonoBehaviour
                     CollectibleManager.Instance.CollectCollectible();
                 }
                 WinAction?.Invoke();
-                Invoke("LoadLevelSelect", 1);
+                LoadLevelSelect();
+                //Invoke("LoadLevelSelect", 1);
                 break;
             default:
                 //Error check

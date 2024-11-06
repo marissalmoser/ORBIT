@@ -120,34 +120,43 @@ public class SceneTransitionManager : MonoBehaviour
         
         _animHasPlayed = false;
 
-        //disable current scene's event system
-        GameObject es = GameObject.FindAnyObjectByType<EventSystem>().gameObject;
-        es.SetActive(false);
+        ////disable current scene's event system
+        //GameObject es = GameObject.FindAnyObjectByType<EventSystem>().gameObject;
+        //es.SetActive(false);
+
+        ////start loading scene
+        //var nextScene = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+        //nextScene.allowSceneActivation = false;
+
+        ////wait for scene to activate
+        //while (!nextScene.isDone)
+        //{
+        //    if (nextScene.progress <= 0.9f)
+        //    {
+        //        break;
+        //    }
+        //}
+
+        //nextScene.allowSceneActivation = true;
+
+        ////wait for scene to finish loading
+        //while (!nextScene.isDone)
+        //{
+        //    yield return null;
+        //}
+
+        ////disable active scene
+        //var unloadScene = SceneManager.UnloadSceneAsync(_currentSceneIndex);
+        //while(!unloadScene.isDone)
+        //{
+        //    yield return null;
+        //}
 
         //start loading scene
-        var nextScene = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
-        nextScene.allowSceneActivation = false;
-
-        //wait for scene to activate
-        while (!nextScene.isDone)
-        {
-            if (nextScene.progress <= 0.9f)
-            {
-                break;
-            }
-        }
-
-        nextScene.allowSceneActivation = true;
+        var nextScene = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Single);
 
         //wait for scene to finish loading
         while (!nextScene.isDone)
-        {
-            yield return null;
-        }
-
-        //disable active scene
-        var unloadScene = SceneManager.UnloadSceneAsync(_currentSceneIndex);
-        while(!unloadScene.isDone)
         {
             yield return null;
         }
@@ -208,7 +217,7 @@ public class SceneTransitionManager : MonoBehaviour
         if(GameManager.Instance != null)
         {
             print("start level");
-            GameManager.Instance.EnableGM();
+            //GameManager.Instance.EnableGM();
         }
     }
 
