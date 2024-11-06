@@ -63,12 +63,12 @@ public class LevelCollectableImage : MonoBehaviour
             if (_thisLevel.HasCollectible())
             {
                 _collectableAsset.SetActive(true);
-            }
 
-            //if the level's collectable has been collected, anable the colleted asset
-            if (_thisLevel.GetIsCollected())
-            {
-                _collectableCollectedAsset.SetActive(true);
+                //if the level's collectable has been collected, anable the colleted asset
+                if (_thisLevel.GetIsCollected())
+                {
+                    _collectableCollectedAsset.SetActive(true);
+                }
             }
         }
     }
