@@ -31,7 +31,7 @@ public class CardManager : MonoBehaviour
     #endregion
 
     //Declares Variables
-    private BoxCollider2D _playArea;
+    private PolygonCollider2D _playArea;
     public int numOfCardsToClear;
     private GameManager _gameManager;
     private UIManager _uiManager;
@@ -44,6 +44,9 @@ public class CardManager : MonoBehaviour
     [NonSerialized] public Image lastConfirmationCard;
     [NonSerialized] public bool isShowingDeck;
 
+    private PlayerInput playerInput;
+    private InputAction clickAction;
+
     /// <summary>
     /// Initializes variables for DealtCardManager. Called by GameManager
     /// </summary>
@@ -53,7 +56,11 @@ public class CardManager : MonoBehaviour
         _uiManager = UIManager.Instance;
         _mousePosition = Vector3.zero;
         _imageStartingPosition = Vector3.zero;
-        _playArea = FindAnyObjectByType<BoxCollider2D>();
+        _playArea = FindAnyObjectByType<PolygonCollider2D>();
+
+        playerInput = FindAnyObjectByType<PlayerInput>();
+        clickAction = playerInput.currentActionMap.FindAction("Click");
+        clickAction.canceled += ClickReleased;
 
         //Does not allow clear card to be useless
         if (numOfCardsToClear == 0)
@@ -71,6 +78,13 @@ public class CardManager : MonoBehaviour
         {
             card.enabled = false;
         }
+    }
+
+   void ClickReleased(InputAction.CallbackContext context)
+    {
+        if (isShowingDeck)
+            isShowingDeck = false;
+        _uiManager.ShowDeck(isShowingDeck);
     }
 
     #region Deck Methods
@@ -92,19 +106,6 @@ public class CardManager : MonoBehaviour
         //Toggle
         isShowingDeck = !isShowingDeck;
         _uiManager.ShowDeck(isShowingDeck);
-
-        if (isShowingDeck)
-        {
-            cardImage.transform.parent.transform.SetAsLastSibling();
-            cardImage.transform.parent.transform.parent.Find("DeckCount").transform.SetAsLastSibling();
-        }
-
-        else
-        {
-            cardImage.transform.parent.transform.SetSiblingIndex(8);
-            cardImage.transform.parent.transform.parent.Find("DeckCount").transform.SetSiblingIndex(9);
-        }
-
     }
     #endregion
 
