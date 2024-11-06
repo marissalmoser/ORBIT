@@ -47,7 +47,8 @@ public class CollectibleStats
     {
         return new CollectibleStats(_levelName, _buildIndex, _hasCollectible)
         {
-            _isCollected = this._isCollected
+            _isCollected = this._isCollected,
+            _sceneType = this._sceneType
         };
     }
 
