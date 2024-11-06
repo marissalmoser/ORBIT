@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Card> _dealtCards;
     [SerializeField] private List<Card> _playedCards;
     [SerializeField] bool _doDebugMode;
-    [SerializeField] private int _deathTimerLength;
+    [SerializeField] private float _deathTimerLength;
     [SerializeField] private Texture2D _clearCursor;
     [SerializeField] private Texture2D _switchCursor;
     private Vector2 _clearCursorHotspot;
@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     private ArrowsManager _arrowsManager;
 
     public STATE gameState;
-    private bool _gameWon;
+    private bool _gameWon, _gameLost;
     private bool _collectableCollected;
 
     private LevelDeck _levelDeck;
@@ -265,7 +265,10 @@ public class GameManager : MonoBehaviour
         deckShownDarken.enabled = false;
 
         //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
-        ChangeGameState(STATE.ChooseCards);
+        if (!_gameLost)
+        {
+            ChangeGameState(STATE.ChooseCards);
+        } 
     }
 
     /// <summary>
@@ -533,6 +536,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Failure()
     {
+        _gameLost = true;
         DeathAction?.Invoke();
         StartCoroutine(DeathTimer());
     }
@@ -700,7 +704,10 @@ public class GameManager : MonoBehaviour
         _uiManager.UpdatePlayedCards(_playedCards);
         _uiManager.UpdateArrows();
         _arrowsManager.ResetIndex();
-        ChangeGameState(STATE.ChooseCards);
+        if (!_gameLost)
+        {
+            ChangeGameState(STATE.ChooseCards);
+        }
     }
 
     /// <summary>
@@ -727,7 +734,7 @@ public class GameManager : MonoBehaviour
         //Invokes Action that Eli's script is listening to
         PlayActionOrder?.Invoke(_playedCards);
 
-        if (_doDebugMode)
+        if (_doDebugMode && !_gameLost)
             ChangeGameState(STATE.ChooseCards);
     }
 
@@ -894,7 +901,10 @@ public class GameManager : MonoBehaviour
             }
             _uiManager.shiftIndex++;
         }
-        ChangeGameState(STATE.ChooseCards);
+        if (!_gameLost)
+        {
+            ChangeGameState(STATE.ChooseCards);
+        }
     }
 
     /// <summary>
