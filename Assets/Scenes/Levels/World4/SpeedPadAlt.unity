@@ -2754,7 +2754,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7592999591369030503, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8207134452197085670, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: _isActive
@@ -24042,11 +24042,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1325214553}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1457631357 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 3486485052370382671, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
-  m_PrefabInstance: {fileID: 483538618}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1462236189
 GameObject:
   m_ObjectHideFlags: 0
@@ -26386,7 +26381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7592999591369030503, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8207134452197085670, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: direction
@@ -28651,7 +28646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7592999591369030503, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8207134452197085670, guid: 1cd55f52110473a40ad3295bb3e36c35, type: 3}
       propertyPath: direction
@@ -33637,6 +33632,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1912033430396935256, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3030558005921941961, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_Name
       value: PauseCanvas
@@ -34749,7 +34748,7 @@ PrefabInstance:
     - target: {fileID: 2389245948912837720, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _playArea
       value: 
-      objectReference: {fileID: 1457631357}
+      objectReference: {fileID: 0}
     - target: {fileID: 2389245948912837720, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: numOfCardsToClear
       value: 2
