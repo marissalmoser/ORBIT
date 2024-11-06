@@ -4482,9 +4482,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Comes out every other turn. If stepped on when active kills you
+  m_text: 'Activates every other tuen.
 
-'
+    The level restarts if you land on them.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e4d653ff37fe48a4daad3116b8181466, type: 2}
   m_sharedMaterial: {fileID: -9068421238468145979, guid: e4d653ff37fe48a4daad3116b8181466, type: 2}
@@ -21917,14 +21917,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deck:
-  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
   - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
   - {fileID: 11400000, guid: 87cdb0c0c87448e4eb123d3b1fffb6e2, type: 2}
-  - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
-  - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
+  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
   - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
-  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
+  - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
+  - {fileID: 11400000, guid: 1d5bf802da7e41b4980953489bfb2940, type: 2}
+  - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   originalDeck: []
 --- !u!1 &1486646504
 GameObject:

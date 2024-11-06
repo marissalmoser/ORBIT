@@ -44,8 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b0a0dd4da11e93498ae4aab10427045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playArea: {fileID: 0}
   numOfCardsToClear: 0
+  playerInput: {fileID: 0}
+  clickAction:
+    m_Name: Click
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 38c843d1-dff7-4cf4-9062-01163ac55141
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!1 &3029668323481007571
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,6 +184,8 @@ MonoBehaviour:
   _playedCards: []
   _doDebugMode: 0
   _deathTimerLength: 3
+  _clearCursor: {fileID: 0}
+  _switchCursor: {fileID: 0}
   darken: {fileID: 0}
   deckShownDarken: {fileID: 0}
   gameState: 0
