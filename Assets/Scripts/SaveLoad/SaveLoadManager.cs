@@ -7,6 +7,7 @@
 *******************************************************************/
 using System;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 public class SaveLoadManager : MonoBehaviour
@@ -112,7 +113,7 @@ public class SaveLoadManager : MonoBehaviour
         if (DoesSaveFileExist(fileToLoad))
         {
             string dir = Application.persistentDataPath + directory;
-            
+
             string jsonString = File.ReadAllText(dir + GetFileNameByInt(fileToLoad));
             temp = JsonUtility.FromJson<SaveData>(jsonString);
             AssignLoadedData(temp);
@@ -123,7 +124,7 @@ public class SaveLoadManager : MonoBehaviour
         else // couldnt find the file, making a new one...
         {
             //Debug.Log("File " + GetFileNameByInt(fileToLoad) + " does not exist when trying to load it, making a new one...");
-            UnAssignLoadedData(temp);
+            UnAssignLoadedData();
             SaveDataToFile(fileToLoad);
         }
         return newData;
@@ -138,20 +139,16 @@ public class SaveLoadManager : MonoBehaviour
         for (int i = 0; i < CollectibleManager.Instance.collectibleStats.Count; i++)
         {
             CollectibleManager.Instance.collectibleStats[i].SetIsLocked(save.levelInformation[i].GetIsLocked());
-            if(save.levelInformation[i].GetIsCollected())
+            if (save.levelInformation[i].GetIsCollected())
             {
                 CollectibleManager.Instance.collectibleStats[i].CollectCollectible();
-            }            
+            }
         }
     }
 
-    public void UnAssignLoadedData(SaveData save)
+    public void UnAssignLoadedData()
     {
-        for(int i = 0; i<CollectibleManager.Instance.collectibleStats.Count; i++)
-        {
-            CollectibleManager.Instance.collectibleStats[i].SetIsLocked(true);
-            CollectibleManager.Instance.collectibleStats[i].SetIsCollected(false);
-        }
+        CollectibleManager.Instance.collectibleStats = CollectibleManager.Instance.GetDefaultCollectibleList().Select(item => item.Clone()).ToList();
     }
 
     /// <summary>
@@ -167,7 +164,7 @@ public class SaveLoadManager : MonoBehaviour
             //Debug.Log("File " + GetFileNameByInt(fileToCheck) + " found");
             return true;
         }
-            
+
         else
         {
             //Debug.Log("File " + GetFileNameByInt(fileToCheck) + " NOT found");

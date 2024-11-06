@@ -40,6 +40,18 @@ public class CollectibleStats
     }
 
     /// <summary>
+    /// A method for LINQ to access and make a deep copy of our custom class
+    /// </summary>
+    /// <returns></returns>
+    public CollectibleStats Clone()
+    {
+        return new CollectibleStats(_levelName, _buildIndex, _hasCollectible)
+        {
+            _isCollected = this._isCollected
+        };
+    }
+
+    /// <summary>
     /// Sets the isCollected stat to true
     /// </summary>
     /// <param name="index"></param>
