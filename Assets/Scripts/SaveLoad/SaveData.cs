@@ -21,6 +21,7 @@ public class SaveData
 public class LevelData
 {
     [SerializeField] bool isCollected;
+    [SerializeField] bool isCompleted;
     [SerializeField] bool isLocked;
     [SerializeField] string levelName;
     public LevelData()
@@ -28,6 +29,7 @@ public class LevelData
         levelName = string.Empty;
         isCollected = false;
         isLocked = true;
+        isCompleted = false;
     }
 
     public string GetLevelName()
@@ -42,6 +44,10 @@ public class LevelData
     {
         return isLocked;
     }
+    public bool GetIsCompleted()
+    {
+        return isCompleted;
+    }
     public void SetName(string name)
     {
         levelName = name;
@@ -54,5 +60,8 @@ public class LevelData
     {
         isLocked=status;
     }
-    
+    public void SetCompletedStatus(bool status)
+    {
+        isCompleted = status;
+    }
 }

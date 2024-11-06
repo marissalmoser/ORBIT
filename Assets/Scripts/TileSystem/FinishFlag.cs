@@ -22,11 +22,12 @@ public class FinishFlag : Collectable
 {
     private PlayerStateMachineBrain _PSMB;
     private PlayerController _pc;
-
+    private bool _hitWinAsPlayer = false;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (!_hitWinAsPlayer&& other.gameObject.CompareTag("Player"))
         {           
+            _hitWinAsPlayer = true;
             //sound effect caller
             SfxManager.Instance.PlaySFX(1566);
 
@@ -57,34 +58,19 @@ public class FinishFlag : Collectable
         _pc.StopCoroutine(_pc.GetCurrentMovementCoroutine());
         _pc.SetCurrentTile(_pc.GetTileWithPlayerRaycast());
 
-        float timeElapsed = 0f;
-        float totalDuration = 0.33f;
-        while (timeElapsed < totalDuration)
-        {
-            _pc.gameObject.transform.position = Vector3.Lerp(_pc.transform.position, transform.position, timeElapsed);
-            timeElapsed += Time.deltaTime;
+        _pc.StartSimpleMoveCoroutine(_pc.transform.position, transform.position, .5f);
 
-            yield return null;
-        }
-
-        yield return new WaitForSeconds(.25f);
+        yield return new WaitForSeconds(.75f);
         GameManager.Instance.ChangeGameState(GameManager.STATE.End);
-        print("WIN");
+        //print("WIN");
     }
     private IEnumerator GhostWaitCoroutine()
     {
         _pc.StopCoroutine(_pc.GetCurrentMovementCoroutine());
 
-        float timeElapsed = 0f;
-        float totalDuration = 0.33f;
-        while (timeElapsed < totalDuration)
-        {
-            _pc.gameObject.transform.position = Vector3.Lerp(_pc.transform.position, transform.position, timeElapsed);
-            timeElapsed += Time.deltaTime;
+        _pc.StartSimpleMoveCoroutine(_pc.transform.position, transform.position, .5f);
 
-            yield return null;
-        }
-        yield return new WaitForSeconds(0.1f);
-        PlayerController.ReachedDestination?.Invoke();
+        yield return new WaitForSeconds(.75f);
+        //PlayerController.ReachedDestination?.Invoke();
     }
 }

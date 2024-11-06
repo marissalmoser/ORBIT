@@ -892,7 +892,7 @@ public class GameManager : MonoBehaviour
     private void LoadLevelSelect()
     {
         LevelSelect ls = FindObjectOfType<LevelSelect>(false);
-        ls.LoadLevel(ls.GetSceneToGoOnWin());
+        ls.LoadLevelOnWin(ls.GetSceneToGoOnWin());
     }
     public void SetCollectableCollected(bool state)
     {
