@@ -563,7 +563,7 @@ public class GameManager : MonoBehaviour
         _getOriginalDeck = true;
         ChangeGameState(STATE.PlayingActionOrder);
         _cardManager.lastConfirmationCard = null;
-        _uiManager.cancelButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+        _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
 
 
         //Disables Arrows
