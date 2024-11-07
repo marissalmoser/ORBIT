@@ -28,20 +28,21 @@ public class CardDisplay : MonoBehaviour
     private GameManager _gameManager;
 
     private Image _cardImage;
-    private Animator _anim;
     public bool isSelected;
     private bool _isDragging;
     public float doubleClickTimer;
     public bool canDoubleClick;
 
+    private bool isHovered;
+
     void Start()
     {
         _gameManager = GameManager.Instance;
-        _anim = GetComponentInParent<Animator>();
         _cardImage = GetComponent<Image>();
         IsMouseInCard = false;
         IsMouseDown = false;
         IsSwapping = false;
+        isHovered = false;
 
         doubleClickTimer = 0;
         canDoubleClick = false;
@@ -106,9 +107,9 @@ public class CardDisplay : MonoBehaviour
         CardManager.Instance.MouseEnterDealtCard(tooltip);
 
         //plays pop up animation if card is playable
-        if (_anim != null && CardIsPlayable())
+        if (CardIsPlayable())
         {
-            _anim.SetBool("Hover", true);
+            Hover(true);
         }
         isDarken = true;
         SetImage();
@@ -124,41 +125,36 @@ public class CardDisplay : MonoBehaviour
         CardManager.Instance.MouseExitDealtCard(tooltip);
 
         //plays pop up animation if card is playable
-        if (_anim != null && CardIsPlayable())
+        if (CardIsPlayable())
         {
-            _anim.SetBool("Hover", false);
+            Hover(false);
         }
         isDarken = false;
         SetImage();
     }
+
     /// <summary>
     /// Helper method for Event Trigger Pointer Down for DealtCards
     /// </summary>
     /// <param name="Card">Image object for the card</param>
     public void MousePressedDealtCard(Image Card)
     {
-        if (_gameManager.gameState == GameManager.STATE.ChooseCards
-            || _gameManager.gameState == GameManager.STATE.ConfirmCards
-            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
+        if (CardManager.Instance.canMoveCard && !IsMouseDown)
         {
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            if (_gameManager.gameState == GameManager.STATE.ChooseCards
+                || _gameManager.gameState == GameManager.STATE.ConfirmCards
+                || _gameManager.gameState == GameManager.STATE.ChooseTurn)
             {
-                IsMouseDown = true;
-                CardManager.Instance.MousePressedDealtCard(Card);
+                    IsMouseDown = true;
+                    CardManager.Instance.MousePressedDealtCard(Card);
 
-                //disable animator to allow drag
-                if (_anim != null)
-                {
-                    _anim.SetBool("Hover", false);
-                    _anim.enabled = false;
-                }
-                //double click to play functionality if the card is playable.
-                if (CardIsPlayable())
-                {
-                    SelectCard(Card);
-                }
-                if (!canDoubleClick)
-                    StartCoroutine(DoubleClick());
+                    //double click to play functionality if the card is playable.
+                    if (CardIsPlayable())
+                    {
+                        SelectCard(Card);
+                    }
+                    if (!canDoubleClick)
+                        StartCoroutine(DoubleClick());
             }
         }
     }
@@ -169,12 +165,10 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void MouseReleasedDealtCard(Image Card)
     {
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        if (IsMouseDown && CardManager.Instance.canMoveCard)
         {
             IsMouseDown = false;
             CardManager.Instance.MouseReleasedDealtCard(Card, ID);
-
-            UnSetHover();
         }
     }
 
@@ -190,23 +184,6 @@ public class CardDisplay : MonoBehaviour
             //play card and sound
             CardManager.Instance.PlayCard(Card, ID);
             SfxManager.Instance.PlaySFX(4295);
-
-            //loops thru all the cards and makes them not hover for the case the player
-            //double clicks a card when there's already one in the play area.
-            foreach (Image dealtCard in UIManager.Instance.GetInstantiatedDealtCardImages())
-            {
-                dealtCard.GetComponentInChildren<CardDisplay>().UnSetHover();
-            }
-        }
-    }
-
-    public void UnSetHover()
-    {
-        //lets the card fall back into place and not stay stuck in hover
-        if (_anim != null)
-        {
-            _anim.enabled = true;
-            _anim.SetBool("Hover", false);
         }
     }
 
@@ -221,7 +198,6 @@ public class CardDisplay : MonoBehaviour
             return false;
         if (card.name == Card.CardName.Switch && UIManager.Instance.GetInstantiatedPlayedCardImages().Count < 2)
             return false;
-
         return true;
     }
 
@@ -244,55 +220,27 @@ public class CardDisplay : MonoBehaviour
     /// <param name="Card">Image object for the card</param>
     public void OnDragDealtCard(Image Card)
     {
-        if (Mouse.current.leftButton.isPressed && CardIsPlayable())
+        if (CardIsPlayable() && CardManager.Instance.canMoveCard && IsMouseDown)
         {
             CardManager.Instance.OnDragDealtCard(Card);
 
             //disable animator to allow drag
-            if (_anim != null)
-            {
-                _anim.SetBool("Hover", false);
-                _anim.enabled = false;
-            }
+            Hover(false);
         }
     }
 
-    /// <summary>
-    /// Helper method for choosing to turn left
-    /// </summary>
-    public void TurnLeftChosen()
+    public void Hover(bool isHovering)
     {
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        if (!isHovered && isHovering)
         {
-            CardManager.Instance.PlayedTurnChooseLeft();
+            StartCoroutine(StartHover());
+            isHovered = true;
         }
-    }
-
-    /// <summary>
-    /// Helper method for choosing to turn right
-    /// </summary>
-    public void TurnRightChosen()
-    {
-        if (Mouse.current.leftButton.wasReleasedThisFrame)
+        else if (isHovered && !isHovering)
         {
-            CardManager.Instance.PlayedTurnChooseRight();
+            StartCoroutine(CancelHover());
+            isHovered = false;
         }
-    }
-
-    /// <summary>
-    /// Helper method for mouse entering turn card
-    /// </summary>
-    public void MouseEnterTurnCard(Image tooltip)
-    {
-        CardManager.Instance.MouseEnterTurnCard(tooltip);
-    }
-
-    /// <summary>
-    /// Helper method for mouse leaving turn card
-    /// </summary>
-    public void MouseExitTurnCard(Image tooltip)
-    {
-        CardManager.Instance.MouseExitTurnCard(tooltip);
     }
     #endregion
 
@@ -371,7 +319,57 @@ public class CardDisplay : MonoBehaviour
             tooltip.anchoredPosition = Vector2.MoveTowards(tooltip.anchoredPosition, new Vector2(targetPosition.x, tooltip.anchoredPosition.y), 7f);
             yield return new WaitForEndOfFrame();
         }
+        yield return null;
+    }
 
+    IEnumerator StartHover()
+    {
+        int position = 0;
+
+        while (position != 20)
+        {
+            if (position < 20)
+            {
+            _cardImage.rectTransform.anchoredPosition += new Vector2(0, 3);
+            RectTransform tooltip = _cardImage.gameObject.transform.parent.Find("Tooltip").GetComponent<RectTransform>();
+            tooltip.anchoredPosition += new Vector2(0, 3);
+            position += 3;
+            }
+            else if (position > 20)
+            {
+                _cardImage.rectTransform.anchoredPosition += new Vector2(0, -1);
+                RectTransform tooltip = _cardImage.gameObject.transform.parent.Find("Tooltip").GetComponent<RectTransform>();
+                tooltip.anchoredPosition += new Vector2(0, -1);
+                position--;
+            }    
+
+            yield return new WaitForEndOfFrame();
+        }
+        yield return null;
+    }
+
+    IEnumerator CancelHover()
+    {
+        int position = 20;
+
+        while (position != 0)
+        {
+            if (position > 0)
+            {
+                _cardImage.rectTransform.anchoredPosition += new Vector2(0, -3);
+                RectTransform tooltip = _cardImage.gameObject.transform.parent.Find("Tooltip").GetComponent<RectTransform>();
+                tooltip.anchoredPosition += new Vector2(0, -3);
+                position -= 3;
+            }
+            else if (position < 0)
+            {
+                _cardImage.rectTransform.anchoredPosition += new Vector2(0, 1);
+                RectTransform tooltip = _cardImage.gameObject.transform.parent.Find("Tooltip").GetComponent<RectTransform>();
+                tooltip.anchoredPosition += new Vector2(0, 1);
+                position++;
+            }
+            yield return new WaitForEndOfFrame();
+        }
         yield return null;
     }
 }

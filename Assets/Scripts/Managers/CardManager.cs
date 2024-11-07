@@ -6,6 +6,7 @@
 // +-------------------------------------------------------+
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -47,6 +48,9 @@ public class CardManager : MonoBehaviour
     private PlayerInput playerInput;
     private InputAction clickAction;
 
+    private bool cardMovingToConfirm, cardMovingToDealtCard;
+    public bool canMoveCard;
+
     /// <summary>
     /// Initializes variables for DealtCardManager. Called by GameManager
     /// </summary>
@@ -69,7 +73,10 @@ public class CardManager : MonoBehaviour
         clearCards = new Image[numOfCardsToClear];
         lastConfirmationCard = null;
         isShowingDeck = false;
-        lastConfirmationCard = null;
+
+        cardMovingToConfirm = false;
+        cardMovingToDealtCard = false;
+        canMoveCard = true;
     }
 
     public void RemoveAllHighlight(List<Image> cards)
@@ -142,22 +149,26 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void MousePressedDealtCard(Image cardImage)
     {
-        //Makes tooltip invisible
-        cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
-        cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
-
-        //If Game is ready for you to choose another card, allow card movement
-        if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
-            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
+        if (canMoveCard)
         {
-            //Sets where the image originally was
-            _imageStartingPosition = cardImage.rectTransform.position;
-            //Sets the mouse position
-            _mousePosition = Input.mousePosition;
+            //Makes tooltip invisible
+            cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
+            cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
-            cardImage.transform.SetAsLastSibling(); //Makes sure other card's tooltips do not appear
+            //If Game is ready for you to choose another card, allow card movement
+            if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
+                || _gameManager.gameState == GameManager.STATE.ChooseTurn)
+            {
+                //Sets where the image originally was
+                _imageStartingPosition = new Vector2((_uiManager.cardWidth + 10)
+                    * (cardImage.GetComponentInChildren<CardDisplay>().ID + 1) + 15 - _uiManager.screenWidth / 2, 15);
+                //Sets the mouse position
+                _mousePosition = Input.mousePosition;
 
-            cardImage.enabled = true;
+                cardImage.transform.SetAsLastSibling(); //Makes sure other card's tooltips do not appear
+
+                cardImage.enabled = true;
+            }
         }
     }
 
@@ -168,32 +179,35 @@ public class CardManager : MonoBehaviour
     /// <param name="ID">The ID of the card</param>
     public void MouseReleasedDealtCard(Image cardImage, int ID)
     {
-        //Makes tooltip visible
-        if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
+        if (canMoveCard)
         {
-            cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
-            cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
-        }
-
-        //If Game is ready for you to choose another card, allow card movement
-        if (_gameManager.gameState == GameManager.STATE.ChooseCards
-            || _gameManager.gameState == GameManager.STATE.ConfirmCards
-            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
-        {
-            _imageCollider = cardImage.GetComponent<BoxCollider2D>();
-            Card.CardName cardName = cardImage.GetComponentInChildren<CardDisplay>().card.name;
-            //Checks if the image is overlapping with the play area
-            print(_imageCollider);
-            print(_playArea);
-            if (_imageCollider.IsTouching(_playArea) 
-                && (cardName != Card.CardName.Clear ||_gameManager.GetPlayedCards().Count != 0)
-                && (cardName != Card.CardName.Switch || _gameManager.GetPlayedCards().Count > 1))
+            //Makes tooltip visible
+            if (cardImage.GetComponentInChildren<CardDisplay>().IsMouseInCard)
             {
-                PlayCard(cardImage, ID);
+                cardImage.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = true;
+                cardImage.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
             }
-            //Reset card position
-            cardImage.rectTransform.position = _imageStartingPosition;
-            cardImage.enabled = false;
+
+            //If Game is ready for you to choose another card, allow card movement
+            if (_gameManager.gameState == GameManager.STATE.ChooseCards
+                || _gameManager.gameState == GameManager.STATE.ConfirmCards
+                || _gameManager.gameState == GameManager.STATE.ChooseTurn)
+            {
+                _imageCollider = cardImage.GetComponent<BoxCollider2D>();
+                Card.CardName cardName = cardImage.GetComponentInChildren<CardDisplay>().card.name;
+                //Checks if the image is overlapping with the play area
+                print(_imageCollider);
+                print(_playArea);
+                if (_imageCollider.IsTouching(_playArea)
+                    && (cardName != Card.CardName.Clear || _gameManager.GetPlayedCards().Count != 0)
+                    && (cardName != Card.CardName.Switch || _gameManager.GetPlayedCards().Count > 1))
+                {
+                    PlayCard(cardImage, ID);
+                }
+                //Reset card position
+                cardImage.rectTransform.position = _imageStartingPosition;
+                cardImage.enabled = false;
+            }
         }
     }
 
@@ -205,85 +219,109 @@ public class CardManager : MonoBehaviour
     /// <param name="ID"></param>
     public void PlayCard(Image cardImage, int ID)
     {
-        //Resets GameManager variables ( in case card was replaced with a different one )
-        _gameManager.isClearing = false;
-        _gameManager.isSwitching = false;
-        _gameManager.currentlyOnTurn = false;
-        _gameManager.isTurning = false;
-        _gameManager.isUsingWild = false;
-        _gameManager.currentlyOnWild = false;
-        _gameManager.isStalling = false;
-        _uiManager.UpdateArrows();
-        switchCards.Item1 = null;
-        switchCards.Item2 = null;
+        if (canMoveCard)
+        {
+            //Resets GameManager variables ( in case card was replaced with a different one )
+            canMoveCard = false;
+            _gameManager.isClearing = false;
+            _gameManager.isSwitching = false;
+            _gameManager.currentlyOnTurn = false;
+            _gameManager.isTurning = false;
+            _gameManager.isUsingWild = false;
+            _gameManager.currentlyOnWild = false;
+            _gameManager.isStalling = false;
+            _uiManager.UpdateArrows();
+            switchCards.Item1 = null;
+            switchCards.Item2 = null;
 
-        Image tempImage = _uiManager.confirmationImage;
-        if (tempImage != null)
-            tempImage.GetComponentInChildren<CardDisplay>().isFromWild = false;
+            Image tempImage = _uiManager.confirmationImage;
+            if (tempImage != null)
+                tempImage.GetComponentInChildren<CardDisplay>().isFromWild = false;
 
-        clearCards = new Image[numOfCardsToClear];
-        _gameManager.ResetPlayedDisplay();
+            clearCards = new Image[numOfCardsToClear];
+            _gameManager.ResetPlayedDisplay();
 
         //Disables confirmation button if the card needs an extra step before being played
         Card card = cardImage.GetComponentInChildren<CardDisplay>().card;
         if (card.name == Card.CardName.Turn || card.name == Card.CardName.Switch || card.name == Card.CardName.Clear)
             _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
 
-        //Erases switch and clear sprites from playedCards
-        List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
-        int tempCount = tempPlayedCards.Count;
-        for (int i = 0; i < tempCount; i++)
-        {
-            tempPlayedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
-            tempPlayedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
-        }
-
-        //If the player was choosing a turn card when it got replaced
-        if (_gameManager.gameState == GameManager.STATE.ChooseTurn)
-        {
-            //Turns off the darken effect
-            if (_gameManager.lowerDarkenIndex)
+            //Erases switch and clear sprites from playedCards
+            List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
+            int tempCount = tempPlayedCards.Count;
+            for (int i = 0; i < tempCount; i++)
             {
-                _gameManager.darken.transform.SetSiblingIndex(_gameManager.darken.transform.GetSiblingIndex() - 1);
+                tempPlayedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
+                tempPlayedCards[i].gameObject.transform.Find("Swap").GetComponent<Image>().enabled = false;
             }
-            _gameManager.lowerDarkenIndex = false;
 
-            //Destroys the turn cards
-            //_uiManager.DestroyTurnCards();
-        }
-
-        //If a card was replaced
-        if (lastConfirmationCard != null)
-        {
-            if (_gameManager.lowerDarkenIndex)
+            //If the player was choosing a turn card when it got replaced
+            if (_gameManager.gameState == GameManager.STATE.ChooseTurn)
             {
-                _gameManager.darken.transform.SetSiblingIndex(_gameManager.darken.transform.GetSiblingIndex() - 1);
+                //Turns off the darken effect
+                if (_gameManager.lowerDarkenIndex)
+                {
+                    _gameManager.darken.transform.SetSiblingIndex(_gameManager.darken.transform.GetSiblingIndex() - 1);
+                }
                 _gameManager.lowerDarkenIndex = false;
             }
-            _gameManager.darken.enabled = false;
 
-            //Respawns previous card
-            lastConfirmationCard.gameObject.SetActive(true);
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().canDoubleClick = false;
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().isDarken = false;
-            lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetImage();
-            lastConfirmationCard.enabled = false;
-            lastConfirmationCard.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
-            lastConfirmationCard.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+            cardMovingToConfirm = true;
+            cardMovingToDealtCard = false;
 
-            _gameManager.StopDemo();
-
-
-            foreach (Image dealtCard in UIManager.Instance.GetInstantiatedDealtCardImages())
+            //If a card was replaced
+            if (lastConfirmationCard != null)
             {
-                dealtCard.GetComponentInChildren<CardDisplay>().UnSetHover();
+                cardMovingToDealtCard = true;
+                StartCoroutine(MoveAnimation(_uiManager.confirmationImage, new Vector2((_uiManager.cardWidth + 10)
+                    * (_gameManager.lastCardPlayed.Item2 + 1) + 15, 15), false, cardImage));
             }
+            StartCoroutine(MoveAnimation(cardImage, new Vector2(_uiManager.screenWidth / 2 - 12 - _uiManager.cardWidth, 20), true, cardImage));
         }
+    }
 
-        lastConfirmationCard = cardImage;
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="cardImage">The card that was played</param>
+    /// <param name="ID">The ID of the card being played</param>
+    private void UpdateConfirmation(Image cardImage)
+    {
+        if (!cardMovingToConfirm && !cardMovingToDealtCard)
+        {
+            if (lastConfirmationCard != null)
+            {
+                if (_gameManager.lowerDarkenIndex)
+                {
+                    _gameManager.darken.transform.SetSiblingIndex(_gameManager.darken.transform.GetSiblingIndex() - 1);
+                    _gameManager.lowerDarkenIndex = false;
+                }
+                _gameManager.darken.enabled = false;
 
-        cardImage.gameObject.SetActive(false);
-        _gameManager.PlayCard(ID);
+                //Respawns previous card
+                lastConfirmationCard.rectTransform.anchoredPosition = new Vector2((_uiManager.cardWidth + 10)
+                    * (_gameManager.lastCardPlayed.Item2 + 1) + 15 - _uiManager.screenWidth / 2, 15); //Sets position
+                lastConfirmationCard.gameObject.SetActive(true);
+                lastConfirmationCard.GetComponentInChildren<CardDisplay>().canDoubleClick = false;
+                lastConfirmationCard.GetComponentInChildren<CardDisplay>().isDarken = false;
+                lastConfirmationCard.GetComponentInChildren<CardDisplay>().SetImage();
+                lastConfirmationCard.enabled = false;
+                lastConfirmationCard.gameObject.transform.Find("Tooltip").gameObject.GetComponent<Image>().enabled = false;
+                lastConfirmationCard.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
+                _gameManager.StopDemo();
+            }
+            cardImage.gameObject.SetActive(false);
+            lastConfirmationCard = cardImage;
+            _gameManager.PlayCard(cardImage.GetComponentInChildren<CardDisplay>().ID);
+            StartCoroutine(CanMoveDelay());
+        }
+    }
+
+    IEnumerator CanMoveDelay()
+    {
+        yield return new WaitForSeconds(1);
+        canMoveCard = true;
     }
 
     /// <summary>
@@ -292,14 +330,41 @@ public class CardManager : MonoBehaviour
     /// <param name="cardImage">The image of the card</param>
     public void OnDragDealtCard(Image cardImage)
     {
-        //If Game is ready for you to choose another card, allow card movement
-        if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
-            || _gameManager.gameState == GameManager.STATE.ChooseTurn)
+        if (canMoveCard)
         {
-            //Moves card image relative to mouse movements
-            cardImage.transform.position = cardImage.transform.position - (_mousePosition - Input.mousePosition);
-            _mousePosition = Input.mousePosition;
+            //If Game is ready for you to choose another card, allow card movement
+            if (_gameManager.gameState == GameManager.STATE.ChooseCards || _gameManager.gameState == GameManager.STATE.ConfirmCards
+                || _gameManager.gameState == GameManager.STATE.ChooseTurn)
+            {
+                //Moves card image relative to mouse movements
+                cardImage.rectTransform.anchoredPosition = cardImage.rectTransform.anchoredPosition - (Vector2)(_mousePosition - Input.mousePosition);
+                _mousePosition = Input.mousePosition;
+            }
         }
+    }
+
+    /// <summary>
+    /// Moves a card from the confirm back to the deck or moves a card from the deck to the confirm
+    /// </summary>
+    /// <param name="moveImage"></param>
+    /// <param name="targetPosition"></param>
+    /// <param name="isCardMovingToConfirm"></param>
+    /// <param name="ID"></param>
+    /// <returns></returns>
+    IEnumerator MoveAnimation(Image moveImage, Vector2 targetPosition, bool isCardMovingToConfirm, Image cardImage)
+    {
+        while (moveImage.rectTransform.anchoredPosition != targetPosition)
+        {
+            moveImage.rectTransform.anchoredPosition = Vector2.MoveTowards(moveImage.rectTransform.anchoredPosition, targetPosition, 7f);
+            yield return new WaitForEndOfFrame();
+        }
+        if (isCardMovingToConfirm)
+            cardMovingToConfirm = false;
+        else
+            cardMovingToDealtCard = false;
+
+        UpdateConfirmation(cardImage);
+        yield return null;
     }
     #endregion
 

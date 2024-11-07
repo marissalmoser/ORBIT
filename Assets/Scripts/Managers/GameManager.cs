@@ -63,7 +63,7 @@ public class GameManager : MonoBehaviour
 
     private List<int> _collectedSwitchIDs;
     private List<Collectable> collectablesCollected = new List<Collectable>();
-    private (Card, int) _lastCardPlayed;
+    public (Card, int) lastCardPlayed;
     public Card confirmationCard;
     [NonSerialized] public bool isSwitching, isClearing, isStalling, isUsingWild, currentlyOnWild;
     [NonSerialized] public bool currentlyOnTurn, isTurning;
@@ -259,11 +259,11 @@ public class GameManager : MonoBehaviour
         //Draws until the player has 4 cards or until the deck runs out
         while (_dealtCards.Count < 4 && _deck.Count > 0)
         {
-            if (_lastCardPlayed.Item1 != null)
+            if (lastCardPlayed.Item1 != null)
             {
                 //Replaces the last played card with a new card in the same index
                 //Keeps the other dealt cards in the same location
-                _dealtCards.Insert(_lastCardPlayed.Item2, _deck[0]);
+                _dealtCards.Insert(lastCardPlayed.Item2, _deck[0]);
             }
             else
             {
@@ -546,8 +546,8 @@ public class GameManager : MonoBehaviour
             if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
             {
                 Card playedCard = _dealtCards[i]; //Gets the same ID card
-                _lastCardPlayed = (playedCard, i); //Stores card and the index
-                confirmationCard = _lastCardPlayed.Item1;
+                lastCardPlayed = (playedCard, i); //Stores card and the index
+                confirmationCard = lastCardPlayed.Item1;
                 break;
             }
         }
@@ -564,6 +564,7 @@ public class GameManager : MonoBehaviour
         ChangeGameState(STATE.PlayingActionOrder);
         _cardManager.lastConfirmationCard = null;
         _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
+        CardManager.Instance.canMoveCard = true;
 
 
         //Disables Arrows
@@ -590,7 +591,7 @@ public class GameManager : MonoBehaviour
             && confirmationCard.name != Card.CardName.Stall && confirmationCard.name != Card.CardName.Wild)
             _playedCards.Add(confirmationCard);
 
-        _dealtCards.Remove(_lastCardPlayed.Item1);
+        _dealtCards.Remove(lastCardPlayed.Item1);
 
         //If the confirmed card was a clear card
         if (isClearing)
@@ -650,6 +651,7 @@ public class GameManager : MonoBehaviour
         _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         _cardManager.switchCards.Item1 = null;
         _cardManager.switchCards.Item2 = null;
+        CardManager.Instance.canMoveCard = true;
         //_uiManager.DestroyTurnCards(); //Destroys turn cards
 
         //Removes all highlight from the images

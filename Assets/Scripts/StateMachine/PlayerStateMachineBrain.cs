@@ -78,7 +78,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 {
                     StopCoroutine(_currentStateCoroutine);
                 }
-                print("Waiting for actions");
+                //print("Waiting for actions");
                 GameManager.Instance.NewTurn();
                 _currentState = State.WaitingForActions;
                 _currentStateCoroutine = StartCoroutine(WaitingForActions());
@@ -90,7 +90,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     StopCoroutine(_currentStateCoroutine);
                 }
                 _currentState = State.FindTileUponAction;
-                print("Finding target tile");
+                //print("Finding target tile");
                 _currentStateCoroutine = StartCoroutine(FindTileUponAction());
                 break;
 
@@ -100,7 +100,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     StopCoroutine(_currentStateCoroutine);
                 }
                 _currentState = State.PlayResult;
-                print("Playing results");
+                //print("Playing results");
                 _currentStateCoroutine = StartCoroutine(PlayResult());
                 break;
 
@@ -110,7 +110,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     StopCoroutine(_currentStateCoroutine);
                 }
                 _currentState = State.PrepareNextAction;
-                print("Preparing next action");
+                //print("Preparing next action");
                 _currentStateCoroutine = StartCoroutine(PrepareNextAction());
                 break;
             case State.TrapPlayState:
@@ -118,7 +118,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 {
                     StopCoroutine(_currentStateCoroutine);
                 }
-                print("Turning traps on and off");
+                //print("Turning traps on and off");
                 _currentState = State.TrapPlayState;
                 _currentStateCoroutine = StartCoroutine(TrapFiring());
                 break;
@@ -135,11 +135,11 @@ public class PlayerStateMachineBrain : MonoBehaviour
 
             if (_currentPlayerController == null)
             {
-                print("NULL");
+                //print("NULL");
             }
             if (_player == null)
             {
-                Debug.Log("No gameobject in scene tagged with player");
+                //Debug.Log("No gameobject in scene tagged with player");
             }
         }
     }

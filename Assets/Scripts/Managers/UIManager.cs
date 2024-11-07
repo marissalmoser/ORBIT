@@ -86,7 +86,7 @@ public class UIManager : MonoBehaviour
     private List<Image> _dealtCardImages;
     private List<Image> _playedCardImages;
 
-    private float _screenWidth, _screenHeight;
+    public float screenWidth, screenHeight;
 
     [NonSerialized] public float cardWidth;
     private float _cardHeight;
@@ -106,8 +106,8 @@ public class UIManager : MonoBehaviour
         _arrowsManager = ArrowsManager.Instance;
         _cardManager = CardManager.Instance;
 
-        _screenWidth = _canvas.GetComponent<RectTransform>().rect.width;
-        _screenHeight = _canvas.GetComponent<RectTransform>().rect.height;
+        screenWidth = _canvas.GetComponent<RectTransform>().rect.width;
+        screenHeight = _canvas.GetComponent<RectTransform>().rect.height;
 
         _shownDeck = new();
         _dealtCardImages = new();
@@ -126,7 +126,7 @@ public class UIManager : MonoBehaviour
         _upperTextBox.enabled = false;
         _upperTextBox.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
-        _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - _cardHeight / 2 - _heightPadding);
+        _nextPlayCardPosition = new Vector2(-_widthPadding, screenHeight - _cardHeight / 2 - _heightPadding);
 
         _deckCountPos = _deckCount.GetComponent<RectTransform>().anchoredPosition;
         cardSlot.anchoredPosition = new Vector2(-_widthPadding, -_heightPadding);
@@ -302,15 +302,15 @@ public class UIManager : MonoBehaviour
 
             if (doVerticalFormat)
                 newImage.rectTransform.anchoredPosition = new Vector2(-_widthPadding - _playedCardWidthSpacing *
-                    (shiftIndex - i), _screenHeight - _cardHeight / 2 - _heightPadding); //Sets position - Vertical Format
+                    (shiftIndex - i), screenHeight - _cardHeight / 2 - _heightPadding); //Sets position - Vertical Format
             else
-                newImage.rectTransform.anchoredPosition = new Vector2((-_screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2)
+                newImage.rectTransform.anchoredPosition = new Vector2((-screenWidth / 2 + cardWidth / 2) - (_playedCardWidthSpacing * numOfPlayedCards / 2)
                     + (_playedCardWidthSpacing * i + _widthPadding), -_heightPadding); //Sets position - Horizontal Format
             
             if (i == numOfPlayedCards - 1)
             {
                 //Gets next card position
-                _nextPlayCardPosition = new Vector2(-_widthPadding, _screenHeight - _cardHeight / 2 - _cardHeightSpacing * (i + 1) - _heightPadding);
+                _nextPlayCardPosition = new Vector2(-_widthPadding, screenHeight - _cardHeight / 2 - _cardHeightSpacing * (i + 1) - _heightPadding);
             }
 
             newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
@@ -406,7 +406,7 @@ public class UIManager : MonoBehaviour
             confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
             confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
-            confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
+            confirmationImage.rectTransform.anchoredPosition = new Vector2(screenWidth - 12 - cardWidth, 20);
 
             confirmationImage.enabled = false; //Turns off highlight
 
@@ -484,7 +484,7 @@ public class UIManager : MonoBehaviour
             confirmationImage = Instantiate(_confirmCardImage, Vector3.zero, Quaternion.identity); //Instantiates image
             confirmationImage.transform.SetParent(_canvas.transform, false); //Sets canvas as the parent
 
-            confirmationImage.rectTransform.anchoredPosition = new Vector2(_screenWidth - 12 - cardWidth, 20);
+            confirmationImage.rectTransform.anchoredPosition = new Vector2(screenWidth - 12 - cardWidth, 20);
 
             confirmationImage.enabled = false; //Turns off highlight
 
@@ -737,7 +737,7 @@ public class UIManager : MonoBehaviour
                     //Centers Image Horizontally
                     if (numOfCardsToShow % 2 == 0) // Number of Cards to Show is Even
                     {
-                        float x = _screenWidth / 2;
+                        float x = screenWidth / 2;
 
                         if (indexPosition < numOfCardsToShow / 2)
                         {
@@ -753,7 +753,7 @@ public class UIManager : MonoBehaviour
                     }
                     else // Number of Cards To Show is Odd
                     {
-                        float x = _screenWidth / 2 - cardWidth / 2;
+                        float x = screenWidth / 2 - cardWidth / 2;
 
                         if (i < numOfCardsToShow / 2)
                         {
@@ -882,11 +882,11 @@ public class UIManager : MonoBehaviour
 
     public IEnumerator MoveCard(Image image)
     {
-        Vector2 targetPosition = new Vector2(-_widthPadding, _screenHeight - _cardHeight / 2 - _heightPadding);
+        Vector2 targetPosition = new Vector2(-_widthPadding, screenHeight - _cardHeight / 2 - _heightPadding);
         while (image.rectTransform.anchoredPosition.y != targetPosition.y)
         {
             //Moves card
-            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(_screenWidth - cardWidth / 2 - _widthPadding, targetPosition.y), 12f);
+            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(screenWidth - cardWidth / 2 - _widthPadding, targetPosition.y), 12f);
 
             //Shrinks x value
             if(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x > _playedCardImage.rectTransform.sizeDelta.x)
