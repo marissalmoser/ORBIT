@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<Card> _dealtCards;
     [SerializeField] private List<Card> _playedCards;
     [SerializeField] bool _doDebugMode;
-    [SerializeField] private int _deathTimerLength;
+    [SerializeField] private float _deathTimerLength;
     [SerializeField] private Texture2D _clearCursor;
     [SerializeField] private Texture2D _switchCursor;
     private Vector2 _clearCursorHotspot;
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
     private ArrowsManager _arrowsManager;
 
     public STATE gameState;
-    private bool _gameWon;
+    private bool _gameWon, _gameLost;
     private bool _collectableCollected;
 
     private LevelDeck _levelDeck;
@@ -117,23 +117,40 @@ public class GameManager : MonoBehaviour
         ChangeGameState(STATE.LoadGame);
     }
 
-    public void OnEnable()
+    public void EnableGM()
     {
-        DeathAction += DeathMethod;
+        print("in gm");
+        //Carefully change order if needed. Some managers must be initialzed before others
+        _deckManagerCard = DeckManager<Card>.Instance;
+        _deckManagerInt = DeckManager<int>.Instance;
+        _uiManager = UIManager.Instance;
+        _cardManager = CardManager.Instance;
+        _arrowsManager = ArrowsManager.Instance;
+        _levelDeck = FindObjectOfType<LevelDeck>();
+        lowerDarkenIndex = false;
+
+        isSwitching = false;
+        currentlyOnTurn = false;
+        isTurning = false;
+        isClearing = false;
+        isStalling = false;
+        isUsingWild = false;
+        currentlyOnWild = false;
+        hasSwitched = false;
+        _getOriginalDeck = true;
+        isConfirmCardThere = false;
+
+        if (_clearCursor != null)
+        {
+            _clearCursorHotspot = new Vector2(_clearCursor.width / 2, _clearCursor.height / 2);
+        }
+        if (_switchCursor != null)
+        {
+            _switchCursorHotspot = new Vector2(_switchCursor.width / 2, _switchCursor.height / 2);
+        }
+        ChangeGameState(STATE.LoadGame);
     }
 
-    public void OnDisable()
-    {
-        DeathAction -= DeathMethod;
-    }
-
-    /// <summary>
-    /// Method that is listening to the DeathAction being invoked.
-    /// </summary>
-    private void DeathMethod()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 
     /// <summary>
     /// Controls the current game state.
@@ -194,7 +211,8 @@ public class GameManager : MonoBehaviour
                     CollectibleManager.Instance.CollectCollectible();
                 }
                 WinAction?.Invoke();
-                Invoke("LoadLevelSelect", 1);
+                LoadLevelSelect();
+                //Invoke("LoadLevelSelect", 1);
                 break;
             default:
                 //Error check
@@ -248,7 +266,10 @@ public class GameManager : MonoBehaviour
         deckShownDarken.enabled = false;
 
         //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
-        ChangeGameState(STATE.ChooseCards);
+        if (!_gameLost)
+        {
+            ChangeGameState(STATE.ChooseCards);
+        } 
     }
 
     /// <summary>
@@ -516,6 +537,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Failure()
     {
+        _gameLost = true;
         DeathAction?.Invoke();
         StartCoroutine(DeathTimer());
     }
@@ -689,8 +711,11 @@ public class GameManager : MonoBehaviour
         _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
         _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
 
-        StartCoroutine(ReturnAnimation(_uiManager.confirmationImage, new Vector2((_uiManager.cardWidth + 10)
-                    * (lastCardPlayed.Item2 + 1) + 15, 15)));
+        if (!_gameLost)
+        {
+            StartCoroutine(ReturnAnimation(_uiManager.confirmationImage, new Vector2((_uiManager.cardWidth + 10)
+                       * (lastCardPlayed.Item2 + 1) + 15, 15)));
+        }
     }
 
     IEnumerator ReturnAnimation(Image moveImage, Vector2 targetPosition)
@@ -730,7 +755,7 @@ public class GameManager : MonoBehaviour
         //Invokes Action that Eli's script is listening to
         PlayActionOrder?.Invoke(_playedCards);
 
-        if (_doDebugMode)
+        if (_doDebugMode && !_gameLost)
             ChangeGameState(STATE.ChooseCards);
     }
 
@@ -897,7 +922,10 @@ public class GameManager : MonoBehaviour
             }
             _uiManager.shiftIndex++;
         }
-        ChangeGameState(STATE.ChooseCards);
+        if (!_gameLost)
+        {
+            ChangeGameState(STATE.ChooseCards);
+        }
     }
 
     /// <summary>
@@ -906,7 +934,7 @@ public class GameManager : MonoBehaviour
     IEnumerator DeathTimer()
     {
         yield return new WaitForSeconds(_deathTimerLength);
-        ChangeGameState(STATE.StartLevel);
+        SceneTransitionManager.Instance.ResetLevel();
         yield return null;
     }
 
