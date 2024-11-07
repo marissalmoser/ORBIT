@@ -6,6 +6,7 @@
 *******************************************************************/
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelSelect : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class LevelSelect : MonoBehaviour
 
     /// <summary>
     /// This function loads a scene based on the int passed through. Checks if the
-    /// the level is unlocked before loading it. Used in buttons
+    /// the level is unlocked before loading it.
     /// </summary>
     /// <param name="levelNumber">The build index for the scene</param>
     public void LoadLevel(int levelNumber)
@@ -21,7 +22,7 @@ public class LevelSelect : MonoBehaviour
         if (!CollectibleManager.Instance.collectibleStats[levelNumber].GetIsLocked())
         {
             Time.timeScale = 1.0f;
-            SceneTransitionManager.Instance.LoadNewScene(levelNumber);
+            SceneManager.LoadScene(levelNumber);
         }
     }
 
@@ -36,7 +37,7 @@ public class LevelSelect : MonoBehaviour
         Time.timeScale = 1.0f;
         CollectibleManager.Instance.UnlockNextLevel(levelNumber);
         SaveLoadManager.Instance.HandleLevelWin();
-        SceneTransitionManager.Instance.LoadNewScene(levelNumber);
+        SceneManager.LoadScene(levelNumber);
     }
 
 
