@@ -8,6 +8,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -652,7 +653,7 @@ public class GameManager : MonoBehaviour
         _cardManager.switchCards.Item1 = null;
         _cardManager.switchCards.Item2 = null;
         CardManager.Instance.canMoveCard = true;
-        //_uiManager.DestroyTurnCards(); //Destroys turn cards
+        
 
         //Removes all highlight from the images
         List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
@@ -684,7 +685,25 @@ public class GameManager : MonoBehaviour
         _uiManager.UpdatePlayedCards(_playedCards);
         _uiManager.UpdateArrows();
         _arrowsManager.ResetIndex();
+
+        _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
+        _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
+
+        StartCoroutine(ReturnAnimation(_uiManager.confirmationImage, new Vector2((_uiManager.cardWidth + 10)
+                    * (lastCardPlayed.Item2 + 1) + 15, 15)));
+    }
+
+    IEnumerator ReturnAnimation(Image moveImage, Vector2 targetPosition)
+    {
+        while (moveImage.rectTransform.anchoredPosition != targetPosition)
+        {
+            moveImage.rectTransform.anchoredPosition = Vector2.MoveTowards(moveImage.rectTransform.anchoredPosition, targetPosition, 10f);
+            yield return new WaitForEndOfFrame();
+        }
+
+        _uiManager.DestroyConfirmCard();
         ChangeGameState(STATE.ChooseCards);
+        yield return null;
     }
 
     /// <summary>

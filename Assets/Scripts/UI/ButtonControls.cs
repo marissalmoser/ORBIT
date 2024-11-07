@@ -76,7 +76,6 @@ public class ButtonControls : MonoBehaviour
             SfxManager.Instance.PlaySFX(8885);
             SfxManager.Instance.PlaySFX(4295);
 
-            _uiManager.DestroyConfirmCard();
             _gameManager.CancelCard();
             CancelCard.Invoke();
         }
