@@ -250,6 +250,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     public void StartCardActions(List<Card> incomingActions)
     {
         ActionOrderDisplay.ActionOrderComplete?.Invoke();
+        _currentPlayerController.StopAllCoroutines();
         _currentPlayerController.SetCurrentTile(_playerControllerOriginal.GetCurrentTile());
         _currentPlayerController.SetFacingDirection(_playerControllerOriginal.GetCurrentFacingDirection());
         _currentPlayerController.transform.position = _currentPlayerController.GetCurrentTile().GetPlayerSnapPosition();
