@@ -43,7 +43,9 @@ public class PauseMenu : MonoBehaviour
     /// </summary>
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Time.timeScale = 1;
+        SceneTransitionManager.Instance.ResetLevel();
     }
 
     /// <summary>
@@ -53,7 +55,8 @@ public class PauseMenu : MonoBehaviour
     public void LoadLevel(int levelNumber)
     {
         Time.timeScale = 1.0f;
-        SceneManager.LoadScene(levelNumber);
+        //SceneManager.LoadScene(levelNumber);
+        SceneTransitionManager.Instance.LoadNewScene(levelNumber);
     }
 
     public void SetSfxVolume(float volume)
