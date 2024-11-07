@@ -38,6 +38,7 @@ public class CardManager : MonoBehaviour
     private UIManager _uiManager;
     private Vector3 _mousePosition;
     private BoxCollider2D _imageCollider;
+    private CanvasScaler _canvasScaler;
 
     [NonSerialized] public Image[] clearCards;
     [NonSerialized] public (Image, Image) switchCards;
@@ -59,6 +60,7 @@ public class CardManager : MonoBehaviour
         _uiManager = UIManager.Instance;
         _mousePosition = Vector3.zero;
         _playArea = FindAnyObjectByType<PolygonCollider2D>();
+        _canvasScaler = FindObjectOfType<UIManager>().transform.parent.GetComponent<CanvasScaler>();
 
         playerInput = FindAnyObjectByType<PlayerInput>();
         clickAction = playerInput.currentActionMap.FindAction("Click");
@@ -156,7 +158,7 @@ public class CardManager : MonoBehaviour
             || _gameManager.gameState == GameManager.STATE.ChooseTurn)
         {
             //Sets the mouse position
-            _mousePosition = Input.mousePosition;
+            _mousePosition = UnscalePosition(Input.mousePosition);
 
             cardImage.transform.SetAsLastSibling(); //Makes sure other card's tooltips do not appear
 
@@ -192,10 +194,12 @@ public class CardManager : MonoBehaviour
             {
                 PlayCard(cardImage, ID);
             }
-            //Reset card position
-            cardImage.rectTransform.anchoredPosition = new Vector2((_uiManager.cardWidth + 10)
-                * (ID + 1) + 15 - _uiManager.screenWidth / 2, 15);
-            cardImage.enabled = false;
+            else //Reset card position
+            {
+                cardImage.rectTransform.anchoredPosition = new Vector2((_uiManager.cardWidth + 10)
+                    * (ID + 1) + 15, 15);
+                cardImage.enabled = false;
+            }
         }
     }
 
@@ -266,7 +270,7 @@ public class CardManager : MonoBehaviour
                 StartCoroutine(MoveAnimation(_uiManager.confirmationImage, new Vector2((_uiManager.cardWidth + 10)
                     * (_gameManager.lastCardPlayed.Item2 + 1) + 15, 15), false, cardImage));
             }
-            StartCoroutine(MoveAnimation(cardImage, new Vector2(_uiManager.screenWidth / 2 - 12 - _uiManager.cardWidth, 20), true, cardImage));
+            StartCoroutine(MoveAnimation(cardImage, new Vector2(_uiManager.screenWidth - 12 - _uiManager.cardWidth, 20), true, cardImage));
         }
     }
 
@@ -279,8 +283,6 @@ public class CardManager : MonoBehaviour
     {
         if (!cardMovingToConfirm && !cardMovingToDealtCard)
         {
-            _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(true);
-            _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(true);
             if (lastConfirmationCard != null)
             {
                 if (_gameManager.lowerDarkenIndex)
@@ -292,7 +294,7 @@ public class CardManager : MonoBehaviour
 
                 //Respawns previous card
                 lastConfirmationCard.rectTransform.anchoredPosition = new Vector2((_uiManager.cardWidth + 10)
-                    * (_gameManager.lastCardPlayed.Item2 + 1) + 15 - _uiManager.screenWidth / 2, 15); //Sets position
+                    * (_gameManager.lastCardPlayed.Item2 + 1) + 15, 15); //Sets position
                 lastConfirmationCard.gameObject.SetActive(true);
                 lastConfirmationCard.GetComponentInChildren<CardDisplay>().canDoubleClick = false;
                 lastConfirmationCard.GetComponentInChildren<CardDisplay>().isDarken = false;
@@ -321,8 +323,8 @@ public class CardManager : MonoBehaviour
             || _gameManager.gameState == GameManager.STATE.ChooseTurn)
         {
             //Moves card image relative to mouse movements
-            cardImage.rectTransform.anchoredPosition -= (Vector2)(_mousePosition - Input.mousePosition);
-            _mousePosition = Input.mousePosition;
+            cardImage.rectTransform.anchoredPosition -= ((Vector2)_mousePosition - UnscalePosition(Input.mousePosition));
+            _mousePosition = UnscalePosition(Input.mousePosition);
         }
     }
 
@@ -348,6 +350,19 @@ public class CardManager : MonoBehaviour
 
         UpdateConfirmation(cardImage);
         yield return null;
+    }
+
+    Vector2 UnscalePosition(Vector2 vec)
+    {
+        Vector2 referenceResolution = _canvasScaler.referenceResolution;
+        Vector2 currentResolution = new Vector2(Screen.width, Screen.height);
+
+        float widthRatio = currentResolution.x / referenceResolution.x;
+        float heightRatio = currentResolution.y / referenceResolution.y;
+
+        float ratio = Mathf.Lerp(heightRatio, widthRatio, _canvasScaler.matchWidthOrHeight);
+
+        return vec / ratio;
     }
     #endregion
 
