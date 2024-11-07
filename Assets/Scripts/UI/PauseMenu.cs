@@ -5,9 +5,6 @@
 *    Description: This script handles the pause menu
 *******************************************************************/
 
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -15,12 +12,13 @@ using UnityEngine.SceneManagement;
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
-    [SerializeField] private GameObject _pauseMenu;
+    private GameObject _pauseMenu;
 
     private void Start()
     {
         // Subscribe to input events
         _playerInput.currentActionMap["Pause"].performed += ctx => TogglePause();
+        _pauseMenu = transform.Find("PauseMenu").gameObject;
     }
     
     /// <summary>
@@ -46,7 +44,6 @@ public class PauseMenu : MonoBehaviour
     public void RestartLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        Time.timeScale = 1;
     }
 
     /// <summary>
