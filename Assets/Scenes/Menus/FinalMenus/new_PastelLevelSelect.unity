@@ -1270,6 +1270,9 @@ MonoBehaviour:
   _buildIndex: 34
   _collectableAsset: {fileID: 28293362}
   _collectableCollectedAsset: {fileID: 849573271}
+  _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &217257243
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,7 +1487,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelsInWorld: 1e0000001f00000020000000
+  _challengeLevelIndex: 33
+  _uniqueLevelIndex: 32
   _counter: {fileID: 991820848}
+  _collectableDisplay: {fileID: 999996436}
+  _none: {fileID: 21300000, guid: 6ad067380a780334eb3d13c33a8aa614, type: 3}
+  _half: {fileID: 21300000, guid: 3ae565cfce603d4478e17e83168dc37d, type: 3}
+  _whole: {fileID: 21300000, guid: c8f011b3c5c18c0489c89bc6e662c5da, type: 3}
 --- !u!1 &375716024
 GameObject:
   m_ObjectHideFlags: 0
@@ -1986,6 +1995,9 @@ MonoBehaviour:
   _buildIndex: 35
   _collectableAsset: {fileID: 1355324031}
   _collectableCollectedAsset: {fileID: 97688123}
+  _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &488033196
 GameObject:
   m_ObjectHideFlags: 0
@@ -2280,6 +2292,9 @@ MonoBehaviour:
   _buildIndex: 36
   _collectableAsset: {fileID: 1890274477}
   _collectableCollectedAsset: {fileID: 998643298}
+  _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &530439688
 GameObject:
   m_ObjectHideFlags: 0
@@ -3756,7 +3771,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4bbd7c800e2b5724a9ec785fb3a9e6dc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b2578eae76328894ca0291ca176d94f4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3789,6 +3804,9 @@ MonoBehaviour:
   _buildIndex: 31
   _collectableAsset: {fileID: 1910535011}
   _collectableCollectedAsset: {fileID: 1420754157}
+  _UnlockedButtonSprite: {fileID: 21300000, guid: 4bbd7c800e2b5724a9ec785fb3a9e6dc, type: 3}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &718658958
 GameObject:
   m_ObjectHideFlags: 0
@@ -4400,6 +4418,9 @@ MonoBehaviour:
   _buildIndex: 37
   _collectableAsset: {fileID: 930892114}
   _collectableCollectedAsset: {fileID: 99349002}
+  _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &891236532
 GameObject:
   m_ObjectHideFlags: 0
@@ -5362,7 +5383,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 604, y: 402}
-  m_SizeDelta: {x: 400, y: 300}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &999996436
 MonoBehaviour:
@@ -5384,7 +5405,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 864b2a5bbfcabcc46aaed5c3b72aa6ca, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6ad067380a780334eb3d13c33a8aa614, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5708,6 +5729,9 @@ MonoBehaviour:
   _buildIndex: 33
   _collectableAsset: {fileID: 1984631177}
   _collectableCollectedAsset: {fileID: 590422152}
+  _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &1030690813
 GameObject:
   m_ObjectHideFlags: 0
@@ -6619,7 +6643,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -378, y: 212}
+  m_AnchoredPosition: {x: -378.00003, y: 212}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1235453759
@@ -7369,8 +7393,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 18, y: 55}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 16.458008, y: 30.240005}
+  m_SizeDelta: {x: -289.028, y: -279.84}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1396856121
 MonoBehaviour:
@@ -8299,8 +8323,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 18, y: 55}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.0011291504, y: 47.03}
+  m_SizeDelta: {x: -300, y: -268.65}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1603825809
 MonoBehaviour:
@@ -10063,7 +10087,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1996795105}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1072583508}
+        m_TargetAssemblyTypeName: Sound_Caller, Assembly-CSharp
+        m_MethodName: ActivateSFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1072583509}
+        m_TargetAssemblyTypeName: LevelSelect, Assembly-CSharp
+        m_MethodName: LoadLevel
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 33
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1996795105
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10136,8 +10184,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 18, y: 55}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 11.871994, y: 47.619995}
+  m_SizeDelta: {x: -292.085, y: -268.26}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2033218362
 MonoBehaviour:
@@ -10455,6 +10503,9 @@ MonoBehaviour:
   _buildIndex: 30
   _collectableAsset: {fileID: 1721956789}
   _collectableCollectedAsset: {fileID: 907206778}
+  _UnlockedButtonSprite: {fileID: 21300000, guid: 4bbd7c800e2b5724a9ec785fb3a9e6dc, type: 3}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &2106456125
 GameObject:
   m_ObjectHideFlags: 0
@@ -10584,7 +10635,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4bbd7c800e2b5724a9ec785fb3a9e6dc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b2578eae76328894ca0291ca176d94f4, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10617,6 +10668,9 @@ MonoBehaviour:
   _buildIndex: 32
   _collectableAsset: {fileID: 194740066}
   _collectableCollectedAsset: {fileID: 1227997325}
+  _UnlockedButtonSprite: {fileID: 21300000, guid: 4bbd7c800e2b5724a9ec785fb3a9e6dc, type: 3}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &2111072506
 GameObject:
   m_ObjectHideFlags: 0

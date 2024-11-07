@@ -1,21 +1,19 @@
 /******************************************************************
  *    Author: Sky Turner 
- *    Contributors:
+ *    Contributors: Marissa
  *    Date Created: 10/13/24
  *    Description: Collectible Manager 
  *    
  *******************************************************************/
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class CollectibleManager : MonoBehaviour
 {
-    public static CollectibleManager Instance { get; private set; }
-    private CollectibleStats _collectibleStats;
-
     #region singleton
+    public static CollectibleManager Instance { get; private set; }
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -26,32 +24,21 @@ public class CollectibleManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(Instance);
+            _defaultList = collectibleStats.Select(item => item.Clone()).ToList();
         }
     }
     #endregion
 
     public List<CollectibleStats> collectibleStats;
+    private List<CollectibleStats> _defaultList = new List<CollectibleStats>(); //copy list to hold default values
 
-    /// <summary>
-    /// Initializes a new instance of the CollectibleManager class.
-    /// Sets up the collectibleStats list with 30 collectible items.
-    /// </summary>
-    private CollectibleManager()
+    public List<CollectibleStats> GetDefaultCollectibleList()
     {
-        collectibleStats = new List<CollectibleStats>(30);
-        InitializeCollectibles();
+        return _defaultList;
     }
-
-    /// <summary>
-    /// Initializes the collectibleStats list with 30 collectible items.
-    /// Each collectible corresponds to a level.
-    /// </summary>
-    private void InitializeCollectibles()
+    public List<CollectibleStats> GetEditedCollectibleList()
     {
-        for(int i = 0; i < 30; i++)
-        {
-            collectibleStats.Add(new CollectibleStats($"Level {i + 1}", i, true));
-        }
+        return collectibleStats;
     }
 
     /// <summary>
@@ -77,5 +64,30 @@ public class CollectibleManager : MonoBehaviour
     {
         int scene = SceneManager.GetActiveScene().buildIndex;
         return collectibleStats[scene].HasCollectible();
+    }
+
+    /// <summary>
+    /// Called when a level is won, if the next scene is a level and not a challenge
+    /// level, unlocks it
+    /// </summary>
+    /// <param name="LevelToUnlock"></param>
+    public void UnlockNextLevel(int LevelToUnlock)
+    {
+        //if the next scene is a level and not a challenge level, unlock it
+        if(collectibleStats[LevelToUnlock].GetSceneType() == CollectibleStats.SceneType.Level &&
+            (LevelToUnlock != 8 || LevelToUnlock != 15 || LevelToUnlock != 22 || LevelToUnlock != 28 || LevelToUnlock != 33))
+        {
+            collectibleStats[LevelToUnlock].SetIsLocked(false);
+            return;
+        }
+    }
+
+    /// <summary>
+    /// Gets the active scene and sets it to completed.
+    /// </summary>
+    public void SetActiveLevelCompleted()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        collectibleStats[scene].SetIsCompleted(true);
     }
 }

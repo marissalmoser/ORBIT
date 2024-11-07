@@ -14,7 +14,14 @@ using TMPro;
 public class CollectableTabLevelSelect : MonoBehaviour
 {
     [SerializeField] private List<int> _levelsInWorld = new List<int>();
+    [SerializeField] private int _challengeLevelIndex;
+    [SerializeField] private int _uniqueLevelIndex;
     [SerializeField] private TextMeshProUGUI _counter;
+    [SerializeField] private Image _collectableDisplay;
+
+    [SerializeField] private Sprite _none;
+    [SerializeField] private Sprite _half;
+    [SerializeField] private Sprite _whole;
 
     private CollectibleManager _cm;
 
@@ -37,7 +44,19 @@ public class CollectableTabLevelSelect : MonoBehaviour
             }
         }
 
-        //set text
+        //set collectable text
         _counter.text = levelsCollected + "/" + levelsWithCollectable;
+
+        //set collectable display
+        if(levelsCollected >= 1)
+        {
+            _collectableDisplay.sprite = _half;
+        }
+        if (levelsCollected >= 3)
+        {
+            _collectableDisplay.sprite = _whole;
+            //unlock collectable manager
+            _cm.collectibleStats[_challengeLevelIndex].SetIsLocked(false);
+        }
     }
 }
