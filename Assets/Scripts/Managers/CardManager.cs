@@ -183,6 +183,8 @@ public class CardManager : MonoBehaviour
             _imageCollider = cardImage.GetComponent<BoxCollider2D>();
             Card.CardName cardName = cardImage.GetComponentInChildren<CardDisplay>().card.name;
             //Checks if the image is overlapping with the play area
+            print(_imageCollider);
+            print(_playArea);
             if (_imageCollider.IsTouching(_playArea) 
                 && (cardName != Card.CardName.Clear ||_gameManager.GetPlayedCards().Count != 0)
                 && (cardName != Card.CardName.Switch || _gameManager.GetPlayedCards().Count > 1))
@@ -225,7 +227,7 @@ public class CardManager : MonoBehaviour
         //Disables confirmation button if the card needs an extra step before being played
         Card card = cardImage.GetComponentInChildren<CardDisplay>().card;
         if (card.name == Card.CardName.Turn || card.name == Card.CardName.Switch || card.name == Card.CardName.Clear)
-            _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+            _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
 
         //Erases switch and clear sprites from playedCards
         List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
@@ -491,11 +493,11 @@ public class CardManager : MonoBehaviour
 
             if (canClear) //If at least one card is being cleared
             {
-                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+                _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(true);
             }
             else //Disables buttons if no card is being cleared
             {
-                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+                _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
             }
         }
         
@@ -503,11 +505,11 @@ public class CardManager : MonoBehaviour
         {
             if (_gameManager.hasSwitched) //If there has been at least one change in the order, enable the confirm button
             {
-                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(true);
+                _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(true);
             }
             else //If the new deck is identical to the original deck, disable the confirm button
             {
-                _uiManager.confirmButton.GetComponent<ConfirmationControls>().SetIsActive(false);
+                _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
             }
         }
     }

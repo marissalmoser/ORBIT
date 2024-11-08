@@ -1,6 +1,6 @@
 /******************************************************************
  *    Author: Marissa 
- *    Contributors: 
+ *    Contributors: Sky Turner
  *    Date Created: 10/10/24
  *    Description: Contains functionality for the options menu.
  *******************************************************************/
@@ -11,6 +11,8 @@ public class OptionsMenuFunctionality : MonoBehaviour
 {
     [SerializeField] private Slider _sfxSlider;
     [SerializeField] private Slider _musicSlider;
+    [SerializeField] private Button _turnOffButton;
+    [SerializeField] private Button _turnOnButton;
 
     /// <summary>
     /// Sets the sliders on the options menu to match the current volume.
@@ -19,6 +21,17 @@ public class OptionsMenuFunctionality : MonoBehaviour
     {
         _sfxSlider.value = SfxManager.Instance.GetCurrentVolume();
         _musicSlider.value = MusicManager.Instance.GetCurrentVolume();
+        
+        if(ShakeSettings.isCameraShakeEnabled)
+        {
+            _turnOnButton.gameObject.SetActive(true);
+            _turnOffButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            _turnOnButton.gameObject.SetActive(false);
+            _turnOffButton.gameObject.SetActive(true);
+        }
     }
 
     /// <summary>
