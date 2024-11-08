@@ -1,3 +1,9 @@
+/******************************************************************
+*    Author: Sky Turner
+*    Contributors: 
+*    Date Created: 11/1/24
+*    Description: This script handles the shakemanager
+*******************************************************************/
 using UnityEngine;
 using Cinemachine;
 using System.Collections;
@@ -10,9 +16,9 @@ public class ShakeManager : MonoBehaviour
     private CinemachineBasicMultiChannelPerlin _perlinNoise;
     private Coroutine _shakeCoroutine;
 
+    #region singleton
     private void Awake()
     {
-        // Singleton pattern
         if (Instance == null)
         {
             Instance = this;
@@ -23,8 +29,14 @@ public class ShakeManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    #endregion
 
-    // Static method for shaking the camera
+    /// <summary>
+    /// Static method for shaking the camera
+    /// </summary>
+    /// <param name="amplitude"></param>
+    /// <param name="frequency"></param>
+    /// <param name="duration"></param>
     public static void ShakeCamera(float amplitude, float frequency, float duration)
     {
         if(ShakeSettings.isCameraShakeEnabled)
@@ -41,6 +53,13 @@ public class ShakeManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Coroutine to Shake the camera
+    /// </summary>
+    /// <param name="amplitude"></param>
+    /// <param name="frequency"></param>
+    /// <param name="duration"></param>
+    /// <returns></returns>
     private IEnumerator Shake(float amplitude, float frequency, float duration)
     {
         // Set the noise parameters
@@ -60,28 +79,19 @@ public class ShakeManager : MonoBehaviour
         _perlinNoise.m_FrequencyGain = 0f;
     }
 
+    /// <summary>
+    /// Toggles shake on
+    /// </summary>
     public void ToggleShakeOn()
     {
         ShakeSettings.isCameraShakeEnabled = true;
-        Debug.Log("Shake Turned On");
     }
 
+    /// <summary>
+    /// Toggles shake off
+    /// </summary>
     public void ToggleShakeOff()
     {
         ShakeSettings.isCameraShakeEnabled = false;
-        Debug.Log("Shake Turned Off");
-    }
-
-    public bool GetCurrentToggle()
-    {
-        return ShakeSettings.isCameraShakeEnabled;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShakeCamera(1, 1, 5);
-        }
     }
 }
