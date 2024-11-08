@@ -22625,11 +22625,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7150956428934272076, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.66527
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150956428934272076, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -8.806302
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150956428934272076, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.85912377
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150956428934272076, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.23090617
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150956428934272076, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.4410624
+      objectReference: {fileID: 0}
+    - target: {fileID: 7150956428934272076, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.11854408
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
+--- !u!114 &1413658916 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1233009107212995656, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
+  m_PrefabInstance: {fileID: 1413658915}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d3e40a7c86a5a49a111add0d1a2f8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1447505725 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 441835221110605588, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
@@ -22829,11 +22864,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 562621112}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &1457631357 stripped
-BoxCollider2D:
-  m_CorrespondingSourceObject: {fileID: 3486485052370382671, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
-  m_PrefabInstance: {fileID: 483538618}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1459060091
 GameObject:
   m_ObjectHideFlags: 0
@@ -31104,6 +31134,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 5249793358346840931, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1413658916}
+    - target: {fileID: 5249793358346840931, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TurnOnShake
+      objectReference: {fileID: 0}
+    - target: {fileID: 5249793358346840931, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShakeManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5249793358346840931, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457823219779588346, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1413658916}
+    - target: {fileID: 5457823219779588346, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TurnOffShake
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457823219779588346, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: ShakeManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5457823219779588346, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
       value: 16
@@ -32032,7 +32094,7 @@ PrefabInstance:
     - target: {fileID: 2389245948912837720, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: _playArea
       value: 
-      objectReference: {fileID: 1457631357}
+      objectReference: {fileID: 0}
     - target: {fileID: 2389245948912837720, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: numOfCardsToClear
       value: 2

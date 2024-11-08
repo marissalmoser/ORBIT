@@ -1,3 +1,9 @@
+/******************************************************************
+ *    Author: Sky Turner 
+ *    Contributors:
+ *    Date Created: 10/10/24
+ *    Description: Contains functionality for the options menu.
+ *******************************************************************/
 using UnityEngine;
 using Cinemachine;
 using System.Collections;
@@ -24,7 +30,12 @@ public class ShakeManager : MonoBehaviour
         }
     }
 
-    // Static method for shaking the camera
+    /// <summary>
+    /// Static method for shaking the camera
+    /// </summary>
+    /// <param name="amplitude"></param>
+    /// <param name="frequency"></param>
+    /// <param name="duration"></param>
     public static void ShakeCamera(float amplitude, float frequency, float duration)
     {
         if(ShakeSettings.isCameraShakeEnabled)
@@ -60,32 +71,20 @@ public class ShakeManager : MonoBehaviour
         _perlinNoise.m_FrequencyGain = 0f;
     }
 
-    public static void ToggleShake()
+    public void TurnOnShake()
     {
-        ShakeSettings.isCameraShakeEnabled = !ShakeSettings.isCameraShakeEnabled;
+        ShakeSettings.isCameraShakeEnabled = true;
+        Debug.Log("Shake Turned On");
+    }
 
-        if(!ShakeSettings.isCameraShakeEnabled)
-        {
-            ShakeSettings.isCameraShakeEnabled = false;
-            Debug.Log("Camera Shake is Enabled: " + ShakeSettings.isCameraShakeEnabled);
-        }
-        else
-        {
-            ShakeSettings.isCameraShakeEnabled = true;
-            Debug.Log("Camera Shake is Enabled: " + ShakeSettings.isCameraShakeEnabled);
-        }
+    public void TurnOffShake()
+    {
+        ShakeSettings.isCameraShakeEnabled = false;
+        Debug.Log("Shake Turned Off");
     }
 
     public bool GetCurrentToggle()
     {
         return ShakeSettings.isCameraShakeEnabled;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ShakeCamera(1, 1, 5);
-        }
     }
 }
