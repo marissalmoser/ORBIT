@@ -292,6 +292,7 @@ public class GameManager : MonoBehaviour
                 //Adds the top card from the deck onto the dealtCards
                 _dealtCards.Add(_deck[0]);
             }
+
             _deck = _deckManagerCard.RemoveFirst(_deck); //Removes the now dealt card from the deck
         }
 
@@ -713,6 +714,7 @@ public class GameManager : MonoBehaviour
 
         if (!_gameLost)
         {
+            _cardManager.canMoveCard = false;
             StartCoroutine(ReturnAnimation(_uiManager.confirmationImage, new Vector2((_uiManager.cardWidth + 10)
                        * (lastCardPlayed.Item2 + 1) + 15, 15)));
         }
@@ -728,6 +730,7 @@ public class GameManager : MonoBehaviour
 
         _uiManager.DestroyConfirmCard();
         ChangeGameState(STATE.ChooseCards);
+        _cardManager.canMoveCard = true;
         yield return null;
     }
 
