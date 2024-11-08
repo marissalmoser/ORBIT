@@ -44,7 +44,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         GameManager.PlayDemoActionOrder += HandleIncomingGhostActions;
         TileManager.Instance.LoadTileList();
         TileManager.Instance.LoadObstacleList();
-        ConfirmationControls.CancelCard += ResetGhost;
+        ButtonControls.CancelCard += ResetGhost;
         FindPlayer();
         _player.transform.position = _playerControllerOriginal.GetCurrentTile().GetPlayerSnapPosition();
         ResetGhost(); //Reused this method turn off ghost and shadow on level start
@@ -250,6 +250,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     public void StartCardActions(List<Card> incomingActions)
     {
         ActionOrderDisplay.ActionOrderComplete?.Invoke();
+        _currentPlayerController.StopAllCoroutines();
         _currentPlayerController.SetCurrentTile(_playerControllerOriginal.GetCurrentTile());
         _currentPlayerController.SetFacingDirection(_playerControllerOriginal.GetCurrentFacingDirection());
         _currentPlayerController.transform.position = _currentPlayerController.GetCurrentTile().GetPlayerSnapPosition();
@@ -455,6 +456,6 @@ public class PlayerStateMachineBrain : MonoBehaviour
         PlayerController.WallInterruptAnimation -= HandleWallInterruption;
         GameManager.PlayActionOrder -= HandleIncomingActions;
         GameManager.PlayDemoActionOrder -= HandleIncomingGhostActions;
-        ConfirmationControls.CancelCard -= ResetGhost;
+        ButtonControls.CancelCard -= ResetGhost;
     }
 }

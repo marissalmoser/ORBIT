@@ -305,6 +305,26 @@ public class PlayerController : MonoBehaviour
         }
         //No reached destination invoke because this spike should send the player into the deathbox
     }
+
+    private IEnumerator SimpleMoveCoroutine(Vector3 originLoc, Vector3 targetLoc, float time)
+    {
+        float timeElapsed = 0;
+
+        //get the last key in the curve
+        while (timeElapsed < time)
+        {
+            float normalizedTime = timeElapsed / time;
+
+            // Interpolate the player's position based on the curve's output
+            transform.position = Vector3.Lerp(originLoc, targetLoc, normalizedTime);
+            timeElapsed += Time.deltaTime;
+
+            yield return null;
+        }
+        transform.position = targetLoc; //double check final position
+        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetLoc.x, (int)targetLoc.z)));
+        ReachedDestination?.Invoke();
+    }
     #endregion
 
     #region Getters
@@ -470,6 +490,15 @@ public class PlayerController : MonoBehaviour
     public void StartSpikedCoroutine(Vector3 origin, Vector3 target)
     {
         _currentMovementCoroutine = StartCoroutine(SpikedPlayer(origin, target));
+    }
+    /// <summary>
+    /// No animation movement coroutine
+    /// </summary>
+    /// <param name="origin"></param>
+    /// <param name="target"></param>
+    public void StartSimpleMoveCoroutine(Vector3 origin, Vector3 target, float time)
+    {
+        _currentMovementCoroutine = StartCoroutine(SimpleMoveCoroutine(origin, target, time));
     }
     #endregion
 }
