@@ -94,4 +94,12 @@ public class ShakeManager : MonoBehaviour
     {
         ShakeSettings.isCameraShakeEnabled = false;
     }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            ShakeCamera(1, 1, 2);
+        }
+    }
 }
