@@ -22,4 +22,12 @@ public class ShakeSettings : MonoBehaviour
         }
     }
     #endregion
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            Debug.Log(isCameraShakeEnabled);
+        }
+    }
 }

@@ -11,8 +11,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
 {
     [SerializeField] private Slider _sfxSlider;
     [SerializeField] private Slider _musicSlider;
-    [SerializeField] private Button _turnOnButton;
-    [SerializeField] private Button _turnOffButton;
+    [SerializeField] private Toggle _shakeToggle;
 
     /// <summary>
     /// Sets the sliders on the options menu to match the current volume.
@@ -21,17 +20,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     {
         _sfxSlider.value = SfxManager.Instance.GetCurrentVolume();
         _musicSlider.value = MusicManager.Instance.GetCurrentVolume();
-
-        if (ShakeSettings.isCameraShakeEnabled)
-        {
-            _turnOffButton.gameObject.SetActive(false);
-            _turnOnButton.gameObject.SetActive(true);
-        }
-        else
-        {
-            _turnOffButton.gameObject.SetActive(true);
-            _turnOnButton.gameObject.SetActive(false);
-        }
+        _shakeToggle.isOn = ShakeManager.Instance.GetCurrentToggle();
     }
 
     /// <summary>
