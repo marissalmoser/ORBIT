@@ -51,8 +51,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _upperTextBox;
 
     [Header("Folders")]
-    [SerializeField] private Transform _dealtCardsFolder;
-    [SerializeField] private Transform _playedCardsFolder;
+    [SerializeField] private RectTransform _dealtCardsFolder;
+    [SerializeField] private RectTransform _playedCardsFolder;
 
     [Header("Canvas")]
     [SerializeField] private GameObject _canvas;
