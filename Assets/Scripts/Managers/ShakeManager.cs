@@ -60,20 +60,16 @@ public class ShakeManager : MonoBehaviour
         _perlinNoise.m_FrequencyGain = 0f;
     }
 
-    public static void ToggleShake()
+    public void ToggleShakeOn()
     {
-        ShakeSettings.isCameraShakeEnabled = !ShakeSettings.isCameraShakeEnabled;
+        ShakeSettings.isCameraShakeEnabled = true;
+        Debug.Log("Shake Turned On");
+    }
 
-        if(!ShakeSettings.isCameraShakeEnabled)
-        {
-            ShakeSettings.isCameraShakeEnabled = false;
-            Debug.Log("Camera Shake is Enabled: " + ShakeSettings.isCameraShakeEnabled);
-        }
-        else
-        {
-            ShakeSettings.isCameraShakeEnabled = true;
-            Debug.Log("Camera Shake is Enabled: " + ShakeSettings.isCameraShakeEnabled);
-        }
+    public void ToggleShakeOff()
+    {
+        ShakeSettings.isCameraShakeEnabled = false;
+        Debug.Log("Shake Turned Off");
     }
 
     public bool GetCurrentToggle()
