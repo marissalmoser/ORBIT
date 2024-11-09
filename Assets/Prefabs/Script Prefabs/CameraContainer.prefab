@@ -111,7 +111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 2409389655652410456}
   _virtualCamera: {fileID: 7548964786283510077}
-  _cameraSpeedMult: 1
+  _cameraSpeedMult: 10
 --- !u!114 &2409389655652410456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,8 +417,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 7548964786283510077}
-  frequency: 0
-  amplitude: 0
 --- !u!1 &8829115344087376066
 GameObject:
   m_ObjectHideFlags: 0

@@ -311,6 +311,7 @@ public class CardDisplay : MonoBehaviour
     {
         yield return new WaitForSeconds(delay * 0.1f);
         Vector2 targetPosition = _cardImage.rectTransform.anchoredPosition - new Vector2(120, 0);
+        GetComponent<Animator>().SetTrigger("tilt");
 
         while (_cardImage.rectTransform.anchoredPosition.x != targetPosition.x)
         {

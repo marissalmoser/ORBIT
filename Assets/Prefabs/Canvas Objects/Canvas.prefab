@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5588813525397495722}
   - component: {fileID: 5405937163566822106}
   - component: {fileID: 9123691886998770709}
+  - component: {fileID: 8035965985224512977}
   m_Layer: 5
   m_Name: RightButton
   m_TagString: Untagged
@@ -30,7 +31,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2148886458406526825}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -146,6 +147,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
+--- !u!95 &8035965985224512977
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 337149115245737353}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99388077b1777ae488dc854036ede700, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &428732425559187411
 GameObject:
   m_ObjectHideFlags: 0
@@ -793,7 +815,7 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: 4c5c8bd3bf22c134fb691f19978d4429, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 79c6ee99dbcf0584a9d40cc340007583, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
@@ -1388,6 +1410,7 @@ GameObject:
   - component: {fileID: 6921464326433331564}
   - component: {fileID: 4477332102906128058}
   - component: {fileID: 4651371291938256582}
+  - component: {fileID: 8460749283394705167}
   m_Layer: 5
   m_Name: LeftButton
   m_TagString: Untagged
@@ -1521,6 +1544,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
+--- !u!95 &8460749283394705167
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4754320163454903117}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99388077b1777ae488dc854036ede700, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5284036625563039402
 GameObject:
   m_ObjectHideFlags: 0
@@ -1558,9 +1602,9 @@ RectTransform:
   - {fileID: 4689542396728911642}
   - {fileID: 1807556142743764660}
   - {fileID: 8176530189162349680}
+  - {fileID: 8439267706781973180}
   - {fileID: 1057700142921760103}
   - {fileID: 2438999480504845766}
-  - {fileID: 8439267706781973180}
   - {fileID: 8836850699299163879}
   - {fileID: 4175563591857892786}
   - {fileID: 79671097979244471}
@@ -2505,7 +2549,7 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: d36a6103fe7e21a4da90c5814822f408, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: ec2920ecf061de4488ba45d7711dc054, type: 3}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
