@@ -8255,8 +8255,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &483538624 stripped
-Transform:
+--- !u!224 &483538624 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 8794364410359480799, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
   m_PrefabInstance: {fileID: 483538618}
   m_PrefabAsset: {fileID: 0}
@@ -8271,8 +8271,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &483538627 stripped
-Transform:
+--- !u!224 &483538627 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 374898337913259867, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
   m_PrefabInstance: {fileID: 483538618}
   m_PrefabAsset: {fileID: 0}
@@ -40959,6 +40959,10 @@ PrefabInstance:
     - target: {fileID: 5980909743020872392, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
