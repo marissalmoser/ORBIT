@@ -46,6 +46,11 @@ public class LevelCollectableImage : MonoBehaviour
 
             if(NEW_WORLD == _planetID)
             {
+                //if world 5 is completed, don't enable any new world icons
+                if (_planetID == 5 && CollectibleManager.Instance.collectibleStats[32].GetIsCompleted())
+                {
+                    return;
+                }
                 //enable the new image on child
                 Image[] children = GetComponentsInChildren<Image>();
                 for(int i = 0; i < children.Length; i++)
