@@ -179,6 +179,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 765783699}
   _collectableCollectedAsset: {fileID: 1310102104}
   _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!114 &36626384
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -386,8 +388,8 @@ LineRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Positions:
-  - {x: 10, y: 6, z: 10}
-  - {x: 7, y: 6.5, z: 10}
+  - {x: 10.7, y: 5.8, z: 10}
+  - {x: 8, y: 6.5, z: 10}
   - {x: 5.5, y: 4, z: 10}
   m_Parameters:
     serializedVersion: 3
@@ -813,6 +815,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 1267079529}
   _collectableCollectedAsset: {fileID: 1257220988}
   _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &116125208
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,8 +1040,8 @@ LineRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Positions:
-  - {x: 1, y: 10, z: 10}
-  - {x: 2, y: 8, z: 10}
+  - {x: -0.2, y: 8.3, z: 10}
+  - {x: 2, y: 7, z: 10}
   - {x: 1, y: 5.5, z: 10}
   m_Parameters:
     serializedVersion: 3
@@ -1433,7 +1437,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 522, y: 174}
+  m_AnchoredPosition: {x: 542, y: 174}
   m_SizeDelta: {x: 450, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &327803410
@@ -1452,6 +1456,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 1594299766}
   _collectableCollectedAsset: {fileID: 992658543}
   _UnlockedButtonSprite: {fileID: 21300000, guid: 092eed2a32133824b8cc4a00942ecfa5, type: 3}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!114 &327803411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2956,6 +2962,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 1226909807}
   _collectableCollectedAsset: {fileID: 2118928904}
   _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &683015051
 GameObject:
   m_ObjectHideFlags: 0
@@ -3496,7 +3504,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.605, y: 44.99}
+  m_AnchoredPosition: {x: 4.6049957, y: 44.990005}
   m_SizeDelta: {x: -261.679, y: -270.01}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &897956564
@@ -4368,6 +4376,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 1913303149}
   _collectableCollectedAsset: {fileID: 2018515330}
   _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!114 &1009222220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4508,7 +4518,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -3.806, y: 68.996}
+  m_AnchoredPosition: {x: -3.8059998, y: 68.996}
   m_SizeDelta: {x: -255.543, y: -254}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1039511779
@@ -5199,7 +5209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 15.383, y: 45.59}
+  m_AnchoredPosition: {x: 15.382996, y: 45.589996}
   m_SizeDelta: {x: -310.255, y: -269.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1196193648
@@ -5543,7 +5553,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -378, y: 212}
+  m_AnchoredPosition: {x: -377.99994, y: 212}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1235453759
@@ -6455,7 +6465,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 634, y: -187}
+  m_AnchoredPosition: {x: 606, y: -213}
   m_SizeDelta: {x: 450, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1513210893
@@ -6474,6 +6484,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 1962018659}
   _collectableCollectedAsset: {fileID: 1714481491}
   _UnlockedButtonSprite: {fileID: 21300000, guid: 092eed2a32133824b8cc4a00942ecfa5, type: 3}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!114 &1513210894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6743,6 +6755,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 179699622}
   _collectableCollectedAsset: {fileID: 1173907537}
   _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &1587135724
 GameObject:
   m_ObjectHideFlags: 0
@@ -6906,6 +6920,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 2146039488}
   _collectableCollectedAsset: {fileID: 1448809805}
   _UnlockedButtonSprite: {fileID: 0}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &1593066463
 GameObject:
   m_ObjectHideFlags: 0
@@ -6941,7 +6957,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -642, y: -21}
+  m_AnchoredPosition: {x: -642, y: -53}
   m_SizeDelta: {x: 270, y: 270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1593066465
@@ -7286,7 +7302,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -15, y: 413}
+  m_AnchoredPosition: {x: -199, y: 407}
   m_SizeDelta: {x: 450, y: 450}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1630555183
@@ -7305,6 +7321,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 430330812}
   _collectableCollectedAsset: {fileID: 2129483186}
   _UnlockedButtonSprite: {fileID: 21300000, guid: 092eed2a32133824b8cc4a00942ecfa5, type: 3}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!114 &1630555184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7445,7 +7463,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 62, y: -64}
+  m_AnchoredPosition: {x: 62, y: -74}
   m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1639402530
@@ -8022,7 +8040,7 @@ LineRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Positions:
-  - {x: 12.5, y: -4.9, z: 10}
+  - {x: 12, y: -5.3, z: 10}
   - {x: 10, y: -6, z: 10}
   - {x: 7, y: -4, z: 10}
   m_Parameters:
@@ -8752,14 +8770,14 @@ RectTransform:
   m_GameObject: {fileID: 1969538428}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1145245767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -498, y: -314}
+  m_AnchoredPosition: {x: -498, y: -336}
   m_SizeDelta: {x: 270, y: 270}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1969538430
@@ -8884,6 +8902,8 @@ MonoBehaviour:
   _collectableAsset: {fileID: 0}
   _collectableCollectedAsset: {fileID: 0}
   _UnlockedButtonSprite: {fileID: 21300000, guid: 07ad7e6c0a860da4e8a6c22b90fe7587, type: 3}
+  _isPlanet: 0
+  _planetID: 0
 --- !u!1 &1996795102
 GameObject:
   m_ObjectHideFlags: 0
@@ -9564,7 +9584,7 @@ LineRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_Positions:
-  - {x: -6.5, y: -7.2, z: 10}
+  - {x: -6.8, y: -7.1, z: 10}
   - {x: -4, y: -8, z: 10}
   - {x: -1.5, y: -6, z: 10}
   m_Parameters:
