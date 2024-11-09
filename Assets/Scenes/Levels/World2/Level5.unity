@@ -24512,6 +24512,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Collectable
       objectReference: {fileID: 0}
+    - target: {fileID: 4959794116962874234, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b3702b399da2faf4fa0ea6a58ffd416a, type: 2}
+    - target: {fileID: 4982264267458478011, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 7055976338515424355, guid: dfaf3f9eb35ad7d4991fc0449c5847a1, type: 3}
+    - target: {fileID: 6149442420416377709, guid: e2c0f99474d664d408ad6612a9421282, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
