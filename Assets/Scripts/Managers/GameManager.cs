@@ -8,6 +8,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -63,7 +64,7 @@ public class GameManager : MonoBehaviour
 
     private List<int> _collectedSwitchIDs;
     private List<Collectable> collectablesCollected = new List<Collectable>();
-    private (Card, int) _lastCardPlayed;
+    public (Card, int) lastCardPlayed;
     public Card confirmationCard;
     [NonSerialized] public bool isSwitching, isClearing, isStalling, isUsingWild, currentlyOnWild;
     [NonSerialized] public bool currentlyOnTurn, isTurning;
@@ -280,17 +281,18 @@ public class GameManager : MonoBehaviour
         //Draws until the player has 4 cards or until the deck runs out
         while (_dealtCards.Count < 4 && _deck.Count > 0)
         {
-            if (_lastCardPlayed.Item1 != null)
+            if (lastCardPlayed.Item1 != null)
             {
                 //Replaces the last played card with a new card in the same index
                 //Keeps the other dealt cards in the same location
-                _dealtCards.Insert(_lastCardPlayed.Item2, _deck[0]);
+                _dealtCards.Insert(lastCardPlayed.Item2, _deck[0]);
             }
             else
             {
                 //Adds the top card from the deck onto the dealtCards
                 _dealtCards.Add(_deck[0]);
             }
+
             _deck = _deckManagerCard.RemoveFirst(_deck); //Removes the now dealt card from the deck
         }
 
@@ -568,8 +570,8 @@ public class GameManager : MonoBehaviour
             if (instantiatedImages[i].GetComponentInChildren<CardDisplay>().ID == targetID) //Compares instantiated images' unique ID to the target ID
             {
                 Card playedCard = _dealtCards[i]; //Gets the same ID card
-                _lastCardPlayed = (playedCard, i); //Stores card and the index
-                confirmationCard = _lastCardPlayed.Item1;
+                lastCardPlayed = (playedCard, i); //Stores card and the index
+                confirmationCard = lastCardPlayed.Item1;
                 break;
             }
         }
@@ -586,6 +588,7 @@ public class GameManager : MonoBehaviour
         ChangeGameState(STATE.PlayingActionOrder);
         _cardManager.lastConfirmationCard = null;
         _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
+        CardManager.Instance.canMoveCard = true;
 
 
         //Disables Arrows
@@ -612,7 +615,7 @@ public class GameManager : MonoBehaviour
             && confirmationCard.name != Card.CardName.Stall && confirmationCard.name != Card.CardName.Wild)
             _playedCards.Add(confirmationCard);
 
-        _dealtCards.Remove(_lastCardPlayed.Item1);
+        _dealtCards.Remove(lastCardPlayed.Item1);
 
         //If the confirmed card was a clear card
         if (isClearing)
@@ -672,7 +675,8 @@ public class GameManager : MonoBehaviour
         _cardManager.clearCards = new Image[_cardManager.numOfCardsToClear];
         _cardManager.switchCards.Item1 = null;
         _cardManager.switchCards.Item2 = null;
-        //_uiManager.DestroyTurnCards(); //Destroys turn cards
+        CardManager.Instance.canMoveCard = true;
+        
 
         //Removes all highlight from the images
         List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
@@ -704,10 +708,30 @@ public class GameManager : MonoBehaviour
         _uiManager.UpdatePlayedCards(_playedCards);
         _uiManager.UpdateArrows();
         _arrowsManager.ResetIndex();
+
+        _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
+        _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);
+
         if (!_gameLost)
         {
-            ChangeGameState(STATE.ChooseCards);
+            _cardManager.canMoveCard = false;
+            StartCoroutine(ReturnAnimation(_uiManager.confirmationImage, new Vector2((_uiManager.cardWidth + 10)
+                       * (lastCardPlayed.Item2 + 1) + 15, 15)));
         }
+    }
+
+    IEnumerator ReturnAnimation(Image moveImage, Vector2 targetPosition)
+    {
+        while (moveImage.rectTransform.anchoredPosition != targetPosition)
+        {
+            moveImage.rectTransform.anchoredPosition = Vector2.MoveTowards(moveImage.rectTransform.anchoredPosition, targetPosition, 10f);
+            yield return new WaitForEndOfFrame();
+        }
+
+        _uiManager.DestroyConfirmCard();
+        ChangeGameState(STATE.ChooseCards);
+        _cardManager.canMoveCard = true;
+        yield return null;
     }
 
     /// <summary>
