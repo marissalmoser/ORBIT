@@ -7342,8 +7342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &483538624 stripped
-Transform:
+--- !u!224 &483538624 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 8794364410359480799, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
   m_PrefabInstance: {fileID: 483538618}
   m_PrefabAsset: {fileID: 0}
@@ -7358,8 +7358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &483538627 stripped
-Transform:
+--- !u!224 &483538627 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 374898337913259867, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
   m_PrefabInstance: {fileID: 483538618}
   m_PrefabAsset: {fileID: 0}
@@ -29236,7 +29236,7 @@ PrefabInstance:
       objectReference: {fileID: 483538624}
     - target: {fileID: 5426104964226214690, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: sceneIndexOnWin
-      value: 10
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7511067672945292195, guid: a85423350ce90c84fa379e0d6f72c229, type: 3}
       propertyPath: m_Name
