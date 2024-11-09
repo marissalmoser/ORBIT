@@ -109,6 +109,7 @@ public class MovingWallController : Obstacle
         else
             return 1;
     }
+
     /// <summary>
     /// Moves the wall along the track over time;
     /// </summary>
@@ -143,6 +144,7 @@ public class MovingWallController : Obstacle
                 var tilePCIsOn = pc.GetCurrentTile();
                 GetComponent<BoxCollider>().enabled = false;
                 pc.StartMoveCoroutine(tilePCIsOn.GetPlayerSnapPosition(), TileManager.Instance.GetTileAtLocation(tilePCIsOn, _direction, 1).GetPlayerSnapPosition());
+                pc.PlayAnimation("Move", pc.DetermineProperRollDirection(_direction));
             }
             else
             {

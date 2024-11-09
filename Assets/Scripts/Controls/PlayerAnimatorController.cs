@@ -36,6 +36,6 @@ public class PlayerAnimatorController : MonoBehaviour
     }
     private void PlayAnIdleAnim()
     {
-        playerController.PlayAnimation("Bored");
+        playerController.PlayAnimation("Bored", -1);
     }
 }

@@ -376,16 +376,19 @@ public class PlayerStateMachineBrain : MonoBehaviour
                 case Card.CardName.TurnLeft:
                     SfxManager.Instance.PlaySFX(2469);
                     _currentPlayerController.StartTurnCoroutine(true);
+                    _currentPlayerController.PlayAnimation("TurnLeft", -1);
                     break;
                 case Card.CardName.TurnRight:
                     SfxManager.Instance.PlaySFX(2469);
                     _currentPlayerController.StartTurnCoroutine(false);
+                    _currentPlayerController.PlayAnimation("TurnRight", -1);
                     break;
                 case Card.CardName.Jump:
                     if (_distance > 1) //this is a spring tile
                     {
                         SfxManager.Instance.PlaySFX(1917);
                         _currentPlayerController.StartJumpCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), _targetTile.GetPlayerSnapPosition());
+                        _currentPlayerController.PlayAnimation("Jump", -1);
                     }
                     else // this is a normal jump
                     {
@@ -397,6 +400,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                         {
                             Vector3 newVector = (_targetTile.GetPlayerSnapPosition());
                             _currentPlayerController.StartJumpCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), new Vector3(newVector.x, newVector.y - 1, newVector.z));
+                            _currentPlayerController.PlayAnimation("Jump", -1);
                         }
                         else //block isnt too tall; need to add distance if 0 to actually jump onto the next block
                         {
@@ -406,6 +410,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                             }
                             _currentPlayerController.StartJumpCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), 
                                 TileManager.Instance.GetTileAtLocation(_currentPlayerController.GetCurrentTile(), _currentPlayerController.GetCurrentFacingDirection(), _distance).GetPlayerSnapPosition());
+                            _currentPlayerController.PlayAnimation("Jump", -1);
                         }
                     }
                     break;
@@ -413,6 +418,8 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     SfxManager.Instance.PlaySFX(9754);
                     Vector3 newV = new Vector3(_targetTile.GetPlayerSnapPosition().x, _currentPlayerController.transform.position.y, _targetTile.GetPlayerSnapPosition().z);
                     _currentPlayerController.StartMoveCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), newV);
+                    _currentPlayerController.PlayAnimation("Forward", _currentPlayerController.DetermineProperRollDirection(
+                        TileManager.Instance.GetDirectionBetweenTiles(_currentPlayerController.GetCurrentTile(), _targetTile)));
                     break;
             }
             yield return null;
