@@ -31,6 +31,7 @@ public class Spring : Obstacle
     {
         if (_active)
         {
+            ShakeManager.ShakeCamera(0.5f, 0.5f, 0.3f);
             _anim.SetTrigger("SpringUp");
             _hasFired = true;
         }
