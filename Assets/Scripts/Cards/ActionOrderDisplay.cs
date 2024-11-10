@@ -30,7 +30,7 @@ public class ActionOrderDisplay : MonoBehaviour
     {
         _rt = GetComponent<RectTransform>();
         _image = GetComponent<Image>();
-        _rt.anchoredPosition = new Vector2(-GameManager.Instance.GetPlayedCards().Count * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+        _rt.anchoredPosition = new Vector2(-GameManager.Instance.GetPlayedCards().Count * 120 + UIManager.Instance.cardWidth / 2 - 93, -130);
     }
 
     private void OnEnable()
@@ -98,9 +98,9 @@ public class ActionOrderDisplay : MonoBehaviour
     {
         _image.enabled = false;
         if (GameManager.Instance.isConfirmCardThere)
-            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 93, -130);
         else
-            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 93, -130);
     }
 
     private void ResetIndicatorPosition()
@@ -108,9 +108,9 @@ public class ActionOrderDisplay : MonoBehaviour
         if (_rt != null)
         {
             if (GameManager.Instance.isConfirmCardThere)
-                _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+                _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 93, -130);
             else
-                _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 30, -185);
+                _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 93, -130);
         }
     }
 }

@@ -29,6 +29,7 @@ public class Spike : Obstacle
         }
         else
         {
+            ShakeManager.ShakeCamera(0.5f, 0.5f, 0.3f);
             SfxManager.Instance.PlaySFX(4136);
             _anim.SetTrigger("SpikeUp");
         }
