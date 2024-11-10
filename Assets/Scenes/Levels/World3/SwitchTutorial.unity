@@ -1684,8 +1684,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 99566694}
   m_Mesh: {fileID: 0}
---- !u!4 &99982644 stripped
-Transform:
+--- !u!224 &99982644 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 8794364410359480799, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
   m_PrefabInstance: {fileID: 2870088648296899361}
   m_PrefabAsset: {fileID: 0}
@@ -21648,8 +21648,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1410689868}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1299336786 stripped
-Transform:
+--- !u!224 &1299336786 stripped
+RectTransform:
   m_CorrespondingSourceObject: {fileID: 374898337913259867, guid: 4126abcce0625814eb7537965e1ebf99, type: 3}
   m_PrefabInstance: {fileID: 2870088648296899361}
   m_PrefabAsset: {fileID: 0}
@@ -34861,6 +34861,10 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
       value: 16
       objectReference: {fileID: 0}
@@ -35119,7 +35123,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
