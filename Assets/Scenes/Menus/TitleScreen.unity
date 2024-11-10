@@ -1607,6 +1607,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: SfxManager
       objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[0].maxVolume
+      value: 0.37
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[7].maxVolume
+      value: 0.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[12].maxVolume
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[15].maxVolume
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2512468358307925959, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
+      propertyPath: _SFXs.Array.data[18].maxVolume
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 2790862275621397691, guid: f7ddb07284d4ab24c963075f7bf2bcb1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
