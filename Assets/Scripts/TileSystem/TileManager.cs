@@ -164,6 +164,26 @@ public class TileManager : MonoBehaviour
         Debug.LogError("Could not find a tile in the tilelist at coordinates " + coordinates);
         return null;
     }
+    public int GetDirectionBetweenTiles(Tile tileA, Tile tileB)
+    {
+        Vector2 coordA = tileA.GetCoordinates(); // Assuming Coordinates is a Vector2 property
+        Vector2 coordB = tileB.GetCoordinates();
+
+        if (coordA.x == coordB.x)
+        {
+            if (coordA.y < coordB.y) return 1; // North
+            if (coordA.y > coordB.y) return 7; // South
+        }
+        else if (coordA.y == coordB.y)
+        {
+            if (coordA.x < coordB.x) return 5; // East
+            if (coordA.x > coordB.x) return 3; // West
+        }
+
+        // Default or invalid input (e.g., non-adjacent tiles)
+        return -1;
+    }
+
     #endregion
 
     #region Setters

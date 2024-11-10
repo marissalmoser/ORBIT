@@ -47,10 +47,13 @@ public class PlayerController : MonoBehaviour
     /// Gets a random number from one to ten to allow for many different 
     /// animations to play for the same type in the animator as a parameter.
     /// For example, if there are 3 different jump anims to choose from, they 
-    /// could be assigned weights like 1-5, 6-7, 8-9.
+    /// could be assigned weights like 1-5, 6-7, 8-9. 
+    /// 
+    /// If you pass in -1 for randomAnim, this method will pick a random value
     /// </summary>
     /// <param name="animationName"></param>
-    public void PlayAnimation(string animationName)
+    /// <param name="randomAnim"></param>
+    public void PlayAnimation(string animationName, int randomAnim)
     {      
         if (animator == null)
         {
@@ -60,11 +63,90 @@ public class PlayerController : MonoBehaviour
                 Debug.LogError("Player or player ghost needs an animator component");
             }     
         }
-
-        int ran = Random.Range(1, 10);
-        animator.SetInteger("Random", ran);
-        animator.SetTrigger(animationName);
+        if(randomAnim < 0)
+        {
+            int ran = Random.Range(1, 10);
+            animator.SetInteger("Random", ran);
+            animator.SetTrigger(animationName);
+        }
+        else
+        {
+            animator.SetInteger("Random", randomAnim);
+            animator.SetTrigger(animationName);
+        }
+        
         //animator.SetInteger("Random", -1); //ensuring no animation gets called again
+    }
+
+    /// <summary>
+    /// Returns: 1: Forwards, 3: Sideways left, 5: sideways right, 7: backwards
+    /// </summary>
+    /// <param name="directionGoing"></param>
+    /// <returns></returns>
+    public int DetermineProperRollDirection(int directionGoing)
+    {
+        switch(directionGoing)
+        {
+            case 1: //going north
+                switch(GetCurrentFacingDirection())
+                {
+                    case 1: //facing north
+                        return 1;
+                    case 3: //facing west
+                        return 5;
+                    case 5: //facing east
+                        return 3;
+                    case 7: //facing south
+                        return 7;
+                    default: //fallthrough
+                        return 1;
+                }
+            
+            case 3: //going west
+                switch (GetCurrentFacingDirection())
+                {
+                    case 1: //facing north
+                        return 3; //roll sideways left
+                    case 3: //facing west
+                        return 1; //roll forwards (player facing away)
+                    case 5: //facing east
+                        return 7; //roll backwards (player facing)
+                    case 7: //facing south
+                        return 5; //roll sideways right
+                    default: //fallthrough
+                        return 1;
+                }
+            case 5: //going east
+                switch (GetCurrentFacingDirection())
+                {
+                    case 1: //facing north
+                        return 5; //roll sideways right
+                    case 3: //facing west
+                        return 7; //roll backwards (player facing)
+                    case 5: //facing east
+                        return 1; //roll forwards (player facing away)
+                    case 7: //facing south
+                        return 1;
+                    default: //fallthrough
+                        return 1;
+                }
+            case 7: //going south
+                switch (GetCurrentFacingDirection())
+                {
+                    case 1: //facing north
+                        return 7; //roll  backwards (player facing)
+                    case 3: //facing west
+                        return 3; //roll sideways left
+                    case 5: //facing east
+                        return 5; //roll sideways right
+                    case 7: //facing south
+                        return 1; //roll forwards (player facing away)
+                    default: //fallthrough
+                        return 1;
+                }
+            default:
+                return 1;
+        }
     }
     #region LiteralMovement
     /// <summary>
@@ -80,8 +162,6 @@ public class PlayerController : MonoBehaviour
         float checkTimeElapsed = 0f;
         Card cardOnTile = null;
         Tile nextTile = _currentTile;
-
-        PlayAnimation("Forward");
 
         //get the last key in the curve
         while (timeElapsed < _moveEaseCurve.keys[_moveEaseCurve.length - 1].time)
@@ -156,7 +236,7 @@ public class PlayerController : MonoBehaviour
         float timeElapsed = 0f;
         float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
 
-        PlayAnimation("Fall");
+        PlayAnimation("Fall" , -1);
 
         while (timeElapsed < totalTime)
         {
@@ -184,14 +264,7 @@ public class PlayerController : MonoBehaviour
     {
         float timeElapsed = 0f;
         float totalDuration = _turnEaseCurve.keys[_turnEaseCurve.length - 1].time;
-        if(turningLeft)
-        {
-            PlayAnimation("TurnLeft");
-        }
-        else
-        {
-            PlayAnimation("TurnRight");
-        }
+
         //float startRotationY = transform.eulerAngles.y;
 
         ////first calculate the target Y rotation (90 degrees to the left or right)
@@ -228,7 +301,6 @@ public class PlayerController : MonoBehaviour
         float totalDuration = _jumpEaseCurve.keys[_moveEaseCurve.length - 1].time;
 
 
-        PlayAnimation("Jump");
 
         while (timeElapsed < totalDuration)
         {
@@ -291,7 +363,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator SpikedPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
     {
-        PlayAnimation("SpikeHit");
+        PlayAnimation("SpikeHit", -1);
         yield return new WaitForSeconds(.25f); //Delay for beginning of anim to play
         float timeElapsed = 0f;
         float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
