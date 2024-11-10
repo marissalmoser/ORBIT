@@ -566,7 +566,7 @@ public class CardManager : MonoBehaviour
         
         if (_gameManager.isSwitching)
         {
-            if (_gameManager.hasSwitched) //If there has been at least one change in the order, enable the confirm button
+            if (_gameManager.hasSwitched && switchCards.Item1 == null && switchCards.Item2 == null) //If there has been at least one change in the order, enable the confirm button
             {
                 _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(true);
             }

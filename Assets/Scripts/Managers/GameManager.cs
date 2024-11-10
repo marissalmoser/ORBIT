@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _deathTimerLength;
     [SerializeField] private Texture2D _clearCursor;
     [SerializeField] private Texture2D _switchCursor;
+    public String currentCursor;
     private Vector2 _clearCursorHotspot;
     private Vector2 _switchCursorHotspot;
     private Vector2 _sunnnyCursorHotspot = new Vector2(16, 16);
@@ -178,17 +179,14 @@ public class GameManager : MonoBehaviour
             case STATE.ChooseCards:
                 //Choose Cards methods called
                 gameState = STATE.ChooseCards;
-                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 DealCards();
                 break;
             case STATE.ConfirmCards:
                 gameState = STATE.ConfirmCards;
                 PlayDemo();
-                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 break;
             case STATE.PlayingActionOrder:
                 gameState = STATE.PlayingActionOrder;
-                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
                 break;
             case STATE.ChooseTurn:
                 // Waiting STATE. Game locks in this state until user input
@@ -326,8 +324,8 @@ public class GameManager : MonoBehaviour
                 _uiManager.UpdateTextBox("SELECT A CARD TO CLEAR.");
 
                 if (_clearCursor != null)
-                { 
-                    Cursor.SetCursor(_clearCursor, _clearCursorHotspot, CursorMode.Auto);
+                {
+                    SetCursor("Clear");
                 } 
             }
             else
@@ -347,8 +345,8 @@ public class GameManager : MonoBehaviour
                 _uiManager.UpdateTextBox("SELECT TWO CARDS TO SWAP.");
 
                 if (_switchCursor != null)
-                { 
-                    Cursor.SetCursor(_switchCursor, _switchCursorHotspot, CursorMode.Auto);
+                {
+                    SetCursor("Switch");
                 } 
             }
 
@@ -372,7 +370,6 @@ public class GameManager : MonoBehaviour
             isTurning = true;
             _arrowsManager.ChangeMaxIndex(2);
             _arrowsManager.ResetIndex();
-            Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
         }
         //If Stall Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Stall) //Error check and checks if last card played was a Stall
@@ -589,6 +586,7 @@ public class GameManager : MonoBehaviour
         _cardManager.lastConfirmationCard = null;
         _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
         CardManager.Instance.canMoveCard = true;
+        SetCursor("Default");
 
 
         //Disables Arrows
@@ -676,7 +674,8 @@ public class GameManager : MonoBehaviour
         _cardManager.switchCards.Item1 = null;
         _cardManager.switchCards.Item2 = null;
         CardManager.Instance.canMoveCard = true;
-        
+        SetCursor("Default");
+
 
         //Removes all highlight from the images
         List<Image> tempPlayedCards = _uiManager.GetInstantiatedPlayedCardImages();
@@ -785,6 +784,8 @@ public class GameManager : MonoBehaviour
         {
             _uiManager.UpdateConfirmCard();
             ChangeGameState(STATE.ConfirmCards);
+            _cardManager.switchCards.Item1 = null;
+            _cardManager.switchCards.Item2 = null;
         }
 
     }
@@ -990,6 +991,29 @@ public class GameManager : MonoBehaviour
     /// </summary>
     /// <returns>List<int> list of IDs from played cards being selected to be swapped</returns>
     public List<int> GetCollectedSwitchIDs() { return _collectedSwitchIDs; }
+
+    public void SetCursor(String name)
+    {
+        switch (name)
+        {
+            case "Default":
+                Cursor.SetCursor(null, _sunnnyCursorHotspot, CursorMode.Auto);
+                currentCursor = "Default";
+                break;
+            case "Clear":
+                Cursor.SetCursor(_clearCursor, _switchCursorHotspot, CursorMode.Auto);
+                currentCursor = "Clear";
+                break;
+            case "Switch":
+                Cursor.SetCursor(_switchCursor, _switchCursorHotspot, CursorMode.Auto);
+                currentCursor = "Switch";
+                break;
+            default:
+                Debug.LogWarning("Cursor " + name + " not recognized");
+                currentCursor= "null";
+                break;
+        }
+    }
     #endregion
 
     public enum STATE

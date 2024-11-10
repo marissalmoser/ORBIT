@@ -731,6 +731,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MovingWallTrack (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 27584850675260209, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 508077412299264462, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2
@@ -2115,7 +2119,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5334,7 +5338,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5726,7 +5730,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5852,7 +5856,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5933,6 +5937,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 5ef71f9249955dd41a7d47f746f1ebe1, type: 3}
       propertyPath: m_Name
       value: Volcano
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 5ef71f9249955dd41a7d47f746f1ebe1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7347,6 +7355,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpikeObstacle
       objectReference: {fileID: 0}
+    - target: {fileID: 9106082013316912336, guid: a8c8c48428d15b94dace19566e8b5ed1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7729,7 +7741,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9245,7 +9257,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10067,7 +10079,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10645,7 +10657,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11751,7 +11763,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13563,6 +13575,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpikeObstacle (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9106082013316912336, guid: a8c8c48428d15b94dace19566e8b5ed1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13793,6 +13809,10 @@ PrefabInstance:
     - target: {fileID: 27584850675260209, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_Name
       value: MovingWallTrack (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 27584850675260209, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 508077412299264462, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
@@ -14837,7 +14857,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -16254,7 +16274,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -17643,7 +17663,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -18433,7 +18453,7 @@ PrefabInstance:
     - target: {fileID: 1587924970855399988, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e9e7146278aa7a647b69cf012ee9f509, type: 2}
+      objectReference: {fileID: -3438727032069350227, guid: bb94748166c0a5647aa4e24cb138a02c, type: 3}
     - target: {fileID: 1692833811926492168, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: _tracks.Array.size
       value: 2
@@ -18446,6 +18466,10 @@ PrefabInstance:
       propertyPath: _tracks.Array.data[1]
       value: 
       objectReference: {fileID: 1785401900}
+    - target: {fileID: 2013298029267953996, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 6893774122198284887, guid: bb94748166c0a5647aa4e24cb138a02c, type: 3}
     - target: {fileID: 2936085705647744665, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -18493,6 +18517,10 @@ PrefabInstance:
     - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Name
       value: Moving Wall (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21575,7 +21603,7 @@ PrefabInstance:
     - target: {fileID: 1587924970855399988, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e9e7146278aa7a647b69cf012ee9f509, type: 2}
+      objectReference: {fileID: -3438727032069350227, guid: bb94748166c0a5647aa4e24cb138a02c, type: 3}
     - target: {fileID: 1692833811926492168, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: _tracks.Array.size
       value: 2
@@ -21588,6 +21616,10 @@ PrefabInstance:
       propertyPath: _tracks.Array.data[1]
       value: 
       objectReference: {fileID: 44107682}
+    - target: {fileID: 2013298029267953996, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 6893774122198284887, guid: bb94748166c0a5647aa4e24cb138a02c, type: 3}
     - target: {fileID: 2936085705647744665, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -21635,6 +21667,10 @@ PrefabInstance:
     - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Name
       value: Moving Wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21817,6 +21853,10 @@ PrefabInstance:
     - target: {fileID: 4549589335084361384, guid: 43455fe13ee4c16409671e6354c75ea2, type: 3}
       propertyPath: m_Name
       value: LavaParent
+      objectReference: {fileID: 0}
+    - target: {fileID: 4549589335084361384, guid: 43455fe13ee4c16409671e6354c75ea2, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5098411604237603081, guid: 43455fe13ee4c16409671e6354c75ea2, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22173,7 +22213,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -23781,7 +23821,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -25213,7 +25253,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27110,6 +27150,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MovingWallTrack (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 27584850675260209, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 508077412299264462, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
@@ -28216,7 +28260,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9147d1a5381f40f4abab48484134ce58, type: 2}
+  - {fileID: -5584151826611856516, guid: b55e29cd60f01de4fb8e0e4f751cc7f4, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -29257,6 +29301,10 @@ PrefabInstance:
     - target: {fileID: 27584850675260209, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_Name
       value: MovingWallTrack
+      objectReference: {fileID: 0}
+    - target: {fileID: 27584850675260209, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 508077412299264462, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
@@ -32193,6 +32241,10 @@ PrefabInstance:
     - target: {fileID: 5623996687770927008, guid: 01c1e9b25172b3b4bbcb66ed9b71c884, type: 3}
       propertyPath: m_Name
       value: Sparks
+      objectReference: {fileID: 0}
+    - target: {fileID: 5623996687770927008, guid: 01c1e9b25172b3b4bbcb66ed9b71c884, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

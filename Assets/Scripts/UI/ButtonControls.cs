@@ -18,6 +18,7 @@ public class ButtonControls : MonoBehaviour
     public bool isActive;
     private Animator _anim;
     public static Action CancelCard;
+    private String _currentCursor;
 
     void Start()
     {
@@ -79,6 +80,18 @@ public class ButtonControls : MonoBehaviour
             _gameManager.CancelCard();
             CancelCard.Invoke();
         }
+    }
+
+    public void AnyConfirmationButtonEnter()
+    {
+        _currentCursor = _gameManager.currentCursor;
+        _gameManager.SetCursor("Default");
+    }
+
+    public void AnyConfirmationButtonExit()
+    {
+        if (CardManager.Instance.lastConfirmationCard != null)
+            _gameManager.SetCursor(_currentCursor);
     }
     #endregion
 
