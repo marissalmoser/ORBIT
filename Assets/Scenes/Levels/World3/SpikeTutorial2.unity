@@ -11749,6 +11749,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3036567191650898142, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
+      propertyPath: m_Size.y
+      value: 0.22125262
+      objectReference: {fileID: 0}
+    - target: {fileID: 3036567191650898142, guid: f23f64b4272e8c742b5ffec9a29218fe, type: 3}
+      propertyPath: m_Center.y
+      value: -0.3893737
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22285,14 +22293,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deck:
   - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
-  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
+  - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
   - {fileID: 11400000, guid: 87cdb0c0c87448e4eb123d3b1fffb6e2, type: 2}
-  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
-  - {fileID: 11400000, guid: ade58409972f308418d70ccb6aae452b, type: 2}
+  - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
+  - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
   - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
   - {fileID: 11400000, guid: 1e296271ab7e028489c368061047f441, type: 2}
   - {fileID: 11400000, guid: 1d5bf802da7e41b4980953489bfb2940, type: 2}
-  - {fileID: 11400000, guid: f94758a64fb682040ab053c17a514c7b, type: 2}
+  - {fileID: 11400000, guid: 3c6e8ccf817a5e44eb208a0458978dfe, type: 2}
   originalDeck: []
 --- !u!1 &1486646504
 GameObject:
