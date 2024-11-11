@@ -21,13 +21,14 @@ public class LevelCollectableImage : MonoBehaviour
     private CollectibleStats _thisLevel;
 
     [SerializeField] bool _isPlanet;
+    [SerializeField] int _uniqueLevelIndex;
     [SerializeField] int _planetID;
     private static int NEW_WORLD = 1;
 
     private void Awake()
     {
         //new icon functionality
-        if (_isPlanet && CollectibleManager.Instance.collectibleStats[_buildIndex].GetIsCompleted()
+        if (_isPlanet && CollectibleManager.Instance.collectibleStats[_uniqueLevelIndex].GetIsCompleted()
             && _planetID >= NEW_WORLD)
         {
             NEW_WORLD = _planetID;
@@ -39,10 +40,10 @@ public class LevelCollectableImage : MonoBehaviour
         _thisLevel = CollectibleManager.Instance.collectibleStats[_buildIndex];
 
         //if this is a planet and build index is completed, switch sprite and unlock
-        if (_isPlanet && _thisLevel.GetIsCompleted())
+        if (_isPlanet && CollectibleManager.Instance.collectibleStats[_uniqueLevelIndex].GetIsCompleted())
         {
             GetComponent<Image>().sprite = _UnlockedButtonSprite;
-            CollectibleManager.Instance.collectibleStats[_buildIndex].SetIsLocked(false);
+            _thisLevel.SetIsLocked(false);
 
             if(NEW_WORLD == _planetID)
             {

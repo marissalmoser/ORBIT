@@ -951,7 +951,10 @@ public class GameManager : MonoBehaviour
     {
         _collectableCollected = state;
     }
-
+    public bool GetCollectableStatus()
+    {
+        return _collectableCollected;
+    }
     #region Getters
     public int GetCollectableCount() { return collectablesCollected.Count; }
 
