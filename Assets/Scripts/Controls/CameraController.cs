@@ -17,6 +17,19 @@ public class CameraController : MonoBehaviour
     private Coroutine _cameraMovementCoroutine;
     [SerializeField] private float _cameraSpeedMult;
 
+    public static CameraController Instance;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     private void OnEnable()
     {
         // Store the action map reference
@@ -113,5 +126,15 @@ public class CameraController : MonoBehaviour
 
         CinemachineTrackedDolly dolly = _virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
         dolly.m_PathPosition += direction * _cameraSpeedMult * Time.deltaTime * -1;
+    }
+
+    public float GetCurrentCameraSpeed()
+    {
+        return _cameraSpeedMult;
+    }
+
+    public void SetCameraSpeed(float speed)
+    {
+        _cameraSpeedMult = speed;
     }
 }

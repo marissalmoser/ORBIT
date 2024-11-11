@@ -11,6 +11,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
 {
     [SerializeField] private Slider _sfxSlider;
     [SerializeField] private Slider _musicSlider;
+    [SerializeField] private Slider _cameraSpeedSlider;
     [SerializeField] private Button _turnOffButton;
     [SerializeField] private Button _turnOnButton;
 
@@ -21,6 +22,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
     {
         _sfxSlider.value = SfxManager.Instance.GetCurrentVolume();
         _musicSlider.value = MusicManager.Instance.GetCurrentVolume();
+        _cameraSpeedSlider.value = CameraController.Instance.GetCurrentCameraSpeed();
         
         if(ShakeSettings.isCameraShakeEnabled)
         {
