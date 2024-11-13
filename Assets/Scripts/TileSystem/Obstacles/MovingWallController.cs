@@ -151,13 +151,13 @@ public class MovingWallController : Obstacle
                         temp = -1; //return a go forward
                         break;
                     case 3:
-                        temp = 12; //return a roll left
+                        temp = 14; //return a roll left
                         break;
                     case 5:
                         temp = 11; //return a roll right
                         break;
                     case 7:
-                        temp = 13; //return a roll backwards
+                        temp = 17; //return a roll backwards
                         break;
                 }
                 pc.PlayAnimation("Forward", temp);

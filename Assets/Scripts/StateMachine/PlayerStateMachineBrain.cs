@@ -426,13 +426,13 @@ public class PlayerStateMachineBrain : MonoBehaviour
                             anim = -1; //return a go forward
                             break;
                         case 3:
-                            anim = 12; //return a roll left
+                            anim = 14; //return a roll left
                             break;
                         case 5:
                             anim = 11; //return a roll right
                             break;
                         case 7:
-                            anim = 13; //return a roll backwards
+                            anim = 17; //return a roll backwards
                             break;
                     }
                     _currentPlayerController.PlayAnimation("Forward", anim);
