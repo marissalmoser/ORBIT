@@ -39,7 +39,7 @@ public class ShakeManager : MonoBehaviour
     /// <param name="duration"></param>
     public static void ShakeCamera(float amplitude, float frequency, float duration)
     {
-        if(ShakeSettings.isCameraShakeEnabled)
+        if(CameraSettings.isCameraShakeEnabled)
         {
             ShakeManager shakeManager = FindObjectOfType<ShakeManager>();
             if(shakeManager != null)
@@ -84,7 +84,7 @@ public class ShakeManager : MonoBehaviour
     /// </summary>
     public void ToggleShakeOn()
     {
-        ShakeSettings.isCameraShakeEnabled = true;
+        CameraSettings.isCameraShakeEnabled = true;
     }
 
     /// <summary>
@@ -92,6 +92,6 @@ public class ShakeManager : MonoBehaviour
     /// </summary>
     public void ToggleShakeOff()
     {
-        ShakeSettings.isCameraShakeEnabled = false;
+        CameraSettings.isCameraShakeEnabled = false;
     }
 }

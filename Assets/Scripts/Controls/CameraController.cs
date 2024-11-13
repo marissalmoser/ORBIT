@@ -15,7 +15,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private CinemachineVirtualCamera _virtualCamera;
     private Coroutine _cameraMovementCoroutine;
-    [SerializeField] private float _cameraSpeedMult;
 
     public static CameraController Instance;
 
@@ -91,7 +90,7 @@ public class CameraController : MonoBehaviour
     {
         CinemachineTrackedDolly dolly = _virtualCamera.GetCinemachineComponent
             <CinemachineTrackedDolly>();
-        float movementSpeed = direction * _cameraSpeedMult;
+        float movementSpeed = direction * CameraSettings.cameraSpeedMultiplier;
 
         while (Mathf.Abs(direction) > 0.01f)
         {
@@ -125,16 +124,16 @@ public class CameraController : MonoBehaviour
             direction = -1;
 
         CinemachineTrackedDolly dolly = _virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
-        dolly.m_PathPosition += direction * _cameraSpeedMult * Time.deltaTime * -1;
+        dolly.m_PathPosition += direction * CameraSettings.cameraSpeedMultiplier * Time.deltaTime * -1;
     }
 
     public float GetCurrentCameraSpeed()
     {
-        return _cameraSpeedMult;
+        return CameraSettings.cameraSpeedMultiplier;
     }
 
     public void SetCameraSpeed(float speed)
     {
-        _cameraSpeedMult = speed;
+        CameraSettings.cameraSpeedMultiplier = speed;
     }
 }

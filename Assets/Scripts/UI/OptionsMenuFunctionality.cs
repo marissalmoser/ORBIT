@@ -24,7 +24,7 @@ public class OptionsMenuFunctionality : MonoBehaviour
         _musicSlider.value = MusicManager.Instance.GetCurrentVolume();
         _cameraSpeedSlider.value = CameraController.Instance.GetCurrentCameraSpeed();
         
-        if(ShakeSettings.isCameraShakeEnabled)
+        if(CameraSettings.isCameraShakeEnabled)
         {
             _turnOnButton.gameObject.SetActive(true);
             _turnOffButton.gameObject.SetActive(false);
