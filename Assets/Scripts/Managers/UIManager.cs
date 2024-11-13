@@ -62,7 +62,6 @@ public class UIManager : MonoBehaviour
     public Button confirmButton, cancelButton;
 
     [Header("Deck Scriptable Objects")]
-    [SerializeField] private Card _deckCardSingle;
     [SerializeField] private Card _deckCard;
 
     [Header("Card Scriptable Objects")]
@@ -162,22 +161,23 @@ public class UIManager : MonoBehaviour
         _deck.rectTransform.anchoredPosition = new Vector3(_widthPadding, _heightPadding, 0); //Sets position
 
         CardDisplay deckCard = _deck.GetComponentInChildren<CardDisplay>(); //Gets data from image
-
+        deckCard.card = _deckCard;
+        _deckCount.enabled = true;
         if (_gameManager._deck.Count > 1)
         {
-            deckCard.card = _deckCard;
-            _deckCount.enabled = true;
+            deckCard.isFromWild = false;
         }
         else if (_gameManager._deck.Count <= 1)
         {
-            deckCard.card = _deckCardSingle;
-            _deckCount.enabled = true;
+            deckCard.isFromWild = true;
+
             _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
             _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 39.4f);
 
             if (_gameManager._deck.Count == 0)
                 _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(10.9f, 0f);
         }
+        deckCard.SetImage();
         _deck.transform.SetSiblingIndex(8);
         _deckCount.transform.SetSiblingIndex(9);
 
