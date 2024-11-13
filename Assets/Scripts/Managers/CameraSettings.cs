@@ -2,7 +2,7 @@
 *    Author: Sky Turner
 *    Contributors: 
 *    Date Created: 11/1/24
-*    Description: This script contains the settings for the shaking camera
+*    Description: This script contains the settings for the camera
 *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
