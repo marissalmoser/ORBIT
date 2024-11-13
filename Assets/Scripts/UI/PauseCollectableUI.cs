@@ -23,7 +23,7 @@ public class PauseCollectableUI : MonoBehaviour
         }
 
         //sets the collected asset 
-        if(CollectibleManager.Instance.GetIsCollected())
+        if(GameManager.Instance.GetCollectableStatus())
         {
             GetComponent<Image>().enabled = true;
         }

@@ -732,11 +732,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02119cb0c874a8458a70bf5522b86af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildIndex: 21
+  _buildIndex: 23
   _collectableAsset: {fileID: 0}
   _collectableCollectedAsset: {fileID: 0}
   _UnlockedButtonSprite: {fileID: 21300000, guid: 06d12d5026b399745b8936fe2c536a1e, type: 3}
   _isPlanet: 1
+  _uniqueLevelIndex: 21
   _planetID: 4
 --- !u!1 &683015051
 GameObject:
@@ -1337,11 +1338,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02119cb0c874a8458a70bf5522b86af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildIndex: 7
+  _buildIndex: 9
   _collectableAsset: {fileID: 0}
   _collectableCollectedAsset: {fileID: 0}
   _UnlockedButtonSprite: {fileID: 21300000, guid: 790a4944e9de39843a4e935d102f432e, type: 3}
   _isPlanet: 1
+  _uniqueLevelIndex: 7
   _planetID: 2
 --- !u!1 &1564689360
 GameObject:
@@ -1501,11 +1503,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02119cb0c874a8458a70bf5522b86af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildIndex: 14
+  _buildIndex: 16
   _collectableAsset: {fileID: 0}
   _collectableCollectedAsset: {fileID: 0}
   _UnlockedButtonSprite: {fileID: 21300000, guid: 1ec212ac2586c0140b892c9b1fed8646, type: 3}
   _isPlanet: 1
+  _uniqueLevelIndex: 14
   _planetID: 3
 --- !u!1 &1791375906
 GameObject:
@@ -1670,6 +1673,7 @@ MonoBehaviour:
   _collectableCollectedAsset: {fileID: 0}
   _UnlockedButtonSprite: {fileID: 21300000, guid: cfcb3dc4999f7654d9b6ee7e056de017, type: 3}
   _isPlanet: 1
+  _uniqueLevelIndex: 2
   _planetID: 1
 --- !u!1 &1837714579
 GameObject:
@@ -2099,11 +2103,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e02119cb0c874a8458a70bf5522b86af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _buildIndex: 27
+  _buildIndex: 29
   _collectableAsset: {fileID: 0}
   _collectableCollectedAsset: {fileID: 0}
   _UnlockedButtonSprite: {fileID: 21300000, guid: d273af0fa30edc4448badbb6ff872464, type: 3}
   _isPlanet: 1
+  _uniqueLevelIndex: 27
   _planetID: 5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

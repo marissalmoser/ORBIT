@@ -231,7 +231,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
         }
-        FSM(State.WaitingForActions);
+        //FSM(State.WaitingForActions);
     }
     public void HandleReachedDestination()
     {
