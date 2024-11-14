@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform _raycastPoint;
     [SerializeField] private Tile _currentTile;
-    private Tile _previousTile; 
+    private Tile _previousTile;
 
     [SerializeField] private AnimationCurve _moveEaseCurve;
     [SerializeField] private AnimationCurve _jumpEaseCurve;
@@ -36,10 +36,13 @@ public class PlayerController : MonoBehaviour
     public void Start()
     {
         _previousTile = GetTileWithPlayerRaycast();
+        Vector3 temp = _previousTile.GetPlayerSnapAnchor().transform.position;
+        Vector3 temp1 = new Vector3(temp.x, temp.y + 5, temp.z);
+        StartFallCoroutine(temp1, temp);
     }
     void Update()
     {
-        
+
     }
     /// <summary>
     /// This method condenses repiticious code into one spot, since animation
@@ -54,16 +57,16 @@ public class PlayerController : MonoBehaviour
     /// <param name="animationName"></param>
     /// <param name="randomAnim"></param>
     public void PlayAnimation(string animationName, int randomAnim)
-    {      
+    {
         if (animator == null)
         {
             animator = GetComponentInChildren<Animator>();
-            if(animator == null)
+            if (animator == null)
             {
                 Debug.LogError("Player or player ghost needs an animator component");
-            }     
+            }
         }
-        if(randomAnim < 0)
+        if (randomAnim < 0)
         {
             int ran = Random.Range(1, 10);
             animator.SetInteger("Random", ran);
@@ -74,7 +77,7 @@ public class PlayerController : MonoBehaviour
             animator.SetInteger("Random", randomAnim);
             animator.SetTrigger(animationName);
         }
-        
+
         //animator.SetInteger("Random", -1); //ensuring no animation gets called again
     }
 
@@ -85,10 +88,10 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     public int DetermineProperRollDirection(int directionGoing)
     {
-        switch(directionGoing)
+        switch (directionGoing)
         {
             case 1: //going north
-                switch(GetCurrentFacingDirection())
+                switch (GetCurrentFacingDirection())
                 {
                     case 1: //facing north
                         return 1;
@@ -101,7 +104,7 @@ public class PlayerController : MonoBehaviour
                     default: //fallthrough
                         return 1;
                 }
-            
+
             case 3: //going west
                 switch (GetCurrentFacingDirection())
                 {
@@ -174,7 +177,7 @@ public class PlayerController : MonoBehaviour
             // Interpolate the player's position based on the curve's output
             transform.position = Vector3.Lerp(originTileLoc, targetTileLoc, curvePosition);
 
-            
+
             if (checkTimeElapsed >= _checkInterval)
             {
                 if (GetTileWithPlayerRaycast() != null && GetTileWithPlayerRaycast().GetCoordinates() != nextTile.GetCoordinates())
@@ -193,7 +196,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else if (nextTile.GetObstacleClass() != null && nextTile.GetObstacleClass().IsActive()) //runs atop an active obstacle
                     {
-                        
+
                         //SetCurrentTile(TileManager.Instance.GetTileByCoordinates(nextTile.GetCoordinates()));
                         targetTileLoc = nextTile.GetPlayerSnapPosition();
                         cardOnTile = TileManager.Instance.GetObstacleWithTileCoordinates(nextTile.GetCoordinates()).GetCard();
@@ -204,7 +207,7 @@ public class PlayerController : MonoBehaviour
                 // Reset the check timer
                 checkTimeElapsed = 0f;
             }
-            yield return null;           
+            yield return null;
         }
 
         transform.position = targetTileLoc; //double check final position
@@ -236,7 +239,7 @@ public class PlayerController : MonoBehaviour
         float timeElapsed = 0f;
         float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
 
-        PlayAnimation("Fall" , -1);
+        PlayAnimation("Fall", -1);
 
         while (timeElapsed < totalTime)
         {
@@ -258,6 +261,9 @@ public class PlayerController : MonoBehaviour
             }
         }
         //GetComponent<SphereCollider>().enabled = true;
+
+        //Call a screne shake here?
+
         ReachedDestination?.Invoke();
     }
     private IEnumerator TurnPlayer(bool turningLeft)

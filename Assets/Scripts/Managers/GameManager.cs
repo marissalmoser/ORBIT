@@ -916,7 +916,7 @@ public class GameManager : MonoBehaviour
     {
         //Moves Cards if the Card is added into the Action Order (Example: if the card is not a Clear Card)
 
-        if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
+        if (confirmationCard != null && confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
         {
             List<Image> playedCardImages = _uiManager.GetInstantiatedPlayedCardImages();
             int playedCardsCount = playedCardImages.Count;
