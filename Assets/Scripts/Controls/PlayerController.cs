@@ -35,12 +35,19 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
     private Vector3 _startPos;
+    private bool _canFall;
+    [SerializeField] private bool _isPlayer;
 
     public void Start()
     {
         //_previousTile = GetTileWithPlayerRaycast();
-        _startPos = transform.position;
-        transform.position += new Vector3(0, 10, 0);
+        if (_isPlayer)
+        {
+            _startPos = transform.position;
+            print("Startting pos: " + _startPos);
+            transform.position += new Vector3(0, 10, 0);
+            _canFall = true;
+        }
     }
 
     private void OnEnable()
@@ -411,21 +418,28 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator FallIntoLevel()
     {
+        //wait until fields are set
+        // while (!_canFall)
+        // {
+        //     yield return null;
+        // }
+        //
         Vector3 originLoc = transform.position;
         Vector3 targetLoc = _startPos;
         float timeElapsed = 0f;
         float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
+        
+        print("origin pos: " + originLoc);
+        print("target pos: " + targetLoc);
 
         //transform.position = originLoc;
         SphereCollider col = GetComponent<SphereCollider>();
-        if (col != null)
+        if (col != null) 
         {
             col.enabled = false;
         }
 
         //yield return new WaitForSeconds(0.5f);
-
-        PlayAnimation("Fall", -1);
 
         while (timeElapsed < totalTime)
         {
@@ -436,10 +450,14 @@ public class PlayerController : MonoBehaviour
         }
 
         transform.position = targetLoc;
+        
         if (col != null)
         {
-            col.enabled = true;
+            col.enabled = true; //need to get the ghost collider too
         }
+
+        PlayAnimation("Fall", -1);
+        ShakeManager.ShakeCamera(1,1,0.3f); //make anim event
 
         _previousTile = GetTileWithPlayerRaycast();
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetLoc.x, (int)targetLoc.z)));
@@ -622,7 +640,10 @@ public class PlayerController : MonoBehaviour
 
     public void StartFallIntoLevelCoroutine()
     {
-        _currentMovementCoroutine = StartCoroutine(FallIntoLevel());
+        if (_isPlayer)
+        {
+            _currentMovementCoroutine = StartCoroutine(FallIntoLevel());
+        }
     }
     #endregion
 }

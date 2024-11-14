@@ -261,6 +261,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _isPlayer: 0
 --- !u!1 &8738298236461623606
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,6 +464,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _isPlayer: 1
 --- !u!114 &2236043229551066485
 MonoBehaviour:
   m_ObjectHideFlags: 0
