@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public static UnityAction WallInterruptAnimation;
     public static UnityAction SpikeCollision;
     public static UnityAction ReachedDestination;
+    public static UnityAction StartPlayerController;
     public static UnityAction<Card> AddCard;
 
     [SerializeField] private int _currentFacingDirection;
@@ -33,14 +34,24 @@ public class PlayerController : MonoBehaviour
     private Coroutine _currentMovementCoroutine;
     private Animator animator;
 
+    private Vector3 _startPos;
+
     public void Start()
     {
-        _previousTile = GetTileWithPlayerRaycast();
+        //_previousTile = GetTileWithPlayerRaycast();
+        _startPos = transform.position;
+        transform.position += new Vector3(0, 10, 0);
     }
-    void Update()
+
+    private void OnEnable()
     {
-        
+        StartPlayerController += StartFallIntoLevelCoroutine;
     }
+    private void OnDisable()
+    {
+        StartPlayerController -= StartFallIntoLevelCoroutine;
+    }
+
     /// <summary>
     /// This method condenses repiticious code into one spot, since animation
     /// triggers are called with strings they can be passed along no problem.
@@ -397,6 +408,42 @@ public class PlayerController : MonoBehaviour
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetLoc.x, (int)targetLoc.z)));
         ReachedDestination?.Invoke();
     }
+
+    private IEnumerator FallIntoLevel()
+    {
+        Vector3 originLoc = transform.position;
+        Vector3 targetLoc = _startPos;
+        float timeElapsed = 0f;
+        float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
+
+        //transform.position = originLoc;
+        SphereCollider col = GetComponent<SphereCollider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        //yield return new WaitForSeconds(0.5f);
+
+        PlayAnimation("Fall", -1);
+
+        while (timeElapsed < totalTime)
+        {
+            float time = timeElapsed / totalTime;
+            transform.position = Vector3.Lerp(originLoc, targetLoc, time);
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetLoc;
+        if (col != null)
+        {
+            col.enabled = true;
+        }
+
+        _previousTile = GetTileWithPlayerRaycast();
+        SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetLoc.x, (int)targetLoc.z)));
+    }
     #endregion
 
     #region Getters
@@ -571,6 +618,11 @@ public class PlayerController : MonoBehaviour
     public void StartSimpleMoveCoroutine(Vector3 origin, Vector3 target, float time)
     {
         _currentMovementCoroutine = StartCoroutine(SimpleMoveCoroutine(origin, target, time));
+    }
+
+    public void StartFallIntoLevelCoroutine()
+    {
+        _currentMovementCoroutine = StartCoroutine(FallIntoLevel());
     }
     #endregion
 }

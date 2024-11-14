@@ -118,41 +118,6 @@ public class GameManager : MonoBehaviour
         ChangeGameState(STATE.LoadGame);
     }
 
-    public void EnableGM()
-    {
-        print("in gm");
-        //Carefully change order if needed. Some managers must be initialzed before others
-        _deckManagerCard = DeckManager<Card>.Instance;
-        _deckManagerInt = DeckManager<int>.Instance;
-        _uiManager = UIManager.Instance;
-        _cardManager = CardManager.Instance;
-        _arrowsManager = ArrowsManager.Instance;
-        _levelDeck = FindObjectOfType<LevelDeck>();
-        lowerDarkenIndex = false;
-
-        isSwitching = false;
-        currentlyOnTurn = false;
-        isTurning = false;
-        isClearing = false;
-        isStalling = false;
-        isUsingWild = false;
-        currentlyOnWild = false;
-        hasSwitched = false;
-        _getOriginalDeck = true;
-        isConfirmCardThere = false;
-
-        if (_clearCursor != null)
-        {
-            _clearCursorHotspot = new Vector2(_clearCursor.width / 2, _clearCursor.height / 2);
-        }
-        if (_switchCursor != null)
-        {
-            _switchCursorHotspot = new Vector2(_switchCursor.width / 2, _switchCursor.height / 2);
-        }
-        ChangeGameState(STATE.LoadGame);
-    }
-
-
     /// <summary>
     /// Controls the current game state.
     /// 
@@ -240,7 +205,17 @@ public class GameManager : MonoBehaviour
 
         _collectedSwitchIDs = new();
 
-        ChangeGameState(STATE.StartLevel);
+        //Disables Darken Effects
+        darken.enabled = false;
+        deckShownDarken.enabled = false;
+
+        //if there is no pop up menu in this level, start the level
+        PopUpMenu pum = FindObjectOfType<PopUpMenu>();
+        if (pum == null)
+        {
+            PlayerController.StartPlayerController?.Invoke();
+            ChangeGameState(STATE.StartLevel);
+        }
     }
 
     /// <summary>
@@ -258,10 +233,6 @@ public class GameManager : MonoBehaviour
         {
             _startingDeck.Add(card);
         }
-
-        //Disables Darken Effects
-        darken.enabled = false;
-        deckShownDarken.enabled = false;
 
         //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
         if (!_gameLost)

@@ -52,6 +52,8 @@ public class PopUpMenu : MonoBehaviour
     /// </summary>
     public void SkipPopUp()
     {
+        GameManager.Instance.ChangeGameState(GameManager.STATE.StartLevel);
+        PlayerController.StartPlayerController?.Invoke();
         gameObject.SetActive(false);
     }
 }
