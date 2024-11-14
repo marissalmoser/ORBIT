@@ -22896,17 +22896,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99d3e40a7c86a5a49a111add0d1a2f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1413658917 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1517165237790635309, guid: 04d5d36471449f343acfc7a0f80fbc0e, type: 3}
-  m_PrefabInstance: {fileID: 1413658915}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7716a033d97f0f44283d588fa9d1c288, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1415225177
 GameObject:
   m_ObjectHideFlags: 0
@@ -34785,34 +34774,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5980909743020872392, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394257392533235473, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394257392533235473, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394257392533235473, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[2].m_Target
-      value: 
-      objectReference: {fileID: 1413658917}
-    - target: {fileID: 6394257392533235473, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394257392533235473, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: SetCameraSpeed
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394257392533235473, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
-      value: CameraController, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394257392533235473, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
-      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8490353939196895500, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
