@@ -20,6 +20,7 @@ public class ActionOrderDisplay : MonoBehaviour
     public static Action NewActionPlayed;
     public static Action ActionOrderComplete;
     public static Action ResetIndicator;
+    [NonSerialized] public static bool shouldReset;
 
     [SerializeField] private float _moveSpeed;
 
@@ -105,12 +106,10 @@ public class ActionOrderDisplay : MonoBehaviour
 
     private void ResetIndicatorPosition()
     {
-        if (_rt != null)
+        if (_rt != null && shouldReset)
         {
-            if (GameManager.Instance.isConfirmCardThere)
-                _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 93, -130);
-            else
-                _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 93, -130);
+            shouldReset = false;
+            _rt.anchoredPosition = new Vector2((-UIManager.Instance.shiftIndex - 1) * 120 + UIManager.Instance.cardWidth / 2 - 93, -130);
         }
     }
 }

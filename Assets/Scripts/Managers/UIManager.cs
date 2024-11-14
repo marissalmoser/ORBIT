@@ -76,7 +76,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Card _wildCard;
 
     private GameManager _gameManager;
-    private ArrowsManager _arrowsManager;
+    private ButtonsManager _buttonsManager;
     private CardManager _cardManager;
 
     private Image _deck;
@@ -102,7 +102,7 @@ public class UIManager : MonoBehaviour
     public void Init()
     {
         _gameManager = GameManager.Instance;
-        _arrowsManager = ArrowsManager.Instance;
+        _buttonsManager = ButtonsManager.Instance;
         _cardManager = CardManager.Instance;
 
         screenWidth = _canvas.GetComponent<RectTransform>().rect.width;
@@ -163,20 +163,24 @@ public class UIManager : MonoBehaviour
         CardDisplay deckCard = _deck.GetComponentInChildren<CardDisplay>(); //Gets data from image
         deckCard.card = _deckCard;
         _deckCount.enabled = true;
+
+        _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
         if (_gameManager._deck.Count > 1)
         {
-            deckCard.isFromWild = false;
-        }
-        else if (_gameManager._deck.Count <= 1)
-        {
             deckCard.isFromWild = true;
+        }
+        else
+        {
+            deckCard.isFromWild = false;
 
-            _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
             _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 39.4f);
 
-            if (_gameManager._deck.Count == 0)
+            if (_gameManager._deck.Count == 0) //Repositions the 0, since it is off center
+            {
                 _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(10.9f, 0f);
+            }
         }
+
         deckCard.SetImage();
         _deck.transform.SetSiblingIndex(8);
         _deckCount.transform.SetSiblingIndex(9);
@@ -387,9 +391,9 @@ public class UIManager : MonoBehaviour
     public void UpdateConfirmCard()
     {
         if (_gameManager.isTurning)
-            _arrowsManager.ChangeMaxIndex(2);
+            _buttonsManager.ChangeMaxIndex(2);
         else
-            _arrowsManager.ChangeMaxIndex(numOfUniqueCards);
+            _buttonsManager.ChangeMaxIndex(numOfUniqueCards);
         //Makes sure a clear or switch card was not played when it wasn't supposed to be played
         if (_gameManager.confirmationCard != null)
         {

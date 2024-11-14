@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   numOfCardsToClear: 0
+  canMoveCard: 0
 --- !u!1 &3029668323481007571
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +57,7 @@ GameObject:
   - component: {fileID: 640263428631878595}
   - component: {fileID: 6517094183083194834}
   m_Layer: 0
-  m_Name: ArrowsManager
+  m_Name: ButtonsManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,6 +177,7 @@ MonoBehaviour:
   _deathTimerLength: 0.8
   _clearCursor: {fileID: 0}
   _switchCursor: {fileID: 0}
+  currentCursor: 
   darken: {fileID: 0}
   deckShownDarken: {fileID: 0}
   gameState: 0

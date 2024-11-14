@@ -5,16 +5,16 @@
 // @Description - Manages the arrow controls
 // +-------------------------------------------------------+
 using UnityEngine;
-public class ArrowsManager : MonoBehaviour
+public class ButtonsManager : MonoBehaviour
 {
     #region Singleton
-    private static ArrowsManager instance;
-    public static ArrowsManager Instance
+    private static ButtonsManager instance;
+    public static ButtonsManager Instance
     {
         get
         {
             if (instance == null)
-                instance = FindAnyObjectByType(typeof(ArrowsManager)) as ArrowsManager;
+                instance = FindAnyObjectByType(typeof(ButtonsManager)) as ButtonsManager;
             return instance;
         }
         set
@@ -28,6 +28,7 @@ public class ArrowsManager : MonoBehaviour
     int maxIndex;
     GameManager _gameManager;
     UIManager _uiManager;
+    public string currentCursor;
     void Start()
     {
         currentIndex = -1;
@@ -36,6 +37,7 @@ public class ArrowsManager : MonoBehaviour
         _uiManager = UIManager.Instance;
     }
 
+    #region Arrows
     public void ChangeMaxIndex(int maxIndex)
     {
         this.maxIndex = maxIndex;
@@ -74,4 +76,5 @@ public class ArrowsManager : MonoBehaviour
     }
 
     public int GetIndex() { return currentIndex;  }
+    #endregion
 }
