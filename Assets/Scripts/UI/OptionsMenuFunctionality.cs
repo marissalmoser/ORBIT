@@ -23,7 +23,9 @@ public class OptionsMenuFunctionality : MonoBehaviour
         _sfxSlider.value = SfxManager.Instance.GetCurrentVolume();
         _musicSlider.value = MusicManager.Instance.GetCurrentVolume();
         _cameraSpeedSlider.value = CameraController.Instance.GetCurrentCameraSpeed();
-        
+
+        _cameraSpeedSlider.onValueChanged.AddListener(delegate { CameraController.Instance.SetCameraSpeed(_cameraSpeedSlider.value); });
+
         if(CameraSettings.isCameraShakeEnabled)
         {
             _turnOnButton.gameObject.SetActive(true);
