@@ -5,12 +5,16 @@
 *    Description: This script is mainly focused on moving the player
 *    object from point A to point B, and turning, using coroutines
 *******************************************************************/
+
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
+    public static UnityAction StartPlayerFall;
     public static UnityAction WallInterruptAnimation;
     public static UnityAction SpikeCollision;
     public static UnityAction ReachedDestination;
@@ -33,17 +37,32 @@ public class PlayerController : MonoBehaviour
     private Coroutine _currentMovementCoroutine;
     private Animator animator;
 
-    public void Start()
+    
+    private void OnEnable()
     {
-        _previousTile = GetTileWithPlayerRaycast();
-        Vector3 temp = _previousTile.GetPlayerSnapAnchor().transform.position;
-        Vector3 temp1 = new Vector3(temp.x, temp.y + 5, temp.z);
-        StartFallCoroutine(temp1, temp);
+        StartPlayerFall += PlayerFall;
     }
-    void Update()
+    private void OnDisable()
     {
+        StartPlayerFall -= PlayerFall;
+    }
 
+    private void Start()
+    {
+        transform.position = transform.position + (Vector3.up * 5);
     }
+
+    private void PlayerFall()
+    {
+        //_previousTile = GetTileWithPlayerRaycast();
+        if (_currentTile != null)
+        {
+            Vector3 temp = _currentTile.GetPlayerSnapAnchor().transform.position;
+            Vector3 temp1 = new Vector3(temp.x, temp.y + 5, temp.z);
+            StartFallCoroutine(temp1, temp);
+        }
+    }
+
     /// <summary>
     /// This method condenses repiticious code into one spot, since animation
     /// triggers are called with strings they can be passed along no problem.
@@ -238,9 +257,7 @@ public class PlayerController : MonoBehaviour
         //GetComponent<SphereCollider>().enabled = false; 
         float timeElapsed = 0f;
         float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
-
-        PlayAnimation("Fall", -1);
-
+        
         while (timeElapsed < totalTime)
         {
             float time = timeElapsed / totalTime;
@@ -249,6 +266,8 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
+        PlayAnimation("Fall", -1);
+        
         transform.position = targetTileLoc;
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
         if (_currentTile.GetObstacleClass() != null && _currentTile.GetObstacleClass().IsActive())

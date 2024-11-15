@@ -52,6 +52,7 @@ public class PopUpMenu : MonoBehaviour
     /// </summary>
     public void SkipPopUp()
     {
+        PlayerController.StartPlayerFall?.Invoke();
         gameObject.SetActive(false);
     }
 }

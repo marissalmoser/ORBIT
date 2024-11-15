@@ -263,11 +263,13 @@ public class GameManager : MonoBehaviour
         darken.enabled = false;
         deckShownDarken.enabled = false;
 
-        //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
-        if (!_gameLost)
+        //if no pop up menu in level, start player falling coroutine. The contine button on pop up menus has the same functionality.
+        //PopUpMenu pum = FindObjectOfType<PopUpMenu>();
+        if (FindObjectOfType<PopUpMenu>() == null)
         {
-            ChangeGameState(STATE.ChooseCards);
-        } 
+            //after player fall coroutine, a new turn is called to switch the state to "choose cards"
+            PlayerController.StartPlayerFall?.Invoke();
+        }
     }
 
     /// <summary>
