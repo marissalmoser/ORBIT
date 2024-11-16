@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     private CardManager _cardManager;
     private UIManager _uiManager;
     private CollectibleStats _collectibleStats;
-    private ArrowsManager _arrowsManager;
+    private ButtonsManager _buttonsManager;
 
     public STATE gameState;
     private bool _gameWon, _gameLost;
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
         _deckManagerInt = DeckManager<int>.Instance;
         _uiManager = UIManager.Instance;
         _cardManager = CardManager.Instance;
-        _arrowsManager = ArrowsManager.Instance;
+        _buttonsManager = ButtonsManager.Instance;
         _levelDeck = FindObjectOfType<LevelDeck>();
         lowerDarkenIndex = false;
 
@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviour
         _deckManagerInt = DeckManager<int>.Instance;
         _uiManager = UIManager.Instance;
         _cardManager = CardManager.Instance;
-        _arrowsManager = ArrowsManager.Instance;
+        _buttonsManager = ButtonsManager.Instance;
         _levelDeck = FindObjectOfType<LevelDeck>();
         lowerDarkenIndex = false;
 
@@ -370,8 +370,8 @@ public class GameManager : MonoBehaviour
             _uiManager.UpdateTextBox("CHOOSE TO TURN LEFT OR RIGHT.");
             currentlyOnTurn = true;
             isTurning = true;
-            _arrowsManager.ChangeMaxIndex(2);
-            _arrowsManager.ResetIndex();
+            _buttonsManager.ChangeMaxIndex(2);
+            _buttonsManager.ResetIndex();
         }
         //If Stall Card was played
         if (confirmationCard != null && confirmationCard.name == Card.CardName.Stall) //Error check and checks if last card played was a Stall
@@ -387,8 +387,8 @@ public class GameManager : MonoBehaviour
             lowerDarkenIndex = true;
             isUsingWild = true;
             currentlyOnWild = true;
-            _arrowsManager.ChangeMaxIndex(_uiManager.numOfUniqueCards);
-            _arrowsManager.ResetIndex();
+            _buttonsManager.ChangeMaxIndex(_uiManager.numOfUniqueCards);
+            _buttonsManager.ResetIndex();
         }
 
         //Updates the arrows
@@ -657,7 +657,7 @@ public class GameManager : MonoBehaviour
                 _playedCards.Add(_demoDeck[i]);
             }
         }
-        ActionOrderDisplay.ResetIndicator?.Invoke();
+        ActionOrderDisplay.shouldReset = true;
         isStalling = false;
     }
 
@@ -708,7 +708,7 @@ public class GameManager : MonoBehaviour
         _collectedSwitchIDs = new(); //Clears the list
         _uiManager.UpdatePlayedCards(_playedCards);
         _uiManager.UpdateArrows();
-        _arrowsManager.ResetIndex();
+        _buttonsManager.ResetIndex();
 
         _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
         _uiManager.confirmButton.GetComponent<ButtonControls>().SetIsActive(false);

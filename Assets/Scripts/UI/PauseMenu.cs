@@ -13,12 +13,14 @@ public class PauseMenu : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
     private GameObject _pauseMenu;
+    private string _tempCurrentCursor;
 
     private void Start()
     {
         // Subscribe to input events
         _playerInput.currentActionMap["Pause"].performed += ctx => TogglePause();
         _pauseMenu = transform.Find("PauseMenu").gameObject;
+        _tempCurrentCursor = "";
     }
     
     /// <summary>
@@ -29,12 +31,16 @@ public class PauseMenu : MonoBehaviour
         if (_pauseMenu != null && !_pauseMenu.activeInHierarchy)
         {
             _pauseMenu.SetActive(true);
+            _tempCurrentCursor = ButtonsManager.Instance.currentCursor;
+            ButtonsManager.Instance.currentCursor = "Default";
+            GameManager.Instance.SetCursor("Default");
             Time.timeScale = 0f;
         }
         else if (_pauseMenu != null && _pauseMenu.activeInHierarchy)
         {
-            _pauseMenu.SetActive(false);
             Time.timeScale = 1f;
+            _pauseMenu.SetActive(false);
+            GameManager.Instance.SetCursor(_tempCurrentCursor);
         }
     }
 
@@ -45,6 +51,8 @@ public class PauseMenu : MonoBehaviour
     {
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         Time.timeScale = 1;
+        ButtonsManager.Instance.currentCursor = "Default";
+        GameManager.Instance.SetCursor("Default");
         SceneTransitionManager.Instance.ResetLevel();
     }
 

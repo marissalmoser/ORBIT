@@ -12,19 +12,18 @@ public class ButtonControls : MonoBehaviour
 {
     private GameManager _gameManager;
     private UIManager _uiManager;
-    private ArrowsManager _arrowsManager;
+    private ButtonsManager _buttonsManager;
     private PauseMenu _pauseMenu;
 
     public bool isActive;
     private Animator _anim;
     public static Action CancelCard;
-    private String _currentCursor;
 
     void Start()
     {
         _gameManager = GameManager.Instance;
         _uiManager = UIManager.Instance;
-        _arrowsManager = ArrowsManager.Instance;
+        _buttonsManager = ButtonsManager.Instance;
         _pauseMenu = FindAnyObjectByType<PauseMenu>();
     }
 
@@ -84,14 +83,14 @@ public class ButtonControls : MonoBehaviour
 
     public void AnyConfirmationButtonEnter()
     {
-        _currentCursor = _gameManager.currentCursor;
+        ButtonsManager.Instance.currentCursor = _gameManager.currentCursor;
         _gameManager.SetCursor("Default");
     }
 
     public void AnyConfirmationButtonExit()
     {
         if (CardManager.Instance.lastConfirmationCard != null)
-            _gameManager.SetCursor(_currentCursor);
+           _gameManager.SetCursor(ButtonsManager.Instance.currentCursor);
     }
     #endregion
 
@@ -102,7 +101,7 @@ public class ButtonControls : MonoBehaviour
     /// </summary>
     public void IncreaseIndex()
     {
-        _arrowsManager.IncreaseIndex();
+        _buttonsManager.IncreaseIndex();
     }
 
     /// <summary>
@@ -111,7 +110,7 @@ public class ButtonControls : MonoBehaviour
     /// </summary>
     public void DecreaseIndex()
     {
-        _arrowsManager.DecreaseIndex();
+        _buttonsManager.DecreaseIndex();
     }
     #endregion
 
@@ -123,6 +122,8 @@ public class ButtonControls : MonoBehaviour
 
     public void Restart()
     {
+
+        GameManager.Instance.SetCursor("Default");
         _pauseMenu.RestartLevel();
     }
     #endregion

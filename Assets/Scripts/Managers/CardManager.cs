@@ -225,6 +225,8 @@ public class CardManager : MonoBehaviour
             _uiManager.UpdateArrows();
             switchCards.Item1 = null;
             switchCards.Item2 = null;
+            ButtonsManager.Instance.currentCursor = "Default";
+            _gameManager.SetCursor("Default");
 
             Image tempImage = _uiManager.confirmationImage;
             if (tempImage != null)
@@ -499,7 +501,9 @@ public class CardManager : MonoBehaviour
                 }
                 if (!clearCardFound)
                     playedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = false;
-                
+                else
+                    playedCards[i].gameObject.transform.Find("Clear").GetComponent<Image>().enabled = true;
+
             }
 
             //Handles which card is being swapped
