@@ -342,7 +342,7 @@ public class CardManager : MonoBehaviour
     {
         while (moveImage.rectTransform.anchoredPosition != targetPosition)
         {
-            moveImage.rectTransform.anchoredPosition = Vector2.MoveTowards(moveImage.rectTransform.anchoredPosition, targetPosition, 10f);
+            moveImage.rectTransform.anchoredPosition = Vector2.MoveTowards(moveImage.rectTransform.anchoredPosition, targetPosition, 30f * Time.deltaTime * 60);
             yield return new WaitForEndOfFrame();
         }
         if (isCardMovingToConfirm)
