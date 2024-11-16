@@ -33,6 +33,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     private int _distance;
     private bool _firedTraps = false;
     private bool _isGhost = false;
+    private bool _shouldWaitForActions = false;
     
     public void Start()
     {
@@ -297,7 +298,11 @@ public class PlayerStateMachineBrain : MonoBehaviour
             }
             else
             {
-                FSM(State.WaitingForActions);
+                if (_shouldWaitForActions)
+                {
+                    FSM(State.WaitingForActions);
+                    _shouldWaitForActions = false;
+                }
             }
             yield return null;
         }
@@ -369,6 +374,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
             }
             else
             {
+                ActionOrderDisplay.ResetIndicator?.Invoke();
                 ActionOrderDisplay.NewActionPlayed?.Invoke();
             }
             switch (_currentAction.name)
@@ -467,6 +473,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     AddCardToList(_currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
                 }
             }
+            _shouldWaitForActions = true;
             FSM(State.PrepareNextAction);
         }
     }
