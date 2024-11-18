@@ -34,7 +34,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     private bool _firedTraps = true;
     private bool _isGhost = false;
     private bool _shouldWaitForActions = false;
-    
+
     public void Start()
     {
         PlayerController.ReachedDestination += HandleReachedDestination;
@@ -48,7 +48,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         //_player.transform.position = _playerControllerOriginal.GetCurrentTile().GetPlayerSnapPosition();
         TileManager.Instance.InitializeTileManager();
         FindPlayer();
-        
+
         gameObject.transform.GetChild(0).gameObject.SetActive(true);  //turn on main player
         gameObject.transform.GetChild(1).gameObject.SetActive(false); //turn off shadow
         _ghostPlayer.SetActive(false); //turn off the ghost gameobject
@@ -133,14 +133,14 @@ public class PlayerStateMachineBrain : MonoBehaviour
         if (_player == null)
         {
             _player = GameObject.FindGameObjectWithTag("Player");
-            _currentPlayerController= _playerControllerOriginal = _player.GetComponent<PlayerController>();
+            _currentPlayerController = _playerControllerOriginal = _player.GetComponent<PlayerController>();
             _ghostPlayer = GameObject.FindGameObjectWithTag("PlayerGhost");
             _playerControllerGhost = _ghostPlayer.GetComponent<PlayerController>();
         }
     }
     public void SetGhostState(bool isGhost)
     {
-        if(!isGhost)
+        if (!isGhost)
         {
             _isGhost = false;
             _currentPlayerController = _playerControllerOriginal;
@@ -230,7 +230,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     }
     public void HandleReachedDestination()
     {
-        if(_currentPlayerController.GetCurrentMovementCoroutine() != null)
+        if (_currentPlayerController.GetCurrentMovementCoroutine() != null)
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
         }
@@ -314,32 +314,32 @@ public class PlayerStateMachineBrain : MonoBehaviour
             if (currentTile.GetObstacleClass() != null && currentTile.GetObstacleClass().IsActive()) //If youre standing on an obstacle that sends you in a direction
             {
                 facingDirection = currentTile.GetObstacleClass().GetDirection();
-                
-                if(facingDirection == 4) //IF the tile doesnt have a facing direction, use the player's current FD
+
+                if (facingDirection == 4) //IF the tile doesnt have a facing direction, use the player's current FD
                 {
                     facingDirection = _currentPlayerController.GetCurrentFacingDirection();
                 }
                 if (_currentAction.name == Card.CardName.TurnLeft || _currentAction.name == Card.CardName.TurnRight)
                 {
                     _currentPlayerController.SetFacingDirection(facingDirection); //turn the player to face where they are going
-                }               
+                }
             }
 
             if (_currentAction.name == Card.CardName.Move && _distance == 3)
             {
                 Tile[] tiles = TileManager.Instance.GetTilesInLine
                     (currentTile, TileManager.Instance.GetTileAtLocation(currentTile, facingDirection, _distance));
-                
-                for(int i = tiles.Length - 1; i > -1; i--)
+
+                for (int i = tiles.Length - 1; i > -1; i--)
                 {
-                    if(i > 0)
+                    if (i > 0)
                     {
                         if (!tiles[i].GetComponent<Tile>().IsHole())
                         {
                             _targetTile = tiles[i];
                             break;
                         }
-                    }                    
+                    }
                     else
                     {
                         _targetTile = tiles[0];
@@ -351,7 +351,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
             {
                 _targetTile = TileManager.Instance.GetTileAtLocation(currentTile, facingDirection, _distance);
             }
-            
+
 
             FSM(State.PlayResult);
             yield return null;
@@ -362,7 +362,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         if (_currentState == State.PlayResult)
         {
-            if(_currentAction.GetIsObstacle())
+            if (_currentAction.GetIsObstacle())
             {
                 _currentPlayerController.GetCurrentTile().GetObstacleClass().PerformObstacleAnim();
             }
@@ -394,7 +394,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     {
                         SfxManager.Instance.PlaySFX(3740);
                         //determine result by getting difference of elevation betwen current tile and tile right in front of player
-                        _distance += (_currentPlayerController.GetCurrentTile().GetElevation() - 
+                        _distance += (_currentPlayerController.GetCurrentTile().GetElevation() -
                             (TileManager.Instance.GetTileAtLocation(_currentPlayerController.GetCurrentTile(), _currentPlayerController.GetCurrentFacingDirection(), 1).GetElevation()));
                         if (_distance < 0) //block is too high
                         {
@@ -408,7 +408,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                             {
                                 _distance++;
                             }
-                            _currentPlayerController.StartJumpCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), 
+                            _currentPlayerController.StartJumpCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(),
                                 TileManager.Instance.GetTileAtLocation(_currentPlayerController.GetCurrentTile(), _currentPlayerController.GetCurrentFacingDirection(), _distance).GetPlayerSnapPosition());
                             _currentPlayerController.PlayAnimation("Jump", -1);
                         }

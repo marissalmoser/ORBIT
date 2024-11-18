@@ -6,7 +6,6 @@
 *    object from point A to point B, and turning, using coroutines
 *******************************************************************/
 
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -37,7 +36,7 @@ public class PlayerController : MonoBehaviour
     private Coroutine _currentMovementCoroutine;
     private Animator animator;
 
-    
+
     private void OnEnable()
     {
         StartPlayerFall += PlayerFall;
@@ -252,7 +251,7 @@ public class PlayerController : MonoBehaviour
         //GetComponent<SphereCollider>().enabled = false; 
         float timeElapsed = 0f;
         float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time * .75f;
-        
+
         while (timeElapsed < totalTime)
         {
             float time = timeElapsed / totalTime;
@@ -262,7 +261,7 @@ public class PlayerController : MonoBehaviour
         }
 
         PlayAnimation("Fall", -1);
-        
+
         transform.position = targetTileLoc;
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
         if (_currentTile.GetObstacleClass() != null && _currentTile.GetObstacleClass().IsActive())
