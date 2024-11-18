@@ -18,10 +18,9 @@ public class CollectableTabLevelSelect : MonoBehaviour
     [SerializeField] private int _uniqueLevelIndex;
     [SerializeField] private TextMeshProUGUI _counter;
     [SerializeField] private Image _collectableDisplay;
+    [SerializeField] private GameObject _challengeButton;
 
-    [SerializeField] private Sprite _none;
     [SerializeField] private Sprite _half;
-    [SerializeField] private Sprite _whole;
 
     private CollectibleManager _cm;
 
@@ -54,7 +53,17 @@ public class CollectableTabLevelSelect : MonoBehaviour
         }
         if (levelsCollected >= 3)
         {
-            _collectableDisplay.sprite = _whole;
+            //disable image, enable button
+            _counter.gameObject.SetActive(false);
+            _collectableDisplay.enabled = false;
+            _challengeButton.SetActive(true);
+
+            //play animation if challenge level has not been beat
+            if (!_cm.collectibleStats[_challengeLevelIndex].GetIsCompleted())
+            {
+                GetComponent<Animator>().enabled = true;
+            }
+            
             //unlock collectable manager
             _cm.collectibleStats[_challengeLevelIndex].SetIsLocked(false);
         }
