@@ -152,13 +152,4 @@ public class CameraController : MonoBehaviour
     {
         CameraSettings.cameraSpeedMultiplier = speed;
     }
-
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.LeftAlt))
-        {
-            Debug.Log("isDragging: " + isDragging);
-            Debug.Log("isPanning: " + isPanning);
-        }
-    }
 }
