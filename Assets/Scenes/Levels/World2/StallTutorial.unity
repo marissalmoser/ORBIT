@@ -26928,6 +26928,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2020203228019373467, guid: d0b92191d6705e646b645cb9fd23c79a, type: 3}
+      propertyPath: _tracks.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2020203228019373467, guid: d0b92191d6705e646b645cb9fd23c79a, type: 3}
       propertyPath: _tracks.Array.data[0]
       value: 
       objectReference: {fileID: 524914240}

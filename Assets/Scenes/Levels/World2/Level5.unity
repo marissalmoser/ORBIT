@@ -9583,7 +9583,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2020203228019373467, guid: d0b92191d6705e646b645cb9fd23c79a, type: 3}
       propertyPath: _tracks.Array.size
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2020203228019373467, guid: d0b92191d6705e646b645cb9fd23c79a, type: 3}
       propertyPath: _tracks.Array.data[0]
@@ -9599,6 +9599,14 @@ PrefabInstance:
       objectReference: {fileID: 527658686}
     - target: {fileID: 2020203228019373467, guid: d0b92191d6705e646b645cb9fd23c79a, type: 3}
       propertyPath: _tracks.Array.data[3]
+      value: 
+      objectReference: {fileID: 2101452371}
+    - target: {fileID: 2020203228019373467, guid: d0b92191d6705e646b645cb9fd23c79a, type: 3}
+      propertyPath: _tracks.Array.data[4]
+      value: 
+      objectReference: {fileID: 527658686}
+    - target: {fileID: 2020203228019373467, guid: d0b92191d6705e646b645cb9fd23c79a, type: 3}
+      propertyPath: _tracks.Array.data[5]
       value: 
       objectReference: {fileID: 31701546}
     - target: {fileID: 3567888590358926537, guid: d0b92191d6705e646b645cb9fd23c79a, type: 3}
