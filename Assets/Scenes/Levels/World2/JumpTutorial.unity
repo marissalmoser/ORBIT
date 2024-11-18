@@ -1555,11 +1555,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: '
 
-    Right mouse button
+    jump forward one space
 
-    Arrow keys
-
-    A and D
+    jump forward two spaces from elevation
+    points
 
 '
   m_isRightToLeft: 0
@@ -2333,7 +2332,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Rotate the camera using:'
+  m_text: 'Jump:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e4d653ff37fe48a4daad3116b8181466, type: 2}
   m_sharedMaterial: {fileID: -9068421238468145979, guid: e4d653ff37fe48a4daad3116b8181466, type: 2}
@@ -6021,7 +6020,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5040383193030182439, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5980909743020872392, guid: df3a3624a0fa45042855077e6ca391e2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
