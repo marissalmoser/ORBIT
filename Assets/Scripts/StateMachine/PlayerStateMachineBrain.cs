@@ -33,6 +33,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     private int _distance;
     private bool _firedTraps = false;
     private bool _isGhost = false;
+    private bool _shouldWaitForActions = false;
     
     public void Start()
     {
@@ -297,7 +298,11 @@ public class PlayerStateMachineBrain : MonoBehaviour
             }
             else
             {
-                FSM(State.WaitingForActions);
+                if (_shouldWaitForActions)
+                {
+                    FSM(State.WaitingForActions);
+                    _shouldWaitForActions = false;
+                }
             }
             yield return null;
         }
@@ -369,6 +374,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
             }
             else
             {
+                ActionOrderDisplay.ResetIndicator?.Invoke();
                 ActionOrderDisplay.NewActionPlayed?.Invoke();
             }
             switch (_currentAction.name)
@@ -418,8 +424,24 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     SfxManager.Instance.PlaySFX(9754);
                     Vector3 newV = new Vector3(_targetTile.GetPlayerSnapPosition().x, _currentPlayerController.transform.position.y, _targetTile.GetPlayerSnapPosition().z);
                     _currentPlayerController.StartMoveCoroutine(_currentPlayerController.GetCurrentTile().GetPlayerSnapPosition(), newV);
-                    _currentPlayerController.PlayAnimation("Forward", _currentPlayerController.DetermineProperRollDirection(
-                        TileManager.Instance.GetDirectionBetweenTiles(_currentPlayerController.GetCurrentTile(), _targetTile)));
+                    int temp = TileManager.Instance.GetDirectionBetweenTiles(_currentPlayerController.GetCurrentTile(), _targetTile);
+                    int anim = _currentPlayerController.DetermineProperRollDirection(temp);
+                    switch (anim)
+                    {
+                        case 1:
+                            anim = -1; //return a go forward
+                            break;
+                        case 3:
+                            anim = 14; //return a roll left
+                            break;
+                        case 5:
+                            anim = 11; //return a roll right
+                            break;
+                        case 7:
+                            anim = 17; //return a roll backwards
+                            break;
+                    }
+                    _currentPlayerController.PlayAnimation("Forward", anim);
                     break;
             }
             yield return null;
@@ -438,7 +460,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     {
         while (_currentState == State.TrapPlayState)
         {
-            yield return new WaitForSeconds(.75f);
+            yield return new WaitForSeconds(.25f);
             GameManager.TrapAction?.Invoke();
             _firedTraps = true;
             var tile = _currentPlayerController.GetTileWithPlayerRaycast();
@@ -451,6 +473,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
                     AddCardToList(_currentPlayerController.GetTileWithPlayerRaycast().GetObstacleClass().GetCard());
                 }
             }
+            _shouldWaitForActions = true;
             FSM(State.PrepareNextAction);
         }
     }

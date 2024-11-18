@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5c99312d572c2f4faa3a6be9bde9a2c, type: 3}
   m_Name: DeckScriptableObject
   m_EditorClassIdentifier: 
-  name: 8
-  cardSprite: {fileID: 21300000, guid: 7e37ba24d1b0760478a42daf8c03ca4c, type: 3}
-  darkenVariantSprite: {fileID: 21300000, guid: 55029b46a8afd594d853f5f7827e305d, type: 3}
+  name: 9
+  cardSprite: {fileID: 21300000, guid: c9e229069a8cbda428b20febe21b1f30, type: 3}
+  darkenVariantSprite: {fileID: 21300000, guid: e3dbece1577b05d4389665709d51afd6, type: 3}
   wildVariantSprite: {fileID: 21300000, guid: 7e37ba24d1b0760478a42daf8c03ca4c, type: 3}
   wildDarkenVariantSprite: {fileID: 21300000, guid: 55029b46a8afd594d853f5f7827e305d, type: 3}
   _isObstacle: 0

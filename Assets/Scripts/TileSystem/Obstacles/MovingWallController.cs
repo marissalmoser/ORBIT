@@ -132,7 +132,13 @@ public class MovingWallController : Obstacle
         transform.position = targetPos;
         yield return new WaitForSeconds(.25f); //to prevent the player from hitting the box a second time
         _isMoving = false;
-        GetComponent<BoxCollider>().enabled = true;
+        
+        //enable collider if not the indicator
+        BoxCollider col = GetComponent<BoxCollider>();
+        if(col != null)
+        {
+            col.enabled = true;
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -142,7 +148,14 @@ public class MovingWallController : Obstacle
             {
                 PlayerController pc = other.GetComponent<PlayerStateMachineBrain>().GetOriginalPlayerController();
                 var tilePCIsOn = pc.GetCurrentTile();
-                GetComponent<BoxCollider>().enabled = false;
+                
+                //disable collider if is not indicator
+                BoxCollider col = GetComponent<BoxCollider>();
+                if(col != null)
+                {
+                    col.enabled = false;
+                }
+                
                 pc.StartMoveCoroutine(tilePCIsOn.GetPlayerSnapPosition(), TileManager.Instance.GetTileAtLocation(tilePCIsOn, _direction, 1).GetPlayerSnapPosition());
                 int temp = pc.DetermineProperRollDirection(_direction);
                 switch (temp)
@@ -151,13 +164,13 @@ public class MovingWallController : Obstacle
                         temp = -1; //return a go forward
                         break;
                     case 3:
-                        temp = 12; //return a roll left
+                        temp = 14; //return a roll left
                         break;
                     case 5:
                         temp = 11; //return a roll right
                         break;
                     case 7:
-                        temp = 13; //return a roll backwards
+                        temp = 17; //return a roll backwards
                         break;
                 }
                 pc.PlayAnimation("Forward", temp);
