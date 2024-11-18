@@ -8,7 +8,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -307,6 +306,7 @@ public class MusicManager : MonoBehaviour
     /// <param name="volume"></param>
     public void SetMusicMixerVolume(float volume)
     {
+        print(volume);
         _masterMixer.SetFloat("MusicVolume", Mathf.Log(volume) * 20);
         _currentMusicVolume = volume;
     }
