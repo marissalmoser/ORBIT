@@ -18,6 +18,9 @@ public class CameraController : MonoBehaviour
 
     public static CameraController Instance;
 
+    private bool isDragging = false;
+    private bool isPanning = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -39,6 +42,7 @@ public class CameraController : MonoBehaviour
         actionMap["PanCamera"].canceled += PanCameraCanceled;
 
         actionMap["DragCamera"].performed += DragCamera;
+        actionMap["DragCamera"].canceled += DragCameraCanceled;
     }
 
     private void OnDisable()
@@ -50,6 +54,7 @@ public class CameraController : MonoBehaviour
         actionMap["PanCamera"].canceled -= PanCameraCanceled;
 
         actionMap["DragCamera"].performed -= DragCamera;
+        actionMap["DragCamera"].canceled -= DragCameraCanceled;
     }
 
     /// <summary>
@@ -57,6 +62,9 @@ public class CameraController : MonoBehaviour
     /// </summary>
     private void PanCamera(InputAction.CallbackContext ctx)
     {
+        if (isDragging) return;
+        isPanning = true;
+
         // Start moving the camera with the current input
         float panInput = ctx.ReadValue<float>();
 
@@ -80,6 +88,7 @@ public class CameraController : MonoBehaviour
             StopCoroutine(_cameraMovementCoroutine);
             _cameraMovementCoroutine = null; // Clear reference
         }
+        isPanning = false;
     }
 
     /// <summary>
@@ -107,8 +116,15 @@ public class CameraController : MonoBehaviour
     /// <param name="ctx"></param>
     private void DragCamera(InputAction.CallbackContext ctx)
     {
+        if (isPanning) return;
+        isDragging = true;
         Vector2 mouseDelta = ctx.ReadValue<Vector2>();
         MoveCameraWithMouse(mouseDelta.x);
+    }
+
+    private void DragCameraCanceled(InputAction.CallbackContext ctx)
+    {
+        isDragging = false;
     }
 
     /// <summary>
@@ -135,5 +151,14 @@ public class CameraController : MonoBehaviour
     public void SetCameraSpeed(float speed)
     {
         CameraSettings.cameraSpeedMultiplier = speed;
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.LeftAlt))
+        {
+            Debug.Log("isDragging: " + isDragging);
+            Debug.Log("isPanning: " + isPanning);
+        }
     }
 }
