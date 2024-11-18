@@ -265,11 +265,8 @@ public class GameManager : MonoBehaviour
         deckShownDarken.enabled = false;
 
         //if no pop up menu in level, start player falling coroutine. The contine button on pop up menus has the same functionality.
-        //PopUpMenu pum = FindObjectOfType<PopUpMenu>();
         if (FindObjectOfType<PopUpMenu>() == null)
         {
-            //after player fall coroutine, a new turn is called to switch the state to "choose cards"
-            //PlayerController.StartPlayerFall?.Invoke();
             TileManager.Instance.StartCoroutine(TileManager.Instance.FallAllGameObjects());
         }
         //Tilemanager 249 calls choose cards now after game start
