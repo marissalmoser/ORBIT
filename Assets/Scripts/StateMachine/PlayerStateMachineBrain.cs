@@ -31,7 +31,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     private GameObject _player, _ghostPlayer;
     private PlayerController _currentPlayerController, _playerControllerOriginal, _playerControllerGhost;
     private int _distance;
-    private bool _firedTraps = false;
+    private bool _firedTraps = true;
     private bool _isGhost = false;
     private bool _shouldWaitForActions = false;
     
@@ -43,13 +43,16 @@ public class PlayerStateMachineBrain : MonoBehaviour
         PlayerController.WallInterruptAnimation += HandleWallInterruption;
         GameManager.PlayActionOrder += HandleIncomingActions;
         GameManager.PlayDemoActionOrder += HandleIncomingGhostActions;
-        TileManager.Instance.LoadTileList();
-        TileManager.Instance.LoadObstacleList();
         ButtonControls.CancelCard += ResetGhost;
+
+        //_player.transform.position = _playerControllerOriginal.GetCurrentTile().GetPlayerSnapPosition();
+        TileManager.Instance.InitializeTileManager();
         FindPlayer();
-        _player.transform.position = _playerControllerOriginal.GetCurrentTile().GetPlayerSnapPosition();
-        ResetGhost(); //Reused this method turn off ghost and shadow on level start
-        //TODO: Have something else load the tileList()
+        
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);  //turn on main player
+        gameObject.transform.GetChild(1).gameObject.SetActive(false); //turn off shadow
+        _ghostPlayer.SetActive(false); //turn off the ghost gameobject
+        //ResetGhost();
     }
 
     /// <summary>
@@ -133,15 +136,6 @@ public class PlayerStateMachineBrain : MonoBehaviour
             _currentPlayerController= _playerControllerOriginal = _player.GetComponent<PlayerController>();
             _ghostPlayer = GameObject.FindGameObjectWithTag("PlayerGhost");
             _playerControllerGhost = _ghostPlayer.GetComponent<PlayerController>();
-
-            if (_currentPlayerController == null)
-            {
-                //print("NULL");
-            }
-            if (_player == null)
-            {
-                //Debug.Log("No gameobject in scene tagged with player");
-            }
         }
     }
     public void SetGhostState(bool isGhost)

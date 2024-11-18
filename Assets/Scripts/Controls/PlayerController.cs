@@ -47,11 +47,6 @@ public class PlayerController : MonoBehaviour
         StartPlayerFall -= PlayerFall;
     }
 
-    private void Start()
-    {
-        transform.position = transform.position + (Vector3.up * 5);
-    }
-
     private void PlayerFall()
     {
         //_previousTile = GetTileWithPlayerRaycast();
@@ -256,7 +251,7 @@ public class PlayerController : MonoBehaviour
     {
         //GetComponent<SphereCollider>().enabled = false; 
         float timeElapsed = 0f;
-        float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
+        float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time * .75f;
         
         while (timeElapsed < totalTime)
         {

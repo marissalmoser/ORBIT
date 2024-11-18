@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public bool lowerDarkenIndex;
     private void Start()
     {
+        Application.targetFrameRate = 60;
         //Carefully change order if needed. Some managers must be initialzed before others
         _deckManagerCard = DeckManager<Card>.Instance;
         _deckManagerInt = DeckManager<int>.Instance;
@@ -268,8 +269,10 @@ public class GameManager : MonoBehaviour
         if (FindObjectOfType<PopUpMenu>() == null)
         {
             //after player fall coroutine, a new turn is called to switch the state to "choose cards"
-            PlayerController.StartPlayerFall?.Invoke();
+            //PlayerController.StartPlayerFall?.Invoke();
+            TileManager.Instance.StartCoroutine(TileManager.Instance.FallAllGameObjects());
         }
+        //Tilemanager 249 calls choose cards now after game start
     }
 
     /// <summary>
