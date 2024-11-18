@@ -306,7 +306,6 @@ public class MusicManager : MonoBehaviour
     /// <param name="volume"></param>
     public void SetMusicMixerVolume(float volume)
     {
-        print(volume);
         _masterMixer.SetFloat("MusicVolume", Mathf.Log(volume) * 20);
         _currentMusicVolume = volume;
     }
