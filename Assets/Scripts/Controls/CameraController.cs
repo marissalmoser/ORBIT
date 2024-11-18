@@ -18,8 +18,8 @@ public class CameraController : MonoBehaviour
 
     public static CameraController Instance;
 
-    private bool isDragging = false;
-    private bool isPanning = false;
+    private bool _isDragging = false;
+    private bool _isPanning = false;
 
     private void Awake()
     {
@@ -62,8 +62,8 @@ public class CameraController : MonoBehaviour
     /// </summary>
     private void PanCamera(InputAction.CallbackContext ctx)
     {
-        if (isDragging) return;
-        isPanning = true;
+        if (_isDragging) return;
+        _isPanning = true;
 
         // Start moving the camera with the current input
         float panInput = ctx.ReadValue<float>();
@@ -88,7 +88,7 @@ public class CameraController : MonoBehaviour
             StopCoroutine(_cameraMovementCoroutine);
             _cameraMovementCoroutine = null; // Clear reference
         }
-        isPanning = false;
+        _isPanning = false;
     }
 
     /// <summary>
@@ -116,15 +116,15 @@ public class CameraController : MonoBehaviour
     /// <param name="ctx"></param>
     private void DragCamera(InputAction.CallbackContext ctx)
     {
-        if (isPanning) return;
-        isDragging = true;
+        if (_isPanning) return;
+        _isDragging = true;
         Vector2 mouseDelta = ctx.ReadValue<Vector2>();
         MoveCameraWithMouse(mouseDelta.x);
     }
 
     private void DragCameraCanceled(InputAction.CallbackContext ctx)
     {
-        isDragging = false;
+        _isDragging = false;
     }
 
     /// <summary>
