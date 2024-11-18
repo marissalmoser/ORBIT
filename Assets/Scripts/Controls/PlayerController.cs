@@ -5,12 +5,17 @@
 *    Description: This script is mainly focused on moving the player
 *    object from point A to point B, and turning, using coroutines
 *******************************************************************/
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private LayerMask maskToLookFor; 
+
+    public static UnityAction StartPlayerFall;
     public static UnityAction WallInterruptAnimation;
     public static UnityAction SpikeCollision;
     public static UnityAction ReachedDestination;
@@ -24,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform _raycastPoint;
     [SerializeField] private Tile _currentTile;
-    private Tile _previousTile; 
+    private Tile _previousTile;
 
     [SerializeField] private AnimationCurve _moveEaseCurve;
     [SerializeField] private AnimationCurve _jumpEaseCurve;
@@ -33,14 +38,32 @@ public class PlayerController : MonoBehaviour
     private Coroutine _currentMovementCoroutine;
     private Animator animator;
 
-    public void Start()
+
+    private void Start()
     {
-        _previousTile = GetTileWithPlayerRaycast();
+        maskToLookFor = LayerMask.GetMask("Tile");
+        SetPreviousTile(_currentTile);
     }
-    void Update()
+    private void OnEnable()
     {
-        
+        StartPlayerFall += PlayerFall;
     }
+    private void OnDisable()
+    {
+        StartPlayerFall -= PlayerFall;
+    }
+
+    private void PlayerFall()
+    {
+        //_previousTile = GetTileWithPlayerRaycast();
+        if (_currentTile != null)
+        {
+            Vector3 temp = _currentTile.GetPlayerSnapAnchor().transform.position;
+            Vector3 temp1 = new Vector3(temp.x, temp.y + 5, temp.z);
+            StartFallCoroutine(temp1, temp);
+        }
+    }
+
     /// <summary>
     /// This method condenses repiticious code into one spot, since animation
     /// triggers are called with strings they can be passed along no problem.
@@ -54,16 +77,16 @@ public class PlayerController : MonoBehaviour
     /// <param name="animationName"></param>
     /// <param name="randomAnim"></param>
     public void PlayAnimation(string animationName, int randomAnim)
-    {      
+    {
         if (animator == null)
         {
             animator = GetComponentInChildren<Animator>();
-            if(animator == null)
+            if (animator == null)
             {
                 Debug.LogError("Player or player ghost needs an animator component");
-            }     
+            }
         }
-        if(randomAnim < 0)
+        if (randomAnim < 0)
         {
             int ran = Random.Range(1, 10);
             animator.SetInteger("Random", ran);
@@ -74,7 +97,7 @@ public class PlayerController : MonoBehaviour
             animator.SetInteger("Random", randomAnim);
             animator.SetTrigger(animationName);
         }
-        
+
         //animator.SetInteger("Random", -1); //ensuring no animation gets called again
     }
 
@@ -85,10 +108,10 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     public int DetermineProperRollDirection(int directionGoing)
     {
-        switch(directionGoing)
+        switch (directionGoing)
         {
             case 1: //going north
-                switch(GetCurrentFacingDirection())
+                switch (GetCurrentFacingDirection())
                 {
                     case 1: //facing north
                         return 1;
@@ -101,7 +124,7 @@ public class PlayerController : MonoBehaviour
                     default: //fallthrough
                         return 1;
                 }
-            
+
             case 3: //going west
                 switch (GetCurrentFacingDirection())
                 {
@@ -174,7 +197,7 @@ public class PlayerController : MonoBehaviour
             // Interpolate the player's position based on the curve's output
             transform.position = Vector3.Lerp(originTileLoc, targetTileLoc, curvePosition);
 
-            
+
             if (checkTimeElapsed >= _checkInterval)
             {
                 if (GetTileWithPlayerRaycast() != null && GetTileWithPlayerRaycast().GetCoordinates() != nextTile.GetCoordinates())
@@ -193,7 +216,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else if (nextTile.GetObstacleClass() != null && nextTile.GetObstacleClass().IsActive()) //runs atop an active obstacle
                     {
-                        
+
                         //SetCurrentTile(TileManager.Instance.GetTileByCoordinates(nextTile.GetCoordinates()));
                         targetTileLoc = nextTile.GetPlayerSnapPosition();
                         cardOnTile = TileManager.Instance.GetObstacleWithTileCoordinates(nextTile.GetCoordinates()).GetCard();
@@ -204,7 +227,7 @@ public class PlayerController : MonoBehaviour
                 // Reset the check timer
                 checkTimeElapsed = 0f;
             }
-            yield return null;           
+            yield return null;
         }
 
         transform.position = targetTileLoc; //double check final position
@@ -234,9 +257,7 @@ public class PlayerController : MonoBehaviour
     {
         //GetComponent<SphereCollider>().enabled = false; 
         float timeElapsed = 0f;
-        float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time;
-
-        PlayAnimation("Fall" , -1);
+        float totalTime = _fallEaseCurve.keys[_moveEaseCurve.length - 1].time * .75f;
 
         while (timeElapsed < totalTime)
         {
@@ -245,6 +266,8 @@ public class PlayerController : MonoBehaviour
             timeElapsed += Time.deltaTime;
             yield return null;
         }
+
+        PlayAnimation("Fall", -1);
 
         transform.position = targetTileLoc;
         SetCurrentTile(TileManager.Instance.GetTileByCoordinates(new Vector2((int)targetTileLoc.x, (int)targetTileLoc.z)));
@@ -258,6 +281,9 @@ public class PlayerController : MonoBehaviour
             }
         }
         //GetComponent<SphereCollider>().enabled = true;
+
+        //Call a screne shake here?
+
         ReachedDestination?.Invoke();
     }
     private IEnumerator TurnPlayer(bool turningLeft)
@@ -403,7 +429,7 @@ public class PlayerController : MonoBehaviour
     public Tile GetTileWithPlayerRaycast()
     {
         RaycastHit hit;
-        if (Physics.Raycast(_raycastPoint.position, -Vector3.up, out hit, _rayCastDistance))
+        if (Physics.Raycast(_raycastPoint.position, -Vector3.up, out hit, _rayCastDistance, maskToLookFor, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.GetComponent<Tile>() != null)
             {
@@ -415,7 +441,7 @@ public class PlayerController : MonoBehaviour
     public Tile GetForwardTileWithRaycast()
     {
         RaycastHit hit;
-        if (Physics.Raycast(_raycastPoint.position, Vector3.forward, out hit, _forwardCastDistance))
+        if (Physics.Raycast(_raycastPoint.position, Vector3.forward, out hit, _forwardCastDistance, maskToLookFor, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.GetComponent<Tile>() != null)
             {

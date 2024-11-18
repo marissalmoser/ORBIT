@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public bool lowerDarkenIndex;
     private void Start()
     {
+        Application.targetFrameRate = 60;
         //Carefully change order if needed. Some managers must be initialzed before others
         _deckManagerCard = DeckManager<Card>.Instance;
         _deckManagerInt = DeckManager<int>.Instance;
@@ -263,11 +264,12 @@ public class GameManager : MonoBehaviour
         darken.enabled = false;
         deckShownDarken.enabled = false;
 
-        //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
-        if (!_gameLost)
+        //if no pop up menu in level, start player falling coroutine. The contine button on pop up menus has the same functionality.
+        if (FindObjectOfType<PopUpMenu>() == null)
         {
-            ChangeGameState(STATE.ChooseCards);
-        } 
+            TileManager.Instance.StartCoroutine(TileManager.Instance.FallAllGameObjects());
+        }
+        //Tilemanager 249 calls choose cards now after game start
     }
 
     /// <summary>
@@ -916,7 +918,7 @@ public class GameManager : MonoBehaviour
     {
         //Moves Cards if the Card is added into the Action Order (Example: if the card is not a Clear Card)
 
-        if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
+        if (confirmationCard != null && confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
         {
             List<Image> playedCardImages = _uiManager.GetInstantiatedPlayedCardImages();
             int playedCardsCount = playedCardImages.Count;
