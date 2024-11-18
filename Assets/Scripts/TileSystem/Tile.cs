@@ -35,6 +35,7 @@ public class Tile : MonoBehaviour
 
     public void Start()
     {
+        gameObject.layer = LayerMask.NameToLayer("Tile");
         _playerSnapTo = GetPlayerSnapAnchor();
         //TryMoveObstacle();
         //TryMoveCollectable();

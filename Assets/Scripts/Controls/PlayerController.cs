@@ -13,6 +13,8 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private LayerMask maskToLookFor; 
+
     public static UnityAction StartPlayerFall;
     public static UnityAction WallInterruptAnimation;
     public static UnityAction SpikeCollision;
@@ -37,6 +39,11 @@ public class PlayerController : MonoBehaviour
     private Animator animator;
 
 
+    private void Start()
+    {
+        maskToLookFor = LayerMask.GetMask("Tile");
+        SetPreviousTile(_currentTile);
+    }
     private void OnEnable()
     {
         StartPlayerFall += PlayerFall;
@@ -422,7 +429,7 @@ public class PlayerController : MonoBehaviour
     public Tile GetTileWithPlayerRaycast()
     {
         RaycastHit hit;
-        if (Physics.Raycast(_raycastPoint.position, -Vector3.up, out hit, _rayCastDistance))
+        if (Physics.Raycast(_raycastPoint.position, -Vector3.up, out hit, _rayCastDistance, maskToLookFor, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.GetComponent<Tile>() != null)
             {
@@ -434,7 +441,7 @@ public class PlayerController : MonoBehaviour
     public Tile GetForwardTileWithRaycast()
     {
         RaycastHit hit;
-        if (Physics.Raycast(_raycastPoint.position, Vector3.forward, out hit, _forwardCastDistance))
+        if (Physics.Raycast(_raycastPoint.position, Vector3.forward, out hit, _forwardCastDistance, maskToLookFor, QueryTriggerInteraction.Collide))
         {
             if (hit.collider.GetComponent<Tile>() != null)
             {
