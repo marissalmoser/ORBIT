@@ -19,14 +19,6 @@ public class TurnTable : Obstacle
         if(_isActive)
         {
             StartCoroutine(Turn());
-            // if (_turnsLeft)
-            // {
-            //     _anim.SetTrigger("Left");
-            // }
-            // else
-            // {
-            //     _anim.SetTrigger("Right");
-            // }
         }
     }
 
@@ -34,19 +26,7 @@ public class TurnTable : Obstacle
     {
         _isActive = _defaultState;
     }
-
-    // public void SetNewRotation()
-    // {
-    //     if (_turnsLeft)
-    //     {
-    //         transform.rotation += 
-    //     }
-    //     else
-    //     {
-    //         _anim.SetTrigger("Right");
-    //     }
-    // }
-
+    
     private IEnumerator Turn()
     {
         float timeElapsed = 0f;
