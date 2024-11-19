@@ -663,10 +663,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 3081774495871585737, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3758377972937886663, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
@@ -787,6 +783,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6463950728523680939, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: _isImage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6823927860540212040, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
       propertyPath: _cameraSpeedSlider
       value: 
@@ -799,6 +799,18 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 5641835970767044430}
+    - target: {fileID: 7386489229575791810, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7386489229575791810, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7386489229575791810, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7561744904811460224, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
       propertyPath: m_MinValue
       value: 1
@@ -822,6 +834,26 @@ PrefabInstance:
     - target: {fileID: 7561744904811460224, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: UnityEngine.UI.Slider, UnityEngine.UI
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632008127366448191, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632008127366448191, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 5.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632008127366448191, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632008127366448191, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 445
+      objectReference: {fileID: 0}
+    - target: {fileID: 7632008127366448191, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7682228273291835769, guid: 725279326d3365e4cb42d47f3773bd51, type: 3}
       propertyPath: m_AnchorMax.x
