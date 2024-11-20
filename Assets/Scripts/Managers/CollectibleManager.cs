@@ -90,4 +90,10 @@ public class CollectibleManager : MonoBehaviour
         int scene = SceneManager.GetActiveScene().buildIndex;
         collectibleStats[scene].SetIsCompleted(true);
     }
+
+    public string GetCurrentLevelName()
+    {
+        int scene = SceneManager.GetActiveScene().buildIndex;
+        return collectibleStats[scene].GetLevelName();
+    }
 }
