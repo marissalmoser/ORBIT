@@ -1,4 +1,10 @@
-using System.Collections;
+/******************************************************************
+ *    Author: Marissa 
+ *    Contributors: 
+ *    Date Created: 11/20/24
+ *    Description: Sets the text from the list of success messages on the
+ *  scene transition scenes on enable.
+ *******************************************************************/
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
