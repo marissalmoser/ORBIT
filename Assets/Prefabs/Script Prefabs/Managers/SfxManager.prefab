@@ -51,7 +51,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5b36616dc113e92439ab8424e5bc48ba, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 0.5
+    maxVolume: 0.37
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
@@ -121,7 +121,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 7d5b61ba9b789f448b9374442c9d4fbb, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 0.22
+    maxVolume: 0.19
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
@@ -171,7 +171,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 45a4aad6418b077448772c6c99f582d9, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 0.4
+    maxVolume: 0.3
     pitch: 2
     doLoop: 0
     source: {fileID: 0}
@@ -231,7 +231,37 @@ MonoBehaviour:
     - {fileID: 8300000, guid: e08d017efabd403489af772d9624fc81, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 0.25
+    maxVolume: 0.4
+    pitch: 1
+    doLoop: 0
+    source: {fileID: 0}
+  - name: Speed Pad Using
+    id: 6735
+    clips:
+    - {fileID: 8300000, guid: b7c198bd892f20e44be70826f2cd1545, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.4
+    pitch: 1
+    doLoop: 0
+    source: {fileID: 0}
+  - name: Turn Table Using
+    id: 8697
+    clips:
+    - {fileID: 8300000, guid: 53c69b8ca2139a44d9182d91a5a973a9, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.4
+    pitch: 1
+    doLoop: 0
+    source: {fileID: 0}
+  - name: Spring Using
+    id: 2241
+    clips:
+    - {fileID: 8300000, guid: 15458a039ebac4841a572564f0851b49, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.3
     pitch: 1
     doLoop: 0
     source: {fileID: 0}

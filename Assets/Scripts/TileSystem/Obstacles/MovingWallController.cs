@@ -139,6 +139,7 @@ public class MovingWallController : Obstacle
         {
             col.enabled = true;
         }
+        SfxManager.Instance.StopSFX(1191);
     }
     private void OnTriggerEnter(Collider other)
     {

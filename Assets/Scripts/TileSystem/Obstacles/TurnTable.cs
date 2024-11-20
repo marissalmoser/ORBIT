@@ -25,6 +25,7 @@ public class TurnTable : Obstacle
                 _anim.SetTrigger("Right");
             }
         }
+        SfxManager.Instance.PlaySFX(8697);
     }
 
     public override void SetToDefaultState()
