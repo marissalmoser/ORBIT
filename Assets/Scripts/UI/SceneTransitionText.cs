@@ -11,9 +11,9 @@ using UnityEngine;
 
 public class SceneTransitionText : MonoBehaviour
 {
-    [SerializeField] private List<string> _succesMessages = new List<string>();
+    [SerializeField] private List<string> _successMessages = new List<string>();
     void OnEnable()
     {
-        GetComponent<TextMeshProUGUI>().text = _succesMessages[Random.Range(0, _succesMessages.Count)];
+        GetComponent<TextMeshProUGUI>().text = _successMessages[Random.Range(0, _successMessages.Count)];
     }
 }

@@ -807,7 +807,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af839f584f2919444a63dc4096b96fc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _succesMessages:
+  _successMessages:
   - Level Complete!
   - Nice Moves!
   - Success!
@@ -826,7 +826,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &2709255279220270293
 RectTransform:
   m_ObjectHideFlags: 0
