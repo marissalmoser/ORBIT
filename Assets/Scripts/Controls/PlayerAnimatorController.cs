@@ -39,6 +39,15 @@ public class PlayerAnimatorController : MonoBehaviour
         playerController.PlayAnimation("Bored", -1);
     }
 
+    public void TurnPlayerLeft()
+    {
+        playerController.UpdateFacingDirection(true);
+    }
+    public void TurnPlayerRight()
+    {
+        playerController.UpdateFacingDirection(false);
+    }
+
     public void ShakeCamera()
     {
         ShakeManager.ShakeCamera(2, 1, 0.3f);

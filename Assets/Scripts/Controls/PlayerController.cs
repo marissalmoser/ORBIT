@@ -289,7 +289,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator TurnPlayer(bool turningLeft)
     {
         float timeElapsed = 0f;
-        float totalDuration = _turnEaseCurve.keys[_turnEaseCurve.length - 1].time;
+        float totalDuration = _turnEaseCurve.keys[_turnEaseCurve.length - 1].time + 0.1f;
 
         //float startRotationY = transform.eulerAngles.y;
 
@@ -301,7 +301,7 @@ public class PlayerController : MonoBehaviour
         //else if (targetRotationY >= 360f)
         //    targetRotationY -= 360f;
 
-        while (timeElapsed < totalDuration)
+        while (timeElapsed <= totalDuration)
         {
             //float t = _turnEaseCurve.Evaluate(timeElapsed);
 
@@ -314,7 +314,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         //transform.eulerAngles = new Vector3(transform.eulerAngles.x, targetRotationY, transform.eulerAngles.z);
-        UpdateFacingDirection(turningLeft);
+        //UpdateFacingDirection(turningLeft);
         ReachedDestination?.Invoke();
     }
     private IEnumerator JumpPlayer(Vector3 originTileLoc, Vector3 targetTileLoc)
