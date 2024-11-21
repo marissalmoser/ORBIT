@@ -278,6 +278,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DealCards()
     {
+        CardManager.Instance.canMoveCard = false;
+        List<(Card, int)> newDealtCards = new();
         //Draws until the player has 4 cards or until the deck runs out
         while (_dealtCards.Count < 4 && deck.Count > 0)
         {
@@ -286,10 +288,12 @@ public class GameManager : MonoBehaviour
                 //Replaces the last played card with a new card in the same index
                 //Keeps the other dealt cards in the same location
                 _dealtCards.Insert(lastCardPlayed.Item2, deck[0]);
+                newDealtCards.Add((deck[0], lastCardPlayed.Item2));
             }
             else
             {
                 //Adds the top card from the deck onto the dealtCards
+                newDealtCards.Add((deck[0], _dealtCards.Count));
                 _dealtCards.Add(deck[0]);
             }
 
@@ -303,8 +307,16 @@ public class GameManager : MonoBehaviour
         }
         else if (!_gameWon)
         {
-            _uiManager.UpdateTextBox("DRAG A CARD TO PLAY.");
-            _uiManager.UpdateDealtCards(_dealtCards); //Updates Cards
+            for (int i = 0; i < newDealtCards.Count; i++) //Shows animation for cards
+            {
+                _uiManager.StartMoveCardFromDeck(newDealtCards[i].Item1, newDealtCards[i].Item2, newDealtCards.Count);
+            }
+            if (newDealtCards.Count == 0) //If a new turn is activated and no cards are dealt, continue the game as normal
+            {
+                CardManager.Instance.canMoveCard = true;
+                _uiManager.UpdateTextBox("DRAG A CARD TO PLAY.");
+                _uiManager.UpdateDealtCards(_dealtCards); //Updates Cards
+            }
         }
     }
 
@@ -725,7 +737,7 @@ public class GameManager : MonoBehaviour
     {
         while (moveImage.rectTransform.anchoredPosition != targetPosition)
         {
-            moveImage.rectTransform.anchoredPosition = Vector2.MoveTowards(moveImage.rectTransform.anchoredPosition, targetPosition, 10f);
+            moveImage.rectTransform.anchoredPosition = Vector2.MoveTowards(moveImage.rectTransform.anchoredPosition, targetPosition, 30f * Time.deltaTime * 60);
             yield return new WaitForEndOfFrame();
         }
 
