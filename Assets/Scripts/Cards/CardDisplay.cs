@@ -1,7 +1,7 @@
 // +--------------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last modified - October 16th 2024
+// @Last modified - November 21st 2024
 // @Description - Displays the card onto an instantiated image.
 //                Also holds helper methods for an Event Trigger
 // +--------------------------------------------------------------+

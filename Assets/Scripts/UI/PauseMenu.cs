@@ -1,7 +1,7 @@
 /******************************************************************
 *    Author: Sky Turner
-*    Contributors: 
-*    Date Created: 9/11/24
+*    Contributors: Ryan Herwig
+*    Date Created: November 21st 2024
 *    Description: This script handles the pause menu
 *******************************************************************/
 
@@ -27,19 +27,22 @@ public class PauseMenu : MonoBehaviour
         _pauseMenu = transform.Find("PauseMenu").gameObject;
         _tempCurrentCursor = "";
 
+        //Adds a listener to listen to when the sound effects slider value is changed
         _sfxSlider.onValueChanged.AddListener(v => 
         {
-            if (v <= 0.01)
+            if (v <= 0.01) // Gives a error tolerance to account for floating point errors
                 SfxManager.Instance.SetSfxMixerVolume(0.01f); // Prevents Log(0) from occurring (which is undefined)
             else
-                SfxManager.Instance.SetSfxMixerVolume(Mathf.Round(v * 100f) / 100f);
+                SfxManager.Instance.SetSfxMixerVolume(Mathf.Round(v * 100f) / 100f); // Removes floating point error calculations
         });
+
+        //Adds a listener to listen to when the music slider value is changed
         _musicSlider.onValueChanged.AddListener(v => 
         {
-            if (v <= 0.01)
-                MusicManager.Instance.SetMusicMixerVolume(0.01f);
+            if (v <= 0.01) // Gives a error tolerance to account for floating point errors
+                MusicManager.Instance.SetMusicMixerVolume(0.01f); // Prevents Log(0) from occurring (which is undefined)
             else
-                MusicManager.Instance.SetMusicMixerVolume(Mathf.Round(v * 100f) / 100f);
+                MusicManager.Instance.SetMusicMixerVolume(Mathf.Round(v * 100f) / 100f); // Removes floating point error calculations                                                           
         });
     }
 
