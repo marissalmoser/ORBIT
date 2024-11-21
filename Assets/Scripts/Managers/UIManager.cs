@@ -143,7 +143,7 @@ public class UIManager : MonoBehaviour
     {
         while (_deck.rectTransform.anchoredPosition != targetPos)
         {
-            Vector2 moveDelta = Vector2.MoveTowards(_deck.rectTransform.anchoredPosition, new Vector3(targetPos.x, targetPos.y), 2f * Time.deltaTime * 60f);
+            Vector2 moveDelta = Vector2.MoveTowards(_deck.rectTransform.anchoredPosition, new Vector3(targetPos.x, targetPos.y), 15f * Time.deltaTime * 60f);
 
             _deckCount.rectTransform.anchoredPosition += moveDelta - _deck.rectTransform.anchoredPosition; //Moves deckCount by the amount the deck itself moved
             _deck.rectTransform.anchoredPosition = moveDelta; //Moves the deck
