@@ -133,6 +133,26 @@ public class UIManager : MonoBehaviour
         shiftIndex = 0;
     }
 
+    public void StartDeckAnim()
+    {
+        deckInstantiation(new Vector2(_widthPadding, -400));
+        StartCoroutine(MoveDeckOntoScreen(new Vector2(_widthPadding, _heightPadding)));
+    }
+
+    IEnumerator MoveDeckOntoScreen(Vector2 targetPos)
+    {
+        while (_deck.rectTransform.anchoredPosition != targetPos)
+        {
+            Vector2 moveDelta = Vector2.MoveTowards(_deck.rectTransform.anchoredPosition, new Vector3(targetPos.x, targetPos.y), 2f * Time.deltaTime * 60f);
+
+            _deckCount.rectTransform.anchoredPosition += moveDelta - _deck.rectTransform.anchoredPosition; //Moves deckCount by the amount the deck itself moved
+            _deck.rectTransform.anchoredPosition = moveDelta; //Moves the deck
+
+            yield return new WaitForEndOfFrame();
+        }
+        GameManager.Instance.ChangeGameState(GameManager.STATE.ChooseCards);
+    }
+
     /// <summary>
     /// Updates the dealt cards in the UI
     /// </summary>
@@ -155,40 +175,7 @@ public class UIManager : MonoBehaviour
 
         int numOfDealtCards = dealtCards.Count;
 
-        //Instantiates Deck Back
-        _deck = Instantiate(_deckImage, Vector2.zero, Quaternion.identity);
-        _deck.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-        _deck.rectTransform.anchoredPosition = new Vector3(_widthPadding, _heightPadding, 0); //Sets position
-
-        CardDisplay deckCard = _deck.GetComponentInChildren<CardDisplay>(); //Gets data from image
-        deckCard.card = _deckCard;
-        _deckCount.enabled = true;
-
-        _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
-        if (_gameManager._deck.Count > 1)
-        {
-            deckCard.isFromWild = true;
-        }
-        else
-        {
-            deckCard.isFromWild = false;
-
-            _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 39.4f);
-
-            if (_gameManager._deck.Count == 0) //Repositions the 0, since it is off center
-            {
-                _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(10.9f, 0f);
-            }
-        }
-
-        deckCard.SetImage();
-        _deck.transform.SetSiblingIndex(8);
-        _deckCount.transform.SetSiblingIndex(9);
-
-        if (_gameManager._deck.Count > 0)
-            _deckCount.text = _gameManager._deck.Count.ToString();
-        else
-            _deckCount.text = "O"; //The 0 in the font doesn't look good. Changes it to a capital O
+        deckInstantiation(new Vector3(_widthPadding, _heightPadding, 0));
 
         //Instantiates and sets up Cards
         for (int i = 0; i < numOfDealtCards; i++)
@@ -262,8 +249,39 @@ public class UIManager : MonoBehaviour
                     break;
             }
         }
+    }
 
+    private void deckInstantiation(Vector2 position)
+    {
+        _deck = Instantiate(_deckImage, Vector2.zero, Quaternion.identity);
+        _deck.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
+        _deck.rectTransform.anchoredPosition = position; //Sets position
 
+        CardDisplay deckCard = _deck.GetComponentInChildren<CardDisplay>(); //Gets data from image
+        deckCard.card = _deckCard;
+        _deckCount.enabled = true;
+
+        _deckCount.GetComponent<RectTransform>().anchoredPosition = (position - new Vector2(_widthPadding, _heightPadding)) + _deckCountPos;
+        _deckCount.text = _gameManager.deck.Count.ToString();
+        if (_gameManager.deck.Count > 1)
+        {
+            deckCard.isFromWild = true;
+        }
+        else
+        {
+            deckCard.isFromWild = false;
+            _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 39.4f);
+
+            if (_gameManager.deck.Count == 0) //Repositions the 0, since it is off center
+            {
+                _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(10.9f, 0f);
+                _deckCount.text = "O"; //The 0 in the font doesn't look good. Changes it to a capital O
+            }
+        }
+
+        deckCard.SetImage();
+        _deck.transform.SetSiblingIndex(8);
+        _deckCount.transform.SetSiblingIndex(9);
     }
 
     /// <summary>
