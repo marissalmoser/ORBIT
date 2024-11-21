@@ -35,9 +35,10 @@ public class Tile : MonoBehaviour
 
     public void Start()
     {
+        gameObject.layer = LayerMask.NameToLayer("Tile");
         _playerSnapTo = GetPlayerSnapAnchor();
-        TryMoveObstacle();
-        TryMoveCollectable();
+        //TryMoveObstacle();
+        //TryMoveCollectable();
 
         //sets tile type
         if (_tileType != _lastTileType)
@@ -152,7 +153,7 @@ public class Tile : MonoBehaviour
             return _collectableBehavior;
         }
 
-        Debug.LogError("collectable behvaior is null");
+        //Debug.LogError("collectable behvaior is null");
         return null;
     }
 
@@ -218,7 +219,7 @@ public class Tile : MonoBehaviour
     /// If there is an obstacle in the tile's obstacle ref field, move it to it's 
     /// position above the tile.
     /// </summary>
-    private void TryMoveObstacle()
+    public void TryMoveObstacle()
     {
         if (_obstacleRef != null)
         {
@@ -229,17 +230,16 @@ public class Tile : MonoBehaviour
                 _obstacleRef = null;
                 return;
             }
-
             //get and move obstacle ref to the anchor point
             _obstacleRef.transform.position = GetObstacleAnchor().transform.position;
-        }
+        }     
     }
 
     /// <summary>
     /// If there is a collectable in the tile's collectable ref field, move it to it's 
     /// position above the tile.
     /// </summary>
-    private void TryMoveCollectable()
+    public void TryMoveCollectable()
     {
         if (_collectableRef != null)
         {

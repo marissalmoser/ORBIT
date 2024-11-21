@@ -38,4 +38,9 @@ public class PlayerAnimatorController : MonoBehaviour
     {
         playerController.PlayAnimation("Bored", -1);
     }
+
+    public void ShakeCamera()
+    {
+        ShakeManager.ShakeCamera(2, 1, 0.3f);
+    }
 }

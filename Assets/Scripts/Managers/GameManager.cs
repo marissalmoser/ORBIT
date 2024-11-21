@@ -8,7 +8,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -58,7 +60,7 @@ public class GameManager : MonoBehaviour
     private bool _collectableCollected;
 
     private LevelDeck _levelDeck;
-    public List<Card> deck;
+    public List<Card> _deck;
     private List<Card> _demoDeck;
 
     private List<int> _collectedSwitchIDs;
@@ -85,6 +87,7 @@ public class GameManager : MonoBehaviour
     [NonSerialized] public bool lowerDarkenIndex;
     private void Start()
     {
+        Application.targetFrameRate = 60;
         //Carefully change order if needed. Some managers must be initialzed before others
         _deckManagerCard = DeckManager<Card>.Instance;
         _deckManagerInt = DeckManager<int>.Instance;
@@ -230,7 +233,7 @@ public class GameManager : MonoBehaviour
         _levelDeck.Init();
 
         //Initializes lists.
-        deck = new();
+        _deck = new();
         _demoDeck = new();
         _startingDeck = new();
         _dealtCards = new();
@@ -248,11 +251,11 @@ public class GameManager : MonoBehaviour
     private void SetUpLevel()
     {
         //Gets the deck
-        deck = _levelDeck.deck;
+        _deck = _levelDeck.deck;
         darken.enabled = false;
 
         //Keeps permenent record of the original deck
-        foreach (var card in deck)
+        foreach (var card in _deck)
         {
             _startingDeck.Add(card);
         }
@@ -261,11 +264,12 @@ public class GameManager : MonoBehaviour
         darken.enabled = false;
         deckShownDarken.enabled = false;
 
-        //Add whatever additional set up here (after clicking on a level from the level to the point the player can start choosing cards)
-        if (!_gameLost)
+        //if no pop up menu in level, start player falling coroutine. The contine button on pop up menus has the same functionality.
+        if (FindObjectOfType<PopUpMenu>() == null)
         {
-            _uiManager.StartDeckAnim();
-        } 
+            TileManager.Instance.StartCoroutine(TileManager.Instance.FallAllGameObjects());
+        }
+        //Tilemanager 249 calls choose cards now after game start
     }
 
     /// <summary>
@@ -275,25 +279,25 @@ public class GameManager : MonoBehaviour
     private void DealCards()
     {
         //Draws until the player has 4 cards or until the deck runs out
-        while (_dealtCards.Count < 4 && deck.Count > 0)
+        while (_dealtCards.Count < 4 && _deck.Count > 0)
         {
             if (lastCardPlayed.Item1 != null)
             {
                 //Replaces the last played card with a new card in the same index
                 //Keeps the other dealt cards in the same location
-                _dealtCards.Insert(lastCardPlayed.Item2, deck[0]);
+                _dealtCards.Insert(lastCardPlayed.Item2, _deck[0]);
             }
             else
             {
                 //Adds the top card from the deck onto the dealtCards
-                _dealtCards.Add(deck[0]);
+                _dealtCards.Add(_deck[0]);
             }
 
-            deck = _deckManagerCard.RemoveFirst(deck); //Removes the now dealt card from the deck
+            _deck = _deckManagerCard.RemoveFirst(_deck); //Removes the now dealt card from the deck
         }
 
         //If out of cards, go to corresponding game state AND IF NOT ALREADY WON
-        if (_dealtCards.Count == 0 && deck.Count == 0 && !_gameWon)
+        if (_dealtCards.Count == 0 && _deck.Count == 0 && !_gameWon)
         {
             ChangeGameState(STATE.OutOfCards);
         }
@@ -914,7 +918,7 @@ public class GameManager : MonoBehaviour
     {
         //Moves Cards if the Card is added into the Action Order (Example: if the card is not a Clear Card)
 
-        if (confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
+        if (confirmationCard != null && confirmationCard.name != Card.CardName.Clear && confirmationCard.name != Card.CardName.Switch && confirmationCard.name != Card.CardName.Stall)
         {
             List<Image> playedCardImages = _uiManager.GetInstantiatedPlayedCardImages();
             int playedCardsCount = playedCardImages.Count;
@@ -979,7 +983,7 @@ public class GameManager : MonoBehaviour
     /// Gets the current deck of the level. 
     /// </summary>
     /// <returns>Returns the cards left in the deck</returns>
-    public List<Card> GetDeck() { return deck;  }
+    public List<Card> GetDeck() { return _deck;  }
 
     /// <summary>
     /// Gets the last played card
