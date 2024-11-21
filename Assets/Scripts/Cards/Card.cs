@@ -1,7 +1,7 @@
 // +-----------------------------------------------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - Elijah Vroman
-// @Last Modified - August 4 2024
+// @Last Modified - September 16th 2024
 // @ Description - A scriptable object of a card to use. The scriptable object will contain a name,
 //                 sprite, and if it has been clicked or not. It also has a ToString override.
 // +-----------------------------------------------------------------------------------------------+
