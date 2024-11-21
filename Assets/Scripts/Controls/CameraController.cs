@@ -15,8 +15,23 @@ public class CameraController : MonoBehaviour
     [SerializeField] private PlayerInput _playerInput;
     [SerializeField] private CinemachineVirtualCamera _virtualCamera;
     private Coroutine _cameraMovementCoroutine;
-    [SerializeField] private float _cameraSpeedMult;
 
+    public static CameraController Instance;
+
+    private bool _isDragging = false;
+    private bool _isPanning = false;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
     private void OnEnable()
     {
         // Store the action map reference
@@ -27,6 +42,7 @@ public class CameraController : MonoBehaviour
         actionMap["PanCamera"].canceled += PanCameraCanceled;
 
         actionMap["DragCamera"].performed += DragCamera;
+        actionMap["DragCamera"].canceled += DragCameraCanceled;
     }
 
     private void OnDisable()
@@ -38,6 +54,7 @@ public class CameraController : MonoBehaviour
         actionMap["PanCamera"].canceled -= PanCameraCanceled;
 
         actionMap["DragCamera"].performed -= DragCamera;
+        actionMap["DragCamera"].canceled -= DragCameraCanceled;
     }
 
     /// <summary>
@@ -45,6 +62,9 @@ public class CameraController : MonoBehaviour
     /// </summary>
     private void PanCamera(InputAction.CallbackContext ctx)
     {
+        if (_isDragging) return;
+        _isPanning = true;
+
         // Start moving the camera with the current input
         float panInput = ctx.ReadValue<float>();
 
@@ -68,6 +88,7 @@ public class CameraController : MonoBehaviour
             StopCoroutine(_cameraMovementCoroutine);
             _cameraMovementCoroutine = null; // Clear reference
         }
+        _isPanning = false;
     }
 
     /// <summary>
@@ -78,7 +99,7 @@ public class CameraController : MonoBehaviour
     {
         CinemachineTrackedDolly dolly = _virtualCamera.GetCinemachineComponent
             <CinemachineTrackedDolly>();
-        float movementSpeed = direction * _cameraSpeedMult;
+        float movementSpeed = direction * CameraSettings.cameraSpeedMultiplier;
 
         while (Mathf.Abs(direction) > 0.01f)
         {
@@ -95,8 +116,15 @@ public class CameraController : MonoBehaviour
     /// <param name="ctx"></param>
     private void DragCamera(InputAction.CallbackContext ctx)
     {
+        if (_isPanning) return;
+        _isDragging = true;
         Vector2 mouseDelta = ctx.ReadValue<Vector2>();
         MoveCameraWithMouse(mouseDelta.x);
+    }
+
+    private void DragCameraCanceled(InputAction.CallbackContext ctx)
+    {
+        _isDragging = false;
     }
 
     /// <summary>
@@ -112,6 +140,16 @@ public class CameraController : MonoBehaviour
             direction = -1;
 
         CinemachineTrackedDolly dolly = _virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
-        dolly.m_PathPosition += direction * _cameraSpeedMult * Time.deltaTime * -1;
+        dolly.m_PathPosition += direction * CameraSettings.cameraSpeedMultiplier * Time.deltaTime * -1;
+    }
+
+    public float GetCurrentCameraSpeed()
+    {
+        return CameraSettings.cameraSpeedMultiplier;
+    }
+
+    public void SetCameraSpeed(float speed)
+    {
+        CameraSettings.cameraSpeedMultiplier = speed;
     }
 }
