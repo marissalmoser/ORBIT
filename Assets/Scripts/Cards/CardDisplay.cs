@@ -1,7 +1,7 @@
 // +--------------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last modified - October 16th 2024
+// @Last modified - November 21st 2024
 // @Description - Displays the card onto an instantiated image.
 //                Also holds helper methods for an Event Trigger
 // +--------------------------------------------------------------+
@@ -346,9 +346,9 @@ public class CardDisplay : MonoBehaviour
 
         while (_cardImage.rectTransform.anchoredPosition.x != targetPosition.x)
         {
-            _cardImage.rectTransform.anchoredPosition = Vector2.MoveTowards(_cardImage.rectTransform.anchoredPosition, targetPosition, 7f);
+            _cardImage.rectTransform.anchoredPosition = Vector2.MoveTowards(_cardImage.rectTransform.anchoredPosition, targetPosition, 14f * Time.deltaTime * 60);
             RectTransform tooltip = _cardImage.gameObject.transform.parent.Find("Tooltip").GetComponent<RectTransform>();
-            tooltip.anchoredPosition = Vector2.MoveTowards(tooltip.anchoredPosition, new Vector2(targetPosition.x, tooltip.anchoredPosition.y), 7f);
+            tooltip.anchoredPosition = Vector2.MoveTowards(tooltip.anchoredPosition, new Vector2(targetPosition.x, tooltip.anchoredPosition.y), 14f * Time.deltaTime * 60);
             yield return new WaitForEndOfFrame();
         }
         yield return null;
