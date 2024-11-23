@@ -5,6 +5,7 @@
 *    Description: This manager will keep track of all tiles in the 
 *    scene. The player or computer controller will need this frequently
 *******************************************************************/
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,7 +14,6 @@ public class TileManager : MonoBehaviour
 {
     #region Singleton
     public static TileManager Instance { get; private set; }
-
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -27,9 +27,14 @@ public class TileManager : MonoBehaviour
         }
     }
     #endregion
+    private float increment = 0.001f; //Hardcoded values to avoid messing with all scenes. Tilemanager is currently not a prefab :/
+    private float fallDuration = 0.25f;
+    private float fallDistance = 9f;
+    private float delayBetweenFalls = 0.04f;
     [SerializeField] private List<Tile> allTilesInScene = new List<Tile>();
-    [SerializeField] private Dictionary<Obstacle, Vector2> allObstacles = new Dictionary<Obstacle, Vector2>();
-    // [SerializeField] private Dictionary<Collectable, Vector2> allCollectables = new Dictionary<Collectable, Vector2>();
+    private Dictionary<Obstacle, Vector2> allObstacles = new Dictionary<Obstacle, Vector2>();
+    private Dictionary<Collectable, Vector2> allCollectables = new Dictionary<Collectable, Vector2>();
+    private Dictionary<GameObject, bool> gameObjectsToFall = new Dictionary<GameObject, bool>();
 
     public enum TileDirection
     {
@@ -54,12 +59,11 @@ public class TileManager : MonoBehaviour
     {
         var tilesWithObstacles = GetAllTilesInScene()
                              .Where(tile => tile.GetObstacleClass() != null);
-
         allObstacles.Clear();
 
         foreach (var tile in tilesWithObstacles)
         {
-            Obstacle obstacle = tile.GetObstacleClass(); 
+            Obstacle obstacle = tile.GetObstacleClass();
             Vector2 coordinates = tile.GetCoordinates();
             allObstacles.Add(obstacle, coordinates);
         }
@@ -70,10 +74,15 @@ public class TileManager : MonoBehaviour
     /// </summary>
     public void LoadCollectibleList()
     {
-        // allCollectables.Clear();
-        // allCollectables = GetAllTilesInScene().Where(tile => tile.GetCollectableClass() != null);
+        allCollectables.Clear();
+        var tilesWithCollectables = GetAllTilesInScene().Where(tile => tile.GetCollectableClass() != null);
+        foreach (var tile in tilesWithCollectables)
+        {
+            Collectable collectible = tile.GetCollectableClass();
+            Vector2 coordinates = tile.GetCoordinates();
+            allCollectables.Add(collectible, coordinates);
+        }
     }
-
 
     /// <summary>
     /// Gets all loaded tiles in this scene
@@ -87,18 +96,18 @@ public class TileManager : MonoBehaviour
     {
         return allObstacles.Keys.ToList();
     }
-    //public List<Collectable> GetCollectables()
-    //{
-    //    return allCollectables.Keys.ToList();
-    //}
+    public List<Collectable> GetCollectables()
+    {
+        return allCollectables.Keys.ToList();
+    }
     public Obstacle GetObstacleWithTileCoordinates(Vector2 coordinates)
     {
         return allObstacles.FirstOrDefault(obstacle => obstacle.Value == coordinates).Key;
     }
-    //public Collectable GetCollectableWithTileCoordinates(Vector2 coordinates)
-    //{
-    //    return allCollectables.FirstOrDefault(collectable => collectable.Value == coordinates).Key;
-    //}
+    public Collectable GetCollectableWithTileCoordinates(Vector2 coordinates)
+    {
+        return allCollectables.FirstOrDefault(collectable => collectable.Value == coordinates).Key;
+    }
 
     public Tile[] GetTilesInLine(Tile originTile, Tile targetTile)
     {
@@ -179,7 +188,6 @@ public class TileManager : MonoBehaviour
             if (coordA.x < coordB.x) return 5; // East
             if (coordA.x > coordB.x) return 3; // West
         }
-
         // Default or invalid input (e.g., non-adjacent tiles)
         return -1;
     }
@@ -188,4 +196,104 @@ public class TileManager : MonoBehaviour
 
     #region Setters
     #endregion    
+
+    public void MoveObjectsToStartingPos()
+    {
+        List<GameObject> gameObjectsToFall = new List<GameObject>();
+
+        //Find sunny and move top above screen
+        GameObject player = FindObjectOfType<PlayerStateMachineBrain>(false).gameObject; 
+        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y * (fallDistance*.75f), player.transform.position.z);
+
+        //adding all tiles to the dictionary and telling them to move up (false); moving them below the camera
+        foreach (Tile tile in allTilesInScene) 
+        {
+            this.gameObjectsToFall.Add(tile.gameObject, false);
+            tile.gameObject.transform.position = tile.gameObject.transform.position - Vector3.up * fallDistance;
+        }
+
+        //adding everything else to the list of things to drop
+        gameObjectsToFall.AddRange(allObstacles.Keys.Select(obstacle => obstacle.gameObject));
+        gameObjectsToFall.AddRange(allCollectables.Keys.Select(collectable => collectable.gameObject));
+        gameObjectsToFall.AddRange(FindObjectsOfType<MovingWallController>().Select(go => go.gameObject));
+
+        //adding the "everything else list" to the dictionary and telling them to move down (true); moving them above the camera, 
+        foreach (GameObject gameObject in gameObjectsToFall)
+        {
+            gameObject.transform.position = (gameObject.transform.position + Vector3.up * fallDistance);
+            this.gameObjectsToFall.Add(gameObject, true);
+        }
+    }
+    public IEnumerator FallAllGameObjects()
+    {
+        var count = 0; // a count so that the camera shake isnt so frequent
+        yield return new WaitForSeconds(0.5f); //waiting for initializations. Trust.
+
+        //falling each object in the dictionary according to the bool, and waiting a delay to start the next one
+        foreach (var gameObject in this.gameObjectsToFall)
+        {
+            StartCoroutine(LerpingGameObjects(gameObject.Key, gameObject.Value));
+            delayBetweenFalls -= increment;
+            count++;
+            if (count % 2 == 0 && count > 3)
+            {
+                ShakeManager.ShakeCamera(1f, 1, 0.125f);
+            }
+            yield return new WaitForSeconds(delayBetweenFalls);
+        }
+
+        //does not execute until all objects have started falling
+        //waiting for the last of the obstacles to fall before we set them to their assured position
+        yield return new WaitForSeconds(0.5f); 
+
+        //snapping all obstacles, just in case
+        foreach (Tile tile in allTilesInScene)
+        {
+            tile.TryMoveObstacle();
+            tile.TryMoveCollectable();
+        }
+
+        //Falling the player
+        PlayerController.StartPlayerFall?.Invoke();
+
+        //Waiting for the player to finish falling before letting them play cards
+        yield return new WaitForSeconds(1f); 
+        GameManager.Instance.ChangeGameState(GameManager.STATE.ChooseCards);
+    }
+
+    private IEnumerator LerpingGameObjects(GameObject gameObject, bool fallingDown)
+    {
+        Vector3 startPos;
+        Vector3 endPos;
+        if (fallingDown)
+        {
+            startPos = gameObject.transform.position;
+            endPos = gameObject.transform.position - Vector3.up * fallDistance; 
+        }
+        else
+        {
+            startPos = gameObject.transform.position;
+            endPos = gameObject.transform.position + Vector3.up * fallDistance;
+        }
+
+
+        gameObject.transform.position = startPos; //setting the starting position
+        float elapsedTime = 0;
+
+        while (elapsedTime < fallDuration)
+        {
+            gameObject.transform.position = Vector3.Lerp(startPos, endPos, elapsedTime / fallDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        gameObject.transform.position = endPos; //ensure GO ends exactly at the final position
+    }
+    public void InitializeTileManager()
+    {
+        LoadTileList();
+        LoadObstacleList();
+        LoadCollectibleList();
+        MoveObjectsToStartingPos();
+    }
 }

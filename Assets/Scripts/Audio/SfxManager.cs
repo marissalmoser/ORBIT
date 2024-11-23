@@ -177,7 +177,6 @@ public class SfxManager : MonoBehaviour
         _masterMixer.SetFloat("SfxVolume",  Mathf.Log(volume) * 20);
         _sfxCurrentVolume = volume;
         _playerSfxCurrentVolume = volume;
-        print(volume);
         if (!_ghostPlaying)
         {
             _masterMixer.SetFloat("PlayerSfxVolume", Mathf.Log(volume) * 20);
