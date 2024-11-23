@@ -175,7 +175,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         ResetGhost();
 
         SetGhostState(false); //change the selected player script back to player from ghost
-        _ghostPlayer.transform.position = Vector3.zero; //make sure the ghost goes back to the parent
+        //_ghostPlayer.transform.position = Vector3.zero; //make sure the ghost goes back to the parent
 
         _firedTraps = false;
 
