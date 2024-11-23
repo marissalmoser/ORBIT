@@ -35,6 +35,7 @@ public class Spring : Obstacle
             _anim.SetTrigger("SpringUp");
             _hasFired = true;
         }
+        SfxManager.Instance.PlaySFX(2241);
     }
 
     public override void SwitchActiveState()

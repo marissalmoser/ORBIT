@@ -17,6 +17,8 @@ public class MovingWallController : Obstacle
     private void OnDisable()
     {
         GameManager.TrapAction -= SwitchActiveState;
+
+        SfxManager.Instance.StopSFX(1191);
     }
 
     [SerializeField] private List<GameObject> _tracks = new List<GameObject>();
@@ -139,6 +141,7 @@ public class MovingWallController : Obstacle
         {
             col.enabled = true;
         }
+        SfxManager.Instance.StopSFX(1191);
     }
     private void OnTriggerEnter(Collider other)
     {

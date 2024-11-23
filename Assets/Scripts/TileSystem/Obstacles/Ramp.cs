@@ -11,5 +11,10 @@
 *******************************************************************/
 public class Ramp : Obstacle
 {
+    public override void PerformObstacleAnim()
+    {
+        base.PerformObstacleAnim();
 
+        SfxManager.Instance.PlaySFX(6735);
+    }
 }
