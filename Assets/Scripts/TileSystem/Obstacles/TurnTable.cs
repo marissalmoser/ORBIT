@@ -20,6 +20,7 @@ public class TurnTable : Obstacle
         {
             StartCoroutine(Turn());
         }
+        SfxManager.Instance.PlaySFX(8697);
     }
 
     public override void SetToDefaultState()
