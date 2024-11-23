@@ -227,7 +227,7 @@ public class UIManager : MonoBehaviour
 
     IEnumerator MoveDealtCardFromDeck(Card card, int index)
     {
-        yield return new WaitForSeconds(index * 0.2f * Time.deltaTime * 60); // Waits for delay
+        yield return new WaitForSeconds((_numOfCardsToAddToDeck - index) * 0.2f * Time.deltaTime * 60); // Waits for delay
         ReduceDeckCount(1);
 
         Vector2 targetPos = new Vector3((cardWidth + _dealtCardWidthSpacing) * (index + 1) + _widthPadding, _heightPadding);
