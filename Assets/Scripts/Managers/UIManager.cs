@@ -1,7 +1,7 @@
 // +-------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - 
-// @Last modified - October 16th 2024
+// @Last modified - November 21st 2024
 // @Description - Manages the UI for the game
 // +-------------------------------------------------------+
 
@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using System;
 
 public class UIManager : MonoBehaviour
@@ -95,6 +94,8 @@ public class UIManager : MonoBehaviour
     [NonSerialized] public Card confirmCard;
 
     public int shiftIndex;
+    private int _numOfCardsToAddToDeck;
+    private List<Image> movedImages;
 
     /// <summary>
     /// Initializes variables for UIManager. Called by GameManager
@@ -128,9 +129,33 @@ public class UIManager : MonoBehaviour
         _nextPlayCardPosition = new Vector2(-_widthPadding, screenHeight - _cardHeight / 2 - _heightPadding);
 
         _deckCountPos = _deckCount.GetComponent<RectTransform>().anchoredPosition;
+        _deckCount.enabled = false;
         cardSlot.anchoredPosition = new Vector2(-_widthPadding, -_heightPadding);
 
         shiftIndex = 0;
+        _numOfCardsToAddToDeck = 0;
+        movedImages = new();
+    }
+
+    public void StartDeckAnim()
+    {
+        DeckInstantiation(new Vector2(_widthPadding, -400));
+        _deckCount.enabled = true;
+        StartCoroutine(MoveDeckOntoScreen(new Vector2(_widthPadding, _heightPadding)));
+    }
+
+    IEnumerator MoveDeckOntoScreen(Vector2 targetPos)
+    {
+        while (_deck.rectTransform.anchoredPosition != targetPos)
+        {
+            Vector2 moveDelta = Vector2.MoveTowards(_deck.rectTransform.anchoredPosition, new Vector3(targetPos.x, targetPos.y), 15f * Time.deltaTime * 60f);
+
+            _deckCount.rectTransform.anchoredPosition += moveDelta - _deck.rectTransform.anchoredPosition; //Moves deckCount by the amount the deck itself moved
+            _deck.rectTransform.anchoredPosition = moveDelta; //Moves the deck
+
+            yield return new WaitForEndOfFrame();
+        }
+        GameManager.Instance.ChangeGameState(GameManager.STATE.ChooseCards);
     }
 
     /// <summary>
@@ -155,115 +180,220 @@ public class UIManager : MonoBehaviour
 
         int numOfDealtCards = dealtCards.Count;
 
-        //Instantiates Deck Back
+        DeckInstantiation(new Vector3(_widthPadding, _heightPadding, 0));
+
+        //Instantiates and sets up Cards
+        for (int i = 0; i < numOfDealtCards; i++)
+        {
+            DealtCardInstantiation(dealtCards[i], i);
+        }
+    }
+
+    /// <summary>
+    /// Begins moving a card
+    /// </summary>
+    /// <param name="card">Card to be moved</param>
+    /// <param name="index">The position where the card should go</param>
+    /// <param name="numOfCards">The amount of cards that are being dealt</param>
+    public void StartMoveCardFromDeck(Card card, int index, int numOfCards)
+    {
+        _numOfCardsToAddToDeck = numOfCards;
+        StartCoroutine(MoveDealtCardFromDeck(card, index));
+    }
+
+    //Helper Variable
+    int _currentCardsDone = 0;
+
+    /// <summary>
+    /// When coroutine is finished, this method is called
+    /// </summary>
+    private void FinishMovingCardsFromDeck()
+    {
+        _currentCardsDone++;
+        if (_currentCardsDone == _numOfCardsToAddToDeck) //Checks if the current number of cards moved is equal to the total number of cards required to move
+        {
+            UpdateTextBox("DRAG A CARD TO PLAY.");
+            UpdateDealtCards(_gameManager.GetDealtCards()); //Updates Cards
+            CardManager.Instance.canMoveCard = true;
+            _currentCardsDone = 0;
+
+            for (int i = 0; i < movedImages.Count; i++)
+            {
+                Destroy(movedImages[i].gameObject);
+            }
+            movedImages = new();
+        }
+    }
+
+    IEnumerator MoveDealtCardFromDeck(Card card, int index)
+    {
+        yield return new WaitForSeconds((_numOfCardsToAddToDeck - index) * 0.2f * Time.deltaTime * 60); // Waits for delay
+        ReduceDeckCount(1);
+
+        Vector2 targetPos = new Vector3((cardWidth + _dealtCardWidthSpacing) * (index + 1) + _widthPadding, _heightPadding);
+        Image tempImage = DealtCardInstantiation(card, index);
+
+        tempImage.rectTransform.anchoredPosition = new Vector2(_widthPadding, _heightPadding);
+
+        while (tempImage.rectTransform.anchoredPosition != targetPos)
+        {
+            tempImage.rectTransform.anchoredPosition = Vector2.MoveTowards(tempImage.rectTransform.anchoredPosition, 
+                targetPos, 20f * Time.deltaTime * 60f); //Moves the deck
+
+            yield return new WaitForEndOfFrame();
+        }
+
+        //Adds image to List, so that it can be destroyed later
+        movedImages.Add(tempImage);
+        FinishMovingCardsFromDeck();
+        yield return null;
+    }
+
+    /// <summary>
+    /// Instantiates the deck
+    /// </summary>
+    /// <param name="position">The position to put the deck</param>
+    private void DeckInstantiation(Vector2 position)
+    {
         _deck = Instantiate(_deckImage, Vector2.zero, Quaternion.identity);
         _deck.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-        _deck.rectTransform.anchoredPosition = new Vector3(_widthPadding, _heightPadding, 0); //Sets position
+        _deck.rectTransform.anchoredPosition = position; //Sets position
 
         CardDisplay deckCard = _deck.GetComponentInChildren<CardDisplay>(); //Gets data from image
         deckCard.card = _deckCard;
         _deckCount.enabled = true;
 
-        _deckCount.GetComponent<RectTransform>().anchoredPosition = _deckCountPos;
-        if (_gameManager._deck.Count > 1)
+        _deckCount.GetComponent<RectTransform>().anchoredPosition = (position - new Vector2(_widthPadding, _heightPadding)) + _deckCountPos;
+        _deckCount.text = _gameManager.deck.Count.ToString();
+        if (_gameManager.deck.Count > 1)
         {
             deckCard.isFromWild = true;
         }
         else
         {
             deckCard.isFromWild = false;
-
             _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 39.4f);
 
-            if (_gameManager._deck.Count == 0) //Repositions the 0, since it is off center
+            if (_gameManager.deck.Count == 0) //Repositions the 0, since it is off center
             {
                 _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(10.9f, 0f);
+                _deckCount.text = "O"; //The 0 in the font doesn't look good. Changes it to a capital O
             }
         }
 
         deckCard.SetImage();
         _deck.transform.SetSiblingIndex(8);
         _deckCount.transform.SetSiblingIndex(9);
+    }
 
-        if (_gameManager._deck.Count > 0)
-            _deckCount.text = _gameManager._deck.Count.ToString();
-        else
-            _deckCount.text = "O"; //The 0 in the font doesn't look good. Changes it to a capital O
-
-        //Instantiates and sets up Cards
-        for (int i = 0; i < numOfDealtCards; i++)
+    private void ReduceDeckCount(int amount)
+    {
+        print(_deckCount.text);
+        int deckSize;
+        if (_deckCount.text != "O")
         {
-            Image newImage = Instantiate(_dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
-            newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
-            newImage.rectTransform.anchoredPosition = new Vector3( (cardWidth + _dealtCardWidthSpacing ) 
-                * (i + 1) + _widthPadding, _heightPadding, 0); //Sets position
-            newImage.GetComponentInChildren<CardDisplay>().ID = i; //Sets ID
-            newImage.enabled = false; //Sets highlight to off
+            deckSize = int.Parse(_deckCount.text);
+            deckSize -= amount;
+            _deckCount.text = deckSize.ToString();
+        }
+        else
+            deckSize = 0;
+        CardDisplay deckDisplay = _deck.GetComponentInChildren<CardDisplay>();
+        _deckCount.GetComponent<RectTransform>().anchoredPosition = (_deck.rectTransform.anchoredPosition - new Vector2(_widthPadding, _heightPadding)) + _deckCountPos;
+        if (deckSize > 1)
+        {
+            deckDisplay.isFromWild = true;
+        }
+        else
+        {
+            deckDisplay.isFromWild = false;
+            _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(0, 39.4f);
 
-            //Makes tooltip invisible
-            newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
-            newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
-
-            //If it is the first tooltip, off center it to keep it on screen
-            if (i == 0)
-                newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position = 
-                    new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x + 25, 
-                    newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
-
-            //Adds card into folder
-            newImage.gameObject.transform.SetParent(_dealtCardsFolder);
-
-            //newImage.GetComponentInChildren<CardDisplay>().isDarken = isDarkenList[i];
-
-            _dealtCardImages.Add(newImage); //Adds instantiated image to list
-
-            CardDisplay card = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
-
-            //TODO - Put in function when you have time - UpdateCard(Card.name)
-            //Finds the name and sets the image to the found data
-            switch (dealtCards[i].name)
+            if (_gameManager.deck.Count == 0) //Repositions the 0, since it is off center
             {
-                case Card.CardName.Move:
-                    card.card = _moveCard;
-                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
-                    break;
-                case Card.CardName.Jump:
-                    card.card = _jumpCard;
-                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
-                    break;
-                case Card.CardName.Turn:
-                    card.card = _turnCard;
-                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
-                    break;
-                case Card.CardName.TurnLeft: //Error Case. Should not be used, but it can be used if needed
-                    card.card = _turnLeftCard;
-                    break;
-                case Card.CardName.TurnRight: //Error Case. Should not be used, but it can be used if needed
-                    card.card = _turnRightCard;
-                    break;
-                case Card.CardName.Clear:
-                    card.card = _clearCard;
-                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
-                    break;
-                case Card.CardName.Switch:
-                    card.card = _switchCard;
-                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
-                    break;
-                case Card.CardName.Stall:
-                    card.card = _stallCard;
-                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
-                    break;
-                case Card.CardName.Wild:
-                    card.card = _wildCard;
-                    newImage.GetComponentInChildren<TextMeshProUGUI>().text = "CHOOSE ANY CARD TO PUT INTO THE ACTION ORDER.";
-                    break;
-                default:
-                    print("ERROR: COULD NOT UPDATE CARD IN UI");
-                    break;
+                _deckCount.GetComponent<RectTransform>().anchoredPosition -= new Vector2(10.9f, 0f);
+                _deckCount.text = "O"; //The 0 in the font doesn't look good. Changes it to a capital O
             }
         }
+        deckDisplay.SetImage();
+    }
 
+    /// <summary>
+    /// Instantiates the dealt card
+    /// </summary>
+    /// <param name="card">the card to instantiate</param>
+    /// <param name="index">the index of the card</param>
+    private Image DealtCardInstantiation(Card card, int index)
+    {
+        Image newImage = Instantiate(_dealtCardImage, Vector3.zero, Quaternion.identity); //Instantiates new card
+        newImage.transform.SetParent(_canvas.transform, false); //Sets canvas as its parent
+        newImage.rectTransform.anchoredPosition = new Vector3((cardWidth + _dealtCardWidthSpacing)
+            * (index + 1) + _widthPadding, _heightPadding, 0); //Sets position
+        newImage.GetComponentInChildren<CardDisplay>().ID = index; //Sets ID
+        newImage.enabled = false; //Sets highlight to off
 
+        //Makes tooltip invisible
+        newImage.gameObject.transform.Find("Tooltip").GetComponent<Image>().enabled = false;
+        newImage.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+
+        //If it is the first tooltip, off center it to keep it on screen
+        if (index == 0)
+            newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position =
+                new Vector2(newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.x + 25,
+                newImage.gameObject.transform.Find("Tooltip").gameObject.transform.position.y);
+
+        //Adds card into folder
+        newImage.gameObject.transform.SetParent(_dealtCardsFolder);
+
+        //newImage.GetComponentInChildren<CardDisplay>().isDarken = isDarkenList[i];
+
+        _dealtCardImages.Add(newImage); //Adds instantiated image to list
+
+        CardDisplay cardDisplay = newImage.GetComponentInChildren<CardDisplay>(); //Gets data from image
+
+        //TODO - Put in function when you have time - UpdateCard(Card.name)
+        //Finds the name and sets the image to the found data
+        switch (card.name)
+        {
+            case Card.CardName.Move:
+                cardDisplay.card = _moveCard;
+                newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.";
+                break;
+            case Card.CardName.Jump:
+                cardDisplay.card = _jumpCard;
+                newImage.GetComponentInChildren<TextMeshProUGUI>().text = "MOVE FORWARD ONE TILE.\nCAN JUMP TO HIGHER GROUND.";
+                break;
+            case Card.CardName.Turn:
+                cardDisplay.card = _turnCard;
+                newImage.GetComponentInChildren<TextMeshProUGUI>().text = "TURNS LEFT OR RIGHT.";
+                break;
+            case Card.CardName.TurnLeft: //Error Case. Should not be used, but it can be used if needed
+                cardDisplay.card = _turnLeftCard;
+                break;
+            case Card.CardName.TurnRight: //Error Case. Should not be used, but it can be used if needed
+                cardDisplay.card = _turnRightCard;
+                break;
+            case Card.CardName.Clear:
+                cardDisplay.card = _clearCard;
+                newImage.GetComponentInChildren<TextMeshProUGUI>().text = "REMOVES ONE CARD FROM ACTION ORDER.";
+                break;
+            case Card.CardName.Switch:
+                cardDisplay.card = _switchCard;
+                newImage.GetComponentInChildren<TextMeshProUGUI>().text = "SWAP TWO CARDS IN ACTION ORDER.";
+                break;
+            case Card.CardName.Stall:
+                cardDisplay.card = _stallCard;
+                newImage.GetComponentInChildren<TextMeshProUGUI>().text = "REPEAT ACTION ORDER WITHOUT ADDING ANY CARD.";
+                break;
+            case Card.CardName.Wild:
+                cardDisplay.card = _wildCard;
+                newImage.GetComponentInChildren<TextMeshProUGUI>().text = "CHOOSE ANY CARD TO PUT INTO THE ACTION ORDER.";
+                break;
+            default:
+                print("ERROR: COULD NOT UPDATE CARD IN UI");
+                break;
+        }
+        return newImage;
     }
 
     /// <summary>
@@ -890,12 +1020,12 @@ public class UIManager : MonoBehaviour
         while (image.rectTransform.anchoredPosition.y != targetPosition.y)
         {
             //Moves card
-            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(screenWidth - cardWidth / 2 - _widthPadding, targetPosition.y), 12f);
+            image.rectTransform.anchoredPosition = Vector2.MoveTowards(image.rectTransform.anchoredPosition, new Vector2(screenWidth - cardWidth / 2 - _widthPadding, targetPosition.y), 24f * Time.deltaTime * 60);
 
             //Shrinks x value
             if(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x > _playedCardImage.rectTransform.sizeDelta.x)
             {
-                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(2f, 0);
+                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(4f * Time.deltaTime * 60, 0);
                 image.rectTransform.position += new Vector3(0.25f, 0);
                 if (image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x < _playedCardImage.rectTransform.sizeDelta.x)
                     image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta = new Vector2(_playedCardImage.rectTransform.sizeDelta.x, 
@@ -905,7 +1035,7 @@ public class UIManager : MonoBehaviour
             //Shrinks Y value
             if (image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.y > _playedCardImage.rectTransform.sizeDelta.y)
             {
-                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(0, 2f);
+                image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta -= new Vector2(0, 4f * Time.deltaTime * 60);
                 image.rectTransform.position += new Vector3(0, 0.25f);
                 if (image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.y < _playedCardImage.rectTransform.sizeDelta.y)
                     image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta = new Vector2(image.gameObject.transform.GetChild(0).GetComponent<Image>().rectTransform.sizeDelta.x, 

@@ -1,7 +1,7 @@
 // +-----------------------------------------------------------------------------------+
 // @author - Ryan Herwig
 // @Contributers - Elijah Vroman
-// @Last Modified - October 16th 2024
+// @Last Modified - November 21st 2024
 // @Description - The engine of the game which controls and initializes everything else
 // +-----------------------------------------------------------------------------------+
 
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
     private bool _collectableCollected;
 
     private LevelDeck _levelDeck;
-    public List<Card> _deck;
+    public List<Card> deck;
     private List<Card> _demoDeck;
 
     private List<int> _collectedSwitchIDs;
@@ -233,7 +233,7 @@ public class GameManager : MonoBehaviour
         _levelDeck.Init();
 
         //Initializes lists.
-        _deck = new();
+        deck = new();
         _demoDeck = new();
         _startingDeck = new();
         _dealtCards = new();
@@ -251,11 +251,11 @@ public class GameManager : MonoBehaviour
     private void SetUpLevel()
     {
         //Gets the deck
-        _deck = _levelDeck.deck;
+        deck = _levelDeck.deck;
         darken.enabled = false;
 
         //Keeps permenent record of the original deck
-        foreach (var card in _deck)
+        foreach (var card in deck)
         {
             _startingDeck.Add(card);
         }
@@ -278,33 +278,45 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void DealCards()
     {
+        CardManager.Instance.canMoveCard = false;
+        List<(Card, int)> newDealtCards = new();
         //Draws until the player has 4 cards or until the deck runs out
-        while (_dealtCards.Count < 4 && _deck.Count > 0)
+        while (_dealtCards.Count < 4 && deck.Count > 0)
         {
             if (lastCardPlayed.Item1 != null)
             {
                 //Replaces the last played card with a new card in the same index
                 //Keeps the other dealt cards in the same location
-                _dealtCards.Insert(lastCardPlayed.Item2, _deck[0]);
+                _dealtCards.Insert(lastCardPlayed.Item2, deck[0]);
+                newDealtCards.Add((deck[0], lastCardPlayed.Item2));
             }
             else
             {
                 //Adds the top card from the deck onto the dealtCards
-                _dealtCards.Add(_deck[0]);
+                newDealtCards.Add((deck[0], _dealtCards.Count));
+                _dealtCards.Add(deck[0]);
             }
 
-            _deck = _deckManagerCard.RemoveFirst(_deck); //Removes the now dealt card from the deck
+            deck = _deckManagerCard.RemoveFirst(deck); //Removes the now dealt card from the deck
         }
 
         //If out of cards, go to corresponding game state AND IF NOT ALREADY WON
-        if (_dealtCards.Count == 0 && _deck.Count == 0 && !_gameWon)
+        if (_dealtCards.Count == 0 && deck.Count == 0 && !_gameWon)
         {
             ChangeGameState(STATE.OutOfCards);
         }
         else if (!_gameWon)
         {
-            _uiManager.UpdateTextBox("DRAG A CARD TO PLAY.");
-            _uiManager.UpdateDealtCards(_dealtCards); //Updates Cards
+            for (int i = 0; i < newDealtCards.Count; i++) //Shows animation for cards
+            {
+                _uiManager.StartMoveCardFromDeck(newDealtCards[i].Item1, newDealtCards[i].Item2, newDealtCards.Count);
+            }
+            if (newDealtCards.Count == 0) //If a new turn is activated and no cards are dealt, continue the game as normal
+            {
+                CardManager.Instance.canMoveCard = true;
+                _uiManager.UpdateTextBox("DRAG A CARD TO PLAY.");
+                _uiManager.UpdateDealtCards(_dealtCards); //Updates Cards
+            }
         }
     }
 
@@ -725,7 +737,7 @@ public class GameManager : MonoBehaviour
     {
         while (moveImage.rectTransform.anchoredPosition != targetPosition)
         {
-            moveImage.rectTransform.anchoredPosition = Vector2.MoveTowards(moveImage.rectTransform.anchoredPosition, targetPosition, 10f);
+            moveImage.rectTransform.anchoredPosition = Vector2.MoveTowards(moveImage.rectTransform.anchoredPosition, targetPosition, 30f * Time.deltaTime * 60);
             yield return new WaitForEndOfFrame();
         }
 
@@ -983,7 +995,7 @@ public class GameManager : MonoBehaviour
     /// Gets the current deck of the level. 
     /// </summary>
     /// <returns>Returns the cards left in the deck</returns>
-    public List<Card> GetDeck() { return _deck;  }
+    public List<Card> GetDeck() { return deck;  }
 
     /// <summary>
     /// Gets the last played card

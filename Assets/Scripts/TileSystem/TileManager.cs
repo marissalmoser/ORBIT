@@ -257,8 +257,8 @@ public class TileManager : MonoBehaviour
         PlayerController.StartPlayerFall?.Invoke();
 
         //Waiting for the player to finish falling before letting them play cards
-        yield return new WaitForSeconds(1f); 
-        GameManager.Instance.ChangeGameState(GameManager.STATE.ChooseCards);
+        yield return new WaitForSeconds(1f);
+        UIManager.Instance.StartDeckAnim();
     }
 
     private IEnumerator LerpingGameObjects(GameObject gameObject, bool fallingDown)
