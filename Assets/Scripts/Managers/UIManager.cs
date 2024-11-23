@@ -289,6 +289,7 @@ public class UIManager : MonoBehaviour
     private void ReduceDeckCount(int amount)
     {
         print(_deckCount.text);
+        SfxManager.Instance.PlaySFX(8015);
         int deckSize;
         if (_deckCount.text != "O")
         {
