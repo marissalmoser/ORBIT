@@ -216,6 +216,32 @@ public class Tile : MonoBehaviour
     }
 
     /// <summary>
+    /// Copied OnValidate method so that it runs in Build
+    /// If any unknown bugs are detected, look at OnValidate method first
+    /// I kept it in, since I did not know if Elijah wanted it / needed it for debugging purposes, or Editor purposes
+    /// I am suspicious of this method being ran twice, once in Awake and ocne in OnValidate, though
+    /// This method (or a similar method) is required so the Build verison does not break
+    /// NOTE: This being in Start method does not solve this issue
+    /// </summary>
+    public void Awake()
+    {
+        TryMoveObstacle();
+        TryMoveCollectable();
+
+        //sets tile type
+        if (_tileType != _lastTileType)
+        {
+            SetTileType(_tileType);
+            _lastTileType = _tileType;
+        }
+        if (_tileType == TileType.Hole)
+        {
+            _elevation = 0;
+        }
+        //TODO : add handler for blocks on tile
+    }
+
+    /// <summary>
     /// If there is an obstacle in the tile's obstacle ref field, move it to it's 
     /// position above the tile.
     /// </summary>
