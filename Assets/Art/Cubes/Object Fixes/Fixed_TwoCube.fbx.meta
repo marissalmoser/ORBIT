@@ -3,7 +3,12 @@ guid: 80860a807fe755b48b9aa7ca6c222210
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Fixed_Ice_Brick_2.png
+    second: {fileID: 2100000, guid: 99ddf81ceb444eb44af8a99f230a254a, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
