@@ -1090,6 +1090,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &150432379
 GameObject:
   m_ObjectHideFlags: 0
@@ -2603,6 +2608,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &803923634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3474,7 +3484,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1493830773}
         m_TargetAssemblyTypeName: Sound_Caller, Assembly-CSharp
         m_MethodName: ActivateSFX
         m_Mode: 1
@@ -3486,14 +3496,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1493830774}
         m_TargetAssemblyTypeName: LevelSelect, Assembly-CSharp
         m_MethodName: LoadLevel
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 8
+          m_IntArgument: 22
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3702,6 +3712,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1164209300
 GameObject:
   m_ObjectHideFlags: 0
@@ -3868,6 +3883,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1183327940
 GameObject:
   m_ObjectHideFlags: 0
@@ -4489,6 +4509,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1324688335
 GameObject:
   m_ObjectHideFlags: 0
@@ -5543,6 +5568,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1639402528
 GameObject:
   m_ObjectHideFlags: 0
@@ -6668,6 +6698,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1891935057
 GameObject:
   m_ObjectHideFlags: 0

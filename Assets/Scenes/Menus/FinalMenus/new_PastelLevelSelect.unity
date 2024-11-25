@@ -1349,6 +1349,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &217257243
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,6 +2022,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &488033196
 GameObject:
   m_ObjectHideFlags: 0
@@ -2315,6 +2325,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &530439688
 GameObject:
   m_ObjectHideFlags: 0
@@ -3828,6 +3843,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &718658958
 GameObject:
   m_ObjectHideFlags: 0
@@ -4443,6 +4463,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &891236532
 GameObject:
   m_ObjectHideFlags: 0
@@ -5546,6 +5571,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1030690813
 GameObject:
   m_ObjectHideFlags: 0
@@ -6591,7 +6621,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -378, y: 212}
+  m_AnchoredPosition: {x: -378.00003, y: 212}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1235453759
@@ -10250,7 +10280,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1072583508}
         m_TargetAssemblyTypeName: Sound_Caller, Assembly-CSharp
         m_MethodName: ActivateSFX
         m_Mode: 1
@@ -10262,14 +10292,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1072583509}
         m_TargetAssemblyTypeName: LevelSelect, Assembly-CSharp
         m_MethodName: LoadLevel
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 8
+          m_IntArgument: 33
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -10669,6 +10699,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &2106456125
 GameObject:
   m_ObjectHideFlags: 0
@@ -10835,6 +10870,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &2111072506
 GameObject:
   m_ObjectHideFlags: 0
