@@ -13,12 +13,19 @@ public class Planet : Collectable
     private CollectibleManager _collectibleManager;
     private UIManager _uiManager;
 
+    [SerializeField] private Material _collectedMaterial;
 
     private void Start()
     {
         gameManager = GameManager.Instance;
         _collectibleManager = CollectibleManager.Instance;
         _uiManager = UIManager.Instance;
+        
+        //if is collected, update the material
+        if (CollectibleManager.Instance.GetIsCollected())
+        {
+            GetComponent<MeshRenderer>().material = _collectedMaterial;
+        }
     }
     public void OnTriggerEnter(Collider other)
     {
