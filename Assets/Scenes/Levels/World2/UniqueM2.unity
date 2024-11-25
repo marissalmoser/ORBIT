@@ -7137,9 +7137,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b15fdf0462aa9fa498ac861a639df508, type: 2}
+    - target: {fileID: 7633606753653908901, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -415748849911333095, guid: 6e85eac4efe6e174f9cc11fa088703f1, type: 3}
+    - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22762,8 +22770,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: b15fdf0462aa9fa498ac861a639df508, type: 2}
     - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -24088,6 +24100,10 @@ PrefabInstance:
     - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Name
       value: Moving Wall (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7758930680214480075, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -26292,6 +26308,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moving Wall
       objectReference: {fileID: 0}
+    - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7758930680214480075, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -27005,9 +27025,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b15fdf0462aa9fa498ac861a639df508, type: 2}
+    - target: {fileID: 7633606753653908901, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -415748849911333095, guid: 6e85eac4efe6e174f9cc11fa088703f1, type: 3}
+    - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28843,6 +28871,10 @@ PrefabInstance:
     - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Name
       value: Moving Wall (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7758930680214480075, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -33836,9 +33868,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b15fdf0462aa9fa498ac861a639df508, type: 2}
+    - target: {fileID: 7633606753653908901, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -415748849911333095, guid: 6e85eac4efe6e174f9cc11fa088703f1, type: 3}
+    - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36039,6 +36079,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moving Wall (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7746297718368478507, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7758930680214480075, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -37977,9 +38021,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b15fdf0462aa9fa498ac861a639df508, type: 2}
+    - target: {fileID: 7633606753653908901, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -415748849911333095, guid: 6e85eac4efe6e174f9cc11fa088703f1, type: 3}
+    - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -40497,9 +40549,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b15fdf0462aa9fa498ac861a639df508, type: 2}
+    - target: {fileID: 7633606753653908901, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -415748849911333095, guid: 6e85eac4efe6e174f9cc11fa088703f1, type: 3}
+    - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -40719,9 +40779,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b15fdf0462aa9fa498ac861a639df508, type: 2}
+    - target: {fileID: 7633606753653908901, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -415748849911333095, guid: 6e85eac4efe6e174f9cc11fa088703f1, type: 3}
+    - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -45440,9 +45508,17 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b15fdf0462aa9fa498ac861a639df508, type: 2}
+    - target: {fileID: 7633606753653908901, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: -415748849911333095, guid: 6e85eac4efe6e174f9cc11fa088703f1, type: 3}
+    - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8648002343157252380, guid: 37656313af9a86248a2fb50885063707, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
