@@ -3,7 +3,12 @@ guid: 373e6cf4e47d4284c9af537354318ba5
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Sucker_2.png
+    second: {fileID: 2100000, guid: b526bc3f6cb54664cb84abe5260b80e8, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
