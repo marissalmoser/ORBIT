@@ -26,6 +26,10 @@ public class LevelCollectableImage : MonoBehaviour
     [SerializeField] int _planetID;
     [SerializeField] GameObject _newIcon;
     private static int NEW_WORLD = 1;
+    [SerializeField] private GameObject _lockedPlanet;
+    [SerializeField] private GameObject _unlockedPlanet;
+    [SerializeField] private GameObject _moonObject;
+    [SerializeField] private List<int> _levelsInWorld = new List<int>();
 
     private void Awake()
     {
@@ -45,8 +49,18 @@ public class LevelCollectableImage : MonoBehaviour
          if (_isPlanet && CollectibleManager.Instance.collectibleStats[_uniqueLevelIndex].GetIsCompleted())
          {
              //change to unlocked art
-             //TODO
+             _lockedPlanet.SetActive(false);
+             _unlockedPlanet.SetActive(true);
              _thisLevel.SetIsLocked(false);
+             
+             
+             //check if moon should be on
+             if (CollectibleManager.Instance.collectibleStats[_levelsInWorld[0]].GetIsCollected() &&
+                 CollectibleManager.Instance.collectibleStats[_levelsInWorld[1]].GetIsCollected() &&
+                 CollectibleManager.Instance.collectibleStats[_levelsInWorld[2]].GetIsCollected())
+             {
+                 _moonObject.SetActive(true);
+             }
         
              if(NEW_WORLD == _planetID)
              {
