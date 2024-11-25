@@ -94,6 +94,9 @@ public class LevelCollectableImage : MonoBehaviour
 
     public void OnMouseUpAsButton()
     {
-        SceneTransitionManager.Instance.LoadNewScene(_buildIndex);
+        if (!CollectibleManager.Instance.collectibleStats[_buildIndex].GetIsLocked())
+        {
+            SceneTransitionManager.Instance.LoadNewScene(_buildIndex);
+        }
     }
 }
