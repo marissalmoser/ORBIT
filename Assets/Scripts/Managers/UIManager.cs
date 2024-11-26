@@ -288,7 +288,6 @@ public class UIManager : MonoBehaviour
 
     private void ReduceDeckCount(int amount)
     {
-        print(_deckCount.text);
         int deckSize;
         if (_deckCount.text != "O")
         {

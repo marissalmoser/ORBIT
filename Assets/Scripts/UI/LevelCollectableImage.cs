@@ -7,6 +7,7 @@
  *******************************************************************/
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -23,7 +24,12 @@ public class LevelCollectableImage : MonoBehaviour
     [SerializeField] bool _isPlanet;
     [SerializeField] int _uniqueLevelIndex;
     [SerializeField] int _planetID;
+    [SerializeField] GameObject _newIcon;
     private static int NEW_WORLD = 1;
+    [SerializeField] private GameObject _lockedPlanet;
+    [SerializeField] private GameObject _unlockedPlanet;
+    [SerializeField] private GameObject _moonObject;
+    [SerializeField] private List<int> _levelsInWorld = new List<int>();
 
     private void Awake()
     {
@@ -40,28 +46,35 @@ public class LevelCollectableImage : MonoBehaviour
         _thisLevel = CollectibleManager.Instance.collectibleStats[_buildIndex];
 
         //if this is a planet and build index is completed, switch sprite and unlock
-        if (_isPlanet && CollectibleManager.Instance.collectibleStats[_uniqueLevelIndex].GetIsCompleted())
-        {
-            GetComponent<Image>().sprite = _UnlockedButtonSprite;
-            _thisLevel.SetIsLocked(false);
-
-            if(NEW_WORLD == _planetID)
-            {
-                //if world 5 is completed, don't enable any new world icons
-                if (_planetID == 5 && CollectibleManager.Instance.collectibleStats[32].GetIsCompleted())
-                {
-                    return;
-                }
-                //enable the new image on child
-                Image[] children = GetComponentsInChildren<Image>();
-                for(int i = 0; i < children.Length; i++)
-                {
-                    children[i].enabled = true;
-                }
-            }
-        }
+         if (_isPlanet && CollectibleManager.Instance.collectibleStats[_uniqueLevelIndex].GetIsCompleted())
+         {
+             //change to unlocked art
+             _lockedPlanet.SetActive(false);
+             _unlockedPlanet.SetActive(true);
+             _thisLevel.SetIsLocked(false);
+             
+             
+             //check if moon should be on
+             if (CollectibleManager.Instance.collectibleStats[_levelsInWorld[0]].GetIsCollected() &&
+                 CollectibleManager.Instance.collectibleStats[_levelsInWorld[1]].GetIsCollected() &&
+                 CollectibleManager.Instance.collectibleStats[_levelsInWorld[2]].GetIsCollected())
+             {
+                 _moonObject.SetActive(true);
+             }
+        
+             if(NEW_WORLD == _planetID)
+             {
+                 //if world 5 is completed, don't enable any new world icons
+                 if (_planetID == 5 && CollectibleManager.Instance.collectibleStats[32].GetIsCompleted())
+                 {
+                     return;
+                 }
+                 //enable the new image on child
+                 _newIcon.SetActive(true);
+             }
+         }
         //if the level is unlocked, switch button sprite
-        else if (!_thisLevel.GetIsLocked() && !_isPlanet)
+        if (!_thisLevel.GetIsLocked() && !_isPlanet)
         {
             GetComponent<Image>().sprite = _UnlockedButtonSprite;
 
@@ -76,6 +89,14 @@ public class LevelCollectableImage : MonoBehaviour
                     _collectableCollectedAsset.SetActive(true);
                 }
             }
+        }
+    }
+
+    public void OnMouseUpAsButton()
+    {
+        if (!CollectibleManager.Instance.collectibleStats[_buildIndex].GetIsLocked())
+        {
+            SceneTransitionManager.Instance.LoadNewScene(_buildIndex);
         }
     }
 }
