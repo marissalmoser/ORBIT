@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.47358483, g: 0.9447323, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -515,7 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.47358483, g: 0.9447323, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1090,6 +1090,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &150432379
 GameObject:
   m_ObjectHideFlags: 0
@@ -1716,7 +1721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.54088044, g: 0.54088044, b: 0.54088044, a: 1}
+  m_Color: {r: 0.2932075, g: 0.5679469, b: 0.5999999, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2603,6 +2608,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &803923634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3511,7 +3521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.47358483, g: 0.9447323, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3702,6 +3712,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1164209300
 GameObject:
   m_ObjectHideFlags: 0
@@ -3868,6 +3883,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1183327940
 GameObject:
   m_ObjectHideFlags: 0
@@ -3918,7 +3938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.47358483, g: 0.9447323, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4241,7 +4261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.54088044, g: 0.54088044, b: 0.54088044, a: 1}
+  m_Color: {r: 0.2932075, g: 0.5679469, b: 0.5999999, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4489,6 +4509,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1324688335
 GameObject:
   m_ObjectHideFlags: 0
@@ -4778,7 +4803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.54088044, g: 0.54088044, b: 0.54088044, a: 1}
+  m_Color: {r: 0.2932075, g: 0.5679469, b: 0.5999999, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4853,7 +4878,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.47358483, g: 0.9447323, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5543,6 +5568,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1639402528
 GameObject:
   m_ObjectHideFlags: 0
@@ -6668,6 +6698,11 @@ MonoBehaviour:
   _isPlanet: 0
   _uniqueLevelIndex: 0
   _planetID: 0
+  _newIcon: {fileID: 0}
+  _lockedPlanet: {fileID: 0}
+  _unlockedPlanet: {fileID: 0}
+  _moonObject: {fileID: 0}
+  _levelsInWorld: 
 --- !u!1 &1891935057
 GameObject:
   m_ObjectHideFlags: 0
