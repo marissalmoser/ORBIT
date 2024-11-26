@@ -158,6 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc3340d301d1c94b991a32cc0856cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maskToLookFor:
+    serializedVersion: 2
+    m_Bits: 0
   _currentFacingDirection: 1
   _jumpArcHeight: 4
   _checkInterval: 0.1
@@ -360,6 +363,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc3340d301d1c94b991a32cc0856cf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maskToLookFor:
+    serializedVersion: 2
+    m_Bits: 0
   _currentFacingDirection: 1
   _jumpArcHeight: 4
   _checkInterval: 0.1
