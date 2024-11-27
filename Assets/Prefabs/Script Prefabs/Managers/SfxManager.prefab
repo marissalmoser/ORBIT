@@ -265,6 +265,17 @@ MonoBehaviour:
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
+  - name: Deal Card
+    id: 5429
+    clips:
+    - {fileID: 8300000, guid: 3cc246325d424984f94683aeb11f14c3, type: 3}
+    - {fileID: 8300000, guid: 6d71f39d161fa744fa8d8c2e62513467, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.3
+    pitch: 1
+    doLoop: 0
+    source: {fileID: 0}
   _fadeInDuration: 2
   _fadeOutDuration: 5
   _masterMixer: {fileID: 24100000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
