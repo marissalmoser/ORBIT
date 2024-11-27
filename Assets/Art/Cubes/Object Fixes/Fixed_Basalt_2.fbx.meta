@@ -3,7 +3,12 @@ guid: 225ef9691926d2c42802039d552a9909
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Basalt_2.png
+    second: {fileID: 2100000, guid: a698e3f3549a6f94199dd4759d1f0a77, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
