@@ -133,6 +133,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5469486375835974390}
+        m_TargetAssemblyTypeName: Sound_Caller, Assembly-CSharp
+        m_MethodName: ActivateSFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1005245193036670406
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +159,7 @@ GameObject:
   - component: {fileID: 8793719408459900631}
   - component: {fileID: 9114697780218494189}
   - component: {fileID: 6215066439713791678}
+  - component: {fileID: 5469486375835974390}
   m_Layer: 0
   m_Name: Canvas
   m_TagString: Untagged
@@ -269,6 +282,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 70ec0275b606ccc47888f471b0c43478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5469486375835974390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005245193036670406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 753764ee05ebb37419eed2a9bad04ccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1109952911714266218
@@ -983,6 +1008,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 5469486375835974390}
+        m_TargetAssemblyTypeName: Sound_Caller, Assembly-CSharp
+        m_MethodName: ActivateSFX
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5419593767518837940
 GameObject:
   m_ObjectHideFlags: 0
@@ -1241,6 +1278,18 @@ MonoBehaviour:
       - m_Target: {fileID: 3189216641298907973}
         m_TargetAssemblyTypeName: SceneTransitionManager, Assembly-CSharp
         m_MethodName: ContinueButtons
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5469486375835974390}
+        m_TargetAssemblyTypeName: Sound_Caller, Assembly-CSharp
+        m_MethodName: ActivateSFX
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

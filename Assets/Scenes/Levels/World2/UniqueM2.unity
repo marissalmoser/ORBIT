@@ -8228,7 +8228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99371bf82229c444ab0f33665a4b7ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coordinates: {x: 0, y: 5}
+  _coordinates: {x: 999, y: 999}
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
@@ -9569,7 +9569,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99371bf82229c444ab0f33665a4b7ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coordinates: {x: 0, y: 5}
+  _coordinates: {x: 999, y: 999}
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
@@ -14475,7 +14475,7 @@ Transform:
   m_GameObject: {fileID: 602106397}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.8, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16598,7 +16598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99371bf82229c444ab0f33665a4b7ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coordinates: {x: 0, y: 5}
+  _coordinates: {x: 9999, y: 999}
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
@@ -27046,7 +27046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99371bf82229c444ab0f33665a4b7ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coordinates: {x: 0, y: 5}
+  _coordinates: {x: 999, y: 999}
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
@@ -36586,6 +36586,14 @@ PrefabInstance:
       propertyPath: _tracks.Array.data[1]
       value: 
       objectReference: {fileID: 159447887}
+    - target: {fileID: 1954342773884155990, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_Size.y
+      value: 4.605299
+      objectReference: {fileID: 0}
+    - target: {fileID: 1954342773884155990, guid: 24986f5067bce194686504604de02301, type: 3}
+      propertyPath: m_Center.y
+      value: 1.802649
+      objectReference: {fileID: 0}
     - target: {fileID: 2013298029267953996, guid: 24986f5067bce194686504604de02301, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -38496,7 +38504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99371bf82229c444ab0f33665a4b7ae8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coordinates: {x: 0, y: 5}
+  _coordinates: {x: 999, y: 999}
   _tileType: 0
   _elevation: 0
   _obstacleRef: {fileID: 0}
@@ -40251,7 +40259,7 @@ Transform:
   m_GameObject: {fileID: 1596258494}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.84, z: 0}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

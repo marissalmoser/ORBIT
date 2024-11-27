@@ -98,10 +98,10 @@ MonoBehaviour:
   - name: MovingWallMove
     id: 1191
     clips:
-    - {fileID: 8300000, guid: 87c1edecfbd528a409ca224585d1c248, type: 3}
+    - {fileID: 8300000, guid: 6b3cdcb7b710eec4482cfd7d5ab2e072, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: 8620151619395561000, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 1
+    maxVolume: 0.7
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
@@ -241,7 +241,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: b7c198bd892f20e44be70826f2cd1545, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 0.4
+    maxVolume: 0.1
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
@@ -251,7 +251,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 53c69b8ca2139a44d9182d91a5a973a9, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
-    maxVolume: 0.4
+    maxVolume: 0.1
     pitch: 1
     doLoop: 0
     source: {fileID: 0}
@@ -259,6 +259,17 @@ MonoBehaviour:
     id: 2241
     clips:
     - {fileID: 8300000, guid: 15458a039ebac4841a572564f0851b49, type: 3}
+    clip: {fileID: 0}
+    mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
+    maxVolume: 0.1
+    pitch: 1
+    doLoop: 0
+    source: {fileID: 0}
+  - name: Deal Card
+    id: 5429
+    clips:
+    - {fileID: 8300000, guid: 3cc246325d424984f94683aeb11f14c3, type: 3}
+    - {fileID: 8300000, guid: 6d71f39d161fa744fa8d8c2e62513467, type: 3}
     clip: {fileID: 0}
     mixer: {fileID: -8538999406138571177, guid: 7685c24809a823c42947c5761eb368f5, type: 2}
     maxVolume: 0.3
