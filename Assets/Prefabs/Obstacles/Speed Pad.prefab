@@ -119,6 +119,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 526b811cb96f2164f8014c94cc86fae7, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b39cf7b9e4d0843478288c17eaccb0f9, type: 2}
+    - target: {fileID: -5754084199372789682, guid: 526b811cb96f2164f8014c94cc86fae7, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 3921568967233161584, guid: d896646615cbd89438738a1885fc2f7b, type: 3}
     - target: {fileID: 919132149155446097, guid: 526b811cb96f2164f8014c94cc86fae7, type: 3}
       propertyPath: m_Name
       value: Speed_Pad
