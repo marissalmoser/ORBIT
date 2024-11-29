@@ -201,6 +201,12 @@ public class UIManager : MonoBehaviour
         StartCoroutine(MoveDealtCardFromDeck(card, index));
     }
 
+    public void StartMoveCard(Image card, int index)
+    {
+        _numOfCardsToAddToDeck = 4;
+        StartCoroutine(MoveDealtCard(card, index));
+    }
+
     //Helper Variable
     int _currentCardsDone = 0;
 
@@ -245,6 +251,24 @@ public class UIManager : MonoBehaviour
 
         //Adds image to List, so that it can be destroyed later
         movedImages.Add(tempImage);
+        FinishMovingCardsFromDeck();
+        yield return null;
+    }
+
+    IEnumerator MoveDealtCard(Image card, int index)
+    {
+        yield return new WaitForSeconds(index * 0.05f * Time.deltaTime * 60); // Waits for delay
+
+        Vector2 targetPos = new Vector3((cardWidth + _dealtCardWidthSpacing) * (index + 1) + _widthPadding, _heightPadding);
+
+        while (card.rectTransform.anchoredPosition != targetPos)
+        {
+            card.rectTransform.anchoredPosition = Vector2.MoveTowards(card.rectTransform.anchoredPosition,
+                targetPos, 20f * Time.deltaTime * 90f); //Moves the deck
+
+            yield return new WaitForEndOfFrame();
+        }
+
         FinishMovingCardsFromDeck();
         yield return null;
     }
