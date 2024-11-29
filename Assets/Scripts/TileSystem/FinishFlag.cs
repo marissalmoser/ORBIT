@@ -25,7 +25,8 @@ public class FinishFlag : Collectable
     private bool _hitWinAsPlayer = false;
     private void OnTriggerEnter(Collider other)
     {
-        if (!_hitWinAsPlayer&& other.gameObject.CompareTag("Player"))
+        print("COLLIDE");
+        if (!_hitWinAsPlayer && other.gameObject.CompareTag("Player"))
         {           
             _hitWinAsPlayer = true;
             //sound effect caller
@@ -41,8 +42,9 @@ public class FinishFlag : Collectable
             StartCoroutine(WaitCoroutine());
 
         }
-        else if (other.CompareTag("PlayerGhost"))
+        if (other.CompareTag("PlayerGhost"))
         {
+            print("GHOST");
             _PSMB = other.gameObject.GetComponentInParent<PlayerStateMachineBrain>(true);
             _pc = other.GetComponent<PlayerController>();
 
