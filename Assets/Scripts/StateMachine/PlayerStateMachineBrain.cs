@@ -234,7 +234,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
         }
-        _currentPlayerController.SetPreviousTile(_currentPlayerController.GetTileWithPlayerRaycast());
+        _currentPlayerController.SetPreviousTile(_currentPlayerController.GetTileWithPlayerRaycast()); //POYO
 
         FSM(State.PrepareNextAction);
     }

@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
     public bool isTurningleft {get; private set; }
     private bool _getOriginalDeck;
     public bool hasSwitched { get; private set; }
+    private bool _shouldMoveDealtCards;
     #endregion
     #region Actions
     public static Action<List<Card>> PlayActionOrder;
@@ -107,6 +108,7 @@ public class GameManager : MonoBehaviour
         hasSwitched = false;
         _getOriginalDeck = true;
         isConfirmCardThere = false;
+        _shouldMoveDealtCards = false;
 
         if (_clearCursor != null)
         {
@@ -313,9 +315,22 @@ public class GameManager : MonoBehaviour
             }
             if (newDealtCards.Count == 0) //If a new turn is activated and no cards are dealt, continue the game as normal
             {
-                CardManager.Instance.canMoveCard = true;
-                _uiManager.UpdateTextBox("DRAG A CARD TO PLAY.");
-                _uiManager.UpdateDealtCards(_dealtCards); //Updates Cards
+                if (_shouldMoveDealtCards) //If a card was actually removed from the dealt cards
+                {
+                    List<Image> dealtImages = _uiManager.GetInstantiatedDealtCardImages();
+                    dealtImages.RemoveAt(lastCardPlayed.Item2);
+                    int imageCount = dealtImages.Count;
+                    for (int i = 0; i < imageCount; i++)
+                    {
+                        _uiManager.StartMoveCard(dealtImages[i], i);
+                    }
+                }
+                else // If DealCards() was called but no cards were removed from the deck (for example, when the cancel button is pressed)
+                {
+                    _uiManager.UpdateTextBox("DRAG A CARD TO PLAY.");
+                    _uiManager.UpdateDealtCards(_dealtCards); //Updates Cards
+                    CardManager.Instance.canMoveCard = true;
+                }
             }
         }
     }
@@ -340,13 +355,13 @@ public class GameManager : MonoBehaviour
                 if (_clearCursor != null)
                 {
                     SetCursor("Clear");
-                } 
+                }
             }
             else
             {
                 confirmationCard = null;
                 _uiManager.DestroyConfirmCard();
-            }    
+            }
         }
 
         //If Switch Card was played
@@ -596,6 +611,7 @@ public class GameManager : MonoBehaviour
     {
         isConfirmCardThere = false;
         _getOriginalDeck = true;
+        _shouldMoveDealtCards = true;
         ChangeGameState(STATE.PlayingActionOrder);
         _cardManager.lastConfirmationCard = null;
         _uiManager.cancelButton.GetComponent<ButtonControls>().SetIsActive(false);
@@ -688,6 +704,7 @@ public class GameManager : MonoBehaviour
         _cardManager.switchCards.Item1 = null;
         _cardManager.switchCards.Item2 = null;
         CardManager.Instance.canMoveCard = true;
+        _shouldMoveDealtCards = false;
         SetCursor("Default");
 
 
