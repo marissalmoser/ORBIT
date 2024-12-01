@@ -203,7 +203,7 @@ public class UIManager : MonoBehaviour
 
     public void StartMoveCard(Image card, int index)
     {
-        _numOfCardsToAddToDeck = 4;
+        _numOfCardsToAddToDeck = _gameManager.GetDealtCards().Count;
         StartCoroutine(MoveDealtCard(card, index));
     }
 
