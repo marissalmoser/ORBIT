@@ -227,8 +227,10 @@ public class MusicManager : MonoBehaviour
             case 5:
             case 6:
             case 7:
-            case 8:
                 _newWorld = 1;
+                break;
+            case 8:
+                _newWorld = 6;
                 break;
             case 9:
                 _newWorld = 0;
@@ -238,8 +240,10 @@ public class MusicManager : MonoBehaviour
             case 12:
             case 13:
             case 14:
-            case 15:
                 _newWorld = 2;
+                break;
+            case 15:
+                _newWorld = 6;
                 break;
             case 16:
                 _newWorld = 0;
@@ -249,8 +253,10 @@ public class MusicManager : MonoBehaviour
             case 19:
             case 20:
             case 21:
-            case 22:
                 _newWorld = 3;
+                break;
+            case 22:
+                _newWorld = 6;
                 break;
             case 23:
                 _newWorld = 0;
@@ -259,8 +265,10 @@ public class MusicManager : MonoBehaviour
             case 25:
             case 26:
             case 27:
-            case 28:
                 _newWorld = 4;
+                break;
+            case 28:
+                _newWorld = 6;
                 break;
             case 29:
                 _newWorld = 0;
@@ -268,8 +276,10 @@ public class MusicManager : MonoBehaviour
             case 30:
             case 31:
             case 32:
-            case 33:
                 _newWorld = 5;
+                break;
+            case 33:
+                _newWorld = 6;
                 break;
             case 34:
             default:
