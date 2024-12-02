@@ -3790,6 +3790,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snow
       objectReference: {fileID: 0}
+    - target: {fileID: 2794594189293804359, guid: cdf3fa61111ae7046a889f841d87cd46, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.023529414
+      objectReference: {fileID: 0}
+    - target: {fileID: 2794594189293804359, guid: cdf3fa61111ae7046a889f841d87cd46, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2794594189293804359, guid: cdf3fa61111ae7046a889f841d87cd46, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.40000004
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
