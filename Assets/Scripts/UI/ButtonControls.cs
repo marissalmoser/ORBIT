@@ -60,7 +60,7 @@ public class ButtonControls : MonoBehaviour
 
     public void ConfirmPressed()
     {
-        if (Mouse.current.leftButton.wasReleasedThisFrame && isActive)
+        if (isActive) //&&Mouse.current.leftButton.wasReleasedThisFrame)
         {
             SetIsActive(false);
             _gameManager.ConfirmCards();
@@ -70,7 +70,7 @@ public class ButtonControls : MonoBehaviour
 
     public void CancelPressed()
     {
-        if (Mouse.current.leftButton.wasReleasedThisFrame && isActive)
+        if (isActive) //&&Mouse.current.leftButton.wasReleasedThisFrame)
         {
             //sound effect call
             SfxManager.Instance.PlaySFX(8885);
