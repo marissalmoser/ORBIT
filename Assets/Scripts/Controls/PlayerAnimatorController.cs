@@ -12,6 +12,12 @@ public class PlayerAnimatorController : MonoBehaviour
     [Tooltip("Enter as float value from 0 to 1")][SerializeField] private float BoredPercentChance;
     private Animator animator;
     private PlayerController playerController;
+
+    [Tooltip("Array of particle systems, index of system is same as particleID")][SerializeField] private ParticleSystem[] particles;
+    //Particle Dictionary--
+    //0 - All Purpose Dust
+    //1 - Sun Landing
+
     private void Start()
     {
         if (BoredPercentChance > 1)
@@ -51,5 +57,38 @@ public class PlayerAnimatorController : MonoBehaviour
     public void ShakeCamera()
     {
         ShakeManager.ShakeCamera(2, 1, 0.3f);
+    }
+
+    public void SpawnParticle(int particleID = 0)
+    {
+
+        particles[particleID].Play();
+
+        switch (particleID)
+        {
+            //Additional particle logic gets called here:
+
+            //all purpose dust
+            case 0:
+                break;
+            //landing sun burst
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 7:
+                break;
+            default:
+                Debug.LogError("Error! particleID outside of knowable range!");
+                break;
+        }
     }
 }
