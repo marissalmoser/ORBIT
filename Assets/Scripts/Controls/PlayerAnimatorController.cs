@@ -61,34 +61,82 @@ public class PlayerAnimatorController : MonoBehaviour
 
     public void SpawnParticle(int particleID = 0)
     {
-
-        particles[particleID].Play();
-
-        switch (particleID)
+        //temp fix VVV
+        if (gameObject.name == "MainModel")
         {
-            //Additional particle logic gets called here:
+            particles[particleID].Play();
 
-            //all purpose dust
-            case 0:
-                break;
-            //landing sun burst
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                break;
-            case 7:
-                break;
-            default:
-                Debug.LogError("Error! particleID outside of knowable range!");
-                break;
+            switch (particleID)
+            {
+                //Additional particle logic gets called here:
+
+                //all purpose dust
+                case 0:
+                    break;
+                //landing sun burst
+                case 1:
+                    break;
+                //default sun aura
+                case 2:
+                    break;
+                //sunglasses
+                case 3:
+                    break;
+                //sun movement
+                case 4:
+                    break;
+                    /*
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                default:
+                    Debug.LogError("Error! particleID outside of knowable range!");
+                    break;
+                    */
+            }
+        }
+    }
+    public void StopParticle(int particleID = 0)
+    {
+        //temp fix VVV
+        if (gameObject.name == "MainModel")
+        {
+            particles[particleID].Stop();
+
+            switch (particleID)
+            {
+                //Additional particle logic gets called here:
+
+                //all purpose dust
+                case 0:
+                    break;
+                //landing sun burst
+                case 1:
+                    break;
+                //default sun aura
+                case 2:
+                    break;
+                //sunglasses
+                case 3:
+                    break;
+                //sun movement
+                case 4:
+                    break;
+                    /*
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+                default:
+                    Debug.LogError("Error! particleID outside of knowable range!");
+                    break;
+                    */
+            }
         }
     }
 }
