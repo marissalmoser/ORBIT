@@ -79,23 +79,24 @@ public class PlayerAnimatorController : MonoBehaviour
                 //default sun aura
                 case 2:
                     break;
-                //sunglasses
+                //sunglasses --- UNUSED
                 case 3:
                     break;
                 //sun movement
                 case 4:
                     break;
-                    /*
+                //wall bump dust
                 case 5:
                     break;
+                //landing sun burst but smaller
                 case 6:
                     break;
+                //celebration particles --- used for winning
                 case 7:
                     break;
                 default:
                     Debug.LogError("Error! particleID outside of knowable range!");
                     break;
-                    */
             }
         }
     }
@@ -119,23 +120,24 @@ public class PlayerAnimatorController : MonoBehaviour
                 //default sun aura
                 case 2:
                     break;
-                //sunglasses
+                //sunglasses --- UNUSED
                 case 3:
                     break;
                 //sun movement
                 case 4:
                     break;
-                    /*
+                //wall bump dust
                 case 5:
                     break;
+                //landing sun burst but smaller
                 case 6:
                     break;
+                //celebration particles --- used for winning
                 case 7:
                     break;
                 default:
                     Debug.LogError("Error! particleID outside of knowable range!");
                     break;
-                    */
             }
         }
     }
