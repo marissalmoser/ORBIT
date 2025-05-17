@@ -34,6 +34,9 @@ public class Planet : Collectable
             //sound effect caller
             SfxManager.Instance.PlaySFX(8346);
 
+            //plays particle effect
+            other.gameObject.GetComponentInChildren<PlayerAnimatorController>().SpawnParticle(8);
+
             //collect
             GameManager.Instance.SetCollectableCollected(true);
             Destroy(gameObject);

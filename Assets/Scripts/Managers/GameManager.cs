@@ -223,7 +223,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator OnWinDelay()
     {
-        yield return new WaitForSeconds(7);
+        yield return new WaitForSeconds(1);
         WinAction?.Invoke();
         LoadLevelSelect();
     }

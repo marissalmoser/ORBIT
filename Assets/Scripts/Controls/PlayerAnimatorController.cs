@@ -94,6 +94,9 @@ public class PlayerAnimatorController : MonoBehaviour
                 //celebration particles --- used for winning
                 case 7:
                     break;
+                case 8:
+                    //moon collection particle --- used for collectable
+                    break;
                 default:
                     Debug.LogError("Error! particleID outside of knowable range!");
                     break;
@@ -134,6 +137,9 @@ public class PlayerAnimatorController : MonoBehaviour
                     break;
                 //celebration particles --- used for winning
                 case 7:
+                    break;
+                case 8:
+                    //moon collection particle --- used for collectable
                     break;
                 default:
                     Debug.LogError("Error! particleID outside of knowable range!");

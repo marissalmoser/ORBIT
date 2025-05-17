@@ -34,6 +34,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
     private bool _firedTraps = true;
     private bool _isGhost = false;
     private bool _shouldWaitForActions = false;
+    private PlayerAnimatorController _playerAnimatorController;
 
     public void Start()
     {
@@ -53,6 +54,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         gameObject.transform.GetChild(1).gameObject.SetActive(false); //turn off shadow
         _ghostPlayer.SetActive(false); //turn off the ghost gameobject
         //ResetGhost();
+        _playerAnimatorController = GetComponentInChildren<PlayerAnimatorController>();
     }
 
     /// <summary>
@@ -212,6 +214,7 @@ public class PlayerStateMachineBrain : MonoBehaviour
         {
             _currentPlayerController.StopCoroutine(_currentPlayerController.GetCurrentMovementCoroutine());
             _currentPlayerController.SetPreviousTile(_currentPlayerController.GetTileWithPlayerRaycast());
+            if (_playerAnimatorController != null) { _playerAnimatorController.SpawnParticle(5); }
             _currentPlayerController.StartFallCoroutine(_currentPlayerController.transform.position, _currentPlayerController.GetPreviousTile().GetPlayerSnapPosition());
         }
         else
