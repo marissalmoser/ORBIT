@@ -570,8 +570,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Failure()
     {
-        _gameLost = true;
-        DeathAction?.Invoke();
         StartCoroutine(DeathTimer());
     }
 
@@ -975,6 +973,9 @@ public class GameManager : MonoBehaviour
     IEnumerator DeathTimer()
     {
         yield return new WaitForSeconds(_deathTimerLength);
+        print("DEATH");
+        _gameLost = true;
+        DeathAction?.Invoke();
         SceneTransitionManager.Instance.ResetLevel();
         yield return null;
     }
