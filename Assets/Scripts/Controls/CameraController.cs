@@ -20,6 +20,7 @@ public class CameraController : MonoBehaviour
 
     private bool _isDragging = false;
     private bool _isPanning = false;
+    private bool _isButtoning = false;
 
     private void Awake()
     {
@@ -43,6 +44,9 @@ public class CameraController : MonoBehaviour
 
         actionMap["DragCamera"].performed += DragCamera;
         actionMap["DragCamera"].canceled += DragCameraCanceled;
+
+        CameraButtons.CameraButtonReleased += PanCameraCanceledButton;
+        CameraButtons.CameraButtonPressed += PanCameraButton;
     }
 
     private void OnDisable()
@@ -55,6 +59,9 @@ public class CameraController : MonoBehaviour
 
         actionMap["DragCamera"].performed -= DragCamera;
         actionMap["DragCamera"].canceled -= DragCameraCanceled;
+
+        CameraButtons.CameraButtonReleased -= PanCameraCanceledButton;
+        CameraButtons.CameraButtonPressed -= PanCameraButton;
     }
 
     /// <summary>
@@ -89,6 +96,58 @@ public class CameraController : MonoBehaviour
             _cameraMovementCoroutine = null; // Clear reference
         }
         _isPanning = false;
+    }
+
+
+    /// <summary>
+    /// Initiates camera panning based on button.
+    /// </summary>
+    private void PanCameraButton(float panInput)
+    {
+        if (_isDragging) return;
+        _isButtoning = true;
+
+        // Stop any ongoing camera movement
+        if (_cameraMovementCoroutine != null)
+        {
+            StopCoroutine(_cameraMovementCoroutine);
+        }
+
+        _cameraMovementCoroutine = StartCoroutine(MoveCameraUpdate(panInput));
+    }
+
+    /// <summary>
+    /// Stops camera panning when button is canceled.
+    /// </summary>
+    private void PanCameraCanceledButton()
+    {
+        // Stop camera movement when input is canceled
+        if (_cameraMovementCoroutine != null)
+        {
+            StopCoroutine(_cameraMovementCoroutine);
+            _cameraMovementCoroutine = null; // Clear reference
+        }
+        _isButtoning = false;
+    }
+
+    /// <summary>
+    /// Moves the camera along the Cinemachine Dolly path based on direction for buttons.
+    /// </summary>
+    /// <param name="direction">Direction input for camera movement.</param>
+    private IEnumerator MoveCameraUpdate(float direction)
+    {
+        CinemachineTrackedDolly dolly = _virtualCamera.GetCinemachineComponent
+            <CinemachineTrackedDolly>();
+        float movementSpeed = direction * CameraSettings.cameraSpeedMultiplier;
+
+        while (_isButtoning)
+        {
+            dolly.m_PathPosition += movementSpeed * Time.deltaTime * -1;
+            direction = _playerInput.currentActionMap["PanCamera"].ReadValue<float>();
+            yield return null;
+        }
+        _isButtoning = false;
+        _cameraMovementCoroutine = null; // Clear reference when done
     }
 
     /// <summary>
