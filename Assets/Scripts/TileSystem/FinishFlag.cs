@@ -61,6 +61,7 @@ public class FinishFlag : Collectable
         _pc.SetCurrentTile(_pc.GetTileWithPlayerRaycast());
 
         _pc.StartSimpleMoveCoroutine(_pc.transform.position, transform.position, .5f);
+        _pc.PlayAnimation("Win", 0);
 
         yield return new WaitForSeconds(.75f);
         GameManager.Instance.ChangeGameState(GameManager.STATE.End);

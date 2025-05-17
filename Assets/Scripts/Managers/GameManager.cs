@@ -211,8 +211,7 @@ public class GameManager : MonoBehaviour
                 {
                     CollectibleManager.Instance.CollectCollectible();
                 }
-                WinAction?.Invoke();
-                LoadLevelSelect();
+                StartCoroutine(OnWinDelay());
                 //Invoke("LoadLevelSelect", 1);
                 break;
             default:
@@ -220,6 +219,13 @@ public class GameManager : MonoBehaviour
                 print("ERROR: FAILED TO SWITCH GAME STATE.");
                 break;
         }
+    }
+
+    IEnumerator OnWinDelay()
+    {
+        yield return new WaitForSeconds(1);
+        WinAction?.Invoke();
+        LoadLevelSelect();
     }
 
     #region State Machine Methods
@@ -564,8 +570,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Failure()
     {
-        _gameLost = true;
-        DeathAction?.Invoke();
         StartCoroutine(DeathTimer());
     }
 
@@ -969,6 +973,9 @@ public class GameManager : MonoBehaviour
     IEnumerator DeathTimer()
     {
         yield return new WaitForSeconds(_deathTimerLength);
+        print("DEATH");
+        _gameLost = true;
+        DeathAction?.Invoke();
         SceneTransitionManager.Instance.ResetLevel();
         yield return null;
     }

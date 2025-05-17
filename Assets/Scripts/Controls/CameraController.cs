@@ -199,7 +199,7 @@ public class CameraController : MonoBehaviour
             direction = -1;
 
         CinemachineTrackedDolly dolly = _virtualCamera.GetCinemachineComponent<CinemachineTrackedDolly>();
-        print(direction * CameraSettings.cameraSpeedMultiplier * Time.deltaTime * -1);
+        //print(direction * CameraSettings.cameraSpeedMultiplier * Time.deltaTime * -1);
         dolly.m_PathPosition += direction * CameraSettings.cameraSpeedMultiplier * Time.deltaTime * -1;
     }
 
